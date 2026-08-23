@@ -2,74 +2,53 @@
 <html lang="ru">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#111827">
-  <title>Wordra — филворд</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1,user-scalable=no">
+  <meta name="theme-color" content="#0d1630">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>Wordra — английские слова</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <main class="app">
-    <header class="topbar">
+<div id="app">
+  <header class="topbar">
+    <div class="brand-wrap">
+      <div class="logo">W</div>
       <div>
         <div class="brand">WORDRA</div>
         <div class="subtitle">Английские слова</div>
       </div>
-      <button id="settingsBtn" class="icon-btn" aria-label="Настройки">⚙</button>
-    </header>
-
-    <section class="stats">
-      <div><span>Уровень</span><b id="levelNum">1</b></div>
-      <div><span>Монеты</span><b>🪙 <span id="coins">100</span></b></div>
-      <div><span>Слов</span><b><span id="found">0</span>/<span id="targetCount">0</span></b></div>
-    </section>
-
-    <section class="card">
-      <div class="chapter-row">
-        <span id="chapter">Глава 1</span>
-        <span id="difficulty">Легко</span>
-      </div>
-      <h1>Найдите слова</h1>
-      <p class="hint-rule">Проводите пальцем по соседним клеткам: только вверх, вниз, влево или вправо.</p>
-
-      <div id="board" class="board" aria-label="Игровое поле"></div>
-
-      <div class="targets">
-        <div class="targets-title">Нужно найти</div>
-        <div id="targets" class="target-list"></div>
-      </div>
-
-      <div class="actions">
-        <button id="hintBtn" class="primary">💡 Подсказка <span id="hintCost">(10)</span></button>
-        <button id="newLevelBtn" class="secondary">Следующий уровень</button>
-      </div>
-
-      <div id="message" class="message"></div>
-    </section>
-
-    <section class="card mini">
-      <div class="mini-title">Бонусные слова</div>
-      <p>Дополнительные английские слова дают монеты, но не обязательны для прохождения.</p>
-      <div id="bonusCounter">Найдено: 0</div>
-    </section>
-  </main>
-
-  <dialog id="settingsDialog">
-    <div class="dialog-head">
-      <h2>Настройки</h2>
-      <button id="closeSettings" class="icon-btn">✕</button>
     </div>
-    <label class="setting-row">
-      <span>Звук</span>
-      <input id="soundToggle" type="checkbox" checked>
-    </label>
-    <label class="setting-row">
-      <span>Вибрация</span>
-      <input id="vibrationToggle" type="checkbox" checked>
-    </label>
-    <button id="resetBtn" class="danger">Сбросить прогресс</button>
-  </dialog>
+    <div class="top-actions">
+      <div class="pill">🪙 <span id="coinTop">100</span></div>
+      <button id="settingsBtn" class="icon-btn" aria-label="Настройки">☰</button>
+    </div>
+  </header>
 
-  <script type="module" src="main.js"></script>
+  <main id="screen" class="screen"></main>
+
+  <nav class="bottom-nav" aria-label="Основная навигация">
+    <button data-tab="home" class="nav-btn active"><span>🏠</span><small>Игра</small></button>
+    <button data-tab="levels" class="nav-btn"><span>▦</span><small>Уровни</small></button>
+    <button data-tab="daily" class="nav-btn"><span>★</span><small>Сегодня</small></button>
+    <button data-tab="settings" class="nav-btn"><span>⚙</span><small>Настройки</small></button>
+  </nav>
+</div>
+
+<dialog id="settingsDialog">
+  <div class="dialog-head">
+    <div>
+      <div class="eyebrow">WORDRA</div>
+      <h2>Настройки</h2>
+    </div>
+    <button id="closeSettings" class="icon-btn">✕</button>
+  </div>
+  <label class="setting-row"><span>Звук</span><input id="soundToggle" type="checkbox"></label>
+  <label class="setting-row"><span>Вибрация</span><input id="vibrateToggle" type="checkbox"></label>
+  <button id="resetBtn" class="danger-btn">Сбросить прогресс</button>
+  <p class="muted">Слова в игре — на английском. Интерфейс и настройки — на русском.</p>
+</dialog>
+
+<script src="main.js"></script>
 </body>
 </html>
