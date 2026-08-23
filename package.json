@@ -1,11 +1,1 @@
-{
-  "name": "wordra",
-  "version": "1.0.0",
-  "private": true,
-  "type": "module",
-  "description": "Wordra — an English word-search game with an automatic level generator.",
-  "scripts": {
-    "test": "node tests/test-generator.mjs",
-    "serve": "python3 -m http.server 8080"
-  }
-}
+{"name":"wordra","version":"1.0.0","private":true,"type":"module","scripts":{"test":"node test-generator.mjs"}}

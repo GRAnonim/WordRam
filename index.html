@@ -1,71 +1,75 @@
 <!doctype html>
-<html lang="en">
+<html lang="ru">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#10204a" />
-  <meta name="description" content="Wordra — English word search puzzle" />
-  <link rel="manifest" href="manifest.webmanifest" />
-  <link rel="stylesheet" href="styles.css" />
-  <title>Wordra</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#111827">
+  <title>Wordra — филворд</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="app" id="app">
+  <main class="app">
     <header class="topbar">
-      <div class="brand"><div class="brand-mark">W</div><div><strong>WORDRA</strong><span>English Word Quest</span></div></div>
-      <div class="top-stats">
-        <button class="top-pill" id="streakBtn" title="Daily streak">🔥 <b id="streakValue">0</b></button>
-        <button class="top-pill" id="coinBtn" title="Coins">🪙 <b id="coinValue">100</b></button>
-        <button class="icon-button" id="menuBtn" aria-label="Open menu">☰</button>
+      <div>
+        <div class="brand">WORDRA</div>
+        <div class="subtitle">Английские слова</div>
       </div>
+      <button id="settingsBtn" class="icon-btn" aria-label="Настройки">⚙</button>
     </header>
 
-    <main>
-      <section class="hero" id="heroCard">
-        <div>
-          <div class="eyebrow" id="chapterLabel">CHAPTER 1 · BEGINNINGS</div>
-          <h1 id="modeTitle">Find the hidden words</h1>
-          <p id="modeSubtitle">Trace adjacent letters. Horizontal and vertical moves only.</p>
-        </div>
-        <div class="level-badge"><span>LEVEL</span><strong id="levelValue">1</strong></div>
-      </section>
+    <section class="stats">
+      <div><span>Уровень</span><b id="levelNum">1</b></div>
+      <div><span>Монеты</span><b>🪙 <span id="coins">100</span></b></div>
+      <div><span>Слов</span><b><span id="found">0</span>/<span id="targetCount">0</span></b></div>
+    </section>
 
-      <section class="game-panel">
-        <div class="target-row">
-          <div><span class="label">TARGET WORDS</span><span class="muted" id="targetProgress">0 / 0</span></div>
-          <button class="pill-button" id="hintButton">✦ Hint <b id="hintCost">25</b></button>
-        </div>
-        <div id="wordList" class="word-list"></div>
-        <div id="board" class="board" aria-label="Wordra board"></div>
-        <div class="gesture-help">Drag through neighboring letters · no diagonals · no jumps</div>
-        <div class="under-board">
-          <div class="bonus-panel">
-            <div><span class="label">BONUS WORDS</span><p>Extra English words are optional.</p></div>
-            <strong id="bonusValue">0</strong>
-          </div>
-          <div class="action-row">
-            <button class="secondary" id="restartButton">↻ Restart</button>
-            <button class="primary" id="nextButton" disabled>Next level →</button>
-          </div>
-        </div>
-      </section>
-
-      <section class="feature-row">
-        <button class="feature" id="dailyButton"><span>☀️</span><b>Daily</b><small>New every day</small></button>
-        <button class="feature" id="eventButton"><span>🏆</span><b>Event</b><small>Race the week</small></button>
-        <button class="feature" id="levelsButton"><span>🗺️</span><b>Levels</b><small>Browse chapters</small></button>
-        <button class="feature" id="profileButton"><span>⭐</span><b>Profile</b><small>Stats & rewards</small></button>
-      </section>
-    </main>
-
-    <div class="sheet hidden" id="sheet">
-      <div class="sheet-card">
-        <div class="sheet-head"><h2 id="sheetTitle">Menu</h2><button class="icon-button" id="closeSheet">×</button></div>
-        <div id="sheetBody"></div>
+    <section class="card">
+      <div class="chapter-row">
+        <span id="chapter">Глава 1</span>
+        <span id="difficulty">Легко</span>
       </div>
+      <h1>Найдите слова</h1>
+      <p class="hint-rule">Проводите пальцем по соседним клеткам: только вверх, вниз, влево или вправо.</p>
+
+      <div id="board" class="board" aria-label="Игровое поле"></div>
+
+      <div class="targets">
+        <div class="targets-title">Нужно найти</div>
+        <div id="targets" class="target-list"></div>
+      </div>
+
+      <div class="actions">
+        <button id="hintBtn" class="primary">💡 Подсказка <span id="hintCost">(10)</span></button>
+        <button id="newLevelBtn" class="secondary">Следующий уровень</button>
+      </div>
+
+      <div id="message" class="message"></div>
+    </section>
+
+    <section class="card mini">
+      <div class="mini-title">Бонусные слова</div>
+      <p>Дополнительные английские слова дают монеты, но не обязательны для прохождения.</p>
+      <div id="bonusCounter">Найдено: 0</div>
+    </section>
+  </main>
+
+  <dialog id="settingsDialog">
+    <div class="dialog-head">
+      <h2>Настройки</h2>
+      <button id="closeSettings" class="icon-btn">✕</button>
     </div>
-    <div class="toast hidden" id="toast"></div>
-  </div>
+    <label class="setting-row">
+      <span>Звук</span>
+      <input id="soundToggle" type="checkbox" checked>
+    </label>
+    <label class="setting-row">
+      <span>Вибрация</span>
+      <input id="vibrationToggle" type="checkbox" checked>
+    </label>
+    <button id="resetBtn" class="danger">Сбросить прогресс</button>
+  </dialog>
+
   <script type="module" src="main.js"></script>
 </body>
 </html>
