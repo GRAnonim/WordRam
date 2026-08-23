@@ -1,58 +1,31 @@
 <!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1,user-scalable=no">
-  <meta name="theme-color" content="#0d1630">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <title>Wordra — английские слова</title>
-  <link rel="manifest" href="manifest.webmanifest">
-  <link rel="stylesheet" href="styles.css?v=5">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#0d1630">
+<title>WordRam — английские слова</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="stylesheet" href="styles.css?v=6">
 </head>
 <body>
 <div id="app">
-  <header class="topbar">
-    <div class="brand-wrap">
-      <div class="logo">W</div>
-      <div>
-        <div class="brand">WORDRA</div>
-        <div class="subtitle">Английские слова</div>
-      </div>
-    </div>
-    <div class="top-actions">
-      <div class="pill">🪙 <span id="coinTop">100</span></div>
-      <button id="settingsBtn" class="icon-btn" aria-label="Настройки">☰</button>
-    </div>
-  </header>
-
-  <main id="screen" class="screen"></main>
-
-  <nav class="bottom-nav" aria-label="Основная навигация">
-    <button data-tab="home" class="nav-btn active"><span>🏠</span><small>Игра</small></button>
-    <button data-tab="levels" class="nav-btn"><span>▦</span><small>Уровни</small></button>
-    <button data-tab="daily" class="nav-btn"><span>★</span><small>Сегодня</small></button>
-    <button data-tab="settings" class="nav-btn"><span>⚙</span><small>Настройки</small></button>
-  </nav>
+<header class="topbar">
+  <div class="brand-wrap"><div class="logo">W</div><div><div class="brand">WORDRAM</div><div class="subtitle">Английские слова</div></div></div>
+  <div class="top-actions"><div class="pill">🪙 <span id="coinTop">100</span></div><button id="settingsBtn" class="icon-btn">☰</button></div>
+</header>
+<main id="screen"></main>
+<nav class="bottom-nav">
+  <button data-tab="home" class="nav-btn active"><span>🏠</span><small>Игра</small></button>
+  <button data-tab="levels" class="nav-btn"><span>▦</span><small>Уровни</small></button>
+  <button data-tab="daily" class="nav-btn"><span>★</span><small>Сегодня</small></button>
+  <button data-tab="settings" class="nav-btn"><span>⚙</span><small>Настройки</small></button>
+</nav>
 </div>
-
-<dialog id="settingsDialog">
-  <div class="dialog-head">
-    <div>
-      <div class="eyebrow">WORDRA</div>
-      <h2>Настройки</h2>
-    </div>
-    <button id="closeSettings" class="icon-btn">✕</button>
-  </div>
-  <label class="setting-row"><span>Звук</span><input id="soundToggle" type="checkbox"></label>
-  <label class="setting-row"><span>Вибрация</span><input id="vibrateToggle" type="checkbox"></label>
-  <button id="resetBtn" class="danger-btn">Сбросить прогресс</button>
-  <p class="muted">Слова в игре — на английском. Интерфейс и настройки — на русском.</p>
-</dialog>
-
-<script src="data.js?v=5"></script>
-<script src="storage.js?v=5"></script>
-<script src="generator.js?v=5"></script>
-<script src="game.js?v=5"></script>
-<script src="main.js?v=5"></script>
+<script src="data.js?v=6"></script>
+<script src="storage.js?v=6"></script>
+<script src="generator.js?v=6"></script>
+<script src="game.js?v=6"></script>
+<script src="main.js?v=6"></script>
 </body>
 </html>
