@@ -1,4 +1,4 @@
-import { ENGLISH_WORDS, LETTER_FREQ } from '../data/english.js';
+import { ENGLISH_WORDS, LETTER_FREQ } from './english.js';
 import { difficultyForLevel } from './data.js';
 
 export class RNG {

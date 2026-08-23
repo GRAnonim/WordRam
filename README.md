@@ -71,7 +71,7 @@ The result is a completely generated level object — no hand-authored cell path
 
 ## Dictionary
 
-`data/english.js` is intentionally local and compact. It contains a curated pool of common English words suitable for a prototype. Replace or extend it with a licensed dictionary for production scale.
+`english.js` is intentionally local and compact. It contains a curated pool of common English words suitable for a prototype. Replace or extend it with a licensed dictionary for production scale.
 
 ## Important production notes
 

@@ -1,7 +1,7 @@
 const CACHE = 'wordra-v1';
 const CORE = [
   './', './index.html', './styles.css', './manifest.webmanifest', './sw.js',
-  './src/main.js', './src/generator.js', './src/game.js', './src/storage.js', './src/data.js', './data/english.js'
+  './main.js', './generator.js', './game.js', './storage.js', './data.js', './english.js'
 ];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(CORE)).then(() => self.skipWaiting()));
