@@ -6,7 +6,7 @@
 
 class WordRamStorage {
   constructor() {
-    this.STORAGE_KEY = "wordram_v28_save";
+    this.STORAGE_KEY = "wordram_v29_save";
     this.state = this.load();
   }
 
