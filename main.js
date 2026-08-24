@@ -521,7 +521,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Подсчет статистики по уровням CEFR
     const cefrCounts = { A1: 0, A2: 0, B1: 0, B2: 0, C1: 0 };
-    const cefrTotals = { A1: 482, A2: 531, B1: 264, B2: 137, C1: 86 };
+    const cefrTotals = { A1: 314, A2: 659, B1: 331, B2: 76, C1: 120 };
 
     collectedWordsList.forEach(w => {
       const lvl = findCefrLevel(w);

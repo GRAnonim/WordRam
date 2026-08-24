@@ -23,7 +23,7 @@ class WordRamGenerator {
 
     // Эвристический органический поиск змеек
     let attempts = 0;
-    while (attempts < 150) {
+    while (attempts < 300) {
       attempts++;
       const result = this._findOrganicDFS(gridSize, wordLengths);
       if (result && this.validateRoutes(result, gridSize, wordLengths)) {
@@ -103,7 +103,7 @@ class WordRamGenerator {
 
       const dfsStep = () => {
         stepAttempts++;
-        if (stepAttempts > 800) return false;
+        if (stepAttempts > 1500) return false;
         if (path.length === targetLen) return true;
 
         const current = path[path.length - 1];
@@ -232,7 +232,7 @@ class WordRamGenerator {
     for (let i = 0; i < routesArray.length; i++) {
       const route = routesArray[i];
       const len = route.length;
-      let word = this.data.getWordForCefrAndLength(userCefr, len, usedWords);
+      let word = this.data.getWordForCefrAndLength(userCefr, len, usedWords, config.themeKey);
       if (!word || word.length !== len) {
         word = (word || "WORD").padEnd(len, "S").slice(0, len);
       }
@@ -253,6 +253,9 @@ class WordRamGenerator {
       words: words,
       routes: routesMap,
       grid: grid,
+      themeKey: config.themeKey,
+      themeTitle: config.themeTitle,
+      themeIcon: config.themeIcon,
       coinsReward: config.coinsReward,
       xpReward: config.xpReward
     };
