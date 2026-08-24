@@ -1,20 +1,20 @@
 /**
- * WordRam - Service Worker (v17)
- * Строгая фильтрация слов по уровню CEFR (исключены слова более высоких уровней),
- * PWA и оффлайн.
+ * WordRam - Service Worker (v18)
+ * Полная геймификация: Лиги, Квесты дня, Колесо фортуны,
+ * Блиц-повторение, Заморозка стрика, Карта путешествий.
  */
 
-const CACHE_NAME = "wordram-v17";
+const CACHE_NAME = "wordram-v18";
 const ASSETS_TO_CACHE = [
   "./",
   "./index.html",
-  "./styles.css?v=17",
-  "./data.js?v=17",
-  "./storage.js?v=17",
-  "./generator.js?v=17",
-  "./game.js?v=17",
-  "./main.js?v=17",
-  "./manifest.webmanifest?v=17"
+  "./styles.css?v=18",
+  "./data.js?v=18",
+  "./storage.js?v=18",
+  "./generator.js?v=18",
+  "./game.js?v=18",
+  "./main.js?v=18",
+  "./manifest.webmanifest?v=18"
 ];
 
 self.addEventListener("install", (event) => {

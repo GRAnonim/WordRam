@@ -1,7 +1,7 @@
 /**
- * WordRam - Main Application Controller (v13)
- * Управление 5 экранами (Игра, Словарь, Уровни, Сегодня, Профиль),
- * личный словарь, достижения, стрик наград, XP/ранги и PWA.
+ * WordRam - Main Application Controller (v18)
+ * 5 экранов: Игра, Словарь (с Блицем), Карта глав, События (Квесты, Колесо, Заморозка),
+ * Рейтинг (Еженедельные лиги, Профиль, Достижения).
  */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -40,10 +40,39 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnCloseDefinition = document.getElementById("btn-close-definition");
   const btnOkDefinition = document.getElementById("btn-ok-definition");
 
-  function hideWordDefinitionModal() {
-    if (defModal) {
-      defModal.style.setProperty("display", "none", "important");
-      defModal.classList.remove("open");
+  // Модалка Колеса Фортуны
+  const wheelModal = document.getElementById("modal-lucky-wheel");
+  const btnCloseWheel = document.getElementById("btn-close-wheel");
+  const btnOpenWheel = document.getElementById("btn-open-lucky-wheel");
+  const bannerOpenWheel = document.getElementById("banner-open-wheel");
+  const btnSpinWheel = document.getElementById("btn-spin-wheel");
+  const wheelCanvas = document.getElementById("lucky-wheel-canvas");
+  const wheelResultBox = document.getElementById("wheel-result-box");
+  const wheelAvailText = document.getElementById("wheel-availability-text");
+
+  // Модалка Блиц-повторения
+  const blitzModal = document.getElementById("modal-blitz-quiz");
+  const btnCloseBlitz = document.getElementById("btn-close-blitz");
+  const btnStartBlitz = document.getElementById("btn-start-blitz");
+  const blitzWordEl = document.getElementById("blitz-target-word");
+  const blitzPhEl = document.getElementById("blitz-target-ph");
+  const blitzOptionsGrid = document.getElementById("blitz-options-grid");
+  const blitzProgressFill = document.getElementById("blitz-progress-fill");
+  const blitzScoreCounter = document.getElementById("blitz-score-counter");
+
+  function hideAllModals() {
+    [winModal, defModal, placementModal, wheelModal, blitzModal].forEach(m => {
+      if (m) {
+        m.style.setProperty("display", "none", "important");
+        m.classList.remove("open");
+      }
+    });
+  }
+
+  function showModal(modalEl) {
+    if (modalEl) {
+      modalEl.style.setProperty("display", "flex", "important");
+      modalEl.classList.add("open");
     }
   }
 
@@ -52,7 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (defWordRibbon) defWordRibbon.textContent = details.word;
 
     if (defPhonetic) {
-      if (details.ph) {
+      if (details.ph && details.ph.trim()) {
         defPhonetic.textContent = details.ph;
         defPhonetic.style.display = "block";
       } else {
@@ -72,19 +101,12 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
 
-    defModal.style.setProperty("display", "flex", "important");
-    defModal.classList.add("open");
+    showModal(defModal);
   }
 
-  if (btnCloseDefinition) btnCloseDefinition.addEventListener("click", hideWordDefinitionModal);
-  if (btnOkDefinition) btnOkDefinition.addEventListener("click", hideWordDefinitionModal);
-
-  function hideVictoryModal() {
-    if (winModal) {
-      winModal.style.setProperty("display", "none", "important");
-      winModal.classList.remove("open");
-    }
-  }
+  if (btnCloseDefinition) btnCloseDefinition.addEventListener("click", () => hideAllModals());
+  if (btnOkDefinition) btnOkDefinition.addEventListener("click", () => hideAllModals());
+  if (btnCloseModal) btnCloseModal.addEventListener("click", () => hideAllModals());
 
   function showVictoryModal(summary) {
     if (!winModal || !summary || !summary.words || summary.words.length === 0) return;
@@ -108,25 +130,13 @@ document.addEventListener("DOMContentLoaded", () => {
       winRewardText.textContent = `+${summary.rewardCoins} 🪙 монет получено!`;
     }
 
-    winModal.style.setProperty("display", "flex", "important");
-    winModal.classList.add("open");
-
-    // Обновляем шкалу XP и интерфейс
+    showModal(winModal);
     updateProfileUI();
   }
 
-  hideVictoryModal();
-  hideWordDefinitionModal();
-  if (placementModal) {
-    placementModal.style.setProperty("display", "none", "important");
-    placementModal.classList.remove("open");
-  }
-
-  if (btnCloseModal) btnCloseModal.addEventListener("click", () => hideVictoryModal());
-
   if (btnNextLevel) {
     btnNextLevel.addEventListener("click", () => {
-      hideVictoryModal();
+      hideAllModals();
       const nextLvl = (storage.getSetting("currentLevel") || 1);
       game.startLevel(nextLvl, false);
       switchTab("game");
@@ -143,6 +153,224 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // ----------------------------------------------------
+  // Колесо Фортуны (Canvas Lucky Wheel)
+  // ----------------------------------------------------
+  let currentWheelAngle = 0;
+  let isWheelSpinning = false;
+
+  function drawLuckyWheel() {
+    if (!wheelCanvas) return;
+    const ctx = wheelCanvas.getContext("2d");
+    const sectors = WordRamData.luckyWheelSectors;
+    const count = sectors.length;
+    const arc = (2 * Math.PI) / count;
+    const centerX = wheelCanvas.width / 2;
+    const centerY = wheelCanvas.height / 2;
+    const radius = centerX - 10;
+
+    ctx.clearRect(0, 0, wheelCanvas.width, wheelCanvas.height);
+    ctx.save();
+    ctx.translate(centerX, centerY);
+    ctx.rotate(currentWheelAngle);
+
+    sectors.forEach((sec, idx) => {
+      const angle = idx * arc;
+      ctx.beginPath();
+      ctx.fillStyle = sec.color;
+      ctx.moveTo(0, 0);
+      ctx.arc(0, 0, radius, angle, angle + arc);
+      ctx.lineTo(0, 0);
+      ctx.fill();
+      ctx.strokeStyle = "#ffffff";
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      // Текст и иконка
+      ctx.save();
+      ctx.rotate(angle + arc / 2);
+      ctx.textAlign = "right";
+      ctx.fillStyle = "#ffffff";
+      ctx.font = "bold 13px sans-serif";
+      ctx.fillText(`${sec.icon} ${sec.label}`, radius - 15, 5);
+      ctx.restore();
+    });
+
+    // Центральный круг
+    ctx.beginPath();
+    ctx.arc(0, 0, 22, 0, 2 * Math.PI);
+    ctx.fillStyle = "#2b2029";
+    ctx.fill();
+    ctx.strokeStyle = "#fde047";
+    ctx.lineWidth = 3;
+    ctx.stroke();
+
+    ctx.restore();
+  }
+
+  function spinLuckyWheel() {
+    if (isWheelSpinning) return;
+    if (!storage.canSpinLuckyWheel()) {
+      alert("Вы уже крутили колесо сегодня! Возвращайтесь завтра.");
+      return;
+    }
+
+    isWheelSpinning = true;
+    if (btnSpinWheel) btnSpinWheel.disabled = true;
+    if (wheelResultBox) wheelResultBox.style.display = "none";
+
+    const sectors = WordRamData.luckyWheelSectors;
+    const winningIdx = Math.floor(Math.random() * sectors.length);
+    const winningSector = sectors[winningIdx];
+
+    const arc = (2 * Math.PI) / sectors.length;
+    // Целевой угол (сверху указывает стрелка, поэтому угол сдвинут на -PI/2)
+    const targetSectorCenter = winningIdx * arc + arc / 2;
+    const stopAngle = (1.5 * Math.PI - targetSectorCenter + 2 * Math.PI) % (2 * Math.PI);
+    const totalSpins = 5;
+    const finalAngle = currentWheelAngle + (totalSpins * 2 * Math.PI) + stopAngle - (currentWheelAngle % (2 * Math.PI));
+
+    const startTime = performance.now();
+    const duration = 3800;
+    const startAngle = currentWheelAngle;
+
+    function animateWheel(time) {
+      const elapsed = time - startTime;
+      const progress = Math.min(1, elapsed / duration);
+      // Плавное кубическое замедление
+      const easeOut = 1 - Math.pow(1 - progress, 3);
+      currentWheelAngle = startAngle + (finalAngle - startAngle) * easeOut;
+      drawLuckyWheel();
+
+      if (progress < 1) {
+        requestAnimationFrame(animateWheel);
+      } else {
+        isWheelSpinning = false;
+        storage.applyLuckyWheelSector(winningSector);
+        game.playSound("win");
+
+        if (wheelResultBox) {
+          wheelResultBox.textContent = `🎉 Вы выиграли: ${winningSector.icon} ${winningSector.label}!`;
+          wheelResultBox.style.display = "block";
+        }
+        if (btnSpinWheel) {
+          btnSpinWheel.disabled = true;
+          btnSpinWheel.textContent = "Награда получена ✔";
+        }
+        updateProfileUI();
+        renderDailyScreen();
+      }
+    }
+
+    requestAnimationFrame(animateWheel);
+  }
+
+  if (btnOpenWheel) btnOpenWheel.addEventListener("click", () => {
+    showModal(wheelModal);
+    drawLuckyWheel();
+    const canSpin = storage.canSpinLuckyWheel();
+    if (btnSpinWheel) {
+      btnSpinWheel.disabled = !canSpin;
+      btnSpinWheel.textContent = canSpin ? "Вращать бесплатно!" : "Награда уже получена сегодня";
+    }
+  });
+
+  if (btnCloseWheel) btnCloseWheel.addEventListener("click", () => hideAllModals());
+  if (btnSpinWheel) btnSpinWheel.addEventListener("click", () => spinLuckyWheel());
+
+  // ----------------------------------------------------
+  // Блиц-повторение слов (Flashcards Quiz)
+  // ----------------------------------------------------
+  let blitzQuestions = [];
+  let blitzIndex = 0;
+  let blitzScore = 0;
+
+  function startBlitzSession() {
+    const collected = storage.getCollectedWords();
+    const words = Object.keys(collected);
+
+    if (words.length < 4) {
+      alert("Сначала найдите хотя бы 4 слова на игровых уровнях, чтобы открыть режим повторения!");
+      return;
+    }
+
+    blitzQuestions = [...words].sort(() => 0.5 - Math.random()).slice(0, 10);
+    blitzIndex = 0;
+    blitzScore = 0;
+
+    showModal(blitzModal);
+    renderBlitzQuestion();
+  }
+
+  function renderBlitzQuestion() {
+    if (blitzIndex >= blitzQuestions.length) {
+      // Завершение сессии
+      game.playSound("win");
+      storage.addXp(blitzScore * 10);
+      alert(`🎯 Отличная тренировка! Вы заработали +${blitzScore * 10} XP и закрепили выученные слова!`);
+      hideAllModals();
+      updateProfileUI();
+      renderVocabScreen();
+      return;
+    }
+
+    const currentWord = blitzQuestions[blitzIndex];
+    const details = WordRamData.getWordDetails(currentWord);
+
+    if (blitzWordEl) blitzWordEl.textContent = currentWord;
+    if (blitzPhEl) blitzPhEl.textContent = details ? details.ph : "";
+    if (blitzScoreCounter) blitzScoreCounter.textContent = `Очки: ${blitzScore} / ${blitzQuestions.length}`;
+    if (blitzProgressFill) {
+      const pct = ((blitzIndex + 1) / blitzQuestions.length) * 100;
+      blitzProgressFill.style.width = `${pct}%`;
+    }
+
+    // Генерируем 4 варианта ответа (1 верный + 3 дистрактора)
+    const allDictWords = Object.keys(WordRamData.wordDefinitions);
+    const distractors = allDictWords
+      .filter(w => w !== currentWord)
+      .sort(() => 0.5 - Math.random())
+      .slice(0, 3)
+      .map(w => WordRamData.getWordDetails(w).tr);
+
+    const options = [details.tr, ...distractors].sort(() => 0.5 - Math.random());
+
+    if (blitzOptionsGrid) {
+      blitzOptionsGrid.innerHTML = "";
+      options.forEach(opt => {
+        const btn = document.createElement("button");
+        btn.className = "blitz-opt-btn";
+        btn.textContent = opt;
+
+        btn.addEventListener("click", () => {
+          const isCorrect = (opt === details.tr);
+          if (isCorrect) {
+            btn.classList.add("correct");
+            game.playSound("found");
+            blitzScore++;
+            storage.recordBlitzAnswer(currentWord, true);
+          } else {
+            btn.classList.add("wrong");
+            game.playSound("error");
+            storage.recordBlitzAnswer(currentWord, false);
+          }
+
+          // Блокируем кнопки на 0.5с и переходим к следующему
+          blitzOptionsGrid.querySelectorAll("button").forEach(b => b.disabled = true);
+          setTimeout(() => {
+            blitzIndex++;
+            renderBlitzQuestion();
+          }, 600);
+        });
+
+        blitzOptionsGrid.appendChild(btn);
+      });
+    }
+  }
+
+  if (btnStartBlitz) btnStartBlitz.addEventListener("click", () => startBlitzSession());
+  if (btnCloseBlitz) btnCloseBlitz.addEventListener("click", () => hideAllModals());
+
+  // ----------------------------------------------------
   // Диагностический тест уровня английского (CEFR)
   // ----------------------------------------------------
   let quizIndex = 0;
@@ -155,19 +383,12 @@ document.addEventListener("DOMContentLoaded", () => {
     if (quizStep) quizStep.style.display = "block";
     if (resultStep) resultStep.style.display = "none";
     renderQuizQuestion();
-
-    if (placementModal) {
-      placementModal.style.setProperty("display", "flex", "important");
-      placementModal.classList.add("open");
-    }
+    showModal(placementModal);
   }
 
   function closePlacementTest() {
     storage.setSetting("hasCompletedPlacementTest", true);
-    if (placementModal) {
-      placementModal.style.setProperty("display", "none", "important");
-      placementModal.classList.remove("open");
-    }
+    hideAllModals();
   }
 
   function renderQuizQuestion() {
@@ -243,25 +464,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const xpData = storage.getXpProgress();
 
-    if (profileCefrBadge) {
-      profileCefrBadge.textContent = xpData.rank.badge;
-    }
-
-    if (profileXpFill) {
-      profileXpFill.style.width = `${xpData.percent}%`;
-    }
-
+    if (profileCefrBadge) profileCefrBadge.textContent = xpData.rank.badge;
+    if (profileXpFill) profileXpFill.style.width = `${xpData.percent}%`;
     if (profileXpText) {
-      if (xpData.isMax) {
-        profileXpText.textContent = `Опыт: ${xpData.currentXp} XP (Макс. ранг)`;
-      } else {
-        profileXpText.textContent = `Опыт: ${xpData.currentXp} / ${xpData.nextXp} XP`;
-      }
+      profileXpText.textContent = xpData.isMax ? `Опыт: ${xpData.currentXp} XP (Макс.)` : `Опыт: ${xpData.currentXp} / ${xpData.nextXp} XP`;
     }
-
-    if (profileXpPercent) {
-      profileXpPercent.textContent = `${xpData.percent}%`;
-    }
+    if (profileXpPercent) profileXpPercent.textContent = `${xpData.percent}%`;
   }
 
   // ----------------------------------------------------
@@ -317,7 +525,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // ----------------------------------------------------
-  // Экран: Мой словарь (Personal Vocabulary)
+  // Экран: Мой словарь
   // ----------------------------------------------------
   const vocabCardsGrid = document.getElementById("vocab-cards-grid");
   const vocabStatsSubtitle = document.getElementById("vocab-stats-subtitle");
@@ -338,7 +546,6 @@ document.addEventListener("DOMContentLoaded", () => {
       vocabStatsSubtitle.textContent = `Выучено слов: ${collectedWordsList.length} из 534`;
     }
 
-    // Определяем CEFR уровень для каждого слова
     function findCefrLevel(word) {
       for (const lvl of ["A1", "A2", "B1", "B2", "C1"]) {
         const wordsAtLvl = WordRamData.cefrDictionary[lvl];
@@ -366,7 +573,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (filtered.length === 0) {
       vocabCardsGrid.innerHTML = `
         <div class="empty-vocab-msg">
-          <p>🔍 ${collectedWordsList.length === 0 ? "Вы еще не нашли ни одного слова. Проходите уровни, и слова появятся здесь!" : "По вашему запросу слов не найдено."}</p>
+          <p>🔍 ${collectedWordsList.length === 0 ? "Вы еще не нашли слов. Проходите уровни, и слова появятся здесь!" : "По вашему запросу слов не найдено."}</p>
         </div>
       `;
       return;
@@ -375,18 +582,20 @@ document.addEventListener("DOMContentLoaded", () => {
     filtered.forEach(w => {
       const details = WordRamData.getWordDetails(w);
       const lvl = findCefrLevel(w);
+      const mastery = (collected[w] && collected[w].mastery) || 1;
+      const masteryStars = "⭐".repeat(mastery);
 
       const card = document.createElement("div");
       card.className = "vocab-card";
       card.innerHTML = `
         <div class="vocab-card-left">
-          <div class="vocab-word-title">${w}</div>
+          <div class="vocab-word-title">${w} <span class="mastery-stars">${masteryStars}</span></div>
           <div class="vocab-word-tr">${details ? details.tr : ""}</div>
           <div class="vocab-word-ph">${details && details.ph ? details.ph : ""}</div>
         </div>
         <div class="vocab-card-right">
           <span class="vocab-tag">${lvl}</span>
-          <span style="font-size: 1.1rem;">➔</span>
+          <span style="font-size: 1.1rem; color: #a855f7;">➔</span>
         </div>
       `;
 
@@ -415,17 +624,36 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // ----------------------------------------------------
-  // Экран: Уровни
+  // Экран: Карта глав и уровни
   // ----------------------------------------------------
   const levelsGrid = document.getElementById("levels-grid");
+  const chaptersTabs = document.getElementById("chapters-tabs");
+  let activeChapterId = 1;
+
   function renderLevelsScreen() {
-    if (!levelsGrid) return;
+    if (!chaptersTabs || !levelsGrid) return;
+    chaptersTabs.innerHTML = "";
     levelsGrid.innerHTML = "";
 
     const unlocked = storage.getSetting("unlockedLevel") || 1;
-    const totalLevels = 60;
 
-    for (let lvl = 1; lvl <= totalLevels; lvl++) {
+    // Вкладки глав (городов)
+    WordRamData.worldChapters.forEach(ch => {
+      const btn = document.createElement("button");
+      btn.className = `chapter-chip ${ch.id === activeChapterId ? "active" : ""}`;
+      btn.innerHTML = `${ch.flag} ${ch.title}`;
+
+      btn.addEventListener("click", () => {
+        activeChapterId = ch.id;
+        renderLevelsScreen();
+      });
+
+      chaptersTabs.appendChild(btn);
+    });
+
+    const activeChapter = WordRamData.worldChapters.find(c => c.id === activeChapterId) || WordRamData.worldChapters[0];
+
+    for (let lvl = activeChapter.startLevel; lvl <= activeChapter.endLevel; lvl++) {
       const isUnlocked = lvl <= unlocked;
       const stars = storage.getLevelStars(lvl);
       const isCurrent = lvl === storage.getSetting("currentLevel");
@@ -446,8 +674,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (isUnlocked) {
         card.addEventListener("click", () => {
-          hideVictoryModal();
-          hideWordDefinitionModal();
+          hideAllModals();
           game.startLevel(lvl, false);
           switchTab("game");
         });
@@ -458,29 +685,31 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ----------------------------------------------------
-  // Экран: Сегодня и Ежедневный стрик
+  // Экран: События, Квесты и Стрик
   // ----------------------------------------------------
   const dailyBtnStart = document.getElementById("btn-start-daily");
   const dailyStreakEl = document.getElementById("daily-streak-count");
-  const dailyStatusBadge = document.getElementById("daily-status-badge");
+  const freezeCounterBadge = document.getElementById("freeze-counter-badge");
+  const btnBuyFreeze = document.getElementById("btn-buy-freeze");
   const dailyRewardsCalendar = document.getElementById("daily-rewards-calendar");
+  const dailyQuestsList = document.getElementById("daily-quests-list");
+  const questsProgressCounter = document.getElementById("quests-progress-counter");
+  const btnClaimSuperChest = document.getElementById("btn-claim-super-chest");
 
   function renderDailyScreen() {
     const status = storage.getDailyStatus();
     if (dailyStreakEl) dailyStreakEl.textContent = status.streak;
 
-    if (dailyStatusBadge) {
-      if (status.isTodayCompleted) {
-        dailyStatusBadge.textContent = "Испытание выполнено ✔";
-        dailyStatusBadge.className = "status-badge completed";
-        if (dailyBtnStart) dailyBtnStart.textContent = "Сыграть снова";
-      } else {
-        dailyStatusBadge.textContent = "Сегодня доступно";
-        dailyStatusBadge.className = "status-badge pending";
-        if (dailyBtnStart) dailyBtnStart.textContent = "Сыграть уровень (+50 🪙, +150 XP)";
-      }
+    if (freezeCounterBadge) {
+      freezeCounterBadge.textContent = `❄️ Защита: ${status.freezes}/2`;
     }
 
+    if (wheelAvailText) {
+      const canSpin = storage.canSpinLuckyWheel();
+      wheelAvailText.textContent = canSpin ? "Бесплатное вращение доступно!" : "Возвращайтесь завтра!";
+    }
+
+    // 1. Календарь наград
     if (dailyRewardsCalendar) {
       dailyRewardsCalendar.innerHTML = "";
       const currentDayInStreak = Math.max(1, (status.streak % 7) || (status.isTodayCompleted ? 7 : 1));
@@ -494,18 +723,88 @@ document.addEventListener("DOMContentLoaded", () => {
         dayBox.innerHTML = `
           <span class="reward-day-title">${item.label}</span>
           <span class="reward-day-prize">+${item.coins} 🪙</span>
-          ${item.hints > 0 ? `<span style="font-size: 0.65rem; color: #4338ca;">+${item.hints} 💡</span>` : ""}
+          ${item.hints > 0 ? `<span style="font-size: 0.65rem; color: #a855f7;">+${item.hints} 💡</span>` : ""}
           <span style="font-size: 0.75rem;">${isClaimed ? "✔" : (isCurrent ? "⭐" : "🔒")}</span>
         `;
         dailyRewardsCalendar.appendChild(dayBox);
       });
     }
+
+    // 2. Ежедневные задания (3 квеста)
+    const dq = storage.getDailyQuests();
+    if (dailyQuestsList) {
+      dailyQuestsList.innerHTML = "";
+      let completedCount = 0;
+
+      WordRamData.dailyQuestsTemplates.forEach(t => {
+        const qState = dq.quests[t.id] || { current: 0, target: t.target, completed: false, claimed: false };
+        if (qState.completed) completedCount++;
+
+        const qCard = document.createElement("div");
+        qCard.className = `quest-item-card ${qState.completed ? "completed" : ""}`;
+        qCard.innerHTML = `
+          <div class="quest-item-info">
+            <strong>${t.title}</strong>
+            <div class="quest-sub">${t.desc} (${qState.current}/${t.target})</div>
+            <div class="quest-reward">+${t.rewardCoins} 🪙, +${t.rewardXp} XP</div>
+          </div>
+          <button class="small-btn ${qState.claimed ? "claimed-btn" : (qState.completed ? "claim-ready-btn" : "locked-btn")}" ${(!qState.completed || qState.claimed) ? "disabled" : ""}>
+            ${qState.claimed ? "✔" : (qState.completed ? "Забрать" : `${qState.current}/${t.target}`)}
+          </button>
+        `;
+
+        const claimBtn = qCard.querySelector("button");
+        if (claimBtn && qState.completed && !qState.claimed) {
+          claimBtn.addEventListener("click", () => {
+            storage.claimQuest(t.id);
+            game.playSound("found");
+            renderDailyScreen();
+            updateProfileUI();
+          });
+        }
+
+        dailyQuestsList.appendChild(qCard);
+      });
+
+      if (questsProgressCounter) {
+        questsProgressCounter.textContent = `${completedCount} / 3`;
+      }
+
+      if (btnClaimSuperChest) {
+        btnClaimSuperChest.disabled = (completedCount < 3 || dq.allClaimed);
+        btnClaimSuperChest.textContent = dq.allClaimed ? "Открыт ✔" : "Забрать";
+      }
+    }
+  }
+
+  if (btnClaimSuperChest) {
+    btnClaimSuperChest.addEventListener("click", () => {
+      const res = storage.claimAllQuestsChest();
+      if (res.success) {
+        game.playSound("win");
+        alert("🎁 Поздравляем! Сундук мастера открыт: +50 🪙, +100 XP, +1 💡 подсказка!");
+        renderDailyScreen();
+        updateProfileUI();
+      }
+    });
+  }
+
+  if (btnBuyFreeze) {
+    btnBuyFreeze.addEventListener("click", () => {
+      const res = storage.buyStreakFreeze(60);
+      if (res.success) {
+        game.playSound("found");
+        alert("❄️ Заморозка стрика успешно куплена! Ваш стрик защищен от пропуска дня.");
+        renderDailyScreen();
+      } else {
+        alert(res.reason === "NOT_ENOUGH_COINS" ? "Недостаточно монет (нужно 60 🪙)!" : "У вас уже максимальное количество защит (2/2)!");
+      }
+    });
   }
 
   if (dailyBtnStart) {
     dailyBtnStart.addEventListener("click", () => {
-      hideVictoryModal();
-      hideWordDefinitionModal();
+      hideAllModals();
       const todayLvl = 10 + (new Date().getDate() % 20);
       game.startLevel(todayLvl, true);
       switchTab("game");
@@ -513,21 +812,42 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ----------------------------------------------------
-  // Экран: Профиль, Достижения и Настройки
+  // Экран: Рейтинг, Лиги и Профиль
   // ----------------------------------------------------
+  const leagueNameEl = document.getElementById("league-name");
+  const leagueIconEl = document.getElementById("league-icon");
+  const leagueLeaderboardList = document.getElementById("league-leaderboard-list");
+  const leagueRewardPreview = document.getElementById("league-reward-preview");
+  const achievementsListEl = document.getElementById("achievements-list");
   const toggleSound = document.getElementById("setting-sound");
   const toggleVibration = document.getElementById("setting-vibration");
-  const toggleTheme = document.getElementById("setting-theme");
   const btnResetData = document.getElementById("btn-reset-data");
-  const achievementsListEl = document.getElementById("achievements-list");
 
   function renderSettingsScreen() {
     updateProfileUI();
 
-    if (toggleSound) toggleSound.checked = !!storage.getSetting("soundEnabled");
-    if (toggleVibration) toggleVibration.checked = !!storage.getSetting("vibrationEnabled");
-    if (toggleTheme) toggleTheme.checked = !!storage.getSetting("darkTheme");
+    // 1. Еженедельная лига
+    const leagueData = storage.getLeagueData();
+    if (leagueNameEl) leagueNameEl.textContent = leagueData.league.name;
+    if (leagueIconEl) leagueIconEl.textContent = leagueData.league.icon;
+    if (leagueRewardPreview) leagueRewardPreview.textContent = `Приз: +${leagueData.league.rewardCoins} 🪙`;
 
+    if (leagueLeaderboardList) {
+      leagueLeaderboardList.innerHTML = "";
+      leagueData.rivals.forEach((r, idx) => {
+        const row = document.createElement("div");
+        row.className = `leaderboard-row ${r.isUser ? "user-row" : ""}`;
+        row.innerHTML = `
+          <div class="row-rank">#${idx + 1}</div>
+          <div class="row-avatar">${r.avatar}</div>
+          <div class="row-name">${r.name}</div>
+          <div class="row-xp">${r.xp} XP</div>
+        `;
+        leagueLeaderboardList.appendChild(row);
+      });
+    }
+
+    // 2. Достижения
     if (achievementsListEl) {
       achievementsListEl.innerHTML = "";
       const unlockedIds = storage.state.unlockedAchievements || [];
@@ -547,6 +867,9 @@ document.addEventListener("DOMContentLoaded", () => {
         achievementsListEl.appendChild(card);
       });
     }
+
+    if (toggleSound) toggleSound.checked = !!storage.getSetting("soundEnabled");
+    if (toggleVibration) toggleVibration.checked = !!storage.getSetting("vibrationEnabled");
   }
 
   if (toggleSound) {
@@ -563,28 +886,11 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  if (toggleTheme) {
-    toggleTheme.addEventListener("change", (e) => {
-      storage.setSetting("darkTheme", e.target.checked);
-      applyTheme(e.target.checked);
-    });
-  }
-
-  function applyTheme(isDark) {
-    if (isDark) {
-      document.body.classList.add("dark-theme");
-    } else {
-      document.body.classList.remove("dark-theme");
-    }
-  }
-
   if (btnResetData) {
     btnResetData.addEventListener("click", () => {
-      if (confirm("Вы уверены, что хотите сбросить весь прогресс, монеты и личный словарь?")) {
+      if (confirm("Сбросить весь прогресс, словарь и монеты?")) {
         storage.resetAll();
-        hideVictoryModal();
-        hideWordDefinitionModal();
-        applyTheme(false);
+        hideAllModals();
         renderSettingsScreen();
         game.startLevel(1, false);
         switchTab("game");
@@ -595,7 +901,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // ----------------------------------------------------
   // Запуск при старте
   // ----------------------------------------------------
-  applyTheme(!!storage.getSetting("darkTheme"));
   updateProfileUI();
 
   const saved = storage.getActiveSavedGame();
@@ -618,7 +923,7 @@ document.addEventListener("DOMContentLoaded", () => {
       navigator.serviceWorker
         .register("sw.js")
         .then((reg) => {
-          console.log("WordRam PWA ServiceWorker зарегистрирован:", reg.scope);
+          console.log("WordRam ServiceWorker v18 активен:", reg.scope);
         })
         .catch((err) => {
           console.warn("Ошибка регистрации ServiceWorker:", err);

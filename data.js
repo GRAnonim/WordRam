@@ -1,6 +1,7 @@
 /**
- * WordRam - Data, Dictionaries & Comprehensive Word Definitions (v15)
- * Словари A1-C1, диагностический тест и 100% база переводов и определений (534 слова).
+ * WordRam - Complete Data & Gamification Architecture (v18)
+ * 534 слова, 100% переводы, Лиги, Квесты дня, Колесо фортуны,
+ * Заморозка стрика, Блиц-повторение и Карта глав.
  */
 
 const WordRamData = {
@@ -3828,6 +3829,7 @@ const WordRamData = {
   }
 },
 
+  // Ранги опыта (XP) и CEFR
   xpRanks: [
     { code: "A1", title: "Начальный (A1)", badge: "A1 — Elementary", minXp: 0, nextXp: 300 },
     { code: "A2", title: "Базовый (A2)", badge: "A2 — Pre-Intermediate", minXp: 300, nextXp: 800 },
@@ -3836,6 +3838,44 @@ const WordRamData = {
     { code: "C1", title: "Продвинутый (C1)", badge: "C1 — Advanced", minXp: 3000, nextXp: 5000 }
   ],
 
+  // Главы путешествия по городам мира
+  worldChapters: [
+    { id: 1, title: "Лондон", country: "Великобритания", flag: "🇬🇧", startLevel: 1, endLevel: 25, desc: "Уютные улочки и основы языка" },
+    { id: 2, title: "Оксфорд", country: "Великобритания", flag: "🏴󠁧󠁢󠁳󠁣󠁴󠁿", startLevel: 26, endLevel: 50, desc: "Университетские тайны и богатая лексика" },
+    { id: 3, title: "Нью-Йорк", country: "США", flag: "🇺🇸", startLevel: 51, endLevel: 75, desc: "Небоскребы, динамика и абстрактные термины" },
+    { id: 4, title: "Токио", country: "Япония", flag: "🇯🇵", startLevel: 76, endLevel: 100, desc: "Высокие технологии и большие сетки" },
+    { id: 5, title: "Сидней", country: "Австралия", flag: "🇦🇺", startLevel: 101, endLevel: 125, desc: "Океан, приключения и мастерство" }
+  ],
+
+  // Еженедельные лиги
+  leagues: [
+    { id: 1, name: "Бронзовая лига", icon: "🥉", color: "#cd7f32", minXpWeek: 0, rewardCoins: 50 },
+    { id: 2, name: "Серебряная лига", icon: "🥈", color: "#94a3b8", minXpWeek: 200, rewardCoins: 100 },
+    { id: 3, name: "Золотая лига", icon: "🥇", color: "#f59e0b", minXpWeek: 500, rewardCoins: 180 },
+    { id: 4, name: "Алмазная лига", icon: "💎", color: "#06b6d4", minXpWeek: 1000, rewardCoins: 300 },
+    { id: 5, name: "Легендарная лига", icon: "👑", color: "#a855f7", minXpWeek: 2000, rewardCoins: 500 }
+  ],
+
+  // Сектора Колеса Фортуны (8 призов)
+  luckyWheelSectors: [
+    { id: 0, label: "+20 🪙", type: "coins", value: 20, icon: "🪙", color: "#f59e0b" },
+    { id: 1, label: "+1 💡", type: "hints", value: 1, icon: "💡", color: "#6366f1" },
+    { id: 2, label: "+50 XP", type: "xp", value: 50, icon: "⚡", color: "#a855f7" },
+    { id: 3, label: "+40 🪙", type: "coins", value: 40, icon: "🪙", color: "#f59e0b" },
+    { id: 4, label: "❄️ Защита", type: "freeze", value: 1, icon: "❄️", color: "#0ea5e9" },
+    { id: 5, label: "+2 💡", type: "hints", value: 2, icon: "💡", color: "#6366f1" },
+    { id: 6, label: "+100 XP", type: "xp", value: 100, icon: "🌟", color: "#a855f7" },
+    { id: 7, label: "👑 100 🪙", type: "coins", value: 100, icon: "👑", color: "#ec4899" }
+  ],
+
+  // Ежедневные задания (3 квеста)
+  dailyQuestsTemplates: [
+    { id: "find_words", title: "Сыщик слов", desc: "Найдите 8 любых слов на игровом поле", target: 8, rewardCoins: 20, rewardXp: 40 },
+    { id: "no_hints", title: "Чистый разум", desc: "Пройдите 2 уровня без использования подсказок", target: 2, rewardCoins: 25, rewardXp: 50 },
+    { id: "vocab_review", title: "Любознательность", desc: "Откройте и изучите 3 карточки в словаре", target: 3, rewardCoins: 15, rewardXp: 30 }
+  ],
+
+  // Список достижений
   achievements: [
     { id: "first_words", icon: "🐣", title: "Первые шаги", desc: "Собрать первые 10 слов в словаре", target: 10, type: "words", rewardCoins: 25 },
     { id: "bookworm", icon: "📚", title: "Книжный червь", desc: "Собрать 50 слов в личный словарь", target: 50, type: "words", rewardCoins: 50 },
@@ -3844,11 +3884,12 @@ const WordRamData = {
     { id: "streak_3", icon: "🔥", title: "Ударный режим", desc: "Играть 3 дня подряд", target: 3, type: "streak", rewardCoins: 35 },
     { id: "streak_7", icon: "⚡", title: "Неделя без пропусков", desc: "Играть 7 дней подряд", target: 7, type: "streak", rewardCoins: 100 },
     { id: "no_hints", icon: "💡", title: "Острый ум", desc: "Пройти 5 уровней без подсказок", target: 5, type: "no_hints", rewardCoins: 50 },
+    { id: "blitz_master", icon: "🎯", title: "Мастер блица", desc: "Дать 15 правильных ответов в Блиц-повторении", target: 15, type: "blitz", rewardCoins: 60 },
     { id: "explorer", icon: "🗺️", title: "Исследователь", desc: "Пройти уровень на сетке 6x6 или больше", target: 1, type: "big_grid", rewardCoins: 40 },
-    { id: "grandmaster", icon: "🏆", title: "Гроссмейстер", desc: "Пройти уровень на сетке 8x8 или 9x9", target: 1, type: "huge_grid", rewardCoins: 80 },
-    { id: "star_collector", icon: "⭐", title: "Мастер звезд", desc: "Собрать 30 звезд на уровнях", target: 30, type: "stars", rewardCoins: 60 }
+    { id: "grandmaster", icon: "🏆", title: "Гроссмейстер", desc: "Пройти уровень на сетке 8x8 или 9x9", target: 1, type: "huge_grid", rewardCoins: 80 }
   ],
 
+  // Ежедневный стрик наград (7 дней)
   dailyStreakRewards: [
     { day: 1, coins: 15, hints: 0, label: "День 1" },
     { day: 2, coins: 25, hints: 0, label: "День 2" },
@@ -3856,7 +3897,7 @@ const WordRamData = {
     { day: 4, coins: 30, hints: 0, label: "День 4" },
     { day: 5, coins: 45, hints: 0, label: "День 5" },
     { day: 6, coins: 50, hints: 1, label: "День 6" },
-    { day: 7, coins: 120, hints: 2, label: "Мега-Сундук 7 дн. 👑" }
+    { day: 7, coins: 120, hints: 2, label: "Мега-Сундук 👑" }
   ],
 
   placementTestWords: [
@@ -4016,7 +4057,7 @@ const WordRamData = {
       }
     }
 
-    // 2. Если на текущем уровне все слова этой длины закончились, берем ТОЛЬКО более простые уровни ниже (для закрепления материала). СЛОВА ИЗ БОЛЕЕ СЛОЖНЫХ УРОВНЕЙ ВЫШЕ НЕ БЕРУТСЯ!
+    // 2. Если все слова текущего уровня уже в exclude, берем ТОЛЬКО более простые уровни ниже
     for (let i = userRankIdx - 1; i >= 0; i--) {
       const lowerLvl = rankOrder[i];
       if (this.cefrDictionary[lowerLvl] && this.cefrDictionary[lowerLvl][targetLen]) {

@@ -1,11 +1,12 @@
 /**
- * WordRam - LocalStorage & Gamification State Manager (v13)
- * Хранение словаря выученных слов, XP, рангов CEFR, достижений и наград.
+ * WordRam - LocalStorage & Gamification State Engine (v18)
+ * Управление всеми системами: квесты дня, заморозка стрика, колесо фортуны,
+ * еженедельные лиги, словарь выученных слов, XP, ранги CEFR и трофеи.
  */
 
 class WordRamStorage {
   constructor() {
-    this.STORAGE_KEY = "wordram_v13_save";
+    this.STORAGE_KEY = "wordram_v18_save";
     this.state = this.load();
   }
 
@@ -15,28 +16,37 @@ class WordRamStorage {
       unlockedLevel: 1,
       englishLevel: "A2",
       xp: 300,
+      weeklyXp: 45,
       hasCompletedPlacementTest: false,
-      collectedWords: {},           // { "BEAUTIFUL": { count: 1, firstSeen: "..." } }
+      collectedWords: {},           // { "BEAUTIFUL": { count: 1, firstSeen: "...", mastery: 1 } }
       unlockedAchievements: [],    // ["first_words", ...]
       claimedDailyRewards: {},      // { "1": "2026-08-24" }
       levelStars: {},               // { "1": 3, "2": 2, ... }
       levelHighScores: {},
-      coins: 50,
+      coins: 60,
       hintsRemaining: 3,
       hintCost: 15,
+      streakFreezes: 0,            // Количество защит серии
+      lastWheelSpinDate: null,
+      currentLeagueId: 1,
       soundEnabled: true,
       vibrationEnabled: true,
-      darkTheme: false,
       daily: {
         lastPlayedDate: null,
         streak: 0,
         completed: false
+      },
+      dailyQuests: {
+        date: null,
+        quests: {},
+        allClaimed: false
       },
       stats: {
         totalWordsFound: 0,
         levelsCompleted: 0,
         hintsUsed: 0,
         noHintLevels: 0,
+        blitzCorrectTotal: 0,
         maxGridCompleted: 4
       },
       activeSavedGame: null
@@ -64,6 +74,9 @@ class WordRamStorage {
     }
   }
 
+  // ----------------------------------------------------
+  // Уровень английского (CEFR) и Опыт (XP)
+  // ----------------------------------------------------
   getEnglishLevel() {
     return this.state.englishLevel || "A2";
   }
@@ -108,6 +121,7 @@ class WordRamStorage {
   addXp(amount) {
     const oldLevel = this.getEnglishLevel();
     this.state.xp = (this.state.xp || 0) + amount;
+    this.state.weeklyXp = (this.state.weeklyXp || 0) + amount;
 
     // Проверяем повышение ранга CEFR
     let newLevel = oldLevel;
@@ -135,21 +149,26 @@ class WordRamStorage {
     };
   }
 
-  // Коллекция словаря (Personal Vocabulary)
+  // ----------------------------------------------------
+  // Коллекция словаря и Интервальное повторение
+  // ----------------------------------------------------
   recordWordToVocabulary(word) {
     const upper = word.toUpperCase();
     if (!this.state.collectedWords[upper]) {
       this.state.collectedWords[upper] = {
         count: 1,
-        firstSeen: new Date().toISOString().slice(0, 10)
+        firstSeen: new Date().toISOString().slice(0, 10),
+        mastery: 1 // 1: Новое, 2: В процессе, 3: Выучено навсегда
       };
       this.state.stats.totalWordsFound++;
-      this.addXp(10); // +10 XP за новое выученное слово!
+      this.addXp(10); // +10 XP за новое выученное слово
     } else {
       this.state.collectedWords[upper].count++;
       this.state.stats.totalWordsFound++;
       this.addXp(3);
     }
+
+    this.updateDailyQuestProgress("find_words", 1);
     this.save();
     return this.checkAchievements();
   }
@@ -162,13 +181,160 @@ class WordRamStorage {
     return Object.keys(this.state.collectedWords || {}).length;
   }
 
+  recordBlitzAnswer(word, isCorrect) {
+    const upper = word.toUpperCase();
+    if (this.state.collectedWords[upper]) {
+      if (isCorrect) {
+        this.state.collectedWords[upper].mastery = Math.min(3, (this.state.collectedWords[upper].mastery || 1) + 1);
+        this.state.stats.blitzCorrectTotal++;
+        this.addXp(5);
+      }
+    }
+    this.save();
+    return this.checkAchievements();
+  }
+
+  // ----------------------------------------------------
+  // Ежедневные задания (Daily Quests)
+  // ----------------------------------------------------
+  getDailyQuests() {
+    const todayStr = new Date().toISOString().slice(0, 10);
+    if (this.state.dailyQuests.date !== todayStr) {
+      // Инициализируем новые квесты на сегодня
+      const qMap = {};
+      WordRamData.dailyQuestsTemplates.forEach(t => {
+        qMap[t.id] = {
+          id: t.id,
+          current: 0,
+          target: t.target,
+          completed: false,
+          claimed: false
+        };
+      });
+      this.state.dailyQuests = {
+        date: todayStr,
+        quests: qMap,
+        allClaimed: false
+      };
+      this.save();
+    }
+    return this.state.dailyQuests;
+  }
+
+  updateDailyQuestProgress(type, amount = 1) {
+    const dq = this.getDailyQuests();
+    if (dq.quests && dq.quests[type] && !dq.quests[type].completed) {
+      dq.quests[type].current = Math.min(dq.quests[type].target, dq.quests[type].current + amount);
+      if (dq.quests[type].current >= dq.quests[type].target) {
+        dq.quests[type].completed = true;
+      }
+      this.save();
+    }
+  }
+
+  claimQuest(questId) {
+    const dq = this.getDailyQuests();
+    const q = dq.quests[questId];
+    if (q && q.completed && !q.claimed) {
+      q.claimed = true;
+      const t = WordRamData.dailyQuestsTemplates.find(x => x.id === questId);
+      if (t) {
+        this.addCoins(t.rewardCoins);
+        this.addXp(t.rewardXp);
+      }
+      this.save();
+      return { success: true, template: t };
+    }
+    return { success: false };
+  }
+
+  claimAllQuestsChest() {
+    const dq = this.getDailyQuests();
+    const allCompleted = Object.values(dq.quests).every(q => q.completed);
+    if (allCompleted && !dq.allClaimed) {
+      dq.allClaimed = true;
+      this.addCoins(50);
+      this.addXp(100);
+      this.state.hintsRemaining += 1;
+      this.save();
+      return { success: true, rewardCoins: 50, rewardXp: 100, rewardHints: 1 };
+    }
+    return { success: false };
+  }
+
+  // ----------------------------------------------------
+  // Колесо Фортуны (Daily Lucky Wheel)
+  // ----------------------------------------------------
+  canSpinLuckyWheel() {
+    const todayStr = new Date().toISOString().slice(0, 10);
+    return this.state.lastWheelSpinDate !== todayStr;
+  }
+
+  applyLuckyWheelSector(sector) {
+    const todayStr = new Date().toISOString().slice(0, 10);
+    this.state.lastWheelSpinDate = todayStr;
+
+    if (sector.type === "coins") this.addCoins(sector.value);
+    if (sector.type === "hints") this.state.hintsRemaining += sector.value;
+    if (sector.type === "xp") this.addXp(sector.value);
+    if (sector.type === "freeze") this.state.streakFreezes = Math.min(2, (this.state.streakFreezes || 0) + 1);
+
+    this.save();
+  }
+
+  // ----------------------------------------------------
+  // Заморозка стрика (Streak Freeze)
+  // ----------------------------------------------------
+  getStreakFreezes() {
+    return this.state.streakFreezes || 0;
+  }
+
+  buyStreakFreeze(cost = 60) {
+    if (this.state.coins >= cost && (this.state.streakFreezes || 0) < 2) {
+      this.state.coins -= cost;
+      this.state.streakFreezes = (this.state.streakFreezes || 0) + 1;
+      this.save();
+      return { success: true, count: this.state.streakFreezes };
+    }
+    return { success: false, reason: this.state.coins < cost ? "NOT_ENOUGH_COINS" : "MAX_REACHED" };
+  }
+
+  // ----------------------------------------------------
+  // Еженедельные Лиги (Weekly Leagues)
+  // ----------------------------------------------------
+  getLeagueData() {
+    const leagueId = this.state.currentLeagueId || 1;
+    const leagueInfo = WordRamData.leagues.find(l => l.id === leagueId) || WordRamData.leagues[0];
+
+    // Генерируем реалистичный список соперников
+    const rivals = [
+      { name: "Alex_Oxford", xp: Math.round(this.state.weeklyXp * 1.3 + 80), avatar: "🦊" },
+      { name: "Elena_Sky", xp: Math.round(this.state.weeklyXp * 1.1 + 40), avatar: "🦉" },
+      { name: "Вы (Игрок)", xp: this.state.weeklyXp, isUser: true, avatar: "⭐" },
+      { name: "Dmitry_Pro", xp: Math.max(0, Math.round(this.state.weeklyXp * 0.9 - 20)), avatar: "🐺" },
+      { name: "Sarah_London", xp: Math.max(0, Math.round(this.state.weeklyXp * 0.8 - 40)), avatar: "🐱" },
+      { name: "Max_Mind", xp: Math.max(0, Math.round(this.state.weeklyXp * 0.6 - 60)), avatar: "🦁" }
+    ];
+
+    rivals.sort((a, b) => b.xp - a.xp);
+    const userRank = rivals.findIndex(r => r.isUser) + 1;
+
+    return {
+      league: leagueInfo,
+      rivals: rivals,
+      userRank: userRank,
+      weeklyXp: this.state.weeklyXp
+    };
+  }
+
+  // ----------------------------------------------------
   // Проверка и выдача достижений
+  // ----------------------------------------------------
   checkAchievements() {
     const unlockedNow = [];
     const stats = this.state.stats;
     const wordsCount = this.getCollectedWordsCount();
     const streak = this.state.daily.streak || 0;
-    const stars = Object.values(this.state.levelStars || {}).reduce((a, b) => a + b, 0);
 
     WordRamData.achievements.forEach(ach => {
       if (this.state.unlockedAchievements.includes(ach.id)) return;
@@ -177,9 +343,9 @@ class WordRamStorage {
       if (ach.type === "words" && wordsCount >= ach.target) achieved = true;
       if (ach.type === "streak" && streak >= ach.target) achieved = true;
       if (ach.type === "no_hints" && stats.noHintLevels >= ach.target) achieved = true;
+      if (ach.type === "blitz" && stats.blitzCorrectTotal >= ach.target) achieved = true;
       if (ach.type === "big_grid" && stats.maxGridCompleted >= 6) achieved = true;
       if (ach.type === "huge_grid" && stats.maxGridCompleted >= 8) achieved = true;
-      if (ach.type === "stars" && stars >= ach.target) achieved = true;
 
       if (achieved) {
         this.state.unlockedAchievements.push(ach.id);
@@ -246,6 +412,7 @@ class WordRamStorage {
 
     if (usedHints === 0) {
       this.state.stats.noHintLevels++;
+      this.updateDailyQuestProgress("no_hints", 1);
     }
 
     this.state.stats.maxGridCompleted = Math.max(this.state.stats.maxGridCompleted || 4, gridSize);
@@ -278,17 +445,24 @@ class WordRamStorage {
 
   getDailyStatus() {
     const todayStr = new Date().toISOString().slice(0, 10);
-    if (this.state.daily.lastPlayedDate !== todayStr) {
-      return {
-        isTodayCompleted: false,
-        streak: this.state.daily.streak,
-        date: todayStr
-      };
+    const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+
+    // Проверка стрика с защитой Заморозки
+    if (this.state.daily.lastPlayedDate && this.state.daily.lastPlayedDate !== todayStr && this.state.daily.lastPlayedDate !== yesterday) {
+      if (this.state.streakFreezes > 0) {
+        this.state.streakFreezes--;
+        this.state.daily.lastPlayedDate = yesterday; // Защитили пропущенный день!
+        this.save();
+      } else {
+        this.state.daily.streak = 0;
+      }
     }
+
     return {
-      isTodayCompleted: this.state.daily.completed,
-      streak: this.state.daily.streak,
-      date: todayStr
+      isTodayCompleted: this.state.daily.lastPlayedDate === todayStr && this.state.daily.completed,
+      streak: this.state.daily.streak || 0,
+      date: todayStr,
+      freezes: this.state.streakFreezes || 0
     };
   }
 
@@ -297,7 +471,7 @@ class WordRamStorage {
     const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
 
     if (this.state.daily.lastPlayedDate === yesterday) {
-      this.state.daily.streak += 1;
+      this.state.daily.streak = (this.state.daily.streak || 0) + 1;
     } else if (this.state.daily.lastPlayedDate !== todayStr) {
       this.state.daily.streak = 1;
     }
@@ -305,7 +479,7 @@ class WordRamStorage {
     this.state.daily.lastPlayedDate = todayStr;
     this.state.daily.completed = true;
     this.addCoins(50);
-    this.addXp(150); // Большой бонус опыта за ежедневный квест!
+    this.addXp(150);
     this.checkAchievements();
     this.save();
   }

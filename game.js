@@ -1,7 +1,7 @@
 /**
- * WordRam - Core Game Engine (v14)
- * Мелодичный звуковой синтез (пентатоника, колокольчики),
- * SVG линии свайпа, карточки перевода и система XP/рангов.
+ * WordRam - Core Game Engine (v18)
+ * Мелодичный звук, комбо-множитель, SVG линии свайпа,
+ * интеграция с квестами, личным словарем и XP.
  */
 
 class WordRamGame {
@@ -32,7 +32,11 @@ class WordRamGame {
     this.hintsUsedInLevel = 0;
     this.isGameOver = false;
 
-    // Сочная палитра цветов для слов (в точности как в референсе Филвордов)
+    // Комбо-система
+    this.comboStreak = 0;
+    this.lastWordFoundTime = 0;
+
+    // Сочная палитра цветов для слов
     this.wordColors = [
       { bg: "#d8b4fe", border: "#a855f7", text: "#3b0764" }, // Лаванда
       { bg: "#fda4af", border: "#f43f5e", text: "#881337" }, // Роза / Коралл
@@ -77,7 +81,6 @@ class WordRamGame {
     const now = this.audioCtx.currentTime;
 
     if (type === "select") {
-      // Мелодичная маримба по мажорной пентатонике (C4, D4, E4, G4, A4, C5, D5, E5, G5)
       const pentatonic = [261.63, 293.66, 329.63, 392.00, 440.00, 523.25, 587.33, 659.25, 783.99];
       const pitchIdx = Math.min(this.selectedPath.length - 1, pentatonic.length - 1);
       const freq = pentatonic[Math.max(0, pitchIdx)];
@@ -88,7 +91,6 @@ class WordRamGame {
       osc.type = "sine";
       osc.frequency.setValueAtTime(freq, now);
 
-      // Мягкая капля / каримба
       gain.gain.setValueAtTime(0.09, now);
       gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
 
@@ -97,10 +99,9 @@ class WordRamGame {
 
       osc.start(now);
       osc.stop(now + 0.12);
-    } else if (type === "found") {
-      // Теплый мажорный перелив колокольчиков (C5, E5, G5, B5, C6)
-      const notes = [523.25, 659.25, 783.99, 987.77, 1046.5];
-      notes.forEach((freq, idx) => {
+    } else if (type === "found" || type === "combo") {
+      const baseNotes = type === "combo" ? [659.25, 783.99, 987.77, 1318.51] : [523.25, 659.25, 783.99, 987.77, 1046.5];
+      baseNotes.forEach((freq, idx) => {
         const osc = this.audioCtx.createOscillator();
         const gain = this.audioCtx.createGain();
         osc.type = "triangle";
@@ -116,7 +117,6 @@ class WordRamGame {
         osc.stop(now + idx * 0.08 + 0.35);
       });
     } else if (type === "error") {
-      // Мягкий деревянный щелчок (woodblock), не резкий
       const osc = this.audioCtx.createOscillator();
       const gain = this.audioCtx.createGain();
       osc.type = "sine";
@@ -132,7 +132,6 @@ class WordRamGame {
       osc.start(now);
       osc.stop(now + 0.14);
     } else if (type === "hint") {
-      // Хрустальный перелив колокольчика (E5 -> B5)
       const notes = [659.25, 987.77];
       notes.forEach((freq, idx) => {
         const osc = this.audioCtx.createOscillator();
@@ -150,7 +149,6 @@ class WordRamGame {
         osc.stop(now + idx * 0.1 + 0.4);
       });
     } else if (type === "win") {
-      // Торжественный благозвучный аккорд
       const chord = [261.63, 392.00, 523.25, 659.25, 783.99, 1046.5];
       chord.forEach((freq, idx) => {
         const osc = this.audioCtx.createOscillator();
@@ -179,7 +177,6 @@ class WordRamGame {
   }
 
   bindEvents() {
-    // Разблокируем аудио на первый клик/тап в любом месте экрана
     const unlockHandler = () => {
       this.ensureAudioUnlocked();
       window.removeEventListener("touchstart", unlockHandler);
@@ -212,6 +209,8 @@ class WordRamGame {
     this.revealedHints = {};
     this.hintsUsedInLevel = 0;
     this.isGameOver = false;
+    this.comboStreak = 0;
+    this.lastWordFoundTime = 0;
 
     const userCefr = this.storage.getEnglishLevel();
     this.levelData = this.generator.generateLevel(levelNumber, userCefr);
@@ -495,6 +494,7 @@ class WordRamGame {
     if (details && typeof this.onWordDetailsRequested === "function") {
       this.playSound("select");
       this.onWordDetailsRequested(details);
+      this.storage.updateDailyQuestProgress("vocab_review", 1);
     }
   }
 
@@ -521,13 +521,31 @@ class WordRamGame {
     if (matchedTarget) {
       if (!this.foundWords.includes(matchedTarget)) {
         this.foundWords.push(matchedTarget);
-        
+
+        // Расчет комбо (если интервал < 7 секунд)
+        const now = Date.now();
+        if (this.lastWordFoundTime > 0 && now - this.lastWordFoundTime <= 7000) {
+          this.comboStreak++;
+        } else {
+          this.comboStreak = 1;
+        }
+        this.lastWordFoundTime = now;
+
+        // Записываем слово в Личный словарь и начисляем XP
         const newAchs = this.storage.recordWordToVocabulary(matchedTarget);
-        this.playSound("found");
-        this.vibrate(40);
+
+        if (this.comboStreak > 1) {
+          this.storage.addXp(this.comboStreak * 5);
+          this.playSound("combo");
+          this.vibrate([20, 30, 50]);
+          this.showFloatingMessage(`🔥 КОМБО x${this.comboStreak}! (+${this.comboStreak * 5} XP)`, "bonus");
+        } else {
+          this.playSound("found");
+          this.vibrate(40);
+          this.showFloatingMessage(`Найдено: ${matchedTarget}! (+10 XP)`, "success");
+        }
 
         this.highlightFoundWordCells(this.selectedPath);
-        this.showFloatingMessage(`Найдено: ${matchedTarget}! (+10 XP)`, "success");
         this.renderHeader();
         this.renderWordSlots();
         this.saveCurrentGameState();
