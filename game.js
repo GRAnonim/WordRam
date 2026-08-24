@@ -32,18 +32,16 @@ class WordRamGame {
     this.hintsUsedInLevel = 0;
     this.isGameOver = false;
 
-    // Палитра цветов для слов
+    // Сочная палитра цветов для слов (в точности как в референсе Филвордов)
     this.wordColors = [
-      { bg: "#dcfce7", border: "#22c55e", text: "#15803d" },
-      { bg: "#e0e7ff", border: "#6366f1", text: "#4338ca" },
-      { bg: "#fef3c7", border: "#f59e0b", text: "#b45309" },
-      { bg: "#fce7f3", border: "#ec4899", text: "#be185d" },
-      { bg: "#e0f2fe", border: "#0ea5e9", text: "#0369a1" },
-      { bg: "#ede9fe", border: "#8b5cf6", text: "#6d28d9" },
-      { bg: "#ffedd5", border: "#f97316", text: "#c2410c" },
-      { bg: "#ccfbf1", border: "#14b8a6", text: "#0f766e" },
-      { bg: "#f1f5f9", border: "#64748b", text: "#334155" },
-      { bg: "#fae8ff", border: "#d946ef", text: "#a21caf" }
+      { bg: "#d8b4fe", border: "#a855f7", text: "#3b0764" }, // Лаванда
+      { bg: "#fda4af", border: "#f43f5e", text: "#881337" }, // Роза / Коралл
+      { bg: "#86efac", border: "#22c55e", text: "#14532d" }, // Мята / Зеленый
+      { bg: "#93c5fd", border: "#3b82f6", text: "#1e3a8a" }, // Лазурь / Синий
+      { bg: "#fdba74", border: "#f97316", text: "#7c2d12" }, // Персик / Оранж
+      { bg: "#5eead4", border: "#14b8a6", text: "#134e4a" }, // Бирюза
+      { bg: "#fde047", border: "#eab308", text: "#713f12" }, // Золото
+      { bg: "#f0abfc", border: "#d946ef", text: "#701a75" }  // Пурпур
     ];
 
     this.audioCtx = null;
