@@ -773,6 +773,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnClaimSuperChest = document.getElementById("btn-claim-super-chest");
 
   function renderDailyScreen() {
+    renderWordOfDay();
     const status = storage.getDailyStatus();
     if (dailyStreakEl) dailyStreakEl.textContent = status.streak;
 
@@ -984,69 +985,113 @@ document.addEventListener("DOMContentLoaded", () => {
   // ----------------------------------------------------
   // Поделиться и Обратная связь (v29)
   // ----------------------------------------------------
-    const btnWinShare = document.getElementById("btn-win-share");
-  if (btnWinShare) {
-    btnWinShare.addEventListener("click", () => {
-      const shareData = {
-        title: "WordRam — Английские филворды",
-        text: "Я только что прошёл уровень в WordRam! Мой ранг: " + storage.getEnglishLevel() + " (выучено " + storage.getCollectedWordsCount() + " слов). Попробуй обогнать: https://granonim.github.io/WordRam/",
-        url: "https://granonim.github.io/WordRam/"
-      };
-      if (navigator.share) {
-        navigator.share(shareData).then(() => {
-          storage.addCoins(30);
-          game.updateCoinsDisplay();
-          showCustomInfoDialog("🎁", "Награда получена!", "<p>Спасибо, что делитесь игрой!</p><p class='mt-2'>Вам начислено <strong>+30 🪙 монет</strong>!</p>");
-        }).catch(() => {});
-      } else {
-        if (navigator.clipboard) {
-          navigator.clipboard.writeText("https://granonim.github.io/WordRam/").then(() => {
-            storage.addCoins(30);
-            game.updateCoinsDisplay();
-            showCustomInfoDialog("📋", "Ссылка скопирована!", "<p>Ссылка на игру <strong>https://granonim.github.io/WordRam/</strong> скопирована! Отправьте её друзьям. Вам начислено <strong>+30 🪙 монет</strong>!</p>");
-          });
-        }
-      }
-    });
-  }
-  const btnShareGame = document.getElementById("btn-share-game");
-  const btnFeedbackAuthor = document.getElementById("btn-feedback-author");
 
-  if (btnShareGame) {
-    btnShareGame.addEventListener("click", () => {
-      const shareData = {
-        title: "WordRam — Английские филворды",
-        text: "Я изучаю английский в WordRam! Мой ранг: " + storage.getEnglishLevel() + " (выучено " + storage.getCollectedWordsCount() + " слов). Попробуй обогнать меня!",
-        url: "https://granonim.github.io/WordRam/"
-      };
+  
+  // ----------------------------------------------------
+  // Слово дня (Word of the Day - v32)
+  // ----------------------------------------------------
+  const wodWord = document.getElementById("wod-word");
+  const wodPhonetic = document.getElementById("wod-phonetic");
+  const wodTranslation = document.getElementById("wod-translation");
+  const wodExample = document.getElementById("wod-example");
+  const btnWodSpeak = document.getElementById("btn-wod-speak");
+  const btnClaimWod = document.getElementById("btn-claim-wod");
+  const wodRewardTag = document.getElementById("wod-reward-tag");
 
-      if (navigator.share) {
-        navigator.share(shareData).then(() => {
-          storage.addCoins(30);
-          game.updateCoinsDisplay();
-          showCustomInfoDialog("🎁", "Награда получена!", "<p>Спасибо, что делитесь игрой!</p><p class='mt-2'>Вам начислено <strong>+30 🪙 монет</strong>!</p>");
-        }).catch(() => {});
-      } else {
-        if (navigator.clipboard) {
-          navigator.clipboard.writeText("https://granonim.github.io/WordRam/").then(() => {
-            storage.addCoins(30);
-            game.updateCoinsDisplay();
-            showCustomInfoDialog("📋", "Ссылка скопирована!", "<p>Ссылка на игру <strong>https://granonim.github.io/WordRam/</strong> скопирована в буфер обмена!</p><p class='mt-2'>Отправьте её друзьям. Вам начислено <strong>+30 🪙 монет</strong>!</p>");
-          });
-        }
-      }
-    });
+  function getDailyWord() {
+    const words = Object.keys(WordRamData.wordDefinitions);
+    const dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0)) / 86400000);
+    const wordKey = words[dayOfYear % words.length];
+    return WordRamData.getWordDetails(wordKey);
   }
 
-  if (btnFeedbackAuthor) {
-    btnFeedbackAuthor.addEventListener("click", () => {
+  let activeDailyWord = getDailyWord();
+
+  function renderWordOfDay() {
+    if (!wodWord || !activeDailyWord) return;
+    const todayStr = new Date().toISOString().slice(0, 10);
+    const claimedDate = storage.state.claimedDailyWordDate;
+
+    wodWord.textContent = activeDailyWord.word;
+    wodPhonetic.textContent = activeDailyWord.ph || "";
+    wodTranslation.textContent = activeDailyWord.tr || activeDailyWord.word;
+    wodExample.textContent = activeDailyWord.ex || "Learn new words every day!";
+
+    if (claimedDate === todayStr) {
+      if (btnClaimWod) {
+        btnClaimWod.textContent = "✓ Слово дня изучено (+20 🪙 получено)";
+        btnClaimWod.disabled = true;
+        btnClaimWod.className = "secondary-btn small-btn full-width mt-2";
+      }
+      if (wodRewardTag) wodRewardTag.textContent = "Изучено";
+    } else {
+      if (btnClaimWod) {
+        btnClaimWod.textContent = "Изучить и забрать награду (+20 🪙)";
+        btnClaimWod.disabled = false;
+        btnClaimWod.className = "primary-btn small-btn full-width mt-2";
+      }
+      if (wodRewardTag) wodRewardTag.textContent = "+20 🪙 +40 XP";
+    }
+  }
+
+  if (btnWodSpeak) {
+    btnWodSpeak.addEventListener("click", (e) => {
+      e.stopPropagation();
+      if (activeDailyWord) game.speakWord(activeDailyWord.word);
+    });
+  }
+
+  if (btnClaimWod) {
+    btnClaimWod.addEventListener("click", () => {
+      const todayStr = new Date().toISOString().slice(0, 10);
+      storage.state.claimedDailyWordDate = todayStr;
+      storage.addCoins(20);
+      storage.addXp(40);
+      storage.recordWordToVocabulary(activeDailyWord.word);
+      storage.save();
+      game.updateCoinsDisplay();
+      game.speakWord(activeDailyWord.word);
+      renderWordOfDay();
       showCustomInfoDialog(
-        "💬",
-        "Обратная связь",
-        "<p>Напишите ваши впечатления, идеи или предложения по улучшению игры автору проекта.</p><p class='mt-2'>Спасибо за вклад в развитие WordRam!</p>"
+        "💡",
+        "Слово дня изучено!",
+        "<p>Вы изучили слово <strong>" + activeDailyWord.word + "</strong> (<em>" + activeDailyWord.tr + "</em>) и получили:</p><p class='mt-2'><strong>+20 🪙 монет</strong> и <strong>+40 XP опыта</strong>!</p><p class='mt-2'>Слово добавлено в ваш Личный словарь.</p>"
       );
     });
   }
+
+  // ----------------------------------------------------
+  // Поделиться игрой (v32)
+  // ----------------------------------------------------
+  const btnShareGame = document.getElementById("btn-share-game");
+  const btnWinShare = document.getElementById("btn-win-share");
+
+  function shareWordRamGame() {
+    const shareData = {
+      title: "WordRam — Английские филворды",
+      text: "Я изучаю английский в WordRam! Мой ранг: " + storage.getEnglishLevel() + " (выучено " + storage.getCollectedWordsCount() + " слов). Попробуй обогнать меня!",
+      url: "https://granonim.github.io/WordRam/"
+    };
+
+    if (navigator.share) {
+      navigator.share(shareData).then(() => {
+        storage.addCoins(30);
+        game.updateCoinsDisplay();
+        showCustomInfoDialog("🎁", "Награда получена!", "<p>Спасибо, что делитесь игрой!</p><p class='mt-2'>Вам начислено <strong>+30 🪙 монет</strong>!</p>");
+      }).catch(() => {});
+    } else {
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText("https://granonim.github.io/WordRam/").then(() => {
+          storage.addCoins(30);
+          game.updateCoinsDisplay();
+          showCustomInfoDialog("📋", "Ссылка скопирована!", "<p>Ссылка на игру <strong>https://granonim.github.io/WordRam/</strong> скопирована! Отправьте её друзьям. Вам начислено <strong>+30 🪙 монет</strong>!</p>");
+        });
+      }
+    }
+  }
+
+  if (btnShareGame) btnShareGame.addEventListener("click", shareWordRamGame);
+  if (btnWinShare) btnWinShare.addEventListener("click", shareWordRamGame);
 
   // ----------------------------------------------------
   // Запуск при старте

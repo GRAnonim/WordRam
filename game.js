@@ -309,7 +309,16 @@ class WordRamGame {
       }
     }
 
+    // Обновляем плашку семантической темы прямо над слотами
+    const themeIconEl = document.getElementById("theme-icon");
+    const themeTitleEl = document.getElementById("theme-title");
+    const themeBadgeEl = document.getElementById("level-theme-badge");
 
+    if (themeIconEl && themeTitleEl && this.levelData) {
+      themeIconEl.textContent = this.levelData.themeIcon || "🌿";
+      themeTitleEl.textContent = `Тема: ${this.levelData.themeTitle || "Слова"}`;
+      if (themeBadgeEl) themeBadgeEl.style.display = "inline-flex";
+    }
 
     if (this.cefrBadgeDisplay) {
       this.cefrBadgeDisplay.textContent = `🇬🇧 ${this.storage.getEnglishLevel()}`;
