@@ -563,19 +563,11 @@ class WordRamGame {
   }
 
   submitSelectedWord() {
-    const word = this.getSelectedWordString();
-    const reversedWord = word.split("").reverse().join("");
+    const word = this.getSelectedWordString(); // СТРОГО прямое направление от первой буквы к последней!
 
-    let matchedTarget = null;
     if (this.levelData.words.includes(word)) {
-      matchedTarget = word;
-    } else if (this.levelData.words.includes(reversedWord)) {
-      matchedTarget = reversedWord;
-    }
-
-    if (matchedTarget) {
-      if (!this.foundWords.includes(matchedTarget)) {
-        this.foundWords.push(matchedTarget);
+      if (!this.foundWords.includes(word)) {
+        this.foundWords.push(word);
 
         const now = Date.now();
         if (this.lastWordFoundTime > 0 && now - this.lastWordFoundTime <= 7000) {
@@ -585,9 +577,13 @@ class WordRamGame {
         }
         this.lastWordFoundTime = now;
 
-        // Записываем слово в Личный словарь, говорим слово голосом
-        const newAchs = this.storage.recordWordToVocabulary(matchedTarget);
-        this.speakWord(matchedTarget);
+        // Записываем слово в Личный словарь
+        const newAchs = this.storage.recordWordToVocabulary(word);
+
+        // Авто-озвучка слова, если включена в настройках
+        if (this.storage.getSetting("voiceSpeechEnabled") !== false) {
+          this.speakWord(word);
+        }
 
         if (this.comboStreak > 1) {
           this.storage.addXp(this.comboStreak * 5);
@@ -597,7 +593,7 @@ class WordRamGame {
         } else {
           this.playSound("found");
           this.vibrate(40);
-          this.showFloatingMessage(`Найдено: ${matchedTarget}! (+10 XP)`, "success");
+          this.showFloatingMessage(`Найдено: ${word}! (+10 XP)`, "success");
         }
 
         this.highlightFoundWordCells(this.selectedPath);
@@ -624,19 +620,23 @@ class WordRamGame {
       }
     } else {
       // Проверяем: может быть, это реальное английское слово (Слово-бонус!)
-      const isBonusCandidate = WordRamData.isValidWord(word) ? word : (WordRamData.isValidWord(reversedWord) ? reversedWord : null);
-
-      if (isBonusCandidate && !this.foundBonusWordsInLevel.includes(isBonusCandidate)) {
-        this.foundBonusWordsInLevel.push(isBonusCandidate);
-        this.storage.state.stats.bonusWordsFound = (this.storage.state.stats.bonusWordsFound || 0) + 1;
-        this.storage.addCoins(1);
-        this.storage.addXp(5);
-        this.storage.checkAchievements();
-        this.updateCoinsDisplay();
-        this.playSound("combo");
-        this.vibrate([20, 40]);
-        this.speakWord(isBonusCandidate);
-        this.showFloatingMessage(`🌟 Слово-бонус: ${isBonusCandidate} (+1 🪙 в Копилку)!`, "bonus");
+      if (WordRamData.isValidWord(word)) {
+        if (!this.foundBonusWordsInLevel.includes(word)) {
+          this.foundBonusWordsInLevel.push(word);
+          this.storage.state.stats.bonusWordsFound = (this.storage.state.stats.bonusWordsFound || 0) + 1;
+          this.storage.addCoins(1);
+          this.storage.addXp(5);
+          this.storage.checkAchievements();
+          this.updateCoinsDisplay();
+          this.playSound("combo");
+          this.vibrate([20, 40]);
+          if (this.storage.getSetting("voiceSpeechEnabled") !== false) {
+            this.speakWord(word);
+          }
+          this.showFloatingMessage(`🌟 Слово-бонус: ${word} (+1 🪙 в Копилку)!`, "bonus");
+        } else {
+          this.showFloatingMessage("Это бонусное слово уже собрано на этом уровне!", "info");
+        }
       } else {
         this.playSound("error");
         this.vibrate([30, 40, 30]);

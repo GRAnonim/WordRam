@@ -1,12 +1,12 @@
 /**
- * WordRam - LocalStorage & Gamification State Engine (v18)
+ * WordRam - LocalStorage & Gamification State Engine (v21)
  * Управление всеми системами: квесты дня, заморозка стрика, колесо фортуны,
- * еженедельные лиги, словарь выученных слов, XP, ранги CEFR и трофеи.
+ * еженедельные лиги, словарь выученных слов, XP, авто-озвучка и настройки.
  */
 
 class WordRamStorage {
   constructor() {
-    this.STORAGE_KEY = "wordram_v18_save";
+    this.STORAGE_KEY = "wordram_v21_save";
     this.state = this.load();
   }
 
@@ -30,6 +30,7 @@ class WordRamStorage {
       lastWheelSpinDate: null,
       currentLeagueId: 1,
       soundEnabled: true,
+      voiceSpeechEnabled: true,     // Авто-озвучка произношения слов (включена по умолчанию)
       vibrationEnabled: true,
       daily: {
         lastPlayedDate: null,
@@ -43,6 +44,7 @@ class WordRamStorage {
       },
       stats: {
         totalWordsFound: 0,
+        bonusWordsFound: 0,
         levelsCompleted: 0,
         hintsUsed: 0,
         noHintLevels: 0,
@@ -123,7 +125,6 @@ class WordRamStorage {
     this.state.xp = (this.state.xp || 0) + amount;
     this.state.weeklyXp = (this.state.weeklyXp || 0) + amount;
 
-    // Проверяем повышение ранга CEFR
     let newLevel = oldLevel;
     for (let i = WordRamData.xpRanks.length - 1; i >= 0; i--) {
       const r = WordRamData.xpRanks[i];
@@ -158,10 +159,10 @@ class WordRamStorage {
       this.state.collectedWords[upper] = {
         count: 1,
         firstSeen: new Date().toISOString().slice(0, 10),
-        mastery: 1 // 1: Новое, 2: В процессе, 3: Выучено навсегда
+        mastery: 1
       };
       this.state.stats.totalWordsFound++;
-      this.addXp(10); // +10 XP за новое выученное слово
+      this.addXp(10);
     } else {
       this.state.collectedWords[upper].count++;
       this.state.stats.totalWordsFound++;
@@ -200,7 +201,6 @@ class WordRamStorage {
   getDailyQuests() {
     const todayStr = new Date().toISOString().slice(0, 10);
     if (this.state.dailyQuests.date !== todayStr) {
-      // Инициализируем новые квесты на сегодня
       const qMap = {};
       WordRamData.dailyQuestsTemplates.forEach(t => {
         qMap[t.id] = {
@@ -306,7 +306,6 @@ class WordRamStorage {
     const leagueId = this.state.currentLeagueId || 1;
     const leagueInfo = WordRamData.leagues.find(l => l.id === leagueId) || WordRamData.leagues[0];
 
-    // Генерируем реалистичный список соперников
     const rivals = [
       { name: "Alex_Oxford", xp: Math.round(this.state.weeklyXp * 1.3 + 80), avatar: "🦊" },
       { name: "Elena_Sky", xp: Math.round(this.state.weeklyXp * 1.1 + 40), avatar: "🦉" },
@@ -335,6 +334,7 @@ class WordRamStorage {
     const stats = this.state.stats;
     const wordsCount = this.getCollectedWordsCount();
     const streak = this.state.daily.streak || 0;
+    const bonusWords = this.state.stats.bonusWordsFound || 0;
 
     WordRamData.achievements.forEach(ach => {
       if (this.state.unlockedAchievements.includes(ach.id)) return;
@@ -344,6 +344,7 @@ class WordRamStorage {
       if (ach.type === "streak" && streak >= ach.target) achieved = true;
       if (ach.type === "no_hints" && stats.noHintLevels >= ach.target) achieved = true;
       if (ach.type === "blitz" && stats.blitzCorrectTotal >= ach.target) achieved = true;
+      if (ach.type === "bonus_words" && bonusWords >= ach.target) achieved = true;
       if (ach.type === "big_grid" && stats.maxGridCompleted >= 6) achieved = true;
       if (ach.type === "huge_grid" && stats.maxGridCompleted >= 8) achieved = true;
 
@@ -447,11 +448,10 @@ class WordRamStorage {
     const todayStr = new Date().toISOString().slice(0, 10);
     const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
 
-    // Проверка стрика с защитой Заморозки
     if (this.state.daily.lastPlayedDate && this.state.daily.lastPlayedDate !== todayStr && this.state.daily.lastPlayedDate !== yesterday) {
       if (this.state.streakFreezes > 0) {
         this.state.streakFreezes--;
-        this.state.daily.lastPlayedDate = yesterday; // Защитили пропущенный день!
+        this.state.daily.lastPlayedDate = yesterday;
         this.save();
       } else {
         this.state.daily.streak = 0;

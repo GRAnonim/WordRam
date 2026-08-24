@@ -61,13 +61,34 @@ document.addEventListener("DOMContentLoaded", () => {
   const blitzScoreCounter = document.getElementById("blitz-score-counter");
 
   function hideAllModals() {
-    [winModal, defModal, placementModal, wheelModal, blitzModal].forEach(m => {
+    const infoModalEl = document.getElementById("modal-info-dialog");
+    [winModal, defModal, placementModal, wheelModal, blitzModal, infoModalEl].forEach(m => {
       if (m) {
         m.style.setProperty("display", "none", "important");
         m.classList.remove("open");
       }
     });
   }
+
+  
+  // Модалка кастомного инфо-диалога (замена alert)
+  const infoModal = document.getElementById("modal-info-dialog");
+  const infoDialogIcon = document.getElementById("info-dialog-icon");
+  const infoDialogTitle = document.getElementById("info-dialog-title");
+  const infoDialogMessage = document.getElementById("info-dialog-message");
+  const btnCloseInfoDialog = document.getElementById("btn-close-info-dialog");
+  const btnOkInfoDialog = document.getElementById("btn-ok-info-dialog");
+
+  function showCustomInfoDialog(icon, title, messageHtml) {
+    if (infoDialogIcon) infoDialogIcon.textContent = icon || "ℹ️";
+    if (infoDialogTitle) infoDialogTitle.textContent = title || "Информация";
+    if (infoDialogMessage) infoDialogMessage.innerHTML = messageHtml || "";
+    showModal(infoModal);
+  }
+
+  if (btnCloseInfoDialog) btnCloseInfoDialog.addEventListener("click", () => hideAllModals());
+  if (btnOkInfoDialog) btnOkInfoDialog.addEventListener("click", () => hideAllModals());
+
 
   function showModal(modalEl) {
     if (modalEl) {
@@ -166,6 +187,46 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  
+  // Подсказки при нажатии на бейджи шапки и свинью-копилку
+  const btnHeaderCefr = document.getElementById("header-cefr-badge");
+  const btnHeaderCoins = document.getElementById("btn-show-coins-info");
+  const btnShowBonusPiggy = document.getElementById("btn-show-bonus-words");
+
+  if (btnHeaderCefr) {
+    btnHeaderCefr.addEventListener("click", () => {
+      const lvl = storage.getEnglishLevel();
+      const rank = WordRamData.xpRanks.find(r => r.code === lvl) || WordRamData.xpRanks[0];
+      showCustomInfoDialog(
+        "🇬🇧",
+        "Уровень: " + rank.title,
+        "<p>Ваш текущий ранг: <strong>" + rank.badge + "</strong>.</p><p class='mt-2'>Он определяет сложность и словарный запас генерируемых уровней. Зарабатывайте опыт (XP) на уровнях и в Блиц-повторении, чтобы повысить ранг!</p>"
+      );
+    });
+  }
+
+  if (btnHeaderCoins) {
+    btnHeaderCoins.addEventListener("click", () => {
+      showCustomInfoDialog(
+        "🪙",
+        "Баланс монет",
+        "<p>У вас: <strong>" + storage.getCoins() + " 🪙 монет</strong>.</p><p class='mt-2'>Монеты используются для покупки подсказок в игре (15 🪙) и заморозки стрика (60 🪙).</p><p class='mt-2'>Зарабатывайте монеты за победы, квесты дня и вращение Колеса фортуны!</p>"
+      );
+    });
+  }
+
+  if (btnShowBonusPiggy) {
+    btnShowBonusPiggy.addEventListener("click", () => {
+      const bonusCount = storage.state.stats.bonusWordsFound || 0;
+      showCustomInfoDialog(
+        "🐷",
+        "Копилка эрудита",
+        "<p>Собрано бонусных слов: <strong>" + bonusCount + "</strong> (+" + bonusCount + " 🪙 получено).</p><p class='mt-2'>Сюда попадают реальные английские слова, найденные вами на сетке вне списка обязательных заданий уровня.</p><p class='mt-2'>За каждое найденное слово-бонус вы получаете <strong>+1 🪙 монету</strong> и <strong>+5 XP</strong>!</p>"
+      );
+    });
+  }
+
+
   // Инициализация игрового ядра
   const game = new WordRamGame({
     storage: storage,
@@ -233,7 +294,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function spinLuckyWheel() {
     if (isWheelSpinning) return;
     if (!storage.canSpinLuckyWheel()) {
-      alert("Вы уже крутили колесо сегодня! Возвращайтесь завтра.");
+      showCustomInfoDialog("🎡", "Колесо Фортуны", "<p>Вы уже крутили колесо сегодня!</p><p class='mt-2'>Бесплатное вращение обновляется каждые 24 часа. Возвращайтесь завтра за новым призом!</p>");
       return;
     }
 
@@ -321,7 +382,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const words = Object.keys(collected);
 
     if (words.length < 4) {
-      alert("Сначала найдите хотя бы 4 слова на игровых уровнях, чтобы открыть режим повторения!");
+      showCustomInfoDialog("⚡", "Блиц-повторение", "<p>Сначала найдите хотя бы 4 слова на игровых уровнях, чтобы открыть режим интервального повторения!</p>");
       return;
     }
 
@@ -344,7 +405,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // Завершение сессии
       game.playSound("win");
       storage.addXp(blitzScore * 10);
-      alert(`🎯 Отличная тренировка! Вы заработали +${blitzScore * 10} XP и закрепили выученные слова!`);
+      showCustomInfoDialog("🎯", "Тренировка завершена!", "<p>Отличный результат! Вы заработали <strong>+" + (blitzScore * 10) + " XP</strong> и закрепили выученные слова!</p><p class='mt-2'>Слова получили дополнительное мастерство ⭐ в вашем словаре.</p>");
       hideAllModals();
       updateProfileUI();
       renderVocabScreen();
@@ -579,10 +640,58 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const collected = storage.getCollectedWords();
     const collectedWordsList = Object.keys(collected);
+    const userCefr = storage.getEnglishLevel();
+    const rankOrder = ["A1", "A2", "B1", "B2", "C1"];
+    const userRankIdx = rankOrder.indexOf(userCefr);
 
     if (vocabStatsSubtitle) {
-      vocabStatsSubtitle.textContent = `Выучено слов: ${collectedWordsList.length} из 534`;
+      vocabStatsSubtitle.textContent = "Выучено слов: " + collectedWordsList.length + " из 534";
     }
+
+    // Подсчет статистики по уровням CEFR
+    const cefrCounts = { A1: 0, A2: 0, B1: 0, B2: 0, C1: 0 };
+    const cefrTotals = { A1: 121, A2: 108, B1: 115, B2: 105, C1: 86 };
+
+    collectedWordsList.forEach(w => {
+      const lvl = findCefrLevel(w);
+      if (cefrCounts[lvl] !== undefined) cefrCounts[lvl]++;
+    });
+
+    // Отрисовка детализации прогресса по уровням
+    const vocabBreakdownCard = document.getElementById("vocab-cefr-breakdown-card");
+    if (vocabBreakdownCard) {
+      let rowsHtml = "";
+      rankOrder.forEach((lvl, idx) => {
+        const isLocked = idx > userRankIdx;
+        const count = cefrCounts[lvl] || 0;
+        const total = cefrTotals[lvl] || 100;
+        const pct = Math.min(100, Math.round((count / total) * 100));
+
+        rowsHtml += '<div class="cefr-breakdown-row">' +
+          '<span class="cefr-lvl-tag ' + lvl + '">' + lvl + '</span>' +
+          '<div class="cefr-bar-bg">' +
+            '<div class="cefr-bar-fill ' + lvl + '" style="width: ' + pct + '%;"></div>' +
+          '</div>' +
+          '<span class="cefr-count-txt">' + count + ' / ' + total + (isLocked ? ' <span class="cefr-lock-badge">🔒</span>' : '') + '</span>' +
+        '</div>';
+      });
+
+      vocabBreakdownCard.innerHTML = '<div class="cefr-breakdown-title">📊 Прогресс по уровням CEFR</div>' +
+        '<div class="cefr-breakdown-list">' + rowsHtml + '</div>';
+    }
+
+    // Обновляем счетчики на чипах фильтров
+    vocabChips.forEach(chip => {
+      const f = chip.dataset.filter;
+      if (f === "ALL") {
+        chip.textContent = "Все (" + collectedWordsList.length + ")";
+      } else {
+        const isLocked = rankOrder.indexOf(f) > userRankIdx;
+        const count = cefrCounts[f] || 0;
+        const total = cefrTotals[f] || 100;
+        chip.textContent = isLocked ? (f + " 🔒 (" + count + "/" + total + ")") : (f + " (" + count + "/" + total + ")");
+      }
+    });
 
     function findCefrLevel(word) {
       for (const lvl of ["A1", "A2", "B1", "B2", "C1"]) {
@@ -878,7 +987,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const res = storage.claimAllQuestsChest();
       if (res.success) {
         game.playSound("win");
-        alert("🎁 Поздравляем! Сундук мастера открыт: +50 🪙, +100 XP, +1 💡 подсказка!");
+        showCustomInfoDialog("🎁", "Сундук мастера открыт!", "<p>Поздравляем! Вы выполнили все 3 задания дня и получили:</p><p class='mt-2'><strong>+50 🪙 монет</strong>, <strong>+100 XP опыта</strong> и <strong>+1 💡 бесплатную подсказку</strong>!</p>");
         renderDailyScreen();
         updateProfileUI();
       }
@@ -890,10 +999,10 @@ document.addEventListener("DOMContentLoaded", () => {
       const res = storage.buyStreakFreeze(60);
       if (res.success) {
         game.playSound("found");
-        alert("❄️ Заморозка стрика успешно куплена! Ваш стрик защищен от пропуска дня.");
+        showCustomInfoDialog("❄️", "Заморозка стрика", "<p>Защита успешно активирована!</p><p class='mt-2'>Если вы пропустите один день, заморозка автоматически защитит вашу серию входов от сгорания.</p>");
         renderDailyScreen();
       } else {
-        alert(res.reason === "NOT_ENOUGH_COINS" ? "Недостаточно монет (нужно 60 🪙)!" : "У вас уже максимальное количество защит (2/2)!");
+        showCustomInfoDialog("❄️", "Заморозка стрика", res.reason === "NOT_ENOUGH_COINS" ? "<p>Недостаточно монет (нужно <strong>60 🪙</strong>)!</p>" : "<p>У вас уже максимальный запас защит (<strong>2 из 2</strong>)!</p>");
       }
     });
   }
@@ -915,12 +1024,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const leagueLeaderboardList = document.getElementById("league-leaderboard-list");
   const leagueRewardPreview = document.getElementById("league-reward-preview");
   const achievementsListEl = document.getElementById("achievements-list");
+  const toggleVoice = document.getElementById("setting-voice");
   const toggleSound = document.getElementById("setting-sound");
   const toggleVibration = document.getElementById("setting-vibration");
   const btnResetData = document.getElementById("btn-reset-data");
 
   function renderSettingsScreen() {
     updateProfileUI();
+    if (toggleVoice) toggleVoice.checked = storage.getSetting("voiceSpeechEnabled") !== false;
 
     // 1. Еженедельная лига
     const leagueData = storage.getLeagueData();
@@ -966,6 +1077,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (toggleSound) toggleSound.checked = !!storage.getSetting("soundEnabled");
     if (toggleVibration) toggleVibration.checked = !!storage.getSetting("vibrationEnabled");
+  }
+
+  if (toggleVoice) {
+    toggleVoice.addEventListener("change", (e) => {
+      storage.setSetting("voiceSpeechEnabled", e.target.checked);
+      if (e.target.checked) game.speakWord("WordRam");
+    });
   }
 
   if (toggleSound) {

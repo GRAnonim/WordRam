@@ -1,20 +1,20 @@
 /**
- * WordRam - Service Worker (v20)
- * Монстрики-этапы в колбе, бейдж семантической темы на поле,
- * чистая благородная терминология (без многобожия), PWA и оффлайн.
+ * WordRam - Service Worker (v22)
+ * Интерактивные справки (Копилка, Уровень, Монеты), детализация CEFR,
+ * кастомные диалоги (без alert), фикс шапки Блица.
  */
 
-const CACHE_NAME = "wordram-v20";
+const CACHE_NAME = "wordram-v22";
 const ASSETS_TO_CACHE = [
   "./",
   "./index.html",
-  "./styles.css?v=20",
-  "./data.js?v=20",
-  "./storage.js?v=20",
-  "./generator.js?v=20",
-  "./game.js?v=20",
-  "./main.js?v=20",
-  "./manifest.webmanifest?v=20"
+  "./styles.css?v=22",
+  "./data.js?v=22",
+  "./storage.js?v=22",
+  "./generator.js?v=22",
+  "./game.js?v=22",
+  "./main.js?v=22",
+  "./manifest.webmanifest?v=22"
 ];
 
 self.addEventListener("install", (event) => {

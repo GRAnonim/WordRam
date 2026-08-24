@@ -1476,3 +1476,152 @@ html, body {
 .levels-grid-collapsible {
   width: 100%;
 }
+
+/* ======================================================
+   Interactive Badges, CEFR Breakdown & Custom Alerts (v22)
+   ====================================================== */
+.clickable-badge {
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.clickable-badge:active {
+  transform: scale(0.92);
+}
+
+/* Fix Blitz Header Overlapping */
+.blitz-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: 46px !important; /* Безопасная зона для крестика ✕ */
+  margin-bottom: 8px;
+}
+
+.blitz-title {
+  font-size: 1rem;
+  font-weight: 800;
+  color: #c084fc;
+}
+
+.blitz-badge {
+  font-size: 0.8rem;
+  font-weight: 800;
+  background: rgba(168, 85, 247, 0.25);
+  color: #f3e8ff;
+  padding: 3px 10px;
+  border-radius: 12px;
+  border: 1px solid rgba(168, 85, 247, 0.4);
+}
+
+/* CEFR Progress Breakdown Card */
+.cefr-breakdown-card {
+  width: 100%;
+  max-width: 440px;
+  background: var(--surface-color);
+  border: 1px solid var(--surface-border);
+  border-radius: 18px;
+  padding: 14px 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.cefr-breakdown-title {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #fde047;
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+.cefr-breakdown-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cefr-breakdown-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cefr-lvl-tag {
+  font-size: 0.75rem;
+  font-weight: 900;
+  padding: 3px 8px;
+  border-radius: 8px;
+  min-width: 38px;
+  text-align: center;
+}
+
+.cefr-lvl-tag.A1 { background: #166534; color: #86efac; }
+.cefr-lvl-tag.A2 { background: #1e40af; color: #93c5fd; }
+.cefr-lvl-tag.B1 { background: #854d0e; color: #fde047; }
+.cefr-lvl-tag.B2 { background: #701a75; color: #f0abfc; }
+.cefr-lvl-tag.C1 { background: #991b1b; color: #fca5a5; }
+
+.cefr-bar-bg {
+  flex: 1;
+  height: 7px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.cefr-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.4s ease;
+}
+
+.cefr-bar-fill.A1 { background: #22c55e; }
+.cefr-bar-fill.A2 { background: #3b82f6; }
+.cefr-bar-fill.B1 { background: #eab308; }
+.cefr-bar-fill.B2 { background: #d946ef; }
+.cefr-bar-fill.C1 { background: #ef4444; }
+
+.cefr-count-txt {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--text-muted);
+  min-width: 75px;
+  text-align: right;
+}
+
+.cefr-lock-badge {
+  font-size: 0.75rem;
+  margin-left: 2px;
+}
+
+/* Custom In-Game Info Dialog */
+.info-dialog-card {
+  max-width: 350px;
+  padding: 24px 20px;
+  background: var(--surface-color);
+  border: 1px solid #5c4756;
+  border-radius: 24px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+}
+
+.info-dialog-icon {
+  font-size: 3rem;
+  margin-bottom: 8px;
+}
+
+.info-dialog-title {
+  font-size: 1.35rem;
+  font-weight: 900;
+  color: #fde047;
+  margin-bottom: 8px;
+}
+
+.info-dialog-message-box {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--surface-border);
+  border-radius: 16px;
+  padding: 14px;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: #f8fafc;
+  text-align: left;
+}
