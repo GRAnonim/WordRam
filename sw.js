@@ -1,26 +1,27 @@
 /**
- * WordRam - Service Worker (v6)
- * Обеспечивает кэширование ресурсов для оффлайн-доступа и обхода старого кэша в Safari.
+ * WordRam - Service Worker (v7)
+ * Обеспечивает кэширование ресурсов для оффлайн-доступа и принудительную очистку старых версий кэша.
  */
 
-const CACHE_NAME = "wordram-v6";
+const CACHE_NAME = "wordram-v7";
 const ASSETS_TO_CACHE = [
   "./",
   "./index.html",
-  "./styles.css",
-  "./data.js",
-  "./storage.js",
-  "./generator.js",
-  "./game.js",
-  "./main.js",
-  "./manifest.webmanifest"
+  "./styles.css?v=7",
+  "./data.js?v=7",
+  "./storage.js?v=7",
+  "./generator.js?v=7",
+  "./game.js?v=7",
+  "./main.js?v=7",
+  "./manifest.webmanifest?v=7"
 ];
 
 self.addEventListener("install", (event) => {
+  self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       return cache.addAll(ASSETS_TO_CACHE);
-    }).then(() => self.skipWaiting())
+    })
   );
 });
 
@@ -30,7 +31,7 @@ self.addEventListener("activate", (event) => {
       return Promise.all(
         keys.map((key) => {
           if (key !== CACHE_NAME) {
-            console.log("[ServiceWorker] Удаление старого кеша:", key);
+            console.log("[ServiceWorker] Удаление устаревшего кэша:", key);
             return caches.delete(key);
           }
         })

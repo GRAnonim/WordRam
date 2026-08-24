@@ -1,5 +1,5 @@
 /* ======================================================
-   WordRam - Stylesheet
+   WordRam - Stylesheet (v7)
    Адаптивный дизайн, светлая/темная тема, анимации и PWA
    ====================================================== */
 
@@ -82,7 +82,7 @@ body.dark-theme {
   -webkit-tap-highlight-color: transparent;
 }
 
-/* Глобальный класс скрытия элементов */
+/* Глобальные утилиты видимости */
 .hidden {
   display: none !important;
 }
@@ -704,7 +704,7 @@ body.dark-theme .coins-badge {
 }
 
 /* ======================================================
-   Modals & Toast Notifications
+   Modals (СТРОГО СКРЫТЫ ПО УМОЛЧАНИЮ)
    ====================================================== */
 .modal-overlay {
   position: fixed;
@@ -712,16 +712,23 @@ body.dark-theme .coins-badge {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(4px);
-  display: flex;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  display: none !important; /* ПО УМОЛЧАНИЮ СКРЫТО! */
   align-items: center;
   justify-content: center;
   padding: 16px;
-  z-index: 200;
+  z-index: 9999;
+}
+
+/* Показывается только когда добавлен класс .open */
+.modal-overlay.open {
+  display: flex !important;
 }
 
 .modal-card {
+  position: relative;
   width: 100%;
   max-width: 360px;
   background: var(--surface-color);
@@ -729,8 +736,29 @@ body.dark-theme .coins-badge {
   border-radius: 24px;
   padding: 24px 20px;
   text-align: center;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
   animation: modalEnter 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.modal-close-icon {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: transparent;
+  border: none;
+  font-size: 1.2rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-close-icon:active {
+  background: var(--surface-border);
 }
 
 @keyframes modalEnter {
@@ -814,7 +842,7 @@ body.dark-theme .coins-badge {
   font-weight: 600;
   opacity: 0;
   transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  z-index: 300;
+  z-index: 10000;
   pointer-events: none;
   white-space: nowrap;
 }

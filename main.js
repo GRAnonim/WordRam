@@ -1,5 +1,5 @@
 /**
- * WordRam - Main Application Controller
+ * WordRam - Main Application Controller (v7)
  * Управление экранами (Игра, Уровни, Сегодня, Настройки),
  * модальными окнами, вкладками нижнего меню и PWA Service Worker.
  */
@@ -7,6 +7,59 @@
 document.addEventListener("DOMContentLoaded", () => {
   const storage = new WordRamStorage();
   const generator = new WordRamGenerator(WordRamData);
+
+  // Модальное окно победы
+  const winModal = document.getElementById("modal-victory");
+  const winWordsList = document.getElementById("win-words-list");
+  const winRewardText = document.getElementById("win-reward-text");
+  const btnNextLevel = document.getElementById("btn-next-level");
+  const btnCloseModal = document.getElementById("btn-close-modal");
+
+  function hideVictoryModal() {
+    if (winModal) {
+      winModal.style.setProperty("display", "none", "important");
+      winModal.classList.remove("open");
+    }
+  }
+
+  function showVictoryModal(summary) {
+    if (!winModal || !summary || !summary.words || summary.words.length === 0) return;
+
+    if (winWordsList) {
+      winWordsList.innerHTML = summary.words
+        .map((w) => `<li class="win-word-item">✔ <strong>${w}</strong></li>`)
+        .join("");
+
+      if (summary.bonusWordsFound && summary.bonusWordsFound.length > 0) {
+        winWordsList.innerHTML += summary.bonusWordsFound
+          .map((w) => `<li class="win-word-item bonus">★ Бонус: ${w}</li>`)
+          .join("");
+      }
+    }
+
+    if (winRewardText) {
+      winRewardText.textContent = `+${summary.rewardCoins} 🪙 монет получено!`;
+    }
+
+    winModal.style.setProperty("display", "flex", "important");
+    winModal.classList.add("open");
+  }
+
+  // Принудительно скрываем модальное окно при старте
+  hideVictoryModal();
+
+  if (btnCloseModal) {
+    btnCloseModal.addEventListener("click", () => hideVictoryModal());
+  }
+
+  if (btnNextLevel) {
+    btnNextLevel.addEventListener("click", () => {
+      hideVictoryModal();
+      const nextLvl = (storage.getSetting("currentLevel") || 1);
+      game.startLevel(nextLvl, false);
+      switchTab("game");
+    });
+  }
 
   // Инициализация игрового ядра
   const game = new WordRamGame({
@@ -40,9 +93,9 @@ document.addEventListener("DOMContentLoaded", () => {
     Object.keys(screens).forEach((key) => {
       if (screens[key]) {
         if (key === tabKey) {
-          screens[key].classList.remove("hidden");
+          screens[key].style.display = "flex";
         } else {
-          screens[key].classList.add("hidden");
+          screens[key].style.display = "none";
         }
       }
     });
@@ -108,6 +161,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (isUnlocked) {
         card.addEventListener("click", () => {
+          hideVictoryModal();
           game.startLevel(lvl, false);
           switchTab("game");
         });
@@ -145,7 +199,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (dailyBtnStart) {
     dailyBtnStart.addEventListener("click", () => {
-      // Генерируем уникальный сид на основе сегодняшней даты
+      hideVictoryModal();
       const todayLvl = 100 + (new Date().getDate() % 20);
       game.startLevel(todayLvl, true);
       switchTab("game");
@@ -207,6 +261,7 @@ document.addEventListener("DOMContentLoaded", () => {
     btnResetData.addEventListener("click", () => {
       if (confirm("Вы уверены, что хотите сбросить весь прогресс и монеты?")) {
         storage.resetAll();
+        hideVictoryModal();
         applyTheme(false);
         renderSettingsScreen();
         game.startLevel(1, false);
@@ -215,52 +270,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // ----------------------------------------------------
-  // Модальное окно победы
-  // ----------------------------------------------------
-  const winModal = document.getElementById("modal-victory");
-  const winWordsList = document.getElementById("win-words-list");
-  const winRewardText = document.getElementById("win-reward-text");
-  const btnNextLevel = document.getElementById("btn-next-level");
-
-  function showVictoryModal(summary) {
-    if (!winModal) return;
-
-    if (winWordsList) {
-      winWordsList.innerHTML = summary.words
-        .map((w) => `<li class="win-word-item">✔ <strong>${w}</strong></li>`)
-        .join("");
-
-      if (summary.bonusWordsFound && summary.bonusWordsFound.length > 0) {
-        winWordsList.innerHTML += summary.bonusWordsFound
-          .map((w) => `<li class="win-word-item bonus">★ Бонус: ${w}</li>`)
-          .join("");
-      }
-    }
-
-    if (winRewardText) {
-      winRewardText.textContent = `+${summary.rewardCoins} 🪙 монет получено!`;
-    }
-
-    winModal.classList.remove("hidden");
-  }
-
-  if (btnNextLevel) {
-    btnNextLevel.addEventListener("click", () => {
-      if (winModal) winModal.classList.add("hidden");
-      const nextLvl = (storage.getSetting("currentLevel") || 1);
-      game.startLevel(nextLvl, false);
-      switchTab("game");
-    });
-  }
-
   // Кнопка перезапуска уровня в шапке
   const btnRestart = document.getElementById("btn-restart-level");
   if (btnRestart) {
     btnRestart.addEventListener("click", () => {
-      if (confirm("Перезапустить текущий уровень?")) {
-        game.startLevel(game.currentLevel, game.isDailyMode);
-      }
+      hideVictoryModal();
+      game.startLevel(game.currentLevel, game.isDailyMode);
     });
   }
 
@@ -269,11 +284,12 @@ document.addEventListener("DOMContentLoaded", () => {
   // ----------------------------------------------------
   applyTheme(!!storage.getSetting("darkTheme"));
 
-  // Проверяем сохраненную активную игру или начинаем текущий уровень
+  // Проверяем сохраненную активную игру (только если она не завершена)
   const saved = storage.getActiveSavedGame();
-  if (saved && saved.levelData) {
+  if (saved && saved.levelData && saved.foundWords && saved.foundWords.length < saved.levelData.words.length) {
     game.restoreGameState(saved);
   } else {
+    storage.clearActiveSavedGame();
     const cur = storage.getSetting("currentLevel") || 1;
     game.startLevel(cur, false);
   }

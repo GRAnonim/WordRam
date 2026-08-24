@@ -1,5 +1,5 @@
 /**
- * WordRam - Core Game Engine
+ * WordRam - Core Game Engine (v7)
  * Обработка ввода (тач/мышь), проверка слов, пошаговые подсказки,
  * визуальные эффекты и синтез звуков через Web Audio API.
  */
@@ -61,7 +61,6 @@ class WordRamGame {
     const now = this.audioCtx.currentTime;
 
     if (type === "select") {
-      // Плавный клик при выборе буквы (частота повышается по длине пути)
       const osc = this.audioCtx.createOscillator();
       const gain = this.audioCtx.createGain();
       const pitch = 320 + Math.min(this.selectedPath.length * 60, 480);
@@ -74,8 +73,7 @@ class WordRamGame {
       osc.start(now);
       osc.stop(now + 0.08);
     } else if (type === "found") {
-      // Мажорный перелив при успешном нахождении слова
-      const notes = [523.25, 659.25, 783.99, 1046.5]; // C5, E5, G5, C6
+      const notes = [523.25, 659.25, 783.99, 1046.5];
       notes.forEach((freq, idx) => {
         const osc = this.audioCtx.createOscillator();
         const gain = this.audioCtx.createGain();
@@ -89,7 +87,6 @@ class WordRamGame {
         osc.stop(now + idx * 0.07 + 0.25);
       });
     } else if (type === "bonus") {
-      // Искрящийся звук бонусного слова
       const notes = [880, 1108.73, 1318.51, 1760];
       notes.forEach((freq, idx) => {
         const osc = this.audioCtx.createOscillator();
@@ -104,7 +101,6 @@ class WordRamGame {
         osc.stop(now + idx * 0.05 + 0.2);
       });
     } else if (type === "error") {
-      // Низкий сигнал ошибки
       const osc = this.audioCtx.createOscillator();
       const gain = this.audioCtx.createGain();
       osc.type = "sawtooth";
@@ -117,11 +113,10 @@ class WordRamGame {
       osc.start(now);
       osc.stop(now + 0.15);
     } else if (type === "hint") {
-      // Нежный колокольчик подсказки
       const osc = this.audioCtx.createOscillator();
       const gain = this.audioCtx.createGain();
       osc.type = "sine";
-      osc.frequency.setValueAtTime(987.77, now); // B5
+      osc.frequency.setValueAtTime(987.77, now);
       gain.gain.setValueAtTime(0.12, now);
       gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
       osc.connect(gain);
@@ -129,7 +124,6 @@ class WordRamGame {
       osc.start(now);
       osc.stop(now + 0.35);
     } else if (type === "win") {
-      // Фанфары победы
       const chord = [523.25, 659.25, 783.99, 1046.5, 1318.51];
       chord.forEach((freq, idx) => {
         const osc = this.audioCtx.createOscillator();
@@ -219,7 +213,7 @@ class WordRamGame {
   }
 
   /**
-   * Отрисовка слотов слов (БЕЗ раскрытия текста слова - отображаются только пустые ячейки/длина)
+   * Отрисовка слотов слов (скрытый список)
    */
   renderWordSlots() {
     if (!this.slotsContainer) return;
@@ -231,11 +225,9 @@ class WordRamGame {
       slot.className = `word-slot ${isFound ? "found" : ""}`;
       slot.dataset.word = word;
 
-      // Если слово найдено - показываем его буквы, иначе точки/плашки
       if (isFound) {
         slot.textContent = word;
       } else {
-        // Показываем количество букв точками/квадратиками
         const dots = "● ".repeat(word.length).trim();
         slot.innerHTML = `<span class="slot-dots">${dots}</span> <span class="slot-length">(${word.length})</span>`;
       }
@@ -260,7 +252,6 @@ class WordRamGame {
         cell.dataset.col = c;
         cell.textContent = this.levelData.grid[r][c];
 
-        // Дополнительный бейдж для номера подсказки
         const hintBadge = document.createElement("span");
         hintBadge.className = "hint-badge";
         cell.appendChild(hintBadge);
@@ -293,7 +284,6 @@ class WordRamGame {
     }
   }
 
-  // Получение координат ячейки под указателем мыши/пальца
   getCellFromPointer(e) {
     let clientX, clientY;
     if (e.touches && e.touches.length > 0) {
@@ -346,7 +336,6 @@ class WordRamGame {
     const pathLen = this.selectedPath.length;
     const [lastR, lastC] = this.selectedPath[pathLen - 1];
 
-    // Если палец вернулся на предыдущую ячейку (откат назад)
     if (pathLen > 1) {
       const [prevR, prevC] = this.selectedPath[pathLen - 2];
       if (prevR === r && prevC === c) {
@@ -359,11 +348,9 @@ class WordRamGame {
       }
     }
 
-    // Если ячейка уже в пути (запрет дубликатов в одном слове)
     const alreadyVisited = this.selectedPath.some(([pr, pc]) => pr === r && pc === c);
     if (alreadyVisited) return;
 
-    // Проверка соседства: строго Манхэттен = 1 (вверх, вниз, влево, вправо). Диагонали запрещены!
     const manhattanDist = Math.abs(r - lastR) + Math.abs(c - lastC);
     if (manhattanDist === 1) {
       this.selectedPath.push(coords);
@@ -396,14 +383,10 @@ class WordRamGame {
     this.updatePreview(word);
   }
 
-  /**
-   * Проверка и принятие составленного слова
-   */
   submitSelectedWord() {
     const word = this.getSelectedWordString();
     const reversedWord = word.split("").reverse().join("");
 
-    // Проверяем, является ли слово одним из целевых (прямым или обратным)
     let matchedTarget = null;
     if (this.levelData.words.includes(word)) {
       matchedTarget = word;
@@ -413,7 +396,6 @@ class WordRamGame {
 
     if (matchedTarget) {
       if (!this.foundWords.includes(matchedTarget)) {
-        // Успешно найдено обязательное слово!
         this.foundWords.push(matchedTarget);
         this.storage.recordWordFound(false);
         this.playSound("found");
@@ -425,8 +407,7 @@ class WordRamGame {
         this.renderWordSlots();
         this.saveCurrentGameState();
 
-        // Проверка завершения уровня
-        if (this.foundWords.length === this.levelData.words.length) {
+        if (this.foundWords.length > 0 && this.levelData && this.levelData.words && this.foundWords.length === this.levelData.words.length) {
           this.handleLevelWin();
           return;
         }
@@ -434,7 +415,6 @@ class WordRamGame {
         this.showFloatingMessage("Уже найдено!", "info");
       }
     } else {
-      // Проверяем, является ли это бонусным словом
       let matchedBonus = null;
       if (this.levelData.bonusWords.includes(word)) {
         matchedBonus = word;
@@ -455,7 +435,6 @@ class WordRamGame {
           this.showFloatingMessage("Бонусное слово уже собрано!", "info");
         }
       } else {
-        // Слово не подошло
         this.playSound("error");
         this.vibrate([30, 40, 30]);
         this.animateErrorCells(this.selectedPath);
@@ -487,20 +466,12 @@ class WordRamGame {
     });
   }
 
-  /**
-   * Пошаговая подсказка:
-   * 1-й клик -> подсвечивает 1-ю букву нераскрытого слова
-   * 2-й клик -> подсвечивает 2-ю букву
-   * и т.д. по маршруту
-   */
   applyStepHint() {
     if (this.isGameOver) return;
 
-    // Находим первое ненайденное слово
     const unsolvedWord = this.levelData.words.find(w => !this.foundWords.includes(w));
     if (!unsolvedWord) return;
 
-    // Проверяем доступность подсказки (монеты / бесплатные)
     const hintRes = this.storage.useHint();
     if (!hintRes.success) {
       this.showFloatingMessage(`Нужно ${hintRes.needed} монет для подсказки!`, "warning");
@@ -512,7 +483,6 @@ class WordRamGame {
     this.playSound("hint");
     this.vibrate(25);
 
-    // Увеличиваем шаг подсказки для текущего слова
     const currentStep = this.revealedHints[unsolvedWord] || 0;
     const route = this.levelData.routes[unsolvedWord];
 
@@ -520,7 +490,6 @@ class WordRamGame {
       this.revealedHints[unsolvedWord] = currentStep + 1;
       const [r, c] = route[currentStep];
 
-      // Подсвечиваем ячейку с анимацией
       const cell = this.getCellElement(r, c);
       if (cell) {
         cell.classList.add("cell-hint-pulse");
@@ -536,7 +505,6 @@ class WordRamGame {
   refreshCellStates() {
     if (!this.gridElement || !this.levelData) return;
 
-    // Сбрасываем временные классы выделения
     const allCells = this.gridElement.querySelectorAll(".grid-cell");
     allCells.forEach(cell => {
       cell.classList.remove("selected", "path-head", "hinted");
@@ -544,7 +512,6 @@ class WordRamGame {
       if (badge) badge.textContent = "";
     });
 
-    // 1. Отмечаем путь выделения игрока
     this.selectedPath.forEach(([r, c], idx) => {
       const cell = this.getCellElement(r, c);
       if (cell) {
@@ -555,7 +522,6 @@ class WordRamGame {
       }
     });
 
-    // 2. Отмечаем раскрытые подсказки
     for (const word of this.levelData.words) {
       if (this.foundWords.includes(word)) continue;
       const count = this.revealedHints[word] || 0;
@@ -571,7 +537,6 @@ class WordRamGame {
       }
     }
 
-    // 3. Отмечаем найденные слова
     for (const word of this.foundWords) {
       const route = this.levelData.routes[word];
       if (route) {
@@ -599,6 +564,9 @@ class WordRamGame {
   }
 
   handleLevelWin() {
+    if (this.isGameOver) return;
+    if (!this.foundWords || this.foundWords.length === 0) return;
+
     this.isGameOver = true;
     this.playSound("win");
     this.vibrate([100, 50, 100, 50, 150]);
