@@ -1,14 +1,15 @@
 /* ======================================================
-   WordRam - Stylesheet (v13)
-   SVG линии свайпа, Личный словарь, система рангов/XP,
-   достижения, ежедневный стрик и карточки слов.
+   WordRam - Stylesheet (v14)
+   Премиальный гармоничный фон, адаптивные акценты для вкладок,
+   SVG линии, сочные микро-анимации и чистый UI.
    ====================================================== */
 
 :root {
   --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   
-  --bg-color: #f8fafc;
-  --bg-gradient: linear-gradient(180deg, #f1f5f9 0%, #e2e8f0 100%);
+  /* Светлая премиальная тема (Мягкий индиго / латте с глубоким градиентом) */
+  --bg-color: #f1f5f9;
+  --bg-gradient: radial-gradient(circle at 50% 0%, #e0e7ff 0%, #f1f5f9 60%, #e2e8f0 100%);
   --surface-color: #ffffff;
   --surface-border: #e2e8f0;
   --text-main: #0f172a;
@@ -22,7 +23,7 @@
   --cell-bg: #ffffff;
   --cell-border: #cbd5e1;
   --cell-text: #1e293b;
-  --cell-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+  --cell-shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.06), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
   
   --cell-selected-bg: #6366f1;
   --cell-selected-text: #ffffff;
@@ -32,13 +33,14 @@
   --cell-hint-border: #eab308;
   --cell-hint-text: #854d0e;
 
-  --nav-bg: rgba(255, 255, 255, 0.95);
-  --nav-border: #e2e8f0;
+  --nav-bg: rgba(255, 255, 255, 0.88);
+  --nav-border: rgba(226, 232, 240, 0.8);
 }
 
 body.dark-theme {
-  --bg-color: #0f172a;
-  --bg-gradient: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
+  /* Тёмная тема: Глубокий ночной сапфир */
+  --bg-color: #0b0f19;
+  --bg-gradient: radial-gradient(circle at 50% 0%, #1e1b4b 0%, #0f172a 60%, #0b0f19 100%);
   --surface-color: #1e293b;
   --surface-border: #334155;
   --text-main: #f8fafc;
@@ -51,7 +53,7 @@ body.dark-theme {
   --cell-bg: #1e293b;
   --cell-border: #334155;
   --cell-text: #f8fafc;
-  --cell-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+  --cell-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
   
   --cell-selected-bg: #6366f1;
   --cell-selected-text: #ffffff;
@@ -61,8 +63,8 @@ body.dark-theme {
   --cell-hint-border: #facc15;
   --cell-hint-text: #fef08a;
 
-  --nav-bg: rgba(30, 41, 59, 0.95);
-  --nav-border: #334155;
+  --nav-bg: rgba(15, 23, 42, 0.88);
+  --nav-border: rgba(51, 65, 85, 0.8);
 }
 
 * {
@@ -119,6 +121,7 @@ html, body {
   background: var(--surface-color);
   border-bottom: 1px solid var(--surface-border);
   z-index: 10;
+  backdrop-filter: blur(10px);
 }
 
 .header-left {
@@ -175,6 +178,7 @@ body.dark-theme .cefr-badge {
   font-weight: 700;
   font-size: 0.9rem;
   color: #b45309;
+  box-shadow: 0 2px 4px rgba(245, 158, 11, 0.1);
 }
 
 body.dark-theme .coins-badge {
@@ -208,7 +212,7 @@ body.dark-theme .coins-badge {
 
 .screen-header h2 {
   font-size: 1.35rem;
-  font-weight: 700;
+  font-weight: 800;
 }
 
 .screen-header .subtitle {
@@ -259,7 +263,7 @@ body.dark-theme .coins-badge {
   transform: scale(1.04);
   font-weight: 800;
   cursor: pointer;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
 }
 
 .word-slot.found:active {
@@ -301,7 +305,7 @@ body.dark-theme .coins-badge {
 .word-preview-box.active {
   opacity: 1;
   transform: translateY(0);
-  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.15);
+  box-shadow: 0 4px 14px rgba(79, 70, 229, 0.2);
 }
 
 /* 4x4 to 9x9 Grid with SVG Overlay */
@@ -329,7 +333,7 @@ body.dark-theme .coins-badge {
 
 .drag-svg-glow {
   fill: none;
-  stroke: rgba(99, 102, 241, 0.4);
+  stroke: rgba(99, 102, 241, 0.35);
   stroke-width: 16px;
   stroke-linecap: round;
   stroke-linejoin: round;
@@ -523,9 +527,9 @@ body.dark-theme .coins-badge {
 }
 
 .chip.active {
-  background: var(--primary);
+  background: #059669;
   color: #ffffff;
-  border-color: var(--primary);
+  border-color: #059669;
 }
 
 .vocab-grid {
@@ -545,6 +549,7 @@ body.dark-theme .coins-badge {
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.03);
   transition: transform 0.15s, box-shadow 0.15s;
 }
 
@@ -561,7 +566,7 @@ body.dark-theme .coins-badge {
 .vocab-word-title {
   font-size: 1.05rem;
   font-weight: 800;
-  color: var(--primary);
+  color: #059669;
 }
 
 .vocab-word-tr {
@@ -586,8 +591,8 @@ body.dark-theme .coins-badge {
   font-weight: 800;
   padding: 3px 8px;
   border-radius: 8px;
-  background: var(--primary-light);
-  color: var(--primary);
+  background: #d1fae5;
+  color: #065f46;
 }
 
 .empty-vocab-msg {
@@ -607,7 +612,7 @@ body.dark-theme .coins-badge {
   border: 1px solid var(--surface-border);
   border-radius: 20px;
   padding: 16px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.05);
 }
 
 .streak-header-row {
@@ -642,8 +647,8 @@ body.dark-theme .coins-badge {
 }
 
 .reward-day-item.current {
-  border-color: var(--accent);
-  box-shadow: 0 0 8px rgba(245, 158, 11, 0.4);
+  border-color: #f43f5e;
+  box-shadow: 0 0 8px rgba(244, 63, 94, 0.35);
 }
 
 .reward-day-title {
@@ -716,8 +721,8 @@ body.dark-theme .coins-badge {
 }
 
 .achievement-card.unlocked {
-  background: rgba(245, 158, 11, 0.08);
-  border-color: rgba(245, 158, 11, 0.3);
+  background: rgba(168, 85, 247, 0.08);
+  border-color: rgba(168, 85, 247, 0.3);
 }
 
 .ach-icon {
@@ -863,8 +868,8 @@ body.dark-theme .def-content-box {
 }
 
 .level-card.current {
-  border-color: var(--primary);
-  box-shadow: 0 0 10px rgba(79, 70, 229, 0.4);
+  border-color: #f59e0b;
+  box-shadow: 0 0 10px rgba(245, 158, 11, 0.4);
 }
 
 .level-card.locked {
@@ -1101,7 +1106,7 @@ body.dark-theme .def-content-box {
 }
 
 /* ======================================================
-   Bottom Navigation (5 Вкладок)
+   Bottom Navigation: Индивидуальные гармоничные акценты
    ====================================================== */
 .bottom-nav {
   position: fixed;
@@ -1113,8 +1118,8 @@ body.dark-theme .def-content-box {
   height: calc(60px + env(safe-area-inset-bottom));
   padding-bottom: env(safe-area-inset-bottom);
   background: var(--nav-bg);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   border-top: 1px solid var(--nav-border);
   display: flex;
   align-items: center;
@@ -1134,7 +1139,7 @@ body.dark-theme .def-content-box {
   gap: 2px;
   cursor: pointer;
   color: var(--text-muted);
-  transition: color 0.15s, transform 0.1s;
+  transition: color 0.2s, transform 0.1s;
 }
 
 .nav-item:active {
@@ -1143,6 +1148,7 @@ body.dark-theme .def-content-box {
 
 .nav-icon {
   font-size: 1.15rem;
+  transition: transform 0.2s;
 }
 
 .nav-label {
@@ -1150,8 +1156,40 @@ body.dark-theme .def-content-box {
   font-weight: 600;
 }
 
-.nav-item.active {
-  color: var(--primary);
+/* Индивидуальные гармоничные цвета для вкладок */
+#nav-btn-game.active {
+  color: #6366f1; /* Индиго для игры */
+}
+#nav-btn-game.active .nav-icon {
+  transform: scale(1.15);
+}
+
+#nav-btn-vocab.active {
+  color: #10b981; /* Мятно-изумрудный для словаря */
+}
+#nav-btn-vocab.active .nav-icon {
+  transform: scale(1.15);
+}
+
+#nav-btn-levels.active {
+  color: #f59e0b; /* Золотисто-янтарный для уровней */
+}
+#nav-btn-levels.active .nav-icon {
+  transform: scale(1.15);
+}
+
+#nav-btn-daily.active {
+  color: #f43f5e; /* Кораллово-рубиновый для сегодня/стрика */
+}
+#nav-btn-daily.active .nav-icon {
+  transform: scale(1.15);
+}
+
+#nav-btn-settings.active {
+  color: #a855f7; /* Фиолетово-пурпурный для профиля */
+}
+#nav-btn-settings.active .nav-icon {
+  transform: scale(1.15);
 }
 
 /* ======================================================

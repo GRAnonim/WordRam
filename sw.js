@@ -1,20 +1,19 @@
 /**
- * WordRam - Service Worker (v13)
- * Полная геймификация: Личный словарь, система рангов/XP, достижения,
- * SVG линии жестов, оффлайн PWA.
+ * WordRam - Service Worker (v14)
+ * Мелодичный звук, премиальный фон, цветные акценты бара.
  */
 
-const CACHE_NAME = "wordram-v13";
+const CACHE_NAME = "wordram-v14";
 const ASSETS_TO_CACHE = [
   "./",
   "./index.html",
-  "./styles.css?v=13",
-  "./data.js?v=13",
-  "./storage.js?v=13",
-  "./generator.js?v=13",
-  "./game.js?v=13",
-  "./main.js?v=13",
-  "./manifest.webmanifest?v=13"
+  "./styles.css?v=14",
+  "./data.js?v=14",
+  "./storage.js?v=14",
+  "./generator.js?v=14",
+  "./game.js?v=14",
+  "./main.js?v=14",
+  "./manifest.webmanifest?v=14"
 ];
 
 self.addEventListener("install", (event) => {
