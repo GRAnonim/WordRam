@@ -1,7 +1,7 @@
 /**
- * WordRam - Core Game Engine (v9)
- * Динамические сетки (4x4 до 9x9), адаптивные размеры ячеек,
- * 100% покрытие словами, пошаговые подсказки и звук.
+ * WordRam - Core Game Engine (v11)
+ * Органические лабиринты (4x4 - 9x9), интерактивный перевод слов по клику,
+ * пошаговые подсказки и звук.
  */
 
 class WordRamGame {
@@ -30,7 +30,7 @@ class WordRamGame {
     this.revealedHints = {};
     this.isGameOver = false;
 
-    // Палитра для слов (до 10 гармоничных цветов для больших сеток)
+    // Палитра цветов для слов
     this.wordColors = [
       { bg: "#dcfce7", border: "#22c55e", text: "#15803d" }, // зеленый
       { bg: "#e0e7ff", border: "#6366f1", text: "#4338ca" }, // индиго
@@ -46,6 +46,7 @@ class WordRamGame {
 
     this.audioCtx = null;
     this.onLevelCompleted = options.onLevelCompleted || (() => {});
+    this.onWordDetailsRequested = options.onWordDetailsRequested || (() => {});
 
     this.initAudio();
     this.bindEvents();
@@ -223,6 +224,12 @@ class WordRamGame {
         slot.style.backgroundColor = color.bg;
         slot.style.borderColor = color.border;
         slot.style.color = color.text;
+
+        // По клику на угаданное слово открываем его карточку перевода (как на скриншоте 3!)
+        slot.addEventListener("click", (e) => {
+          e.stopPropagation();
+          this.showWordDefinition(word);
+        });
       } else {
         const dots = "● ".repeat(word.length).trim();
         slot.innerHTML = `<span class="slot-dots">${dots}</span> <span class="slot-length">(${word.length})</span>`;
@@ -364,10 +371,38 @@ class WordRamGame {
 
     if (this.selectedPath.length >= 2) {
       this.submitSelectedWord();
+    } else if (this.selectedPath.length === 1) {
+      // Клик по одиночной ячейке: если она принадлежит уже отгаданному слову, открываем его перевод
+      const [r, c] = this.selectedPath[0];
+      const foundWordAtCell = this.findWordByCell(r, c);
+      if (foundWordAtCell) {
+        this.showWordDefinition(foundWordAtCell);
+      }
+      this.selectedPath = [];
+      this.refreshCellStates();
+      this.updatePreview("");
     } else {
       this.selectedPath = [];
       this.refreshCellStates();
       this.updatePreview("");
+    }
+  }
+
+  findWordByCell(r, c) {
+    for (const word of this.foundWords) {
+      const route = this.levelData.routes[word];
+      if (route && route.some(([pr, pc]) => pr === r && pc === c)) {
+        return word;
+      }
+    }
+    return null;
+  }
+
+  showWordDefinition(word) {
+    const details = this.generator.data.getWordDetails(word);
+    if (details && typeof this.onWordDetailsRequested === "function") {
+      this.playSound("select");
+      this.onWordDetailsRequested(details);
     }
   }
 
@@ -399,7 +434,7 @@ class WordRamGame {
         this.vibrate(40);
 
         this.highlightFoundWordCells(this.selectedPath);
-        this.showFloatingMessage(`Найдено: ${matchedTarget}!`, "success");
+        this.showFloatingMessage(`Найдено: ${matchedTarget}! (Нажмите для перевода)`, "success");
         this.renderHeader();
         this.renderWordSlots();
         this.saveCurrentGameState();
@@ -409,7 +444,7 @@ class WordRamGame {
           return;
         }
       } else {
-        this.showFloatingMessage("Уже найдено!", "info");
+        this.showFloatingMessage("Уже найдено! Нажмите на слово для перевода.", "info");
       }
     } else {
       this.playSound("error");

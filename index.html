@@ -10,10 +10,10 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="WordRam">
   
-  <link rel="manifest" href="manifest.webmanifest?v=10">
+  <link rel="manifest" href="manifest.webmanifest?v=11">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%234f46e5'/><text x='50%' y='65%' font-size='55' font-family='sans-serif' font-weight='bold' fill='white' text-anchor='middle'>W</text></svg>">
   <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%234f46e5'/><text x='50%' y='65%' font-size='55' font-family='sans-serif' font-weight='bold' fill='white' text-anchor='middle'>W</text></svg>">
-  <link rel="stylesheet" href="styles.css?v=10">
+  <link rel="stylesheet" href="styles.css?v=11">
 </head>
 <body>
   <div id="app">
@@ -140,7 +140,7 @@
             <li><strong>100% заполнение сетки:</strong> все буквы на поле входят в состав загаданных слов. Лишних букв нет.</li>
             <li><strong>Соседние клетки:</strong> соединяйте буквы строго по горизонтали и вертикали (без диагоналей).</li>
             <li><strong>Слова-змейки:</strong> слова изгибаются по полю, образуя ломаные линии.</li>
-            <li><strong>Поиск вслепую:</strong> ориентируйтесь по слотам и количеству букв.</li>
+            <li><strong>Перевод слова:</strong> нажмите на любое отгаданное слово вверху или на поле, чтобы открыть его перевод и определение!</li>
           </ul>
         </div>
 
@@ -170,6 +170,24 @@
       </button>
     </nav>
 
+    <!-- МОДАЛЬНОЕ ОКНО ПЕРЕВОДА И ОПРЕДЕЛЕНИЯ УГАДАННОГО СЛОВА (КАК НА СКРИНШОТЕ 3) -->
+    <div id="modal-word-definition" class="modal-overlay" style="display: none !important;">
+      <div class="modal-card word-definition-card">
+        <button id="btn-close-definition" class="modal-close-icon" aria-label="Закрыть">✕</button>
+        <div id="def-word-ribbon" class="word-ribbon-badge">BEAUTIFUL</div>
+        <div class="def-content-box">
+          <div id="def-phonetic" class="def-phonetic-text">[ˈbjuːtɪfl]</div>
+          <h3 id="def-translation" class="def-translation-title">Красивый / Прекрасный</h3>
+          <p id="def-meaning" class="def-meaning-text">Обладающий приятной внешностью или радующий глаз.</p>
+          <div id="def-example-box" class="def-example-box">
+            <span class="example-label">Пример:</span>
+            <span id="def-example-text" class="example-text">A beautiful view — Прекрасный вид.</span>
+          </div>
+        </div>
+        <button id="btn-ok-definition" class="primary-btn full-width mt-4">Понятно</button>
+      </div>
+    </div>
+
     <!-- МОДАЛЬНОЕ ОКНО ТЕСТА УРОВНЯ АНГЛИЙСКОГО (БЕЗ ПЕРЕВОДА) -->
     <div id="modal-placement" class="modal-overlay" style="display: none !important;">
       <div class="modal-card placement-card">
@@ -185,7 +203,7 @@
             <div id="quiz-progress-fill" class="quiz-progress-bar-fill" style="width: 6.6%;"></div>
           </div>
 
-          <!-- Карточка слова: ТОЛЬКО английское слово без перевода -->
+          <!-- Карточка слова: ТОЛЬКО английское слово без подсказок -->
           <div class="quiz-word-card">
             <h3 id="quiz-word-display" class="quiz-target-word">FAMILY</h3>
           </div>
@@ -235,10 +253,10 @@
   </div>
 
   <!-- Подключение скриптов с версионированием -->
-  <script src="data.js?v=10"></script>
-  <script src="storage.js?v=10"></script>
-  <script src="generator.js?v=10"></script>
-  <script src="game.js?v=10"></script>
-  <script src="main.js?v=10"></script>
+  <script src="data.js?v=11"></script>
+  <script src="storage.js?v=11"></script>
+  <script src="generator.js?v=11"></script>
+  <script src="game.js?v=11"></script>
+  <script src="main.js?v=11"></script>
 </body>
 </html>

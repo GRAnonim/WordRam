@@ -1,7 +1,7 @@
 /**
- * WordRam - Main Application Controller (v10)
- * Управление экранами, тестом уровня CEFR (без подсказок перевода),
- * модальными окнами и PWA.
+ * WordRam - Main Application Controller (v11)
+ * Управление экранами, тестом CEFR, карточками перевода угаданных слов
+ * и PWA Service Worker.
  */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -30,6 +30,38 @@ document.addEventListener("DOMContentLoaded", () => {
   const settingsCefrName = document.getElementById("settings-cefr-name");
   const headerCefrBadge = document.getElementById("header-cefr-badge");
 
+  // Модалка перевода слова (как на скриншоте 3)
+  const defModal = document.getElementById("modal-word-definition");
+  const defWordRibbon = document.getElementById("def-word-ribbon");
+  const defPhonetic = document.getElementById("def-phonetic");
+  const defTranslation = document.getElementById("def-translation");
+  const defMeaning = document.getElementById("def-meaning");
+  const defExampleText = document.getElementById("def-example-text");
+  const btnCloseDefinition = document.getElementById("btn-close-definition");
+  const btnOkDefinition = document.getElementById("btn-ok-definition");
+
+  function hideWordDefinitionModal() {
+    if (defModal) {
+      defModal.style.setProperty("display", "none", "important");
+      defModal.classList.remove("open");
+    }
+  }
+
+  function showWordDefinitionModal(details) {
+    if (!defModal || !details) return;
+    if (defWordRibbon) defWordRibbon.textContent = details.word;
+    if (defPhonetic) defPhonetic.textContent = details.ph || "";
+    if (defTranslation) defTranslation.textContent = details.tr || "";
+    if (defMeaning) defMeaning.textContent = details.def || "";
+    if (defExampleText) defExampleText.textContent = details.ex || "";
+
+    defModal.style.setProperty("display", "flex", "important");
+    defModal.classList.add("open");
+  }
+
+  if (btnCloseDefinition) btnCloseDefinition.addEventListener("click", hideWordDefinitionModal);
+  if (btnOkDefinition) btnOkDefinition.addEventListener("click", hideWordDefinitionModal);
+
   function hideVictoryModal() {
     if (winModal) {
       winModal.style.setProperty("display", "none", "important");
@@ -42,8 +74,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (winWordsList) {
       winWordsList.innerHTML = summary.words
-        .map((w) => `<li class="win-word-item">✔ <strong>${w}</strong></li>`)
+        .map((w) => `<li class="win-word-item" data-word="${w}">✔ <strong>${w}</strong></li>`)
         .join("");
+
+      // Делаем слова в списке победы кликабельными для перевода
+      winWordsList.querySelectorAll(".win-word-item").forEach(item => {
+        item.style.cursor = "pointer";
+        item.addEventListener("click", () => {
+          const w = item.dataset.word;
+          const details = WordRamData.getWordDetails(w);
+          showWordDefinitionModal(details);
+        });
+      });
     }
 
     if (winRewardText) {
@@ -55,6 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   hideVictoryModal();
+  hideWordDefinitionModal();
   if (placementModal) {
     placementModal.style.setProperty("display", "none", "important");
     placementModal.classList.remove("open");
@@ -71,11 +114,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Инициализация игрового ядра
+  // Инициализация игрового ядра с колбэком перевода
   const game = new WordRamGame({
     storage: storage,
     generator: generator,
-    onLevelCompleted: (summary) => showVictoryModal(summary)
+    onLevelCompleted: (summary) => showVictoryModal(summary),
+    onWordDetailsRequested: (details) => showWordDefinitionModal(details)
   });
 
   // ----------------------------------------------------
@@ -262,6 +306,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (isUnlocked) {
         card.addEventListener("click", () => {
           hideVictoryModal();
+          hideWordDefinitionModal();
           game.startLevel(lvl, false);
           switchTab("game");
         });
@@ -296,7 +341,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (dailyBtnStart) {
     dailyBtnStart.addEventListener("click", () => {
       hideVictoryModal();
-      // Ежедневный уровень генерирует поле 5x5 или 6x6 со змейками
+      hideWordDefinitionModal();
       const todayLvl = 10 + (new Date().getDate() % 20);
       game.startLevel(todayLvl, true);
       switchTab("game");
@@ -356,6 +401,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (confirm("Вы уверены, что хотите сбросить весь прогресс и монеты?")) {
         storage.resetAll();
         hideVictoryModal();
+        hideWordDefinitionModal();
         applyTheme(false);
         renderSettingsScreen();
         game.startLevel(1, false);
@@ -379,7 +425,6 @@ document.addEventListener("DOMContentLoaded", () => {
     game.startLevel(cur, false);
   }
 
-  // Если игрок еще ни разу не проходил тест уровня, предлагаем тест
   if (!storage.getSetting("hasCompletedPlacementTest")) {
     setTimeout(() => {
       openPlacementTest();

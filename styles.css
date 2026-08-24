@@ -1,7 +1,7 @@
 /* ======================================================
-   WordRam - Stylesheet (v10)
-   Универсальные змейки (4x4 - 9x9), чистый тест CEFR без подсказок,
-   исправление пересечения кнопок закрытия.
+   WordRam - Stylesheet (v11)
+   Органические лабиринты (4x4 - 9x9), карточки перевода слов,
+   тест CEFR A1-C1 и темы.
    ====================================================== */
 
 :root {
@@ -258,6 +258,12 @@ body.dark-theme .coins-badge {
 .word-slot.found {
   transform: scale(1.04);
   font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+}
+
+.word-slot.found:active {
+  transform: scale(0.96);
 }
 
 .slot-dots {
@@ -383,6 +389,7 @@ body.dark-theme .coins-badge {
 
 .grid-cell.found-cell {
   font-weight: 900;
+  cursor: pointer;
 }
 
 .cell-hint-pulse {
@@ -447,6 +454,83 @@ body.dark-theme .coins-badge {
   background: #fef08a;
   border-color: #facc15;
   color: #713f12;
+}
+
+/* ======================================================
+   Word Definition Card Modal (КАК НА СКРИНШОТЕ 3)
+   ====================================================== */
+.word-definition-card {
+  max-width: 360px;
+  padding-top: 28px;
+}
+
+.word-ribbon-badge {
+  position: absolute;
+  top: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #38bdf8;
+  background: linear-gradient(135deg, #0284c7 0%, #38bdf8 100%);
+  color: #ffffff;
+  padding: 8px 24px;
+  border-radius: 20px;
+  font-size: 1.3rem;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  box-shadow: 0 6px 16px rgba(2, 132, 199, 0.35);
+}
+
+.def-content-box {
+  background: #f8fafc;
+  border: 1px solid var(--surface-border);
+  border-radius: 18px;
+  padding: 16px;
+  text-align: left;
+  margin-top: 8px;
+}
+
+body.dark-theme .def-content-box {
+  background: #0f172a;
+}
+
+.def-phonetic-text {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-style: italic;
+  margin-bottom: 4px;
+}
+
+.def-translation-title {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--primary);
+  margin-bottom: 8px;
+}
+
+.def-meaning-text {
+  font-size: 0.95rem;
+  line-height: 1.45;
+  color: var(--text-main);
+  margin-bottom: 10px;
+}
+
+.def-example-box {
+  background: rgba(79, 70, 229, 0.08);
+  border-left: 3px solid var(--primary);
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+}
+
+.example-label {
+  font-weight: 700;
+  color: var(--primary);
+  margin-right: 4px;
+}
+
+.example-text {
+  color: var(--text-muted);
+  font-style: italic;
 }
 
 /* ======================================================
@@ -686,7 +770,7 @@ body.dark-theme .coins-badge {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 8px;
-  padding-right: 46px; /* Защита от наложения кнопки закрытия */
+  padding-right: 46px;
 }
 
 .quiz-step-title {

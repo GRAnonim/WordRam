@@ -1,19 +1,19 @@
 /**
- * WordRam - Service Worker (v10)
- * Ломаные змейки на всех полях, чистый тест CEFR без подсказок, стабильный UI.
+ * WordRam - Service Worker (v11)
+ * Лабиринтные змейки, карточки перевода слов, PWA и оффлайн.
  */
 
-const CACHE_NAME = "wordram-v10";
+const CACHE_NAME = "wordram-v11";
 const ASSETS_TO_CACHE = [
   "./",
   "./index.html",
-  "./styles.css?v=10",
-  "./data.js?v=10",
-  "./storage.js?v=10",
-  "./generator.js?v=10",
-  "./game.js?v=10",
-  "./main.js?v=10",
-  "./manifest.webmanifest?v=10"
+  "./styles.css?v=11",
+  "./data.js?v=11",
+  "./storage.js?v=11",
+  "./generator.js?v=11",
+  "./game.js?v=11",
+  "./main.js?v=11",
+  "./manifest.webmanifest?v=11"
 ];
 
 self.addEventListener("install", (event) => {
