@@ -1,84 +1,385 @@
-const {WORDS,BONUS}=window.WORDRAM_DATA;
-const DIRS=[[1,0],[-1,0],[0,1],[0,-1]];
-function rng(seed){let t=seed>>>0;return()=>{t+=0x6D2B79F5;let x=t;x=Math.imul(x^x>>>15,x|1);x^=x+Math.imul(x^x>>>7,x|61);return((x^x>>>14)>>>0)/4294967296}}
-function shuffle(a,r){for(let i=a.length-1;i>0;i--){const j=Math.floor(r*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
-function empty(n){return Array.from({length:n},()=>Array(n).fill(""))}
-function neigh(r,c,n){const a=[];for(const [dr,dc] of DIRS){const rr=r+dr,cc=c+dc;if(rr>=0&&rr<n&&cc>=0&&cc<n)a.push([rr,cc])}return a}
-function isNeighbor(a,b){return Math.abs(a[0]-b[0])+Math.abs(a[1]-b[1])===1}
-function turns(path){let t=0;for(let i=2;i<path.length;i++){const a=path[i-2],b=path[i-1],c=path[i];if(b[0]-a[0]!==c[0]-b[0]||b[1]-a[1]!==c[1]-b[1])t++}return t}
-function randomPath(n,len,minTurns,r){
-  for(let attempt=0;attempt<120;attempt++){
-    let path=[[Math.floor(r()*n),Math.floor(r()*n)]],used=new Set([path[0].join(",")]);
-    let prevDir=-1,tc=0;
-    for(let i=1;i<len;i++){
-      let opts=neigh(path[i-1][0],path[i-1][1],n).filter(p=>!used.has(p.join(",")));
-      if(!opts.length)break;
-      // Prefer a turn until the minimum is reached, then randomize.
-      shuffle(opts,r);
-      if(prevDir>=0 && tc<minTurns){
-        const turnsOnly=opts.filter(p=>{const d=[p[0]-path[i-1][0],p[1]-path[i-1][1]];const di=DIRS.findIndex(x=>x[0]===d[0]&&x[1]===d[1]);return di!==prevDir});
-        if(turnsOnly.length)opts=turnsOnly;
+/**
+ * WordRam - Level & Snaking Path Generator
+ * Реализует генерацию ломаных маршрутов слов, наложение сетки 5x5,
+ * пересечения букв, дистракторы, поиск бонусных слов и валидацию.
+ */
+
+class WordRamGenerator {
+  constructor(dataModule = null) {
+    this.data = dataModule || (typeof WordRamData !== "undefined" ? WordRamData : null);
+    this.gridSize = 5;
+    this.directions = [
+      { dr: -1, dc: 0, name: "U" }, // Вверх
+      { dr: 1, dc: 0, name: "D" },  // Вниз
+      { dr: 0, dc: -1, name: "L" }, // Влево
+      { dr: 0, dc: 1, name: "R" }   // Вправо
+    ];
+  }
+
+  /**
+   * Подсчет количества поворотов (изменений направления) в пути.
+   * @param {Array<[number, number]>} route - массив координат [[r, c], ...]
+   * @returns {number} число поворотов
+   */
+  countTurns(route) {
+    if (!route || route.length < 3) return 0;
+    let turns = 0;
+    let prevDir = null;
+
+    for (let i = 0; i < route.length - 1; i++) {
+      const [r1, c1] = route[i];
+      const [r2, c2] = route[i + 1];
+      const dr = r2 - r1;
+      const dc = c2 - c1;
+      const currentDir = `${dr},${dc}`;
+
+      if (prevDir !== null && prevDir !== currentDir) {
+        turns++;
       }
-      const p=opts[Math.floor(r()*opts.length)],d=[p[0]-path[i-1][0],p[1]-path[i-1][1]],di=DIRS.findIndex(x=>x[0]===d[0]&&x[1]===d[1]);
-      if(prevDir>=0&&di!==prevDir)tc++;
-      prevDir=di;path.push(p);used.add(p.join(","));
+      prevDir = currentDir;
     }
-    if(path.length===len&&tc>=minTurns)return path;
+    return turns;
   }
-  return null;
-}
-function canTrace(board,word){
-  const n=board.length;
-  function dfs(r,c,i,used){
-    if(board[r][c]!==word[i])return false;const k=r+","+c;if(used.has(k))return false;if(i===word.length-1)return true;
-    used.add(k);for(const p of neigh(r,c,n))if(dfs(p[0],p[1],i+1,used)){used.delete(k);return true}used.delete(k);return false;
+
+  /**
+   * Проверка валидности шага: внутри сетки 5x5 и ортогонально
+   */
+  isValidStep(r, c) {
+    return r >= 0 && r < this.gridSize && c >= 0 && c < this.gridSize;
   }
-  for(let r=0;r<n;r++)for(let c=0;c<n;c++)if(dfs(r,c,0,new Set()))return true;return false;
-}
-function findPath(board,word){
-  const n=board.length;
-  function dfs(r,c,i,path,used){
-    if(board[r][c]!==word[i])return null;const k=r+","+c;if(used.has(k))return null;const p=path.concat([[r,c]]);if(i===word.length-1)return p;
-    used.add(k);for(const q of neigh(r,c,n)){const z=dfs(q[0],q[1],i+1,p,used);if(z){used.delete(k);return z}}used.delete(k);return null;
-  }
-  for(let r=0;r<n;r++)for(let c=0;c<n;c++){const p=dfs(r,c,0,[],new Set());if(p)return p}return null;
-}
-function fill(board,r){const letters="EEEEEEEEAAAAAARRRRIIIIOOOONNNNSSSSTTTTLLLLCCUUUMMDDPPGGGBBVYYHFWWKJXZQ";for(let i=0;i<board.length;i++)for(let j=0;j<board.length;j++)if(!board[i][j])board[i][j]=letters[Math.floor(r()*letters.length)]}
-function chooseWords(level,r,n){
-  const count=level<10?4:level<50?5:level<150?6:level<350?7:8;
-  const pool=WORDS.filter(w=>w.length>=4&&w.length<=Math.min(8,n+2));
-  const a=pool.slice();shuffle(a,r);return a.slice(0,count).sort((x,y)=>y.length-x.length);
-}
-function generate(level){
-  const n=level<20?5:level<80?6:level<180?7:8;
-  const minTurns=level<20?2:level<100?3:4;
-  const r=rng((0x71A9+level*2654435761)>>>0);
-  for(let round=0;round<250;round++){
-    const targets=chooseWords(level,r,n),board=empty(n),paths={};let failed=false;
-    for(const word of targets){
-      let best=null;
-      for(let k=0;k<100;k++){
-        const p=randomPath(n,word.length,minTurns,r);if(!p)continue;
-        let ok=true,conf=0;
-        for(let i=0;i<p.length;i++){const v=board[p[i][0]][p[i][1]];if(v&&v!==word[i]){ok=false;break}if(v===word[i])conf++}
-        if(ok&&(!best||conf>best.conf))best={p,conf};
+
+  /**
+   * Поиск случайного пути для слова с соблюдением минимального количества поворотов
+   * и допустимости пересечений с уже занятыми ячейками сетки.
+   */
+  findSnakingRouteForWord(word, currentGrid, minTurns = 2, maxAttempts = 500) {
+    const letters = word.toUpperCase().split("");
+    const wordLen = letters.length;
+
+    for (let attempt = 0; attempt < maxAttempts; attempt++) {
+      // Выбираем случайную стартовую позицию
+      const startR = Math.floor(Math.random() * this.gridSize);
+      const startC = Math.floor(Math.random() * this.gridSize);
+
+      // Проверяем, подходит ли стартовая ячейка (пустая или совпадает буква)
+      if (currentGrid[startR][startC] !== null && currentGrid[startR][startC] !== letters[0]) {
+        continue;
       }
-      if(!best){failed=true;break}
-      best.p.forEach((q,i)=>board[q[0]][q[1]]=word[i]);paths[word]=best.p;
+
+      const route = [[startR, startC]];
+      const visited = new Set([`${startR},${startC}`]);
+
+      // Рекурсивный или итеративный поиск с возвратом
+      if (this._stepRoute(1, letters, route, visited, currentGrid, minTurns)) {
+        const turns = this.countTurns(route);
+        if (turns >= minTurns) {
+          return route;
+        }
+      }
     }
-    if(failed)continue;
-    fill(board,r);
-    if(!targets.every(w=>canTrace(board,w)))continue;
-    if(!targets.every(w=>turns(paths[w])>=minTurns))continue;
-    const bonus=[];for(const w of BONUS)if(!targets.includes(w)&&w.length>=3&&canTrace(board,w))bonus.push(w);
-    const avg=targets.reduce((s,w)=>s+turns(paths[w]),0)/targets.length;
-    return {id:"level-"+level,number:level,size:n,targets,board,paths,bonus:[...new Set(bonus)].slice(0,14),difficulty:n===5?"Легко":n===6?"Средне":n===7?"Сложно":"Эксперт",avgTurns:Number(avg.toFixed(1))};
+
+    // Если со строгим minTurns не нашли за maxAttempts, пробуем с minTurns = Math.max(1, minTurns - 1)
+    if (minTurns > 1) {
+      return this.findSnakingRouteForWord(word, currentGrid, minTurns - 1, maxAttempts);
+    }
+
+    return null;
   }
-  throw new Error("Не удалось создать валидный уровень");
+
+  _stepRoute(index, letters, route, visited, grid, minTurns) {
+    if (index === letters.length) {
+      return this.countTurns(route) >= minTurns;
+    }
+
+    const [currR, currC] = route[route.length - 1];
+    const targetChar = letters[index];
+
+    // Перемешиваем направления для случайности
+    const dirs = [...this.directions].sort(() => Math.random() - 0.5);
+
+    for (const dir of dirs) {
+      const nextR = currR + dir.dr;
+      const nextC = currC + dir.dc;
+      const key = `${nextR},${nextC}`;
+
+      if (!this.isValidStep(nextR, nextC)) continue;
+      if (visited.has(key)) continue;
+
+      // Проверка совпадения буквы или пустой ячейки
+      const cellVal = grid[nextR][nextC];
+      if (cellVal !== null && cellVal !== targetChar) continue;
+
+      route.push([nextR, nextC]);
+      visited.add(key);
+
+      if (this._stepRoute(index + 1, letters, route, visited, grid, minTurns)) {
+        return true;
+      }
+
+      // Backtrack
+      route.pop();
+      visited.delete(key);
+    }
+
+    return false;
+  }
+
+  /**
+   * Сборка и генерация одного уровня по конфигурации
+   */
+  generateLevel(levelNumber = 1, customWords = null) {
+    const config = this.data.getLevelConfig(levelNumber);
+    const maxRetries = 25;
+
+    for (let retry = 0; retry < maxRetries; retry++) {
+      // 1. Создаем пустую сетку 5x5
+      const grid = Array.from({ length: this.gridSize }, () => Array(this.gridSize).fill(null));
+      const placedWords = [];
+      const routes = {};
+
+      // 2. Выбор слов (если не заданы кастомные)
+      let targetWords = [];
+      if (customWords && customWords.length > 0) {
+        targetWords = customWords.map(w => w.toUpperCase());
+      } else {
+        const used = [];
+        for (const len of config.wordLengths) {
+          const w = this.data.getRandomWord(len, used);
+          targetWords.push(w);
+          used.push(w);
+        }
+      }
+
+      // Сортируем слова от длинных к коротким для оптимального размещения
+      const sortedWords = [...targetWords].sort((a, b) => b.length - a.length);
+      let success = true;
+
+      for (const word of sortedWords) {
+        const route = this.findSnakingRouteForWord(word, grid, config.minTurns);
+        if (!route) {
+          success = false;
+          break;
+        }
+
+        // Размещаем буквы слова в сетку
+        for (let i = 0; i < word.length; i++) {
+          const [r, c] = route[i];
+          grid[r][c] = word[i];
+        }
+
+        placedWords.push(word);
+        routes[word] = route;
+      }
+
+      if (!success || placedWords.length !== sortedWords.length) {
+        continue; // пробуем заново
+      }
+
+      // 3. Заполнение оставшихся пустых ячеек буквами (дистракторы)
+      let emptyCount = 0;
+      for (let r = 0; r < this.gridSize; r++) {
+        for (let c = 0; c < this.gridSize; c++) {
+          if (grid[r][c] === null) {
+            emptyCount++;
+            const freqs = this.data.letterFrequencies;
+            grid[r][c] = freqs[Math.floor(Math.random() * freqs.length)];
+          }
+        }
+      }
+
+      // 4. Валидация всех обязательных слов на поле
+      const validationPassed = this.validateLevel(grid, placedWords, routes);
+      if (!validationPassed) {
+        continue;
+      }
+
+      // 5. Поиск бонусных слов на поле
+      const bonusWords = this.findBonusWords(grid, placedWords);
+
+      // 6. Подсчет метрик сложности
+      const difficulty = this.calculateDifficulty(placedWords, routes, emptyCount);
+
+      return {
+        level: levelNumber,
+        theme: config.theme,
+        gridSize: this.gridSize,
+        grid: grid,
+        words: targetWords, // сохраняем исходный порядок
+        routes: routes,
+        bonusWords: bonusWords,
+        coinsReward: config.coinsReward,
+        difficulty: difficulty
+      };
+    }
+
+    // Запасной fallback (если за maxRetries не удалось, генерируем базовый безопасный уровень)
+    return this._generateSafeFallbackLevel(levelNumber, config);
+  }
+
+  /**
+   * Валидация уровня: проверка, что все слова действительно читаются по заданным маршрутам,
+   * без диагоналей, без дубликатов ячеек и с нужными поворотами.
+   */
+  validateLevel(grid, words, routes) {
+    if (!grid || grid.length !== this.gridSize || grid[0].length !== this.gridSize) return false;
+
+    for (const word of words) {
+      const route = routes[word];
+      if (!route || route.length !== word.length) return false;
+
+      const visited = new Set();
+      for (let i = 0; i < route.length; i++) {
+        const [r, c] = route[i];
+        if (!this.isValidStep(r, c)) return false;
+
+        const key = `${r},${c}`;
+        if (visited.has(key)) return false; // дубликат ячейки
+        visited.add(key);
+
+        if (grid[r][c] !== word[i]) return false; // не та буква
+
+        if (i > 0) {
+          const [prevR, prevC] = route[i - 1];
+          const manhattan = Math.abs(r - prevR) + Math.abs(c - prevC);
+          if (manhattan !== 1) return false; // диагональ или перескок запрещены!
+        }
+      }
+
+      // Проверка на отсутствие прямых линий (минимум 1 поворот)
+      if (this.countTurns(route) < 1 && word.length >= 3) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /**
+   * Поиск бонусных слов на сетке (слова из словаря, которые можно собрать, но они не обязательные)
+   */
+  findBonusWords(grid, mainWords) {
+    const mainSet = new Set(mainWords.map(w => w.toUpperCase()));
+    const foundBonuses = new Set();
+    const minLen = 3;
+    const maxLen = 6;
+
+    // Рекурсивный обход от каждой ячейки до глубины maxLen
+    for (let r = 0; r < this.gridSize; r++) {
+      for (let c = 0; c < this.gridSize; c++) {
+        this._searchWordsFromCell(r, c, grid, "", [[r, c]], new Set([`${r},${c}`]), minLen, maxLen, mainSet, foundBonuses);
+      }
+    }
+
+    return Array.from(foundBonuses);
+  }
+
+  _searchWordsFromCell(r, c, grid, currentStr, path, visited, minLen, maxLen, mainSet, foundBonuses) {
+    const nextStr = currentStr + grid[r][c];
+
+    if (nextStr.length >= minLen) {
+      if (this.data.isValidWord(nextStr) && !mainSet.has(nextStr)) {
+        foundBonuses.add(nextStr);
+      }
+    }
+
+    if (nextStr.length >= maxLen) return;
+
+    for (const dir of this.directions) {
+      const nr = r + dir.dr;
+      const nc = c + dir.dc;
+      const key = `${nr},${nc}`;
+
+      if (this.isValidStep(nr, nc) && !visited.has(key)) {
+        visited.add(key);
+        path.push([nr, nc]);
+
+        this._searchWordsFromCell(nr, nc, grid, nextStr, path, visited, minLen, maxLen, mainSet, foundBonuses);
+
+        path.pop();
+        visited.delete(key);
+      }
+    }
+  }
+
+  /**
+   * Расчет метрики сложности уровня
+   */
+  calculateDifficulty(words, routes, emptyCells) {
+    let totalLen = 0;
+    let totalTurns = 0;
+    const cellUsage = {};
+
+    for (const word of words) {
+      totalLen += word.length;
+      const r = routes[word];
+      totalTurns += this.countTurns(r);
+      for (const [row, col] of r) {
+        const key = `${row},${col}`;
+        cellUsage[key] = (cellUsage[key] || 0) + 1;
+      }
+    }
+
+    let intersections = 0;
+    for (const key in cellUsage) {
+      if (cellUsage[key] > 1) intersections += cellUsage[key] - 1;
+    }
+
+    const avgLength = totalLen / words.length;
+    // Формула сложности: длина * 1.5 + повороты * 1.2 + пересечения * 2.0 + дистракторы * 0.3
+    const score = Number((avgLength * 1.5 + totalTurns * 1.2 + intersections * 2.0 + emptyCells * 0.3).toFixed(1));
+
+    return {
+      score: score,
+      metrics: {
+        avgLength: Number(avgLength.toFixed(1)),
+        turns: totalTurns,
+        intersections: intersections,
+        decoys: emptyCells
+      }
+    };
+  }
+
+  _generateSafeFallbackLevel(levelNumber, config) {
+    const words = ["STAR", "MOON"];
+    const grid = [
+      ["S", "T", "A", "R", "X"],
+      ["B", "O", "O", "M", "Y"],
+      ["C", "N", "E", "T", "Z"],
+      ["D", "F", "G", "H", "W"],
+      ["J", "K", "L", "P", "Q"]
+    ];
+    // STAR: (0,0)->(0,1)->(0,2)->(0,3) -> превратим в змейку
+    // S(0,0)->T(0,1)->A(1,1)->R(1,0) (2 поворота)
+    grid[0][0] = "S";
+    grid[0][1] = "T";
+    grid[1][1] = "A";
+    grid[1][0] = "R";
+
+    // MOON: M(2,0)->O(3,0)->O(3,1)->N(2,1) (2 поворота)
+    grid[2][0] = "M";
+    grid[3][0] = "O";
+    grid[3][1] = "O";
+    grid[2][1] = "N";
+
+    const routes = {
+      "STAR": [[0, 0], [0, 1], [1, 1], [1, 0]],
+      "MOON": [[2, 0], [3, 0], [3, 1], [2, 1]]
+    };
+
+    return {
+      level: levelNumber,
+      theme: config.theme,
+      gridSize: 5,
+      grid: grid,
+      words: words,
+      routes: routes,
+      bonusWords: [],
+      coinsReward: config.coinsReward,
+      difficulty: this.calculateDifficulty(words, routes, 17)
+    };
+  }
 }
-function validate(l){
-  if(!l||l.board.length!==l.size||l.board.some(r=>r.length!==l.size))return false;
-  for(const w of l.targets){const p=l.paths[w];if(!p||p.length!==w.length||turns(p)<2)return false;for(let i=1;i<p.length;i++)if(!isNeighbor(p[i-1],p[i]))return false;if(p.map(x=>l.board[x[0]][x[1]]).join("")!==w)return false;if(!canTrace(l.board,w))return false}
-  return true;
+
+// Экспорт для Node.js и браузера
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = WordRamGenerator;
 }
-window.WordRamGenerator={generate,validate,canTrace,findPath,isNeighbor,turns};

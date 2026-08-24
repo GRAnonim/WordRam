@@ -1,1 +1,25 @@
-{"name":"WordRam — английские слова","short_name":"WordRam","start_url":".","display":"standalone","background_color":"#0d1630","theme_color":"#0d1630","lang":"ru","icons":[]}
+{
+  "name": "WordRam",
+  "short_name": "WordRam",
+  "lang": "ru",
+  "description": "Увлекательная игра-головоломка в слова на сетке 5x5. Ищите спрятанные слова-змейки.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0f172a",
+  "theme_color": "#4f46e5",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' rx='40' fill='%234f46e5'/><text x='50%' y='67%' font-size='110' font-family='sans-serif' font-weight='bold' fill='white' text-anchor='middle'>W</text></svg>",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='100' fill='%234f46e5'/><text x='50%' y='67%' font-size='290' font-family='sans-serif' font-weight='bold' fill='white' text-anchor='middle'>W</text></svg>",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

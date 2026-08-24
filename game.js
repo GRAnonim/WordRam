@@ -1,59 +1,661 @@
-class WordRamGame{
-constructor(){this.save=window.WordRamStorage.load();this.level=null;this.path=[];this.drag=false;this.tab="home";this.bonusFound=new Set();this.render();document.querySelectorAll(".nav-btn").forEach(b=>b.onclick=()=>this.go(b.dataset.tab));document.getElementById("settingsBtn").onclick=()=>this.go("settings")}
-go(t){this.tab=t;this.render()}
-loadLevel(n){this.level=window.WordRamGenerator.generate(n);this.path=[];this.bonusFound.clear();this.tab="home";this.render()}
-completed(){return this.save.completed[this.level.number]||[]}
-render(){
-document.querySelectorAll(".nav-btn").forEach(b=>b.classList.toggle("active",b.dataset.tab===this.tab));
-document.getElementById("coinTop").textContent=this.save.coins;
-const s=document.getElementById("screen");
-if(this.tab==="home"){if(!this.level)this.level=window.WordRamGenerator.generate(this.save.level);s.innerHTML=this.home();this.mountBoard()}
-if(this.tab==="levels")s.innerHTML=this.levels();
-if(this.tab==="daily")s.innerHTML=this.daily();
-if(this.tab==="settings")s.innerHTML=this.settings();
-this.extras()
+/**
+ * WordRam - Core Game Engine
+ * Обработка ввода (тач/мышь), проверка слов, пошаговые подсказки,
+ * визуальные эффекты и синтез звуков через Web Audio API.
+ */
+
+class WordRamGame {
+  constructor(options = {}) {
+    this.storage = options.storage || new WordRamStorage();
+    this.generator = options.generator || new WordRamGenerator(WordRamData);
+
+    // DOM Элементы
+    this.container = options.container || document.getElementById("game-container");
+    this.gridElement = options.gridElement || document.getElementById("game-grid");
+    this.wordPreviewElement = options.wordPreviewElement || document.getElementById("word-preview");
+    this.progressElement = options.progressElement || document.getElementById("level-progress-text");
+    this.hintButton = options.hintButton || document.getElementById("btn-hint");
+    this.coinsDisplay = options.coinsDisplay || document.getElementById("coins-counter");
+    this.levelTitleDisplay = options.levelTitleDisplay || document.getElementById("current-level-title");
+    this.slotsContainer = options.slotsContainer || document.getElementById("word-slots-container");
+
+    // Игровое состояние
+    this.currentLevel = 1;
+    this.levelData = null;
+    this.isDailyMode = false;
+    this.foundWords = [];
+    this.foundBonusWords = [];
+    this.selectedPath = []; // [[r, c], ...]
+    this.isDragging = false;
+    this.revealedHints = {}; // { word: revealedLetterCount }
+    this.isGameOver = false;
+
+    // Web Audio синтезатор
+    this.audioCtx = null;
+
+    // Callbacks
+    this.onLevelCompleted = options.onLevelCompleted || (() => {});
+    this.onProgressUpdated = options.onProgressUpdated || (() => {});
+
+    this.initAudio();
+    this.bindEvents();
+  }
+
+  initAudio() {
+    try {
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      if (AudioContext) {
+        this.audioCtx = new AudioContext();
+      }
+    } catch (e) {
+      console.warn("Web Audio API не поддерживается", e);
+    }
+  }
+
+  playSound(type) {
+    if (!this.storage.getSetting("soundEnabled") || !this.audioCtx) return;
+    if (this.audioCtx.state === "suspended") {
+      this.audioCtx.resume();
+    }
+
+    const now = this.audioCtx.currentTime;
+
+    if (type === "select") {
+      // Плавный клик при выборе буквы (частота повышается по длине пути)
+      const osc = this.audioCtx.createOscillator();
+      const gain = this.audioCtx.createGain();
+      const pitch = 320 + Math.min(this.selectedPath.length * 60, 480);
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(pitch, now);
+      gain.gain.setValueAtTime(0.08, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+      osc.connect(gain);
+      gain.connect(this.audioCtx.destination);
+      osc.start(now);
+      osc.stop(now + 0.08);
+    } else if (type === "found") {
+      // Мажорный перелив при успешном нахождении слова
+      const notes = [523.25, 659.25, 783.99, 1046.5]; // C5, E5, G5, C6
+      notes.forEach((freq, idx) => {
+        const osc = this.audioCtx.createOscillator();
+        const gain = this.audioCtx.createGain();
+        osc.type = "triangle";
+        osc.frequency.setValueAtTime(freq, now + idx * 0.07);
+        gain.gain.setValueAtTime(0.12, now + idx * 0.07);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.07 + 0.25);
+        osc.connect(gain);
+        gain.connect(this.audioCtx.destination);
+        osc.start(now + idx * 0.07);
+        osc.stop(now + idx * 0.07 + 0.25);
+      });
+    } else if (type === "bonus") {
+      // Искрящийся звук бонусного слова
+      const notes = [880, 1108.73, 1318.51, 1760];
+      notes.forEach((freq, idx) => {
+        const osc = this.audioCtx.createOscillator();
+        const gain = this.audioCtx.createGain();
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(freq, now + idx * 0.05);
+        gain.gain.setValueAtTime(0.1, now + idx * 0.05);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.05 + 0.2);
+        osc.connect(gain);
+        gain.connect(this.audioCtx.destination);
+        osc.start(now + idx * 0.05);
+        osc.stop(now + idx * 0.05 + 0.2);
+      });
+    } else if (type === "error") {
+      // Низкий сигнал ошибки
+      const osc = this.audioCtx.createOscillator();
+      const gain = this.audioCtx.createGain();
+      osc.type = "sawtooth";
+      osc.frequency.setValueAtTime(180, now);
+      osc.frequency.linearRampToValueAtTime(120, now + 0.15);
+      gain.gain.setValueAtTime(0.08, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
+      osc.connect(gain);
+      gain.connect(this.audioCtx.destination);
+      osc.start(now);
+      osc.stop(now + 0.15);
+    } else if (type === "hint") {
+      // Нежный колокольчик подсказки
+      const osc = this.audioCtx.createOscillator();
+      const gain = this.audioCtx.createGain();
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(987.77, now); // B5
+      gain.gain.setValueAtTime(0.12, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+      osc.connect(gain);
+      gain.connect(this.audioCtx.destination);
+      osc.start(now);
+      osc.stop(now + 0.35);
+    } else if (type === "win") {
+      // Фанфары победы
+      const chord = [523.25, 659.25, 783.99, 1046.5, 1318.51];
+      chord.forEach((freq, idx) => {
+        const osc = this.audioCtx.createOscillator();
+        const gain = this.audioCtx.createGain();
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(freq, now + 0.05 * idx);
+        gain.gain.setValueAtTime(0.12, now + 0.05 * idx);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.8);
+        osc.connect(gain);
+        gain.connect(this.audioCtx.destination);
+        osc.start(now + 0.05 * idx);
+        osc.stop(now + 0.8);
+      });
+    }
+  }
+
+  vibrate(duration = 20) {
+    if (this.storage.getSetting("vibrationEnabled") && navigator.vibrate) {
+      try {
+        navigator.vibrate(duration);
+      } catch (e) {}
+    }
+  }
+
+  bindEvents() {
+    if (!this.gridElement) return;
+
+    // Мышь
+    this.gridElement.addEventListener("mousedown", (e) => this.handlePointerStart(e));
+    window.addEventListener("mousemove", (e) => this.handlePointerMove(e));
+    window.addEventListener("mouseup", (e) => this.handlePointerEnd(e));
+
+    // Тач / мобильные устройства
+    this.gridElement.addEventListener("touchstart", (e) => this.handlePointerStart(e), { passive: false });
+    window.addEventListener("touchmove", (e) => this.handlePointerMove(e), { passive: false });
+    window.addEventListener("touchend", (e) => this.handlePointerEnd(e), { passive: false });
+    window.addEventListener("touchcancel", (e) => this.handlePointerEnd(e), { passive: false });
+
+    // Кнопка подсказки
+    if (this.hintButton) {
+      this.hintButton.addEventListener("click", () => this.applyStepHint());
+    }
+  }
+
+  /**
+   * Запуск уровня по номеру
+   */
+  startLevel(levelNumber = 1, isDaily = false) {
+    this.isDailyMode = isDaily;
+    this.currentLevel = levelNumber;
+    this.foundWords = [];
+    this.foundBonusWords = [];
+    this.selectedPath = [];
+    this.revealedHints = {};
+    this.isGameOver = false;
+
+    // Генерируем уровень
+    this.levelData = this.generator.generateLevel(levelNumber);
+
+    // Инициализируем словарь подсказок
+    for (const w of this.levelData.words) {
+      this.revealedHints[w] = 0;
+    }
+
+    this.renderHeader();
+    this.renderGrid();
+    this.renderWordSlots();
+    this.updatePreview("");
+    this.updateCoinsDisplay();
+
+    // Сохраняем состояние
+    this.saveCurrentGameState();
+  }
+
+  renderHeader() {
+    if (this.levelTitleDisplay) {
+      if (this.isDailyMode) {
+        this.levelTitleDisplay.textContent = `Сегодня (${new Date().toLocaleDateString("ru-RU")})`;
+      } else {
+        this.levelTitleDisplay.textContent = `Уровень ${this.currentLevel}`;
+      }
+    }
+
+    if (this.progressElement) {
+      this.progressElement.textContent = `Слов найдено: ${this.foundWords.length} из ${this.levelData.words.length}`;
+    }
+  }
+
+  /**
+   * Отрисовка слотов слов (БЕЗ раскрытия текста слова - отображаются только пустые ячейки/длина)
+   */
+  renderWordSlots() {
+    if (!this.slotsContainer) return;
+    this.slotsContainer.innerHTML = "";
+
+    this.levelData.words.forEach((word) => {
+      const isFound = this.foundWords.includes(word);
+      const slot = document.createElement("div");
+      slot.className = `word-slot ${isFound ? "found" : ""}`;
+      slot.dataset.word = word;
+
+      // Если слово найдено - показываем его буквы, иначе точки/плашки
+      if (isFound) {
+        slot.textContent = word;
+      } else {
+        // Показываем количество букв точками/квадратиками
+        const dots = "● ".repeat(word.length).trim();
+        slot.innerHTML = `<span class="slot-dots">${dots}</span> <span class="slot-length">(${word.length})</span>`;
+      }
+
+      this.slotsContainer.appendChild(slot);
+    });
+  }
+
+  renderGrid() {
+    if (!this.gridElement) return;
+    this.gridElement.innerHTML = "";
+
+    const size = this.levelData.gridSize || 5;
+    this.gridElement.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
+    this.gridElement.style.gridTemplateRows = `repeat(${size}, 1fr)`;
+
+    for (let r = 0; r < size; r++) {
+      for (let c = 0; c < size; c++) {
+        const cell = document.createElement("div");
+        cell.className = "grid-cell";
+        cell.dataset.row = r;
+        cell.dataset.col = c;
+        cell.textContent = this.levelData.grid[r][c];
+
+        // Дополнительный бейдж для номера подсказки
+        const hintBadge = document.createElement("span");
+        hintBadge.className = "hint-badge";
+        cell.appendChild(hintBadge);
+
+        this.gridElement.appendChild(cell);
+      }
+    }
+
+    this.refreshCellStates();
+  }
+
+  getCellElement(r, c) {
+    return this.gridElement ? this.gridElement.querySelector(`[data-row='${r}'][data-col='${c}']`) : null;
+  }
+
+  updateCoinsDisplay() {
+    if (this.coinsDisplay) {
+      this.coinsDisplay.textContent = this.storage.getCoins();
+    }
+  }
+
+  updatePreview(text) {
+    if (this.wordPreviewElement) {
+      this.wordPreviewElement.textContent = text || " ";
+      if (text) {
+        this.wordPreviewElement.classList.add("active");
+      } else {
+        this.wordPreviewElement.classList.remove("active");
+      }
+    }
+  }
+
+  // Получение координат ячейки под указателем мыши/пальца
+  getCellFromPointer(e) {
+    let clientX, clientY;
+    if (e.touches && e.touches.length > 0) {
+      clientX = e.touches[0].clientX;
+      clientY = e.touches[0].clientY;
+    } else {
+      clientX = e.clientX;
+      clientY = e.clientY;
+    }
+
+    const element = document.elementFromPoint(clientX, clientY);
+    if (!element) return null;
+
+    const cell = element.closest(".grid-cell");
+    if (cell && this.gridElement.contains(cell)) {
+      const r = parseInt(cell.dataset.row, 10);
+      const c = parseInt(cell.dataset.col, 10);
+      return [r, c];
+    }
+    return null;
+  }
+
+  handlePointerStart(e) {
+    if (this.isGameOver) return;
+    const coords = this.getCellFromPointer(e);
+    if (!coords) return;
+
+    if (e.cancelable && e.type.startsWith("touch")) {
+      e.preventDefault();
+    }
+
+    this.isDragging = true;
+    this.selectedPath = [coords];
+    this.playSound("select");
+    this.vibrate(15);
+    this.refreshCellStates();
+    this.updatePreviewFromPath();
+  }
+
+  handlePointerMove(e) {
+    if (!this.isDragging || this.isGameOver) return;
+    const coords = this.getCellFromPointer(e);
+    if (!coords) return;
+
+    if (e.cancelable && e.type.startsWith("touch")) {
+      e.preventDefault();
+    }
+
+    const [r, c] = coords;
+    const pathLen = this.selectedPath.length;
+    const [lastR, lastC] = this.selectedPath[pathLen - 1];
+
+    // Если палец вернулся на предыдущую ячейку (откат назад)
+    if (pathLen > 1) {
+      const [prevR, prevC] = this.selectedPath[pathLen - 2];
+      if (prevR === r && prevC === c) {
+        this.selectedPath.pop();
+        this.playSound("select");
+        this.vibrate(10);
+        this.refreshCellStates();
+        this.updatePreviewFromPath();
+        return;
+      }
+    }
+
+    // Если ячейка уже в пути (запрет дубликатов в одном слове)
+    const alreadyVisited = this.selectedPath.some(([pr, pc]) => pr === r && pc === c);
+    if (alreadyVisited) return;
+
+    // Проверка соседства: строго Манхэттен = 1 (вверх, вниз, влево, вправо). Диагонали запрещены!
+    const manhattanDist = Math.abs(r - lastR) + Math.abs(c - lastC);
+    if (manhattanDist === 1) {
+      this.selectedPath.push(coords);
+      this.playSound("select");
+      this.vibrate(15);
+      this.refreshCellStates();
+      this.updatePreviewFromPath();
+    }
+  }
+
+  handlePointerEnd(e) {
+    if (!this.isDragging || this.isGameOver) return;
+    this.isDragging = false;
+
+    if (this.selectedPath.length >= 2) {
+      this.submitSelectedWord();
+    } else {
+      this.selectedPath = [];
+      this.refreshCellStates();
+      this.updatePreview("");
+    }
+  }
+
+  getSelectedWordString() {
+    return this.selectedPath.map(([r, c]) => this.levelData.grid[r][c]).join("");
+  }
+
+  updatePreviewFromPath() {
+    const word = this.getSelectedWordString();
+    this.updatePreview(word);
+  }
+
+  /**
+   * Проверка и принятие составленного слова
+   */
+  submitSelectedWord() {
+    const word = this.getSelectedWordString();
+    const reversedWord = word.split("").reverse().join("");
+
+    // Проверяем, является ли слово одним из целевых (прямым или обратным)
+    let matchedTarget = null;
+    if (this.levelData.words.includes(word)) {
+      matchedTarget = word;
+    } else if (this.levelData.words.includes(reversedWord)) {
+      matchedTarget = reversedWord;
+    }
+
+    if (matchedTarget) {
+      if (!this.foundWords.includes(matchedTarget)) {
+        // Успешно найдено обязательное слово!
+        this.foundWords.push(matchedTarget);
+        this.storage.recordWordFound(false);
+        this.playSound("found");
+        this.vibrate(40);
+
+        this.highlightFoundWordCells(this.selectedPath);
+        this.showFloatingMessage(`Найдено: ${matchedTarget}!`, "success");
+        this.renderHeader();
+        this.renderWordSlots();
+        this.saveCurrentGameState();
+
+        // Проверка завершения уровня
+        if (this.foundWords.length === this.levelData.words.length) {
+          this.handleLevelWin();
+          return;
+        }
+      } else {
+        this.showFloatingMessage("Уже найдено!", "info");
+      }
+    } else {
+      // Проверяем, является ли это бонусным словом
+      let matchedBonus = null;
+      if (this.levelData.bonusWords.includes(word)) {
+        matchedBonus = word;
+      } else if (this.levelData.bonusWords.includes(reversedWord)) {
+        matchedBonus = reversedWord;
+      }
+
+      if (matchedBonus) {
+        if (!this.foundBonusWords.includes(matchedBonus)) {
+          this.foundBonusWords.push(matchedBonus);
+          this.storage.recordWordFound(true);
+          this.playSound("bonus");
+          this.vibrate(30);
+          this.showFloatingMessage(`+2 🪙 Бонус: ${matchedBonus}!`, "bonus");
+          this.updateCoinsDisplay();
+          this.saveCurrentGameState();
+        } else {
+          this.showFloatingMessage("Бонусное слово уже собрано!", "info");
+        }
+      } else {
+        // Слово не подошло
+        this.playSound("error");
+        this.vibrate([30, 40, 30]);
+        this.animateErrorCells(this.selectedPath);
+      }
+    }
+
+    this.selectedPath = [];
+    this.refreshCellStates();
+    this.updatePreview("");
+  }
+
+  highlightFoundWordCells(path) {
+    path.forEach(([r, c]) => {
+      const cell = this.getCellElement(r, c);
+      if (cell) {
+        cell.classList.add("cell-found-pop");
+        setTimeout(() => cell.classList.remove("cell-found-pop"), 400);
+      }
+    });
+  }
+
+  animateErrorCells(path) {
+    path.forEach(([r, c]) => {
+      const cell = this.getCellElement(r, c);
+      if (cell) {
+        cell.classList.add("cell-shake");
+        setTimeout(() => cell.classList.remove("cell-shake"), 400);
+      }
+    });
+  }
+
+  /**
+   * Пошаговая подсказка:
+   * 1-й клик -> подсвечивает 1-ю букву нераскрытого слова
+   * 2-й клик -> подсвечивает 2-ю букву
+   * и т.д. по маршруту
+   */
+  applyStepHint() {
+    if (this.isGameOver) return;
+
+    // Находим первое ненайденное слово
+    const unsolvedWord = this.levelData.words.find(w => !this.foundWords.includes(w));
+    if (!unsolvedWord) return;
+
+    // Проверяем доступность подсказки (монеты / бесплатные)
+    const hintRes = this.storage.useHint();
+    if (!hintRes.success) {
+      this.showFloatingMessage(`Нужно ${hintRes.needed} монет для подсказки!`, "warning");
+      this.playSound("error");
+      return;
+    }
+
+    this.updateCoinsDisplay();
+    this.playSound("hint");
+    this.vibrate(25);
+
+    // Увеличиваем шаг подсказки для текущего слова
+    const currentStep = this.revealedHints[unsolvedWord] || 0;
+    const route = this.levelData.routes[unsolvedWord];
+
+    if (currentStep < route.length) {
+      this.revealedHints[unsolvedWord] = currentStep + 1;
+      const [r, c] = route[currentStep];
+
+      // Подсвечиваем ячейку с анимацией
+      const cell = this.getCellElement(r, c);
+      if (cell) {
+        cell.classList.add("cell-hint-pulse");
+        setTimeout(() => cell.classList.remove("cell-hint-pulse"), 1200);
+      }
+
+      this.showFloatingMessage(`Подсказка: буква ${currentStep + 1} (${unsolvedWord[currentStep]})`, "info");
+      this.refreshCellStates();
+      this.saveCurrentGameState();
+    }
+  }
+
+  refreshCellStates() {
+    if (!this.gridElement || !this.levelData) return;
+
+    // Сбрасываем временные классы выделения
+    const allCells = this.gridElement.querySelectorAll(".grid-cell");
+    allCells.forEach(cell => {
+      cell.classList.remove("selected", "path-head", "hinted");
+      const badge = cell.querySelector(".hint-badge");
+      if (badge) badge.textContent = "";
+    });
+
+    // 1. Отмечаем путь выделения игрока
+    this.selectedPath.forEach(([r, c], idx) => {
+      const cell = this.getCellElement(r, c);
+      if (cell) {
+        cell.classList.add("selected");
+        if (idx === this.selectedPath.length - 1) {
+          cell.classList.add("path-head");
+        }
+      }
+    });
+
+    // 2. Отмечаем раскрытые подсказки
+    for (const word of this.levelData.words) {
+      if (this.foundWords.includes(word)) continue;
+      const count = this.revealedHints[word] || 0;
+      const route = this.levelData.routes[word];
+      for (let i = 0; i < count && i < route.length; i++) {
+        const [r, c] = route[i];
+        const cell = this.getCellElement(r, c);
+        if (cell) {
+          cell.classList.add("hinted");
+          const badge = cell.querySelector(".hint-badge");
+          if (badge) badge.textContent = `${i + 1}`;
+        }
+      }
+    }
+
+    // 3. Отмечаем найденные слова
+    for (const word of this.foundWords) {
+      const route = this.levelData.routes[word];
+      if (route) {
+        route.forEach(([r, c]) => {
+          const cell = this.getCellElement(r, c);
+          if (cell) {
+            cell.classList.add("found-cell");
+          }
+        });
+      }
+    }
+  }
+
+  showFloatingMessage(text, type = "info") {
+    const toast = document.createElement("div");
+    toast.className = `game-toast toast-${type}`;
+    toast.textContent = text;
+    document.body.appendChild(toast);
+
+    setTimeout(() => toast.classList.add("show"), 20);
+    setTimeout(() => {
+      toast.classList.remove("show");
+      setTimeout(() => toast.remove(), 300);
+    }, 1800);
+  }
+
+  handleLevelWin() {
+    this.isGameOver = true;
+    this.playSound("win");
+    this.vibrate([100, 50, 100, 50, 150]);
+
+    const reward = this.levelData.coinsReward || 15;
+
+    if (this.isDailyMode) {
+      this.storage.completeDailyChallenge();
+    } else {
+      this.storage.completeLevel(this.currentLevel, 3, 500, reward);
+    }
+
+    this.updateCoinsDisplay();
+
+    if (typeof this.onLevelCompleted === "function") {
+      this.onLevelCompleted({
+        level: this.currentLevel,
+        isDaily: this.isDailyMode,
+        words: this.levelData.words,
+        bonusWordsFound: this.foundBonusWords,
+        rewardCoins: reward
+      });
+    }
+  }
+
+  saveCurrentGameState() {
+    if (this.isGameOver) return;
+    this.storage.saveActiveGame({
+      level: this.currentLevel,
+      isDaily: this.isDailyMode,
+      levelData: this.levelData,
+      foundWords: this.foundWords,
+      foundBonusWords: this.foundBonusWords,
+      revealedHints: this.revealedHints
+    });
+  }
+
+  restoreGameState(saved) {
+    if (!saved || !saved.levelData) return false;
+    this.currentLevel = saved.level;
+    this.isDailyMode = saved.isDaily;
+    this.levelData = saved.levelData;
+    this.foundWords = saved.foundWords || [];
+    this.foundBonusWords = saved.foundBonusWords || [];
+    this.revealedHints = saved.revealedHints || {};
+    this.isGameOver = false;
+
+    this.renderHeader();
+    this.renderGrid();
+    this.renderWordSlots();
+    this.updatePreview("");
+    this.updateCoinsDisplay();
+    return true;
+  }
 }
-home(){
-const done=this.completed();
-return `<section class="hero"><div class="eyebrow">Глава ${Math.ceil(this.level.number/25)} · ${this.level.difficulty}</div><div class="hero-title">Найдите спрятанные слова</div><div class="hero-sub">Слова не показаны на поле. Ищите их самостоятельно. Каждый следующий символ — только соседняя клетка по горизонтали или вертикали.</div><div class="info-row"><div class="info-card"><span>Уровень</span><b>${this.level.number}</b></div><div class="info-card"><span>Найдено</span><b>${done.length}/${this.level.targets.length}</b></div><div class="info-card"><span>Поворотов</span><b>${this.level.avgTurns}</b></div></div></section>
-<section class="game-card"><div class="game-head"><div><div class="eyebrow">Филворд</div><h2>Найдите все слова</h2></div><button id="hintBtn" class="hint-btn">💡 Подсказка 25</button></div><div id="board" class="board"></div><div id="message" class="message"></div><div class="actions"><button id="nextBtn" class="btn btn-primary">Следующий уровень</button><button id="levelsBtn" class="btn btn-secondary">Все уровни</button></div><div class="muted" style="text-align:center;margin-top:10px">Бонусные слова: ${this.level.bonus.length} возможных</div></section>`
+
+// Экспорт для Node.js и браузера
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = WordRamGame;
 }
-mountBoard(){
-const b=document.getElementById("board");b.style.gridTemplateColumns=`repeat(${this.level.size},1fr)`;this.uiBoard=b;this.uiMessage=document.getElementById("message");
-this.level.board.flat().forEach(ch=>{const x=document.createElement("div");x.className="cell";x.textContent=ch;b.appendChild(x)});
-const done=this.completed();done.forEach(w=>(this.level.paths[w]||[]).forEach(([r,c])=>b.children[r*this.level.size+c]?.classList.add("found")));
-b.addEventListener("pointerdown",e=>this.start(e));b.addEventListener("pointermove",e=>this.move(e));b.addEventListener("pointerup",()=>this.end());b.addEventListener("pointercancel",()=>this.end());
-}
-cell(e){const r=this.uiBoard.getBoundingClientRect(),n=this.level.size,w=r.width/n,x=e.clientX-r.left,y=e.clientY-r.top;if(x<0||y<0||x>r.width||y>r.height)return null;return [Math.floor(y/w),Math.floor(x/w)]}
-start(e){const c=this.cell(e);if(!c)return;this.drag=true;this.path=[c];this.paint()}
-move(e){if(!this.drag)return;const c=this.cell(e);if(!c)return;const last=this.path.at(-1);if(last[0]===c[0]&&last[1]===c[1])return;if(!window.WordRamGenerator.isNeighbor(last,c))return;if(this.path.some(p=>p[0]===c[0]&&p[1]===c[1]))return;this.path.push(c);this.paint()}
-end(){if(!this.drag)return;this.drag=false;const w=this.path.map(([r,c])=>this.level.board[r][c]).join("");const rev=[...w].reverse().join("");let target=this.level.targets.includes(w)?w:this.level.targets.includes(rev)?rev:null;
-if(target){const done=this.completed();if(!done.includes(target)){done.push(target);this.save.completed[this.level.number]=done;this.save.coins+=5;window.WordRamStorage.save(this.save);this.message(`Слово найдено! +5 монет`);if(done.length===this.level.targets.length){this.save.level=Math.max(this.save.level,this.level.number+1);window.WordRamStorage.save(this.save);setTimeout(()=>this.message("Уровень пройден! 🎉"),150)}}else this.message("Это слово уже найдено");}
-else if(w.length>=3&&this.level.bonus.includes(w)){if(!this.bonusFound.has(w)){this.bonusFound.add(w);this.save.coins+=2;this.save.bonusCount++;window.WordRamStorage.save(this.save);this.message(`Бонус-слово! +2 монеты`)}}
-else this.message("Попробуйте другой маршрут");
-this.path=[];this.render()}
-paint(){this.uiBoard.querySelectorAll(".cell").forEach(x=>x.classList.remove("path"));this.path.forEach(([r,c])=>this.uiBoard.children[r*this.level.size+c]?.classList.add("path"))}
-message(t){if(this.uiMessage){this.uiMessage.textContent=t;clearTimeout(this.mt);this.mt=setTimeout(()=>this.uiMessage.textContent="",2200)}}
-hint(){
-const done=this.completed(),word=this.level.targets.find(w=>!done.includes(w));if(!word){this.message("Все слова найдены");return}
-if(this.save.coins<25){this.message("Недостаточно монет");return}
-this.save.coins-=25;window.WordRamStorage.save(this.save);const p=this.level.paths[word]||[];
-// Sequential hint: one new letter per press. Stored progress is local to this level/session.
-this.hintStep=(this.hintStep||0)+1;const count=Math.min(this.hintStep,p.length);
-p.slice(0,count).forEach(([r,c])=>this.uiBoard.children[r*this.level.size+c]?.classList.add("hint"));
-this.message(`Открыта буква ${count} из ${p.length}`);
-this.renderTopOnlyHints(p.slice(0,count));
-}
-renderTopOnlyHints(path){path.forEach(([r,c])=>this.uiBoard.children[r*this.level.size+c]?.classList.add("hint"))}
-extras(){
-if(this.tab==="levels")document.querySelectorAll("[data-level]").forEach(b=>b.onclick=()=>this.loadLevel(+b.dataset.level));
-if(this.tab==="settings"){document.getElementById("reset").onclick=()=>{if(confirm("Сбросить прогресс?"))window.WordRamStorage.reset()}}
-if(this.tab==="daily")document.getElementById("dailyBtn")?.addEventListener("click",()=>{this.loadLevel((new Date().getDate()%25)+1)})
-if(this.tab==="home"){document.getElementById("hintBtn").onclick=()=>this.hint();document.getElementById("nextBtn").onclick=()=>this.next();document.getElementById("levelsBtn").onclick=()=>this.go("levels")}
-}
-next(){if(this.completed().length<this.level.targets.length){this.message("Сначала найдите все слова");return}this.loadLevel(this.level.number+1)}
-levels(){let max=Math.max(100,this.save.level+20),h='<section class="list-card"><div class="section-title">Уровни</div><div class="muted">Открыт уровень '+this.save.level+'</div><div class="level-grid">';for(let i=1;i<=max;i++){const open=i<=this.save.level,done=!!this.save.completed[i]?.length;h+=`<button class="level-btn ${open?"":"locked"} ${i===this.save.level?"current":""} ${done?"done":""}" data-level="${i}" ${open?"":"disabled"}>${i}</button>`}return h+"</div></section>"}
-daily(){return `<section class="list-card"><div class="eyebrow">Сегодня</div><div class="section-title">Ежедневный уровень</div><p class="muted">Отдельный уровень с теми же строгими правилами. Слова не показываются заранее.</p><button id="dailyBtn" class="btn btn-primary">Играть сегодня</button></section>`}
-settings(){return `<section class="list-card"><div class="section-title">Настройки</div><label class="setting-row"><span>Звук</span><input type="checkbox" ${this.save.settings.sound?"checked":""}></label><label class="setting-row"><span>Вибрация</span><input type="checkbox" ${this.save.settings.vibrate?"checked":""}></label><button id="reset" class="danger-btn">Сбросить прогресс</button><p class="muted">Интерфейс — русский. Игровые слова — английские.</p></section>`}
-}
-window.WordRamGame=WordRamGame;

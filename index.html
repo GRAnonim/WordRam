@@ -1,31 +1,189 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1,user-scalable=no">
-<meta name="theme-color" content="#0d1630">
-<title>WordRam — английские слова</title>
-<link rel="manifest" href="manifest.webmanifest">
-<link rel="stylesheet" href="styles.css?v=6">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>WordRam — Найдите спрятанные слова</title>
+  <meta name="description" content="Увлекательная игра-головоломка в слова на сетке 5x5. Соединяйте соседние буквы, ищите змейки слов и тренируйте внимание.">
+  <meta name="theme-color" content="#4f46e5">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="WordRam">
+  
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%234f46e5'/><text x='50%' y='65%' font-size='55' font-family='sans-serif' font-weight='bold' fill='white' text-anchor='middle'>W</text></svg>">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%234f46e5'/><text x='50%' y='65%' font-size='55' font-family='sans-serif' font-weight='bold' fill='white' text-anchor='middle'>W</text></svg>">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<div id="app">
-<header class="topbar">
-  <div class="brand-wrap"><div class="logo">W</div><div><div class="brand">WORDRAM</div><div class="subtitle">Английские слова</div></div></div>
-  <div class="top-actions"><div class="pill">🪙 <span id="coinTop">100</span></div><button id="settingsBtn" class="icon-btn">☰</button></div>
-</header>
-<main id="screen"></main>
-<nav class="bottom-nav">
-  <button data-tab="home" class="nav-btn active"><span>🏠</span><small>Игра</small></button>
-  <button data-tab="levels" class="nav-btn"><span>▦</span><small>Уровни</small></button>
-  <button data-tab="daily" class="nav-btn"><span>★</span><small>Сегодня</small></button>
-  <button data-tab="settings" class="nav-btn"><span>⚙</span><small>Настройки</small></button>
-</nav>
-</div>
-<script src="data.js?v=6"></script>
-<script src="storage.js?v=6"></script>
-<script src="generator.js?v=6"></script>
-<script src="game.js?v=6"></script>
-<script src="main.js?v=6"></script>
+  <div id="app">
+    <!-- Верхняя панель (Header) -->
+    <header class="app-header">
+      <div class="header-left">
+        <h1 class="app-title">WordRam</h1>
+        <span id="current-level-title" class="level-badge">Уровень 1</span>
+      </div>
+      <div class="header-right">
+        <div class="coins-badge" title="Баланс монет">
+          <span class="coin-icon">🪙</span>
+          <span id="coins-counter">50</span>
+        </div>
+        <button id="btn-restart-level" class="icon-btn" aria-label="Перезапустить уровень" title="Перезапустить">
+          🔄
+        </button>
+      </div>
+    </header>
+
+    <!-- Основная область с экранами -->
+    <main class="app-content">
+      <!-- ЭКРАН 1: ИГРА -->
+      <section id="screen-game" class="screen-view">
+        <div class="game-top-bar">
+          <div id="level-progress-text" class="progress-label">Слов найдено: 0 из 2</div>
+          <!-- Слоты слов (скрытый список: отображаются только длины/точки) -->
+          <div id="word-slots-container" class="word-slots"></div>
+        </div>
+
+        <!-- Плашка текущего набираемого слова -->
+        <div class="preview-wrapper">
+          <div id="word-preview" class="word-preview-box"></div>
+        </div>
+
+        <!-- Игровое поле 5x5 -->
+        <div class="grid-container">
+          <div id="game-grid" class="letter-grid"></div>
+        </div>
+
+        <!-- Нижняя панель действий игры -->
+        <div class="game-controls">
+          <button id="btn-hint" class="action-btn hint-btn">
+            <span class="btn-icon">💡</span>
+            <span class="btn-text">Подсказка</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- ЭКРАН 2: УРОВНИ -->
+      <section id="screen-levels" class="screen-view hidden">
+        <div class="screen-header">
+          <h2>Карта уровней</h2>
+          <p class="subtitle">Проходите уровни и собирайте звезды</p>
+        </div>
+        <div id="levels-grid" class="levels-scroll-grid"></div>
+      </section>
+
+      <!-- ЭКРАН 3: СЕГОДНЯ (ЕЖЕДНЕВНОЕ ИСПЫТАНИЕ) -->
+      <section id="screen-daily" class="screen-view hidden">
+        <div class="screen-header">
+          <h2>Ежедневное испытание</h2>
+          <p class="subtitle">Каждый день новая уникальная головоломка</p>
+        </div>
+        
+        <div class="daily-card">
+          <div class="daily-badge-icon">📅</div>
+          <div id="daily-status-badge" class="status-badge pending">Новое испытание ждет вас!</div>
+          <div class="streak-info">
+            Серия побед подряд: <strong id="daily-streak-count">0</strong> дн. 🔥
+          </div>
+          <p class="daily-reward-desc">Завершите сегодняшнее испытание и получите <strong>+50 🪙</strong>!</p>
+          <button id="btn-start-daily" class="primary-btn pulse-glow">Начать игру (+50 🪙)</button>
+        </div>
+      </section>
+
+      <!-- ЭКРАН 4: НАСТРОЙКИ И ПРАВИЛА -->
+      <section id="screen-settings" class="screen-view hidden">
+        <div class="screen-header">
+          <h2>Настройки и правила</h2>
+        </div>
+
+        <div class="settings-group">
+          <h3>Параметры</h3>
+          <div class="setting-item">
+            <label for="setting-sound">Звуковые эффекты</label>
+            <input type="checkbox" id="setting-sound" class="toggle-switch" checked>
+          </div>
+          <div class="setting-item">
+            <label for="setting-vibration">Вибрация (Haptic)</label>
+            <input type="checkbox" id="setting-vibration" class="toggle-switch" checked>
+          </div>
+          <div class="setting-item">
+            <label for="setting-theme">Темная тема</label>
+            <input type="checkbox" id="setting-theme" class="toggle-switch">
+          </div>
+        </div>
+
+        <div class="settings-group">
+          <h3>Статистика</h3>
+          <div class="stat-row">
+            <span>Найдено основных слов:</span>
+            <strong id="stat-total-words">0</strong>
+          </div>
+          <div class="stat-row">
+            <span>Найдено бонусных слов:</span>
+            <strong id="stat-bonus-words">0</strong>
+          </div>
+          <div class="stat-row">
+            <span>Пройдено уровней:</span>
+            <strong id="stat-levels-completed">0</strong>
+          </div>
+        </div>
+
+        <div class="settings-group rules-box">
+          <h3>Как играть в WordRam</h3>
+          <ul>
+            <li><strong>Соседние клетки:</strong> проводите пальцем или мышью по буквам вверх, вниз, влево или вправо.</li>
+            <li><strong>Запрет диагоналей:</strong> диагональные шаги и перескоки запрещены.</li>
+            <li><strong>Слова-змейки:</strong> слова изгибаются по полю минимум на 1–3 поворота.</li>
+            <li><strong>Поиск вслепую:</strong> список слов скрыт, ориентируйтесь по длине слотов.</li>
+            <li><strong>Пошаговая подсказка:</strong> кнопка «Подсказка» подсвечивает следующую букву слова.</li>
+          </ul>
+        </div>
+
+        <div class="settings-danger">
+          <button id="btn-reset-data" class="danger-btn">Сбросить весь прогресс</button>
+        </div>
+      </section>
+    </main>
+
+    <!-- Нижнее навигационное меню (4 пункта) -->
+    <nav class="bottom-nav">
+      <button id="nav-btn-game" class="nav-item active">
+        <span class="nav-icon">🎮</span>
+        <span class="nav-label">Игра</span>
+      </button>
+      <button id="nav-btn-levels" class="nav-item">
+        <span class="nav-icon">🗺️</span>
+        <span class="nav-label">Уровни</span>
+      </button>
+      <button id="nav-btn-daily" class="nav-item">
+        <span class="nav-icon">📅</span>
+        <span class="nav-label">Сегодня</span>
+      </button>
+      <button id="nav-btn-settings" class="nav-item">
+        <span class="nav-icon">⚙️</span>
+        <span class="nav-label">Настройки</span>
+      </button>
+    </nav>
+
+    <!-- Модальное окно победы на уровне -->
+    <div id="modal-victory" class="modal-overlay hidden">
+      <div class="modal-card">
+        <div class="modal-confetti">🎉</div>
+        <h2 class="modal-title">Уровень пройден!</h2>
+        <div class="modal-stars">★★★</div>
+        <p class="modal-subtitle">Вы нашли все спрятанные слова:</p>
+        <ul id="win-words-list" class="win-words-list"></ul>
+        <div id="win-reward-text" class="win-reward-badge">+15 🪙 монет получено!</div>
+        <button id="btn-next-level" class="primary-btn modal-action-btn">Следующий уровень ➔</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Подключение скриптов в строгом порядке -->
+  <script src="data.js"></script>
+  <script src="storage.js"></script>
+  <script src="generator.js"></script>
+  <script src="game.js"></script>
+  <script src="main.js"></script>
 </body>
 </html>
