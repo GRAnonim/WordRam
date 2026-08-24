@@ -1,9 +1,9 @@
 /**
- * WordRam - Service Worker (v5)
+ * WordRam - Service Worker (v6)
  * Обеспечивает кэширование ресурсов для оффлайн-доступа и обхода старого кэша в Safari.
  */
 
-const CACHE_NAME = "wordram-v5";
+const CACHE_NAME = "wordram-v6";
 const ASSETS_TO_CACHE = [
   "./",
   "./index.html",
@@ -40,13 +40,11 @@ self.addEventListener("activate", (event) => {
 });
 
 self.addEventListener("fetch", (event) => {
-  // Игнорируем не-GET запросы
   if (event.request.method !== "GET") return;
 
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
       if (cachedResponse) {
-        // Возвращаем из кеша и параллельно обновляем в фоне
         fetch(event.request).then((networkResponse) => {
           if (networkResponse && networkResponse.status === 200) {
             caches.open(CACHE_NAME).then((cache) => {
@@ -69,7 +67,6 @@ self.addEventListener("fetch", (event) => {
 
         return networkResponse;
       }).catch(() => {
-        // Оффлайн fallback
         return caches.match("./index.html");
       });
     })
