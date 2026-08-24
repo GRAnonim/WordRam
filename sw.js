@@ -1,19 +1,19 @@
 /**
- * WordRam - Service Worker (v9)
- * Динамические сетки (4x4 - 9x9), 100% заполнение словами, тест CEFR A1-C1.
+ * WordRam - Service Worker (v10)
+ * Ломаные змейки на всех полях, чистый тест CEFR без подсказок, стабильный UI.
  */
 
-const CACHE_NAME = "wordram-v9";
+const CACHE_NAME = "wordram-v10";
 const ASSETS_TO_CACHE = [
   "./",
   "./index.html",
-  "./styles.css?v=9",
-  "./data.js?v=9",
-  "./storage.js?v=9",
-  "./generator.js?v=9",
-  "./game.js?v=9",
-  "./main.js?v=9",
-  "./manifest.webmanifest?v=9"
+  "./styles.css?v=10",
+  "./data.js?v=10",
+  "./storage.js?v=10",
+  "./generator.js?v=10",
+  "./game.js?v=10",
+  "./main.js?v=10",
+  "./manifest.webmanifest?v=10"
 ];
 
 self.addEventListener("install", (event) => {
@@ -31,7 +31,7 @@ self.addEventListener("activate", (event) => {
       return Promise.all(
         keys.map((key) => {
           if (key !== CACHE_NAME) {
-            console.log("[ServiceWorker] Очистка старого кэша:", key);
+            console.log("[ServiceWorker] Удаление старого кэша:", key);
             return caches.delete(key);
           }
         })

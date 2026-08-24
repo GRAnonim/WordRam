@@ -1,14 +1,14 @@
 /**
- * WordRam - Main Application Controller (v8)
- * Управление экранами, тестом уровня английского языка (CEFR A1-C1),
- * модальными окнами и PWA Service Worker.
+ * WordRam - Main Application Controller (v10)
+ * Управление экранами, тестом уровня CEFR (без подсказок перевода),
+ * модальными окнами и PWA.
  */
 
 document.addEventListener("DOMContentLoaded", () => {
   const storage = new WordRamStorage();
   const generator = new WordRamGenerator(WordRamData);
 
-  // DOM Элементы модалок
+  // Модальные окна
   const winModal = document.getElementById("modal-victory");
   const winWordsList = document.getElementById("win-words-list");
   const winRewardText = document.getElementById("win-reward-text");
@@ -21,7 +21,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const quizStep = document.getElementById("placement-quiz-step");
   const resultStep = document.getElementById("placement-result-step");
   const quizWordEl = document.getElementById("quiz-word-display");
-  const quizHintEl = document.getElementById("quiz-hint-display");
   const quizCounterEl = document.getElementById("quiz-progress-counter");
   const quizFillEl = document.getElementById("quiz-progress-fill");
   const btnApplyPlacement = document.getElementById("btn-apply-placement");
@@ -55,7 +54,6 @@ document.addEventListener("DOMContentLoaded", () => {
     winModal.classList.add("open");
   }
 
-  // Принудительно скрываем модалки при старте
   hideVictoryModal();
   if (placementModal) {
     placementModal.style.setProperty("display", "none", "important");
@@ -116,7 +114,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const current = questions[quizIndex];
     if (quizWordEl) quizWordEl.textContent = current.word;
-    if (quizHintEl) quizHintEl.textContent = current.hint;
     if (quizCounterEl) quizCounterEl.textContent = `${quizIndex + 1} / ${questions.length}`;
     if (quizFillEl) {
       const pct = ((quizIndex + 1) / questions.length) * 100;
@@ -147,7 +144,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (resultDescEl) resultDescEl.textContent = evaluatedResult.desc;
   }
 
-  // Привязка кнопок теста
   const quizButtons = document.querySelectorAll(".quiz-btn");
   quizButtons.forEach(btn => {
     btn.addEventListener("click", () => {
@@ -300,7 +296,8 @@ document.addEventListener("DOMContentLoaded", () => {
   if (dailyBtnStart) {
     dailyBtnStart.addEventListener("click", () => {
       hideVictoryModal();
-      const todayLvl = 100 + (new Date().getDate() % 20);
+      // Ежедневный уровень генерирует поле 5x5 или 6x6 со змейками
+      const todayLvl = 10 + (new Date().getDate() % 20);
       game.startLevel(todayLvl, true);
       switchTab("game");
     });
@@ -364,14 +361,6 @@ document.addEventListener("DOMContentLoaded", () => {
         game.startLevel(1, false);
         switchTab("game");
       }
-    });
-  }
-
-  const btnRestart = document.getElementById("btn-restart-level");
-  if (btnRestart) {
-    btnRestart.addEventListener("click", () => {
-      hideVictoryModal();
-      game.startLevel(game.currentLevel, game.isDailyMode);
     });
   }
 

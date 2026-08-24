@@ -1,7 +1,7 @@
 /* ======================================================
-   WordRam - Stylesheet (v9)
-   Динамические сетки (4x4 - 9x9), адаптивные размеры ячеек,
-   100% покрытие словами, тест CEFR (A1-C1) и темы.
+   WordRam - Stylesheet (v10)
+   Универсальные змейки (4x4 - 9x9), чистый тест CEFR без подсказок,
+   исправление пересечения кнопок закрытия.
    ====================================================== */
 
 :root {
@@ -179,25 +179,6 @@ body.dark-theme .cefr-badge {
 
 body.dark-theme .coins-badge {
   color: #fcd34d;
-}
-
-.icon-btn {
-  background: transparent;
-  border: 1px solid var(--surface-border);
-  font-size: 1.1rem;
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.2s, background-color 0.2s;
-}
-
-.icon-btn:active {
-  transform: scale(0.9);
-  background-color: var(--surface-border);
 }
 
 /* ======================================================
@@ -705,6 +686,7 @@ body.dark-theme .coins-badge {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 8px;
+  padding-right: 46px; /* Защита от наложения кнопки закрытия */
 }
 
 .quiz-step-title {
@@ -739,22 +721,16 @@ body.dark-theme .coins-badge {
   background: var(--primary-light);
   border: 2px solid var(--primary);
   border-radius: 20px;
-  padding: 20px 16px;
+  padding: 24px 16px;
   margin-bottom: 14px;
 }
 
 .quiz-target-word {
-  font-size: 2rem;
+  font-size: 2.1rem;
   font-weight: 900;
   letter-spacing: 2px;
   color: var(--primary);
-  margin-bottom: 6px;
-}
-
-.quiz-word-hint {
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: var(--text-main);
+  text-align: center;
 }
 
 .quiz-prompt {
@@ -918,19 +894,20 @@ body.dark-theme .coins-badge {
 
 .modal-close-icon {
   position: absolute;
-  top: 14px;
-  right: 14px;
+  top: 10px;
+  right: 12px;
   background: transparent;
   border: none;
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   color: var(--text-muted);
   cursor: pointer;
-  width: 32px;
-  height: 32px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 20;
 }
 
 .modal-close-icon:active {

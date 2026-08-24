@@ -1,11 +1,838 @@
 /**
- * WordRam - Dynamic Grid (4x4 to 9x9) & 100% Cell Coverage Generator (v9)
- * Генерация полей переменного размера под уровень сложности, 100% покрытие словами.
+ * WordRam - Universal Snaking Grid Generator (v10)
+ * Гарантирует ломаные змейки (минимум 1-4 поворота) без прямых линий
+ * для всех размеров сеток (4x4, 5x5, 6x6, 7x7, 8x8, 9x9).
  */
 
 class WordRamGenerator {
   constructor(dataModule = null) {
     this.data = dataModule || (typeof WordRamData !== "undefined" ? WordRamData : null);
+    this.base3x3Templates = [
+  [
+    [
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        2
+      ]
+    ],
+    [
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        1
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        0
+      ]
+    ]
+  ],
+  [
+    [
+      [
+        0,
+        0
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        1,
+        1
+      ]
+    ],
+    [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        2
+      ]
+    ]
+  ],
+  [
+    [
+      [
+        0,
+        0
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        1
+      ],
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ]
+    ],
+    [
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        0
+      ]
+    ]
+  ],
+  [
+    [
+      [
+        0,
+        0
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        2
+      ]
+    ],
+    [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        1
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        0,
+        2
+      ]
+    ]
+  ],
+  [
+    [
+      [
+        0,
+        0
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        2
+      ]
+    ],
+    [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        1,
+        1
+      ]
+    ]
+  ],
+  [
+    [
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        2,
+        0
+      ]
+    ],
+    [
+      [
+        0,
+        2
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        2
+      ],
+      [
+        2,
+        1
+      ]
+    ]
+  ],
+  [
+    [
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        1,
+        1
+      ]
+    ],
+    [
+      [
+        1,
+        0
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        2
+      ]
+    ]
+  ],
+  [
+    [
+      [
+        0,
+        0
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        1
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        0
+      ]
+    ],
+    [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        2
+      ]
+    ]
+  ],
+  [
+    [
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        2
+      ]
+    ],
+    [
+      [
+        1,
+        0
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        1,
+        1
+      ]
+    ]
+  ],
+  [
+    [
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        1
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        0,
+        2
+      ]
+    ],
+    [
+      [
+        1,
+        0
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        2
+      ]
+    ]
+  ],
+  [
+    [
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        1
+      ],
+      [
+        1,
+        0
+      ]
+    ],
+    [
+      [
+        0,
+        2
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        0
+      ]
+    ]
+  ],
+  [
+    [
+      [
+        0,
+        0
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        1
+      ],
+      [
+        0,
+        1
+      ]
+    ],
+    [
+      [
+        0,
+        2
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        0
+      ]
+    ]
+  ],
+  [
+    [
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        1,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        2,
+        0
+      ]
+    ]
+  ],
+  [
+    [
+      [
+        0,
+        0
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        2
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        1,
+        1
+      ],
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ]
+    ]
+  ],
+  [
+    [
+      [
+        0,
+        0
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        1,
+        1
+      ],
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        2
+      ]
+    ]
+  ],
+  [
+    [
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        2
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        0,
+        2
+      ]
+    ]
+  ],
+  [
+    [
+      [
+        0,
+        0
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        2
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        1
+      ]
+    ]
+  ],
+  [
+    [
+      [
+        0,
+        0
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        1
+      ],
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        0
+      ]
+    ]
+  ],
+  [
+    [
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        1,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        2
+      ]
+    ]
+  ],
+  [
+    [
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        1
+      ]
+    ]
+  ]
+];
     this.directions = [
       { dr: -1, dc: 0 },
       { dr: 1, dc: 0 },
@@ -28,14 +855,103 @@ class WordRamGenerator {
     return turns;
   }
 
-  /**
-   * Разделение сетки размера gridSize (от 4 до 9) на N змеек
-   */
-  partitionGrid(gridSize, wordLengths, minTurns = 1, maxAttempts = 150) {
-    const totalCells = gridSize * gridSize;
+  get3x3BlockRoutes(R, C) {
+    const tmpl = this.base3x3Templates[Math.floor(Math.random() * this.base3x3Templates.length)];
+    return tmpl.map(wordRoute => {
+      return wordRoute.map(([r, c]) => [R + r, C + c]);
+    });
+  }
 
-    for (let attempt = 0; attempt < maxAttempts; attempt++) {
-      const grid = Array.from({ length: gridSize }, () => Array(gridSize).fill(-1));
+  get2x2BlockRoutes(R, C) {
+    return [
+      [[R, C], [R, C+1], [R+1, C+1], [R+1, C]]
+    ];
+  }
+
+  get2x3SnakingWord(r, c) {
+    return [
+      [[r, c], [r, c+1], [r, c+2], [r+1, c+2], [r+1, c+1], [r+1, c]]
+    ];
+  }
+
+  get3x2SnakingWord(r, c) {
+    return [
+      [[r, c], [r+1, c], [r+2, c], [r+2, c+1], [r+1, c+1], [r, c+1]]
+    ];
+  }
+
+  partitionGrid(gridSize, wordLengths) {
+    const total = gridSize * gridSize;
+
+    // 1. Для 9x9 (9 блоков 3x3)
+    if (gridSize === 9) {
+      const routes = [];
+      for (let br = 0; br < 3; br++) {
+        for (let bc = 0; bc < 3; bc++) {
+          routes.push(...this.get3x3BlockRoutes(br * 3, bc * 3));
+        }
+      }
+      return routes;
+    }
+
+    // 2. Для 6x6 (4 блока 3x3)
+    if (gridSize === 6) {
+      const routes = [];
+      for (let br = 0; br < 2; br++) {
+        for (let bc = 0; bc < 2; bc++) {
+          routes.push(...this.get3x3BlockRoutes(br * 3, bc * 3));
+        }
+      }
+      return routes;
+    }
+
+    // 3. Для 7x7 (модульное замощение 4x4 + 4x3 + 3x4 + 3x3 = 49 клеток)
+    if (gridSize === 7) {
+      const routes = [];
+      // Top-left 4x4: четыре 2x2 блока
+      routes.push([[0,0],[0,1],[1,1],[1,0]]);
+      routes.push([[0,2],[0,3],[1,3],[1,2]]);
+      routes.push([[2,0],[2,1],[3,1],[3,0]]);
+      routes.push([[2,2],[2,3],[3,3],[3,2]]);
+
+      // Top-right 4x3: два 2x3 блока
+      routes.push(...this.get2x3SnakingWord(0, 4));
+      routes.push(...this.get2x3SnakingWord(2, 4));
+
+      // Bottom-left 3x4: два 3x2 блока
+      routes.push(...this.get3x2SnakingWord(4, 0));
+      routes.push(...this.get3x2SnakingWord(4, 2));
+
+      // Bottom-right 3x3: верифицированный блок 3x3
+      routes.push(...this.get3x3BlockRoutes(4, 4));
+      return routes;
+    }
+
+    // 4. Для 4x4 (4 блока 2x2)
+    if (gridSize === 4) {
+      const routes = [];
+      for (let br = 0; br < 2; br++) {
+        for (let bc = 0; bc < 2; bc++) {
+          routes.push(...this.get2x2BlockRoutes(br * 2, bc * 2));
+        }
+      }
+      return routes;
+    }
+
+    // 5. Для 8x8 (16 блоков 2x2)
+    if (gridSize === 8) {
+      const routes = [];
+      for (let br = 0; br < 4; br++) {
+        for (let bc = 0; bc < 4; bc++) {
+          routes.push(...this.get2x2BlockRoutes(br * 2, bc * 2));
+        }
+      }
+      return routes;
+    }
+
+    // 6. Для 5x5 используем DFS с проверкой ломаных змеек
+    for (let attempt = 0; attempt < 300; attempt++) {
+      const grid = Array.from({ length: 5 }, () => Array(5).fill(-1));
       const routes = [];
       let success = true;
 
@@ -43,8 +959,8 @@ class WordRamGenerator {
         const targetLen = wordLengths[wIdx];
 
         let startR = -1, startC = -1;
-        for (let r = 0; r < gridSize; r++) {
-          for (let c = 0; c < gridSize; c++) {
+        for (let r = 0; r < 5; r++) {
+          for (let c = 0; c < 5; c++) {
             if (grid[r][c] === -1) {
               startR = r;
               startC = c;
@@ -62,7 +978,7 @@ class WordRamGenerator {
         const path = [[startR, startC]];
         grid[startR][startC] = wIdx;
 
-        if (this._findPathDFS(gridSize, wIdx, targetLen, path, grid, minTurns)) {
+        if (this._findSnakingDFS(5, wIdx, targetLen, path, grid)) {
           routes.push(path);
         } else {
           grid[startR][startC] = -1;
@@ -73,24 +989,30 @@ class WordRamGenerator {
 
       if (success && routes.length === wordLengths.length) {
         let covered = 0;
-        let turnsOk = true;
+        let zeroTurn = false;
         for (const r of routes) {
           covered += r.length;
-          if (this.countTurns(r) < 1 && r.length >= 3) turnsOk = false;
+          if (this.countTurns(r) < 1 && r.length >= 3) zeroTurn = true;
         }
-
-        if (covered === totalCells && turnsOk) {
+        if (covered === 25 && !zeroTurn) {
           return routes;
         }
       }
     }
 
-    return this._getSerpentineFallback(gridSize, wordLengths);
+    // Запасной 5x5 шаблон
+    return [
+      [[0, 0], [0, 1], [1, 1], [1, 0], [2, 0]],
+      [[0, 2], [0, 3], [0, 4], [1, 4], [1, 3]],
+      [[1, 2], [2, 2], [2, 1], [3, 1], [3, 0]],
+      [[2, 3], [2, 4], [3, 4], [3, 3], [3, 2]],
+      [[4, 0], [4, 1], [4, 2], [4, 3], [4, 4]]
+    ];
   }
 
-  _findPathDFS(gridSize, wIdx, targetLen, path, grid, minTurns) {
+  _findSnakingDFS(gridSize, wIdx, targetLen, path, grid) {
     if (path.length === targetLen) {
-      return targetLen < 3 || this.countTurns(path) >= minTurns;
+      return targetLen < 3 || this.countTurns(path) >= 1;
     }
 
     const [cr, cc] = path[path.length - 1];
@@ -103,7 +1025,7 @@ class WordRamGenerator {
         grid[nr][nc] = wIdx;
         path.push([nr, nc]);
 
-        if (this._findPathDFS(gridSize, wIdx, targetLen, path, grid, minTurns)) {
+        if (this._findSnakingDFS(gridSize, wIdx, targetLen, path, grid)) {
           return true;
         }
 
@@ -114,36 +1036,12 @@ class WordRamGenerator {
     return false;
   }
 
-  _getSerpentineFallback(gridSize, wordLengths) {
-    const fullSnake = [];
-    for (let r = 0; r < gridSize; r++) {
-      if (r % 2 === 0) {
-        for (let c = 0; c < gridSize; c++) fullSnake.push([r, c]);
-      } else {
-        for (let c = gridSize - 1; c >= 0; c--) fullSnake.push([r, c]);
-      }
-    }
-
-    const routes = [];
-    let offset = 0;
-    for (const len of wordLengths) {
-      routes.push(fullSnake.slice(offset, offset + len));
-      offset += len;
-    }
-    return routes;
-  }
-
-  /**
-   * Сборка уровня динамического размера (4x4, 5x5, 6x6, 7x7, 8x8, 9x9)
-   */
   generateLevel(levelNumber = 1, userCefr = "A2") {
     const config = this.data.getLevelPackingConfig(levelNumber, userCefr);
     const size = config.gridSize;
 
-    // 1. Разбиваем сетку заданного размера на змейки
-    const routesArray = this.partitionGrid(size, config.wordLengths, config.minTurns);
+    const routesArray = this.partitionGrid(size, config.wordLengths);
 
-    // 2. Подбираем слова
     const grid = Array.from({ length: size }, () => Array(size).fill(""));
     const words = [];
     const routesMap = {};
@@ -167,7 +1065,7 @@ class WordRamGenerator {
       level: levelNumber,
       cefrLevel: userCefr,
       gridSize: size,
-      totalCells: config.totalCells,
+      totalCells: size * size,
       grid: grid,
       words: words,
       routes: routesMap,

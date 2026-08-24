@@ -4,16 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>WordRam — Найдите спрятанные слова</title>
-  <meta name="description" content="Увлекательная игра-головоломка в слова на сетке 5x5. 100% заполнение сетки, адаптация под уровень английского (A1-C1).">
+  <meta name="description" content="Увлекательная игра-головоломка в слова на сетке от 4x4 до 9x9. 100% заполнение сетки, адаптация под уровень английского (A1-C1).">
   <meta name="theme-color" content="#4f46e5">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="WordRam">
   
-  <link rel="manifest" href="manifest.webmanifest?v=9">
+  <link rel="manifest" href="manifest.webmanifest?v=10">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%234f46e5'/><text x='50%' y='65%' font-size='55' font-family='sans-serif' font-weight='bold' fill='white' text-anchor='middle'>W</text></svg>">
   <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%234f46e5'/><text x='50%' y='65%' font-size='55' font-family='sans-serif' font-weight='bold' fill='white' text-anchor='middle'>W</text></svg>">
-  <link rel="stylesheet" href="styles.css?v=9">
+  <link rel="stylesheet" href="styles.css?v=10">
 </head>
 <body>
   <div id="app">
@@ -29,9 +29,6 @@
           <span class="coin-icon">🪙</span>
           <span id="coins-counter">50</span>
         </div>
-        <button id="btn-restart-level" class="icon-btn" aria-label="Перезапустить уровень" title="Перезапустить">
-          🔄
-        </button>
       </div>
     </header>
 
@@ -40,7 +37,7 @@
       <!-- ЭКРАН 1: ИГРА -->
       <section id="screen-game" class="screen-view">
         <div class="game-top-bar">
-          <div id="level-progress-text" class="progress-label">Слов найдено: 0 из 5 (0/25 букв)</div>
+          <div id="level-progress-text" class="progress-label">Слов найдено: 0 из 4 (0/16 букв)</div>
           <!-- Слоты слов (скрытый список: отображаются только длины/точки) -->
           <div id="word-slots-container" class="word-slots"></div>
         </div>
@@ -50,7 +47,7 @@
           <div id="word-preview" class="word-preview-box"></div>
         </div>
 
-        <!-- Игровое поле 5x5 (100% заполнено словами) -->
+        <!-- Игровое поле (100% заполнено словами-змейками) -->
         <div class="grid-container">
           <div id="game-grid" class="letter-grid"></div>
         </div>
@@ -77,7 +74,7 @@
       <section id="screen-daily" class="screen-view" style="display: none;">
         <div class="screen-header">
           <h2>Ежедневное испытание</h2>
-          <p class="subtitle">Каждый день новая уникальная головоломка</p>
+          <p class="subtitle">Каждый день новая уникальная головоломка со змейками слов</p>
         </div>
         
         <div class="daily-card">
@@ -140,7 +137,7 @@
         <div class="settings-group rules-box">
           <h3>Правила игры WordRam</h3>
           <ul>
-            <li><strong>100% заполнение сетки:</strong> все 25 букв на поле входят в состав загаданных слов. Лишних букв нет.</li>
+            <li><strong>100% заполнение сетки:</strong> все буквы на поле входят в состав загаданных слов. Лишних букв нет.</li>
             <li><strong>Соседние клетки:</strong> соединяйте буквы строго по горизонтали и вертикали (без диагоналей).</li>
             <li><strong>Слова-змейки:</strong> слова изгибаются по полю, образуя ломаные линии.</li>
             <li><strong>Поиск вслепую:</strong> ориентируйтесь по слотам и количеству букв.</li>
@@ -173,7 +170,7 @@
       </button>
     </nav>
 
-    <!-- МОДАЛЬНОЕ ОКНО ТЕСТА УРОВНЯ АНГЛИЙСКОГО (CEFR TEST) -->
+    <!-- МОДАЛЬНОЕ ОКНО ТЕСТА УРОВНЯ АНГЛИЙСКОГО (БЕЗ ПЕРЕВОДА) -->
     <div id="modal-placement" class="modal-overlay" style="display: none !important;">
       <div class="modal-card placement-card">
         <button id="btn-close-placement" class="modal-close-icon" aria-label="Закрыть">✕</button>
@@ -188,9 +185,9 @@
             <div id="quiz-progress-fill" class="quiz-progress-bar-fill" style="width: 6.6%;"></div>
           </div>
 
+          <!-- Карточка слова: ТОЛЬКО английское слово без перевода -->
           <div class="quiz-word-card">
             <h3 id="quiz-word-display" class="quiz-target-word">FAMILY</h3>
-            <p id="quiz-hint-display" class="quiz-word-hint">Группа людей: родители и дети</p>
           </div>
 
           <p class="quiz-prompt">Знаете ли вы это слово и его значение?</p>
@@ -229,7 +226,7 @@
         <div class="modal-confetti">🎉</div>
         <h2 class="modal-title">Уровень пройден!</h2>
         <div class="modal-stars">★★★</div>
-        <p class="modal-subtitle">Все 25 букв сетки раскрыты:</p>
+        <p class="modal-subtitle">Все буквы сетки раскрыты:</p>
         <ul id="win-words-list" class="win-words-list"></ul>
         <div id="win-reward-text" class="win-reward-badge">+20 🪙 монет получено!</div>
         <button id="btn-next-level" class="primary-btn modal-action-btn">Следующий уровень ➔</button>
@@ -238,10 +235,10 @@
   </div>
 
   <!-- Подключение скриптов с версионированием -->
-  <script src="data.js?v=9"></script>
-  <script src="storage.js?v=9"></script>
-  <script src="generator.js?v=9"></script>
-  <script src="game.js?v=9"></script>
-  <script src="main.js?v=9"></script>
+  <script src="data.js?v=10"></script>
+  <script src="storage.js?v=10"></script>
+  <script src="generator.js?v=10"></script>
+  <script src="game.js?v=10"></script>
+  <script src="main.js?v=10"></script>
 </body>
 </html>

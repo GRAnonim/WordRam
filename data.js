@@ -1,74 +1,643 @@
 /**
- * WordRam - Data & CEFR Level Dictionaries (v9)
+ * WordRam - Data & CEFR Level Dictionaries (v10)
  * Словари A1-C1 (3-9 букв), диагностический тест и динамическая прогрессия сеток (4x4 - 9x9).
  */
 
 const WordRamData = {
-  // Словарь по уровням CEFR и длинам слов (3 - 9 букв)
   cefrDictionary: {
-    A1: {
-      3: ["CAT", "DOG", "SUN", "BOY", "DAY", "CAR", "CUP", "BAG", "BED", "KEY", "EGG", "TEA", "RED", "PEN", "EYE", "BOX", "BUS", "HAT", "ARM", "LEG"],
-      4: ["BOOK", "DOOR", "MILK", "TREE", "FISH", "BIRD", "HOME", "COLD", "FOOD", "NAME", "CITY", "BALL", "SNOW", "RAIN", "TIME", "ROOM", "PARK", "BABY", "DESK", "BOAT"],
-      5: ["WATER", "APPLE", "HOUSE", "BREAD", "HAPPY", "GREEN", "RIVER", "MUSIC", "TABLE", "CHAIR", "CLEAN", "SLEEP", "PLANT", "NIGHT", "LIGHT", "CLOCK", "TRAIN", "PAPER", "MONEY", "BEACH"],
-      6: ["MOTHER", "FATHER", "SISTER", "FAMILY", "SCHOOL", "FRIEND", "YELLOW", "SUMMER", "WINTER", "GARDEN", "STREET", "ORANGE", "DOCTOR", "WINDOW", "ANIMAL", "BANANA", "PENCIL", "FLOWER", "SOCCER", "COFFEE"],
-      7: ["BROTHER", "STUDENT", "MORNING", "EVENING", "TEACHER", "HOLIDAY", "KITCHEN", "BEDROOM", "WEATHER", "PICTURE", "STATION", "AIRPORT", "WELCOME", "PACKAGE", "COUNTRY"],
-      8: ["HOSPITAL", "NOTEBOOK", "AIRPLANE", "BASEBALL", "CHILDREN", "DAUGHTER", "MOUNTAIN", "SANDWICH", "SWIMMING", "UMBRELLA", "VACATION", "WEEKENDS", "FOOTBALL", "BIRTHDAY", "AIRPORTS"],
-      9: ["CLASSROOM", "BREAKFAST", "BEAUTIFUL", "AFTERNOON", "CHOCOLATE", "NEWSPAPER", "PASSENGER", "PROFESSOR", "TELEPHONE", "VEGETABLE", "APARTMENT", "SATURDAYS", "YESTERDAY", "DICTIONARY"]
-    },
-    A2: {
-      3: ["SEA", "SKY", "AIR", "ICE", "MAP", "OIL", "RUN", "WIN", "BOX", "AGE", "JOB", "BUS", "ART", "ARM", "EAR", "ROW", "TAX", "FAN", "LIP", "TOY"],
-      4: ["ROAD", "WIND", "FIRE", "STAR", "PARK", "CAFE", "CAKE", "SHIP", "BOAT", "COIN", "DESK", "GAME", "GIFT", "GOLD", "HERO", "LAKE", "RING", "SAND", "FARM", "LION"],
-      5: ["BEACH", "BRAIN", "CANDY", "CLOCK", "CLOUD", "DANCE", "DREAM", "EARTH", "FLAME", "FRUIT", "GLASS", "HEART", "HOTEL", "ISLAND", "JUICE", "KNIFE", "LEMON", "MAGIC", "OCEAN", "PARTY"],
-      6: ["ACTION", "BRIDGE", "CAMERA", "CASTLE", "COFFEE", "DESERT", "ENERGY", "FOREST", "FUTURE", "HEALTH", "ISLAND", "JUNGLE", "MARKET", "MEMORY", "PALACE", "PLANET", "ROCKET", "SHIELD", "SPRING", "VALLEY"],
-      7: ["AIRPORT", "CAPTAIN", "CARAVAN", "CRYSTAL", "DOLPHIN", "FASHION", "JOURNEY", "KINGDOM", "LANTERN", "PACKAGE", "PYRAMID", "UNIFORM", "VILLAGE", "WARRIOR", "WEATHER"],
-      8: ["BUSINESS", "CALENDAR", "COMPUTER", "DIRECTOR", "DISASTER", "ENGINEER", "EXERCISE", "FESTIVAL", "INTERNET", "LOCATION", "MEDICINE", "SURPRISE", "STRENGTH", "QUESTION", "RESOURCE"],
-      9: ["ADVENTURE", "COMMUNITY", "DANGEROUS", "EDUCATION", "EQUIPMENT", "IMPORTANT", "POLLUTION", "TRANSPORT", "VOLUNTEER", "WONDERFUL", "CELEBRATE", "DIFFERENT", "INTERESTING"]
-    },
-    B1: {
-      3: ["RAW", "FOG", "RAY", "ORE", "AIM", "ROW", "TIE", "NET", "GAP", "FEE", "RIB", "ROD", "GUM", "GEM", "JAR"],
-      4: ["BOND", "CLAY", "DAWN", "ECHO", "FLOW", "GRID", "HORN", "MAZE", "MINT", "PEAK", "RUSH", "TIDE", "VEIN", "WAVE", "YARD", "FOSS", "HARE", "ISLE", "ROSE", "VALE"],
-      5: ["ALERT", "AMBER", "ARROW", "ASSET", "BADGE", "BLAZE", "BLOOM", "CABIN", "CHAMP", "CHARM", "CHESS", "CHIEF", "CORAL", "CRANE", "CROWN", "DRIFT", "FORGE", "HAVEN", "NOBLE", "PULSE"],
-      6: ["ANCHOR", "AVENUE", "BREEZE", "BRONZE", "CANYON", "CIRCUS", "COBALT", "CRUISE", "DRAGON", "FOSSIL", "GALAXY", "GEYSER", "KNIGHT", "MARBLE", "METEOR", "NEBULA", "OCTAVE", "SAFARI", "STATUE", "TIMBER"],
-      7: ["ACADEMY", "BLOSSOM", "CASCADE", "CHAMPION", "COMPASS", "EMERALD", "EXPLORE", "FEATHER", "FIREFLY", "FORTUNE", "GLACIER", "HARMONY", "HORIZON", "ICEBERG", "MIRACLE", "PHOENIX", "RAINBOW", "SCENERY", "TREASURE", "TRIUMPH"],
-      8: ["ALLIANCE", "AUDIENCE", "BARRIER", "CAMPAIGN", "CEREMONY", "CHAMPION", "CITIZEN", "CLUSTERS", "CREATION", "DATABASE", "DISCOVERY", "ELECTION", "EXPLORER", "HORIZONS", "STRATEGY"],
-      9: ["CHALLENGE", "CHEMISTRY", "DEMOCRACY", "DISCOVERY", "ECOSYSTEM", "FREQUENCY", "GEOGRAPHY", "INVENTION", "LANDSCAPE", "RESOURCES", "AWARENESS", "CREATIVITY", "EXPERIENCE"]
-    },
-    B2: {
-      3: ["ERA", "EGO", "CUE", "RIM", "SUM", "VOW", "WIT", "APT", "FOE", "HUE", "ASH", "AXE", "BOG", "DOT", "FIG"],
-      4: ["APEX", "AXIS", "BULK", "COOP", "FLAW", "GLOW", "HEIR", "ICON", "ISLE", "LOFT", "MOSS", "OATH", "PLEX", "VOID", "ZEAL", "ACID", "ALTO", "ARCH", "BASK", "CULL"],
-      5: ["ADAPT", "ALIBI", "APRON", "CLOVE", "DRIFT", "EMBER", "FORGE", "HAVEN", "IVORY", "NOBLE", "PULSE", "RADAR", "ROBOT", "SHARD", "SPARK", "SPEAR", "STAMP", "STEAM", "VALOR", "WRATH"],
-      6: ["ALPINE", "BEACON", "CHISEL", "CRATER", "FALCON", "GLIDER", "HARBOR", "LAGOON", "MAGNET", "NEBULA", "OCTAVE", "PUDDLE", "SAFARI", "STATUE", "TIMBER", "TUNNEL", "VELVET", "VORTEX", "WALNUT", "ZENITH"],
-      7: ["ALCHEMIST", "BALLOON", "EMBRACE", "FREEDOM", "GENUINE", "GRAVITY", "HABITAT", "HERITAGE", "IMMENSE", "INSIGHT", "JUSTICE", "MONARCH", "MONUMENT", "MYSTERY", "PHOENIX", "PYRAMID", "SOLVENT", "SPECTRUM", "TRIUMPH", "UNIVERSE"],
-      8: ["ABSOLUTE", "ACADEMIC", "ACCURATE", "ADVOCATE", "BOUNDARY", "COHERENT", "CONSENSUS", "DECISIVE", "DOMINANT", "DYNAMIC", "ELOQUENT", "FRACTION", "GENEROUS", "HYPOTHESIS", "MOMENTUM", "SPECTRUMS"],
-      9: ["BIODIVERSITY", "COGNITION", "COMMISSION", "DIMENSION", "DOMINANCE", "EVOLUTION", "FORMATION", "INTEGRITY", "MIGRATION", "SANCTUARY", "AUTHORITY", "CONSENSUS", "STRUCTURE"]
-    },
-    C1: {
-      3: ["EBB", "AWE", "NIL", "JAB", "VEER", "ZAG", "YAK", "URN", "PLY", "NIX"],
-      4: ["CRUX", "FLUX", "KNIT", "LORE", "OMEN", "RUNE", "SAGE", "URGE", "VALE", "VIBE", "GIST", "PITH", "ZEAL", "APEX", "FOIL"],
-      5: ["ABBEY", "ANVIL", "BLEAK", "CREED", "DRAFT", "ETHOS", "GUILE", "KNELL", "MOTIF", "PRISM", "QUALM", "RELIC", "SERVE", "VALOR", "WRATH", "TENET", "RIGOR", "DROSS", "SLOTH", "VIGOR"],
-      6: ["BONSAI", "CLOVER", "COSMOS", "HYMNAL", "MIRROR", "POCKET", "PUZZLE", "RABBIT", "SECTOR", "SHIELD", "SUBTLE", "VALLEY", "VORTEX", "WALNUT", "ZENITH", "COGNAC", "SCHISM", "LIMPID", "LACONIC", "AUSTERE"],
-      7: ["ACROBAT", "ANALOGY", "CATALYST", "DYNAMIC", "ENTROPY", "EPITOME", "ECLIPSE", "HARMONY", "MAJESTY", "PARADOX", "SPECTRUM", "TRIUMPH", "UNIVERSE", "VINTAGE", "ZEALOUS", "AZIMUTH", "EMISSARY", "HERMETIC", "OBLIVION", "SUBLIME"],
-      8: ["ALACRITY", "ANTIDOTE", "ATTRITION", "CONUNDRUM", "DICHOTOMY", "EPIPHANY", "EQUANIMITY", "FASTIDIOUS", "HAPHAZARD", "IMMUTABLE", "METAPHOR", "PARADIGM", "PROXIMITY", "SYNERGY", "ZEALOTRY"],
-      9: ["ANACHRONISM", "BENEVOLENT", "CORROBORATE", "DILETTANTE", "EQUANIMITY", "INCOGNITO", "JUXTAPOSE", "MALLEABLE", "METAMORPH", "PERIPHERAL", "UBIQUITOUS", "SURREPTIT", "INDOLENCE"]
-    }
+  "A1": {
+    "3": [
+      "CAT",
+      "DOG",
+      "SUN",
+      "BOY",
+      "DAY",
+      "CAR",
+      "CUP",
+      "BAG",
+      "BED",
+      "KEY",
+      "EGG",
+      "TEA",
+      "RED",
+      "PEN",
+      "EYE",
+      "BOX",
+      "BUS",
+      "HAT",
+      "ARM",
+      "LEG"
+    ],
+    "4": [
+      "BOOK",
+      "DOOR",
+      "MILK",
+      "TREE",
+      "FISH",
+      "BIRD",
+      "HOME",
+      "COLD",
+      "FOOD",
+      "NAME",
+      "CITY",
+      "BALL",
+      "SNOW",
+      "RAIN",
+      "TIME",
+      "ROOM",
+      "PARK",
+      "BABY",
+      "DESK",
+      "BOAT"
+    ],
+    "5": [
+      "WATER",
+      "APPLE",
+      "HOUSE",
+      "BREAD",
+      "HAPPY",
+      "GREEN",
+      "RIVER",
+      "MUSIC",
+      "TABLE",
+      "CHAIR",
+      "CLEAN",
+      "SLEEP",
+      "PLANT",
+      "NIGHT",
+      "LIGHT",
+      "CLOCK",
+      "TRAIN",
+      "PAPER",
+      "MONEY",
+      "BEACH"
+    ],
+    "6": [
+      "MOTHER",
+      "FATHER",
+      "SISTER",
+      "FAMILY",
+      "SCHOOL",
+      "FRIEND",
+      "YELLOW",
+      "SUMMER",
+      "WINTER",
+      "GARDEN",
+      "STREET",
+      "ORANGE",
+      "DOCTOR",
+      "WINDOW",
+      "ANIMAL",
+      "BANANA",
+      "PENCIL",
+      "FLOWER",
+      "SOCCER",
+      "COFFEE"
+    ],
+    "7": [
+      "BROTHER",
+      "STUDENT",
+      "MORNING",
+      "EVENING",
+      "TEACHER",
+      "HOLIDAY",
+      "KITCHEN",
+      "BEDROOM",
+      "WEATHER",
+      "PICTURE",
+      "STATION",
+      "AIRPORT",
+      "WELCOME",
+      "PACKAGE",
+      "COUNTRY"
+    ],
+    "8": [
+      "HOSPITAL",
+      "NOTEBOOK",
+      "AIRPLANE",
+      "BASEBALL",
+      "CHILDREN",
+      "DAUGHTER",
+      "MOUNTAIN",
+      "SANDWICH",
+      "SWIMMING",
+      "UMBRELLA",
+      "VACATION",
+      "WEEKENDS",
+      "FOOTBALL",
+      "BIRTHDAY"
+    ],
+    "9": [
+      "CLASSROOM",
+      "BREAKFAST",
+      "BEAUTIFUL",
+      "AFTERNOON",
+      "CHOCOLATE",
+      "NEWSPAPER",
+      "PASSENGER",
+      "PROFESSOR",
+      "TELEPHONE",
+      "VEGETABLE",
+      "APARTMENT",
+      "YESTERDAY"
+    ]
   },
+  "A2": {
+    "3": [
+      "SEA",
+      "SKY",
+      "AIR",
+      "ICE",
+      "MAP",
+      "OIL",
+      "RUN",
+      "WIN",
+      "AGE",
+      "JOB",
+      "ART",
+      "EAR",
+      "ROW",
+      "TAX",
+      "FAN",
+      "LIP",
+      "TOY"
+    ],
+    "4": [
+      "ROAD",
+      "WIND",
+      "FIRE",
+      "STAR",
+      "CAFE",
+      "CAKE",
+      "SHIP",
+      "COIN",
+      "GAME",
+      "GIFT",
+      "GOLD",
+      "HERO",
+      "LAKE",
+      "RING",
+      "SAND",
+      "FARM",
+      "LION"
+    ],
+    "5": [
+      "BRAIN",
+      "CANDY",
+      "CLOUD",
+      "DANCE",
+      "DREAM",
+      "EARTH",
+      "FLAME",
+      "FRUIT",
+      "GLASS",
+      "HEART",
+      "HOTEL",
+      "JUICE",
+      "KNIFE",
+      "LEMON",
+      "MAGIC",
+      "OCEAN",
+      "PARTY"
+    ],
+    "6": [
+      "ACTION",
+      "BRIDGE",
+      "CAMERA",
+      "CASTLE",
+      "DESERT",
+      "ENERGY",
+      "FOREST",
+      "FUTURE",
+      "HEALTH",
+      "ISLAND",
+      "JUNGLE",
+      "MARKET",
+      "MEMORY",
+      "PALACE",
+      "PLANET",
+      "ROCKET",
+      "SHIELD",
+      "SPRING",
+      "VALLEY"
+    ],
+    "7": [
+      "CAPTAIN",
+      "CARAVAN",
+      "CRYSTAL",
+      "DOLPHIN",
+      "FASHION",
+      "JOURNEY",
+      "KINGDOM",
+      "LANTERN",
+      "PYRAMID",
+      "UNIFORM",
+      "VILLAGE",
+      "WARRIOR"
+    ],
+    "8": [
+      "BUSINESS",
+      "CALENDAR",
+      "COMPUTER",
+      "DIRECTOR",
+      "DISASTER",
+      "ENGINEER",
+      "EXERCISE",
+      "FESTIVAL",
+      "INTERNET",
+      "LOCATION",
+      "MEDICINE",
+      "SURPRISE",
+      "STRENGTH",
+      "QUESTION",
+      "RESOURCE"
+    ],
+    "9": [
+      "ADVENTURE",
+      "COMMUNITY",
+      "DANGEROUS",
+      "EDUCATION",
+      "EQUIPMENT",
+      "IMPORTANT",
+      "POLLUTION",
+      "TRANSPORT",
+      "VOLUNTEER",
+      "WONDERFUL",
+      "CELEBRATE"
+    ]
+  },
+  "B1": {
+    "3": [
+      "RAW",
+      "FOG",
+      "RAY",
+      "ORE",
+      "AIM",
+      "TIE",
+      "NET",
+      "GAP",
+      "FEE",
+      "RIB",
+      "ROD",
+      "GUM",
+      "GEM",
+      "JAR"
+    ],
+    "4": [
+      "BOND",
+      "CLAY",
+      "DAWN",
+      "ECHO",
+      "FLOW",
+      "GRID",
+      "HORN",
+      "MAZE",
+      "MINT",
+      "PEAK",
+      "RUSH",
+      "TIDE",
+      "VEIN",
+      "WAVE",
+      "YARD",
+      "HARE",
+      "ISLE",
+      "ROSE",
+      "VALE"
+    ],
+    "5": [
+      "ALERT",
+      "AMBER",
+      "ARROW",
+      "ASSET",
+      "BADGE",
+      "BLAZE",
+      "BLOOM",
+      "CABIN",
+      "CHAMP",
+      "CHARM",
+      "CHESS",
+      "CHIEF",
+      "CORAL",
+      "CRANE",
+      "CROWN",
+      "DRIFT",
+      "FORGE",
+      "HAVEN",
+      "NOBLE",
+      "PULSE"
+    ],
+    "6": [
+      "ANCHOR",
+      "AVENUE",
+      "BREEZE",
+      "BRONZE",
+      "CANYON",
+      "CIRCUS",
+      "COBALT",
+      "CRUISE",
+      "DRAGON",
+      "FOSSIL",
+      "GALAXY",
+      "GEYSER",
+      "KNIGHT",
+      "MARBLE",
+      "METEOR",
+      "NEBULA",
+      "OCTAVE",
+      "SAFARI",
+      "STATUE",
+      "TIMBER"
+    ],
+    "7": [
+      "ACADEMY",
+      "BLOSSOM",
+      "CASCADE",
+      "COMPASS",
+      "EMERALD",
+      "EXPLORE",
+      "FEATHER",
+      "FIREFLY",
+      "FORTUNE",
+      "GLACIER",
+      "HARMONY",
+      "HORIZON",
+      "ICEBERG",
+      "MIRACLE",
+      "PHOENIX",
+      "RAINBOW",
+      "SCENERY",
+      "TRIUMPH"
+    ],
+    "8": [
+      "CHAMPION",
+      "TREASURE",
+      "ALLIANCE",
+      "AUDIENCE",
+      "CAMPAIGN",
+      "CEREMONY",
+      "CLUSTERS",
+      "CREATION",
+      "DATABASE",
+      "ELECTION",
+      "EXPLORER",
+      "HORIZONS",
+      "STRATEGY"
+    ],
+    "9": [
+      "CHALLENGE",
+      "CHEMISTRY",
+      "DEMOCRACY",
+      "DISCOVERY",
+      "ECOSYSTEM",
+      "FREQUENCY",
+      "GEOGRAPHY",
+      "INVENTION",
+      "LANDSCAPE",
+      "RESOURCES",
+      "AWARENESS"
+    ]
+  },
+  "B2": {
+    "3": [
+      "ERA",
+      "EGO",
+      "CUE",
+      "RIM",
+      "SUM",
+      "VOW",
+      "WIT",
+      "APT",
+      "FOE",
+      "HUE",
+      "ASH",
+      "AXE",
+      "BOG",
+      "DOT",
+      "FIG"
+    ],
+    "4": [
+      "APEX",
+      "AXIS",
+      "BULK",
+      "COOP",
+      "FLAW",
+      "GLOW",
+      "HEIR",
+      "ICON",
+      "LOFT",
+      "MOSS",
+      "OATH",
+      "PLEX",
+      "VOID",
+      "ZEAL",
+      "ACID",
+      "ALTO",
+      "ARCH",
+      "BASK",
+      "CULL"
+    ],
+    "5": [
+      "ADAPT",
+      "ALIBI",
+      "APRON",
+      "CLOVE",
+      "EMBER",
+      "IVORY",
+      "RADAR",
+      "ROBOT",
+      "SHARD",
+      "SPARK",
+      "SPEAR",
+      "STAMP",
+      "STEAM",
+      "VALOR",
+      "WRATH"
+    ],
+    "6": [
+      "ALPINE",
+      "BEACON",
+      "CHISEL",
+      "CRATER",
+      "FALCON",
+      "GLIDER",
+      "HARBOR",
+      "LAGOON",
+      "MAGNET",
+      "PUDDLE",
+      "TUNNEL",
+      "VELVET",
+      "VORTEX",
+      "WALNUT",
+      "ZENITH"
+    ],
+    "7": [
+      "BALLOON",
+      "EMBRACE",
+      "FREEDOM",
+      "GENUINE",
+      "GRAVITY",
+      "HABITAT",
+      "INSIGHT",
+      "JUSTICE",
+      "MONARCH",
+      "SOLVENT",
+      "BARRIER",
+      "CITIZEN",
+      "DYNAMIC"
+    ],
+    "8": [
+      "HERITAGE",
+      "MONUMENT",
+      "SPECTRUM",
+      "UNIVERSE",
+      "ABSOLUTE",
+      "ACADEMIC",
+      "ACCURATE",
+      "ADVOCATE",
+      "BOUNDARY",
+      "COHERENT",
+      "DECISIVE",
+      "DOMINANT",
+      "ELOQUENT",
+      "FRACTION",
+      "GENEROUS",
+      "MOMENTUM"
+    ],
+    "9": [
+      "ALCHEMIST",
+      "CONSENSUS",
+      "SPECTRUMS",
+      "DIMENSION",
+      "DOMINANCE",
+      "EVOLUTION",
+      "FORMATION",
+      "INTEGRITY",
+      "MIGRATION",
+      "SANCTUARY",
+      "AUTHORITY",
+      "STRUCTURE"
+    ]
+  },
+  "C1": {
+    "3": [
+      "EBB",
+      "AWE",
+      "NIL",
+      "JAB",
+      "ZAG",
+      "YAK",
+      "URN",
+      "PLY",
+      "NIX"
+    ],
+    "4": [
+      "CRUX",
+      "FLUX",
+      "KNIT",
+      "LORE",
+      "OMEN",
+      "RUNE",
+      "SAGE",
+      "URGE",
+      "VIBE",
+      "GIST",
+      "PITH",
+      "FOIL"
+    ],
+    "5": [
+      "ABBEY",
+      "ANVIL",
+      "BLEAK",
+      "CREED",
+      "DRAFT",
+      "ETHOS",
+      "GUILE",
+      "KNELL",
+      "MOTIF",
+      "PRISM",
+      "QUALM",
+      "RELIC",
+      "SERVE",
+      "TENET",
+      "RIGOR",
+      "DROSS",
+      "SLOTH",
+      "VIGOR"
+    ],
+    "6": [
+      "BONSAI",
+      "CLOVER",
+      "COSMOS",
+      "HYMNAL",
+      "MIRROR",
+      "POCKET",
+      "PUZZLE",
+      "RABBIT",
+      "SECTOR",
+      "SUBTLE",
+      "COGNAC",
+      "SCHISM",
+      "LIMPID"
+    ],
+    "7": [
+      "ACROBAT",
+      "ANALOGY",
+      "DYNAMIC",
+      "ENTROPY",
+      "EPITOME",
+      "ECLIPSE",
+      "MAJESTY",
+      "PARADOX",
+      "VINTAGE",
+      "ZEALOUS",
+      "AZIMUTH",
+      "LACONIC",
+      "AUSTERE",
+      "SYNERGY",
+      "SUBLIME"
+    ],
+    "8": [
+      "CATALYST",
+      "EMISSARY",
+      "HERMETIC",
+      "OBLIVION",
+      "ALACRITY",
+      "ANTIDOTE",
+      "METAPHOR",
+      "PARADIGM",
+      "ZEALOTRY"
+    ],
+    "9": [
+      "ATTRITION",
+      "CONUNDRUM",
+      "DICHOTOMY",
+      "HAPHAZARD",
+      "IMMUTABLE",
+      "PROXIMITY",
+      "INCOGNITO",
+      "JUXTAPOSE",
+      "MALLEABLE",
+      "METAMORPH"
+    ]
+  }
+},
 
   placementTestWords: [
-    { word: "FAMILY", level: "A1", translation: "Семья", hint: "Группа людей: родители и дети" },
-    { word: "BREAD", level: "A1", translation: "Хлеб", hint: "Продукт питания из муки" },
-    { word: "HAPPY", level: "A1", translation: "Счастливый", hint: "Чувство радости и удовольствия" },
-    { word: "ISLAND", level: "A2", translation: "Остров", hint: "Участок суши, окруженный водой" },
-    { word: "WEATHER", level: "A2", translation: "Погода", hint: "Состояние атмосферы (дождь, солнце)" },
-    { word: "JOURNEY", level: "A2", translation: "Путешествие", hint: "Поездка из одного места в другое" },
-    { word: "BREEZE", level: "B1", translation: "Легкий ветерок", hint: "Приятный, мягкий ветер" },
-    { word: "CASCADE", level: "B1", translation: "Водопад / каскад", hint: "Небольшой водопад или цепочка событий" },
-    { word: "COMPASS", level: "B1", translation: "Компас", hint: "Прибор для ориентирования по сторонам света" },
-    { word: "GENUINE", level: "B2", translation: "Подлинный / искренний", hint: "Настоящий, неподдельный" },
-    { word: "HABITAT", level: "B2", translation: "Среда обитания", hint: "Естественная природная среда животного или растения" },
-    { word: "HERITAGE", level: "B2", translation: "Наследие", hint: "Культурные и исторические ценности прошлого" },
-    { word: "ENTROPY", level: "C1", translation: "Энтропия", hint: "Мера беспорядка и непредсказуемости системы" },
-    { word: "EPITOME", level: "C1", translation: "Воплощение / эталон", hint: "Человек или вещь как идеальный образец качества" },
-    { word: "CATALYST", level: "C1", translation: "Катализатор", hint: "Фактор или вещество, ускоряющее процесс" }
+    { word: "FAMILY", level: "A1" },
+    { word: "BREAD", level: "A1" },
+    { word: "HAPPY", level: "A1" },
+    { word: "ISLAND", level: "A2" },
+    { word: "WEATHER", level: "A2" },
+    { word: "JOURNEY", level: "A2" },
+    { word: "BREEZE", level: "B1" },
+    { word: "CASCADE", level: "B1" },
+    { word: "COMPASS", level: "B1" },
+    { word: "GENUINE", level: "B2" },
+    { word: "HABITAT", level: "B2" },
+    { word: "HERITAGE", level: "B2" },
+    { word: "ENTROPY", level: "C1" },
+    { word: "EPITOME", level: "C1" },
+    { word: "CATALYST", level: "C1" }
   ],
 
   evaluatePlacementTest(answers) {
@@ -127,33 +696,16 @@ const WordRamData = {
       wordLengths = templates5[(levelNumber - 6) % templates5.length];
     } else if (levelNumber <= 50) {
       gridSize = 6;
-      const templates6 = [
-        [6, 6, 6, 6, 6, 6],
-        [5, 5, 6, 6, 7, 7],
-        [4, 5, 6, 7, 7, 7],
-        [5, 6, 6, 6, 6, 7]
-      ];
-      wordLengths = templates6[(levelNumber - 26) % templates6.length];
+      wordLengths = [5, 4, 5, 4, 5, 4, 5, 4]; // 4 блока 3x3 (36 клеток)
     } else if (levelNumber <= 75) {
       gridSize = 7;
-      const templates7 = [
-        [7, 7, 7, 7, 7, 7, 7],
-        [6, 6, 7, 7, 7, 8, 8],
-        [5, 6, 7, 7, 8, 8, 8],
-        [6, 7, 7, 7, 7, 7, 8]
-      ];
-      wordLengths = templates7[(levelNumber - 51) % templates7.length];
+      wordLengths = [7, 7, 7, 7, 7, 7, 7]; // 49 клеток
     } else if (levelNumber <= 100) {
       gridSize = 8;
-      const templates8 = [
-        [8, 8, 8, 8, 8, 8, 8, 8],
-        [7, 7, 8, 8, 8, 8, 9, 9],
-        [6, 7, 8, 8, 8, 9, 9, 9]
-      ];
-      wordLengths = templates8[(levelNumber - 76) % templates8.length];
+      wordLengths = [4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4]; // 64 клетки
     } else {
       gridSize = 9;
-      wordLengths = [9, 9, 9, 9, 9, 9, 9, 9, 9];
+      wordLengths = [5, 4, 5, 4, 5, 4, 5, 4, 5, 4, 5, 4, 5, 4, 5, 4, 9]; // 9 блоков 3x3 (81 клетка)
     }
 
     const totalCells = gridSize * gridSize;
@@ -174,31 +726,37 @@ const WordRamData = {
     const allLevels = ["A1", "A2", "B1", "B2", "C1"];
     let pool = [];
 
-    // Приоритетно берем из выбранного уровня
     if (this.cefrDictionary[cefrLevel] && this.cefrDictionary[cefrLevel][targetLen]) {
       pool = pool.concat(this.cefrDictionary[cefrLevel][targetLen]);
     }
 
-    // Дополняем из остальных уровней
     for (const lvl of allLevels) {
       if (lvl !== cefrLevel && this.cefrDictionary[lvl] && this.cefrDictionary[lvl][targetLen]) {
         pool = pool.concat(this.cefrDictionary[lvl][targetLen]);
       }
     }
 
-    // Фильтруем уже использованные в этом уровне
     const available = pool.filter(w => !exclude.includes(w) && w.length === targetLen);
     if (available.length > 0) {
       return available[Math.floor(Math.random() * available.length)];
     }
 
-    // Fallback генератор уникального слова нужной длины
-    const fallbackList = pool.filter(w => w.length === targetLen);
-    if (fallbackList.length > 0) {
-      return fallbackList[Math.floor(Math.random() * fallbackList.length)];
+    const fallbacks = {
+      3: ["SUN", "CAT", "DOG", "CAR", "RED", "KEY", "SEA", "SKY", "AIR", "ICE", "RAW", "FOG", "RAY", "ERA", "EGO", "EBB", "AWE"],
+      4: ["BOOK", "DOOR", "MILK", "TREE", "FISH", "BIRD", "HOME", "COLD", "FOOD", "NAME", "CITY", "BALL", "SNOW", "RAIN", "TIME", "ROAD", "WIND", "FIRE", "STAR", "CAFE", "BOND", "CLAY", "DAWN", "ECHO", "FLOW", "APEX", "AXIS", "BULK", "CRUX", "FLUX"],
+      5: ["WATER", "APPLE", "HOUSE", "BREAD", "HAPPY", "GREEN", "RIVER", "MUSIC", "TABLE", "CHAIR", "CLEAN", "SLEEP", "PLANT", "NIGHT", "LIGHT", "BRAIN", "CANDY", "CLOUD", "DANCE", "DREAM", "ALERT", "AMBER", "ARROW", "ASSET", "BADGE", "ADAPT", "ALIBI", "ABBEY", "ANVIL"],
+      6: ["MOTHER", "FATHER", "SISTER", "FAMILY", "SCHOOL", "FRIEND", "YELLOW", "SUMMER", "WINTER", "GARDEN", "STREET", "ORANGE", "DOCTOR", "WINDOW", "ANIMAL", "ACTION", "BRIDGE", "CAMERA", "CASTLE", "DESERT", "ANCHOR", "AVENUE", "BREEZE", "BRONZE", "ALPINE", "BEACON", "BONSAI", "CLOVER"],
+      7: ["BROTHER", "STUDENT", "MORNING", "EVENING", "TEACHER", "HOLIDAY", "KITCHEN", "BEDROOM", "WEATHER", "PICTURE", "STATION", "AIRPORT", "WELCOME", "PACKAGE", "COUNTRY", "CAPTAIN", "CARAVAN", "CRYSTAL", "DOLPHIN", "FASHION", "JOURNEY", "ACADEMY", "BLOSSOM", "CASCADE", "BALLOON", "EMBRACE", "ACROBAT", "ANALOGY"],
+      8: ["HOSPITAL", "NOTEBOOK", "AIRPLANE", "BASEBALL", "CHILDREN", "DAUGHTER", "MOUNTAIN", "SANDWICH", "SWIMMING", "UMBRELLA", "VACATION", "WEEKENDS", "FOOTBALL", "BIRTHDAY", "BUSINESS", "CALENDAR", "COMPUTER", "DIRECTOR", "DISASTER", "ENGINEER", "ALLIANCE", "AUDIENCE", "CAMPAIGN", "CEREMONY", "ABSOLUTE", "ACADEMIC", "ACCURATE", "CATALYST", "EMISSARY"],
+      9: ["CLASSROOM", "BREAKFAST", "BEAUTIFUL", "AFTERNOON", "CHOCOLATE", "NEWSPAPER", "PASSENGER", "PROFESSOR", "TELEPHONE", "VEGETABLE", "APARTMENT", "YESTERDAY", "ADVENTURE", "COMMUNITY", "DANGEROUS", "EDUCATION", "EQUIPMENT", "IMPORTANT", "CHALLENGE", "CHEMISTRY", "DEMOCRACY", "DISCOVERY", "ALCHEMIST", "CONSENSUS", "ATTRITION", "CONUNDRUM"]
+    };
+
+    const fbList = (fallbacks[targetLen] || []).filter(w => !exclude.includes(w));
+    if (fbList.length > 0) {
+      return fbList[Math.floor(Math.random() * fbList.length)];
     }
 
-    return "WORDS".padEnd(targetLen, "X").slice(0, targetLen);
+    return "WORD".padEnd(targetLen, "S").slice(0, targetLen);
   },
 
   isValidWord(word) {
