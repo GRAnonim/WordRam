@@ -43,13 +43,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // Модалка Колеса Фортуны
   
   
-  const btnOpenWheel = document.getElementById("btn-open-lucky-wheel");
-  const bannerOpenWheel = document.getElementById("banner-open-wheel");
-  
-  const wheelCanvas = document.getElementById("lucky-wheel-canvas");
-  const wheelResultBox = document.getElementById("wheel-result-box");
-  const wheelAvailText = document.getElementById("wheel-availability-text");
-
   // Модалка Блиц-повторения
   const blitzModal = document.getElementById("modal-blitz-quiz");
   const btnCloseBlitz = document.getElementById("btn-close-blitz");
@@ -237,129 +230,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // ----------------------------------------------------
-  // Колесо Фортуны (Canvas Lucky Wheel)
-  // ----------------------------------------------------
-  let currentWheelAngle = 0;
-  let isWheelSpinning = false;
-
-  function drawLuckyWheel() {
-    if (!wheelCanvas) return;
-    const ctx = wheelCanvas.getContext("2d");
-    const sectors = WordRamData.luckyWheelSectors;
-    const count = sectors.length;
-    const arc = (2 * Math.PI) / count;
-    const centerX = wheelCanvas.width / 2;
-    const centerY = wheelCanvas.height / 2;
-    const radius = centerX - 10;
-
-    ctx.clearRect(0, 0, wheelCanvas.width, wheelCanvas.height);
-    ctx.save();
-    ctx.translate(centerX, centerY);
-    ctx.rotate(currentWheelAngle);
-
-    sectors.forEach((sec, idx) => {
-      const angle = idx * arc;
-      ctx.beginPath();
-      ctx.fillStyle = sec.color;
-      ctx.moveTo(0, 0);
-      ctx.arc(0, 0, radius, angle, angle + arc);
-      ctx.lineTo(0, 0);
-      ctx.fill();
-      ctx.strokeStyle = "#ffffff";
-      ctx.lineWidth = 2;
-      ctx.stroke();
-
-      // Текст и иконка
-      ctx.save();
-      ctx.rotate(angle + arc / 2);
-      ctx.textAlign = "right";
-      ctx.fillStyle = "#ffffff";
-      ctx.font = "bold 13px sans-serif";
-      ctx.fillText(`${sec.icon} ${sec.label}`, radius - 15, 5);
-      ctx.restore();
-    });
-
-    // Центральный круг
-    ctx.beginPath();
-    ctx.arc(0, 0, 22, 0, 2 * Math.PI);
-    ctx.fillStyle = "#2b2029";
-    ctx.fill();
-    ctx.strokeStyle = "#fde047";
-    ctx.lineWidth = 3;
-    ctx.stroke();
-
-    ctx.restore();
-  }
-
-  function spinLuckyWheel() {
-    if (isWheelSpinning) return;
-    if (!storage.canSpinLuckyWheel()) {
-      showCustomInfoDialog("🎡", "Колесо Фортуны", "<p>Вы уже крутили колесо сегодня!</p><p class='mt-2'>Бесплатное вращение обновляется каждые 24 часа. Возвращайтесь завтра за новым призом!</p>");
-      return;
-    }
-
-    isWheelSpinning = true;
-    if (btnSpinWheel) btnSpinWheel.disabled = true;
-    if (wheelResultBox) wheelResultBox.style.display = "none";
-
-    const sectors = WordRamData.luckyWheelSectors;
-    const winningIdx = Math.floor(Math.random() * sectors.length);
-    const winningSector = sectors[winningIdx];
-
-    const arc = (2 * Math.PI) / sectors.length;
-    // Целевой угол (сверху указывает стрелка, поэтому угол сдвинут на -PI/2)
-    const targetSectorCenter = winningIdx * arc + arc / 2;
-    const stopAngle = (1.5 * Math.PI - targetSectorCenter + 2 * Math.PI) % (2 * Math.PI);
-    const totalSpins = 5;
-    const finalAngle = currentWheelAngle + (totalSpins * 2 * Math.PI) + stopAngle - (currentWheelAngle % (2 * Math.PI));
-
-    const startTime = performance.now();
-    const duration = 3800;
-    const startAngle = currentWheelAngle;
-
-    function animateWheel(time) {
-      const elapsed = time - startTime;
-      const progress = Math.min(1, elapsed / duration);
-      // Плавное кубическое замедление
-      const easeOut = 1 - Math.pow(1 - progress, 3);
-      currentWheelAngle = startAngle + (finalAngle - startAngle) * easeOut;
-      drawLuckyWheel();
-
-      if (progress < 1) {
-        requestAnimationFrame(animateWheel);
-      } else {
-        isWheelSpinning = false;
-        storage.applyLuckyWheelSector(winningSector);
-        game.playSound("win");
-
-        if (wheelResultBox) {
-          wheelResultBox.textContent = `🎉 Вы выиграли: ${winningSector.icon} ${winningSector.label}!`;
-          wheelResultBox.style.display = "block";
-        }
-        if (btnSpinWheel) {
-          btnSpinWheel.disabled = true;
-          btnSpinWheel.textContent = "Награда получена ✔";
-        }
-        updateProfileUI();
-        renderDailyScreen();
-      }
-    }
-
-    requestAnimationFrame(animateWheel);
-  }
-
-  if (btnOpenWheel) btnOpenWheel.addEventListener("click", () => {
-    showModal(wheelModal);
-    drawLuckyWheel();
-    const canSpin = storage.canSpinLuckyWheel();
-    if (btnSpinWheel) {
-      btnSpinWheel.disabled = !canSpin;
-      btnSpinWheel.textContent = canSpin ? "Вращать бесплатно!" : "Награда уже получена сегодня";
-    }
-  });
-
-  if (btnCloseWheel) btnCloseWheel.addEventListener("click", () => hideAllModals());
-  if (btnSpinWheel) btnSpinWheel.addEventListener("click", () => spinLuckyWheel());
+  
 
   // ----------------------------------------------------
   // Блиц-повторение слов (Flashcards Quiz)
@@ -909,10 +780,7 @@ document.addEventListener("DOMContentLoaded", () => {
       freezeCounterBadge.textContent = `❄️ Защита: ${status.freezes}/2`;
     }
 
-    if (wheelAvailText) {
-      const canSpin = storage.canSpinLuckyWheel();
-      wheelAvailText.textContent = canSpin ? "Бесплатное вращение доступно!" : "Возвращайтесь завтра!";
-    }
+    
 
     // 1. Календарь наград
     if (dailyRewardsCalendar) {

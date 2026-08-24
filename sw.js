@@ -1,20 +1,20 @@
 /**
- * WordRam - Service Worker (v25)
+ * WordRam - Service Worker (v26)
  * 1 500 слов CEFR, мгновенный Web Speech API, Слово дня,
- * рамка-лоток игрового поля, PWA и оффлайн.
+ * исправлена инициализация поля, PWA и оффлайн.
  */
 
-const CACHE_NAME = "wordram-v25";
+const CACHE_NAME = "wordram-v26";
 const ASSETS_TO_CACHE = [
   "./",
   "./index.html",
-  "./styles.css?v=25",
-  "./data.js?v=25",
-  "./storage.js?v=25",
-  "./generator.js?v=25",
-  "./game.js?v=25",
-  "./main.js?v=25",
-  "./manifest.webmanifest?v=25"
+  "./styles.css?v=26",
+  "./data.js?v=26",
+  "./storage.js?v=26",
+  "./generator.js?v=26",
+  "./game.js?v=26",
+  "./main.js?v=26",
+  "./manifest.webmanifest?v=26"
 ];
 
 self.addEventListener("install", (event) => {
