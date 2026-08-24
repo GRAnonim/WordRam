@@ -1,7 +1,7 @@
 /* ======================================================
-   WordRam - Stylesheet (v11)
-   Органические лабиринты (4x4 - 9x9), карточки перевода слов,
-   тест CEFR A1-C1 и темы.
+   WordRam - Stylesheet (v13)
+   SVG линии свайпа, Личный словарь, система рангов/XP,
+   достижения, ежедневный стрик и карточки слов.
    ====================================================== */
 
 :root {
@@ -202,7 +202,7 @@ body.dark-theme .coins-badge {
 
 .screen-header {
   width: 100%;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
   text-align: center;
 }
 
@@ -218,7 +218,7 @@ body.dark-theme .coins-badge {
 }
 
 /* ======================================================
-   Screen: Game
+   Screen: Game & SVG Connector Lines
    ====================================================== */
 .game-top-bar {
   width: 100%;
@@ -304,9 +304,7 @@ body.dark-theme .coins-badge {
   box-shadow: 0 4px 12px rgba(79, 70, 229, 0.15);
 }
 
-/* ======================================================
-   Dynamic Grid (4x4 to 9x9) with Adaptive Font Scaling
-   ====================================================== */
+/* 4x4 to 9x9 Grid with SVG Overlay */
 .grid-container {
   width: 100%;
   max-width: 400px;
@@ -315,7 +313,34 @@ body.dark-theme .coins-badge {
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
   touch-action: none;
+}
+
+.drag-svg-overlay {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: calc(100% - 8px);
+  height: calc(100% - 8px);
+  pointer-events: none;
+  z-index: 5;
+}
+
+.drag-svg-glow {
+  fill: none;
+  stroke: rgba(99, 102, 241, 0.4);
+  stroke-width: 16px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.drag-svg-core {
+  fill: none;
+  stroke: #6366f1;
+  stroke-width: 6px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .letter-grid {
@@ -348,7 +373,6 @@ body.dark-theme .coins-badge {
   color: var(--cell-hint-text);
 }
 
-/* Адаптивные стили под размеры сетки */
 .letter-grid[data-size="4"] { gap: 10px; }
 .letter-grid[data-size="4"] .grid-cell { font-size: 1.6rem; border-radius: 16px; }
 
@@ -457,6 +481,284 @@ body.dark-theme .coins-badge {
 }
 
 /* ======================================================
+   Screen: My Vocabulary (Личный словарь)
+   ====================================================== */
+.vocab-toolbar {
+  width: 100%;
+  max-width: 440px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 16px;
+  border: 1px solid var(--surface-border);
+  background: var(--surface-color);
+  color: var(--text-main);
+  font-size: 0.9rem;
+  outline: none;
+}
+
+.filter-chips {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.chip {
+  padding: 5px 12px;
+  border-radius: 14px;
+  background: var(--surface-color);
+  border: 1px solid var(--surface-border);
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.chip.active {
+  background: var(--primary);
+  color: #ffffff;
+  border-color: var(--primary);
+}
+
+.vocab-grid {
+  width: 100%;
+  max-width: 440px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.vocab-card {
+  background: var(--surface-color);
+  border: 1px solid var(--surface-border);
+  border-radius: 16px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.vocab-card:active {
+  transform: scale(0.98);
+}
+
+.vocab-card-left {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.vocab-word-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--primary);
+}
+
+.vocab-word-tr {
+  font-size: 0.85rem;
+  color: var(--text-main);
+}
+
+.vocab-word-ph {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.vocab-card-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.vocab-tag {
+  font-size: 0.7rem;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 8px;
+  background: var(--primary-light);
+  color: var(--primary);
+}
+
+.empty-vocab-msg {
+  text-align: center;
+  padding: 30px 16px;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+/* ======================================================
+   Screen: Daily Streak Rewards Calendar
+   ====================================================== */
+.daily-streak-card {
+  width: 100%;
+  max-width: 420px;
+  background: var(--surface-color);
+  border: 1px solid var(--surface-border);
+  border-radius: 20px;
+  padding: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.streak-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.rewards-calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.reward-day-item {
+  background: rgba(0,0,0,0.02);
+  border: 1px solid var(--surface-border);
+  border-radius: 12px;
+  padding: 8px 4px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+
+.reward-day-item.claimed {
+  background: #dcfce7;
+  border-color: #86efac;
+}
+
+.reward-day-item.current {
+  border-color: var(--accent);
+  box-shadow: 0 0 8px rgba(245, 158, 11, 0.4);
+}
+
+.reward-day-title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.reward-day-prize {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+.reward-day-item:last-child {
+  grid-column: span 2;
+}
+
+/* ======================================================
+   Screen: Profile & XP Rank
+   ====================================================== */
+.xp-profile-card {
+  width: 100%;
+  max-width: 400px;
+}
+
+.xp-rank-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.xp-progress-bar-wrap {
+  width: 100%;
+  height: 8px;
+  background: var(--surface-border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.xp-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #6366f1 0%, #a855f7 100%);
+  border-radius: 4px;
+  transition: width 0.4s ease;
+}
+
+.xp-sub-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.achievements-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.achievement-card {
+  background: rgba(0,0,0,0.02);
+  border: 1px solid var(--surface-border);
+  border-radius: 14px;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.achievement-card.unlocked {
+  background: rgba(245, 158, 11, 0.08);
+  border-color: rgba(245, 158, 11, 0.3);
+}
+
+.ach-icon {
+  font-size: 1.6rem;
+}
+
+.ach-info {
+  flex: 1;
+  text-align: left;
+}
+
+.ach-title {
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: var(--text-main);
+}
+
+.ach-desc {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.ach-reward {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+/* Secondary Button */
+.secondary-btn {
+  background: var(--surface-color);
+  border: 1px solid var(--surface-border);
+  color: var(--text-main);
+  padding: 10px 16px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* ======================================================
    Word Definition Card Modal (КАК НА СКРИНШОТЕ 3)
    ====================================================== */
 .word-definition-card {
@@ -469,7 +771,6 @@ body.dark-theme .coins-badge {
   top: -16px;
   left: 50%;
   transform: translateX(-50%);
-  background: #38bdf8;
   background: linear-gradient(135deg, #0284c7 0%, #38bdf8 100%);
   color: #ffffff;
   padding: 8px 24px;
@@ -584,54 +885,6 @@ body.dark-theme .def-content-box {
   margin-top: 2px;
 }
 
-/* ======================================================
-   Screen: Daily
-   ====================================================== */
-.daily-card {
-  width: 100%;
-  max-width: 380px;
-  background: var(--surface-color);
-  border: 1px solid var(--surface-border);
-  border-radius: 20px;
-  padding: 24px 16px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 14px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-}
-
-.daily-badge-icon {
-  font-size: 3rem;
-}
-
-.status-badge {
-  padding: 6px 14px;
-  border-radius: 16px;
-  font-size: 0.85rem;
-  font-weight: 700;
-}
-
-.status-badge.pending {
-  background: #fef3c7;
-  color: #92400e;
-}
-
-.status-badge.completed {
-  background: #dcfce7;
-  color: #166534;
-}
-
-.streak-info {
-  font-size: 1.05rem;
-}
-
-.daily-reward-desc {
-  font-size: 0.9rem;
-  color: var(--text-muted);
-}
-
 /* Buttons */
 .primary-btn {
   background: var(--primary);
@@ -660,9 +913,6 @@ body.dark-theme .def-content-box {
   50% { box-shadow: 0 6px 18px rgba(79, 70, 229, 0.6); }
 }
 
-/* ======================================================
-   Screen: Settings & CEFR
-   ====================================================== */
 .settings-group {
   width: 100%;
   max-width: 400px;
@@ -678,22 +928,6 @@ body.dark-theme .def-content-box {
   font-weight: 700;
   margin-bottom: 12px;
   color: var(--primary);
-}
-
-.cefr-status-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 10px;
-}
-
-.cefr-pill {
-  background: var(--primary-light);
-  color: var(--primary);
-  padding: 4px 12px;
-  border-radius: 14px;
-  font-size: 0.85rem;
-  font-weight: 800;
 }
 
 .setting-item {
@@ -718,26 +952,6 @@ body.dark-theme .def-content-box {
   height: 24px;
   accent-color: var(--primary);
   cursor: pointer;
-}
-
-.stat-row {
-  display: flex;
-  justify-content: space-between;
-  padding: 6px 0;
-  font-size: 0.9rem;
-}
-
-.rules-box ul {
-  padding-left: 20px;
-  font-size: 0.85rem;
-  color: var(--text-muted);
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.rules-box li strong {
-  color: var(--text-main);
 }
 
 .settings-danger {
@@ -887,7 +1101,7 @@ body.dark-theme .def-content-box {
 }
 
 /* ======================================================
-   Bottom Navigation
+   Bottom Navigation (5 Вкладок)
    ====================================================== */
 .bottom-nav {
   position: fixed;
@@ -917,7 +1131,7 @@ body.dark-theme .def-content-box {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 3px;
+  gap: 2px;
   cursor: pointer;
   color: var(--text-muted);
   transition: color 0.15s, transform 0.1s;
@@ -928,11 +1142,11 @@ body.dark-theme .def-content-box {
 }
 
 .nav-icon {
-  font-size: 1.25rem;
+  font-size: 1.15rem;
 }
 
 .nav-label {
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 600;
 }
 
@@ -1090,4 +1304,8 @@ body.dark-theme .def-content-box {
 
 .game-toast.toast-success {
   background: #15803d;
+}
+
+.game-toast.toast-bonus {
+  background: #b45309;
 }

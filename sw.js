@@ -1,19 +1,20 @@
 /**
- * WordRam - Service Worker (v11)
- * Лабиринтные змейки, карточки перевода слов, PWA и оффлайн.
+ * WordRam - Service Worker (v13)
+ * Полная геймификация: Личный словарь, система рангов/XP, достижения,
+ * SVG линии жестов, оффлайн PWA.
  */
 
-const CACHE_NAME = "wordram-v11";
+const CACHE_NAME = "wordram-v13";
 const ASSETS_TO_CACHE = [
   "./",
   "./index.html",
-  "./styles.css?v=11",
-  "./data.js?v=11",
-  "./storage.js?v=11",
-  "./generator.js?v=11",
-  "./game.js?v=11",
-  "./main.js?v=11",
-  "./manifest.webmanifest?v=11"
+  "./styles.css?v=13",
+  "./data.js?v=13",
+  "./storage.js?v=13",
+  "./generator.js?v=13",
+  "./game.js?v=13",
+  "./main.js?v=13",
+  "./manifest.webmanifest?v=13"
 ];
 
 self.addEventListener("install", (event) => {
@@ -31,7 +32,7 @@ self.addEventListener("activate", (event) => {
       return Promise.all(
         keys.map((key) => {
           if (key !== CACHE_NAME) {
-            console.log("[ServiceWorker] Удаление старого кэша:", key);
+            console.log("[ServiceWorker] Очистка старого кэша:", key);
             return caches.delete(key);
           }
         })

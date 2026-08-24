@@ -4,16 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>WordRam — Найдите спрятанные слова</title>
-  <meta name="description" content="Увлекательная игра-головоломка в слова на сетке от 4x4 до 9x9. 100% заполнение сетки, адаптация под уровень английского (A1-C1).">
+  <meta name="description" content="Увлекательная игра-головоломка в слова на сетке от 4x4 до 9x9. 100% заполнение сетки, личный словарь, система рангов CEFR (A1-C1) и достижения.">
   <meta name="theme-color" content="#4f46e5">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="WordRam">
   
-  <link rel="manifest" href="manifest.webmanifest?v=11">
+  <link rel="manifest" href="manifest.webmanifest?v=13">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%234f46e5'/><text x='50%' y='65%' font-size='55' font-family='sans-serif' font-weight='bold' fill='white' text-anchor='middle'>W</text></svg>">
   <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%234f46e5'/><text x='50%' y='65%' font-size='55' font-family='sans-serif' font-weight='bold' fill='white' text-anchor='middle'>W</text></svg>">
-  <link rel="stylesheet" href="styles.css?v=11">
+  <link rel="stylesheet" href="styles.css?v=13">
 </head>
 <body>
   <div id="app">
@@ -38,7 +38,6 @@
       <section id="screen-game" class="screen-view">
         <div class="game-top-bar">
           <div id="level-progress-text" class="progress-label">Слов найдено: 0 из 4 (0/16 букв)</div>
-          <!-- Слоты слов (скрытый список: отображаются только длины/точки) -->
           <div id="word-slots-container" class="word-slots"></div>
         </div>
 
@@ -47,8 +46,9 @@
           <div id="word-preview" class="word-preview-box"></div>
         </div>
 
-        <!-- Игровое поле (100% заполнено словами-змейками) -->
+        <!-- Игровое поле с SVG соединителем жестов -->
         <div class="grid-container">
+          <svg id="drag-connector-svg" class="drag-svg-overlay"></svg>
           <div id="game-grid" class="letter-grid"></div>
         </div>
 
@@ -56,12 +56,36 @@
         <div class="game-controls">
           <button id="btn-hint" class="action-btn hint-btn">
             <span class="btn-icon">💡</span>
-            <span class="btn-text">Подсказка</span>
+            <span class="btn-text">Подсказка (3 беспл.)</span>
           </button>
         </div>
       </section>
 
-      <!-- ЭКРАН 2: УРОВНИ -->
+      <!-- ЭКРАН 2: МОЙ СЛОВАРЬ (PERSONAL VOCABULARY) -->
+      <section id="screen-vocab" class="screen-view" style="display: none;">
+        <div class="screen-header">
+          <h2>Мой словарь</h2>
+          <p id="vocab-stats-subtitle" class="subtitle">Выучено слов: 0 из 534</p>
+        </div>
+
+        <!-- Поиск и фильтры по CEFR -->
+        <div class="vocab-toolbar">
+          <input type="text" id="vocab-search-input" class="search-input" placeholder="🔍 Поиск по словам и переводу...">
+          <div id="vocab-cefr-filters" class="filter-chips">
+            <button class="chip active" data-filter="ALL">Все</button>
+            <button class="chip" data-filter="A1">A1</button>
+            <button class="chip" data-filter="A2">A2</button>
+            <button class="chip" data-filter="B1">B1</button>
+            <button class="chip" data-filter="B2">B2</button>
+            <button class="chip" data-filter="C1">C1</button>
+          </div>
+        </div>
+
+        <!-- Список выученных карточек слов -->
+        <div id="vocab-cards-grid" class="vocab-grid"></div>
+      </section>
+
+      <!-- ЭКРАН 3: УРОВНИ -->
       <section id="screen-levels" class="screen-view" style="display: none;">
         <div class="screen-header">
           <h2>Карта уровней</h2>
@@ -70,44 +94,59 @@
         <div id="levels-grid" class="levels-scroll-grid"></div>
       </section>
 
-      <!-- ЭКРАН 3: СЕГОДНЯ (ЕЖЕДНЕВНОЕ ИСПЫТАНИЕ) -->
+      <!-- ЭКРАН 4: СЕГОДНЯ (ЕЖЕДНЕВНЫЙ КВЕСТ И СТРИК НАГРАД) -->
       <section id="screen-daily" class="screen-view" style="display: none;">
         <div class="screen-header">
-          <h2>Ежедневное испытание</h2>
-          <p class="subtitle">Каждый день новая уникальная головоломка со змейками слов</p>
+          <h2>Ежедневные награды</h2>
+          <p class="subtitle">Заходите каждый день и получайте сундуки с монетами</p>
         </div>
         
-        <div class="daily-card">
-          <div class="daily-badge-icon">📅</div>
-          <div id="daily-status-badge" class="status-badge pending">Новое испытание ждет вас!</div>
-          <div class="streak-info">
-            Серия побед подряд: <strong id="daily-streak-count">0</strong> дн. 🔥
+        <!-- Календарь наград за 7 дней -->
+        <div class="daily-streak-card">
+          <div class="streak-header-row">
+            <span>Серия входов: <strong id="daily-streak-count">0</strong> дн. 🔥</span>
+            <span id="daily-status-badge" class="status-badge pending">Сегодня доступно</span>
           </div>
-          <p class="daily-reward-desc">Завершите сегодняшнее испытание и получите <strong>+50 🪙</strong>!</p>
-          <button id="btn-start-daily" class="primary-btn pulse-glow">Начать игру (+50 🪙)</button>
+          <div id="daily-rewards-calendar" class="rewards-calendar-grid"></div>
+          <button id="btn-start-daily" class="primary-btn full-width mt-4 pulse-glow">
+            Сыграть ежедневный уровень (+50 🪙, +150 XP)
+          </button>
         </div>
       </section>
 
-      <!-- ЭКРАН 4: НАСТРОЙКИ И ТЕСТ УРОВНЯ -->
+      <!-- ЭКРАН 5: ПРОФИЛЬ, ДОСТИЖЕНИЯ И НАСТРОЙКИ -->
       <section id="screen-settings" class="screen-view" style="display: none;">
         <div class="screen-header">
-          <h2>Настройки и профиль</h2>
+          <h2>Профиль и достижения</h2>
         </div>
 
-        <!-- Блок уровня английского -->
-        <div class="settings-group cefr-profile-box">
-          <h3>Уровень английского (CEFR)</h3>
-          <div class="cefr-status-row">
-            <span class="cefr-label">Текущий уровень:</span>
-            <strong id="settings-cefr-name" class="cefr-pill">A2 — Pre-Intermediate</strong>
+        <!-- Шкала опыта и ранга CEFR -->
+        <div class="settings-group xp-profile-card">
+          <div class="xp-rank-header">
+            <span class="xp-rank-title">Ранг английского:</span>
+            <strong id="profile-cefr-badge" class="cefr-pill">A2 — Pre-Intermediate</strong>
           </div>
-          <button id="btn-open-placement-test" class="primary-btn full-width mt-2">
+          <div class="xp-progress-bar-wrap mt-2">
+            <div id="profile-xp-fill" class="xp-bar-fill" style="width: 40%;"></div>
+          </div>
+          <div class="xp-sub-info">
+            <span id="profile-xp-text">Опыт: 300 / 800 XP</span>
+            <span id="profile-xp-percent">38%</span>
+          </div>
+          <button id="btn-open-placement-test" class="secondary-btn full-width mt-4">
             📝 Пройти тест на определение уровня (A1–C1)
           </button>
         </div>
 
+        <!-- Блок достижений -->
         <div class="settings-group">
-          <h3>Параметры</h3>
+          <h3>Достижения (Трофеи)</h3>
+          <div id="achievements-list" class="achievements-container"></div>
+        </div>
+
+        <!-- Параметры -->
+        <div class="settings-group">
+          <h3>Настройки</h3>
           <div class="setting-item">
             <label for="setting-sound">Звуковые эффекты</label>
             <input type="checkbox" id="setting-sound" class="toggle-switch" checked>
@@ -122,39 +161,21 @@
           </div>
         </div>
 
-        <div class="settings-group">
-          <h3>Статистика</h3>
-          <div class="stat-row">
-            <span>Найдено слов:</span>
-            <strong id="stat-total-words">0</strong>
-          </div>
-          <div class="stat-row">
-            <span>Пройдено уровней:</span>
-            <strong id="stat-levels-completed">0</strong>
-          </div>
-        </div>
-
-        <div class="settings-group rules-box">
-          <h3>Правила игры WordRam</h3>
-          <ul>
-            <li><strong>100% заполнение сетки:</strong> все буквы на поле входят в состав загаданных слов. Лишних букв нет.</li>
-            <li><strong>Соседние клетки:</strong> соединяйте буквы строго по горизонтали и вертикали (без диагоналей).</li>
-            <li><strong>Слова-змейки:</strong> слова изгибаются по полю, образуя ломаные линии.</li>
-            <li><strong>Перевод слова:</strong> нажмите на любое отгаданное слово вверху или на поле, чтобы открыть его перевод и определение!</li>
-          </ul>
-        </div>
-
         <div class="settings-danger">
           <button id="btn-reset-data" class="danger-btn">Сбросить весь прогресс</button>
         </div>
       </section>
     </main>
 
-    <!-- Нижнее навигационное меню (4 пункта) -->
+    <!-- Нижнее навигационное меню (5 вкладок) -->
     <nav class="bottom-nav">
       <button id="nav-btn-game" class="nav-item active">
         <span class="nav-icon">🎮</span>
         <span class="nav-label">Игра</span>
+      </button>
+      <button id="nav-btn-vocab" class="nav-item">
+        <span class="nav-icon">📖</span>
+        <span class="nav-label">Словарь</span>
       </button>
       <button id="nav-btn-levels" class="nav-item">
         <span class="nav-icon">🗺️</span>
@@ -165,8 +186,8 @@
         <span class="nav-label">Сегодня</span>
       </button>
       <button id="nav-btn-settings" class="nav-item">
-        <span class="nav-icon">⚙️</span>
-        <span class="nav-label">Настройки</span>
+        <span class="nav-icon">🏆</span>
+        <span class="nav-label">Профиль</span>
       </button>
     </nav>
 
@@ -193,7 +214,6 @@
       <div class="modal-card placement-card">
         <button id="btn-close-placement" class="modal-close-icon" aria-label="Закрыть">✕</button>
         
-        <!-- Шаг 1: Вопросы теста -->
         <div id="placement-quiz-step">
           <div class="quiz-header">
             <span class="quiz-step-title">Тест словарного запаса</span>
@@ -203,7 +223,6 @@
             <div id="quiz-progress-fill" class="quiz-progress-bar-fill" style="width: 6.6%;"></div>
           </div>
 
-          <!-- Карточка слова: ТОЛЬКО английское слово без подсказок -->
           <div class="quiz-word-card">
             <h3 id="quiz-word-display" class="quiz-target-word">FAMILY</h3>
           </div>
@@ -223,7 +242,6 @@
           </div>
         </div>
 
-        <!-- Шаг 2: Результат теста -->
         <div id="placement-result-step" style="display: none;">
           <div class="modal-confetti">🎓</div>
           <h2 class="modal-title">Ваш уровень определен!</h2>
@@ -253,10 +271,10 @@
   </div>
 
   <!-- Подключение скриптов с версионированием -->
-  <script src="data.js?v=11"></script>
-  <script src="storage.js?v=11"></script>
-  <script src="generator.js?v=11"></script>
-  <script src="game.js?v=11"></script>
-  <script src="main.js?v=11"></script>
+  <script src="data.js?v=13"></script>
+  <script src="storage.js?v=13"></script>
+  <script src="generator.js?v=13"></script>
+  <script src="game.js?v=13"></script>
+  <script src="main.js?v=13"></script>
 </body>
 </html>

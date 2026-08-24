@@ -1,7 +1,7 @@
 /**
- * WordRam - Main Application Controller (v11)
- * Управление экранами, тестом CEFR, карточками перевода угаданных слов
- * и PWA Service Worker.
+ * WordRam - Main Application Controller (v13)
+ * Управление 5 экранами (Игра, Словарь, Уровни, Сегодня, Профиль),
+ * личный словарь, достижения, стрик наград, XP/ранги и PWA.
  */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -27,15 +27,15 @@ document.addEventListener("DOMContentLoaded", () => {
   const resultBadgeEl = document.getElementById("placement-result-badge");
   const resultTitleEl = document.getElementById("placement-result-title");
   const resultDescEl = document.getElementById("placement-result-desc");
-  const settingsCefrName = document.getElementById("settings-cefr-name");
   const headerCefrBadge = document.getElementById("header-cefr-badge");
 
-  // Модалка перевода слова (как на скриншоте 3)
+  // Модалка перевода слова
   const defModal = document.getElementById("modal-word-definition");
   const defWordRibbon = document.getElementById("def-word-ribbon");
   const defPhonetic = document.getElementById("def-phonetic");
   const defTranslation = document.getElementById("def-translation");
   const defMeaning = document.getElementById("def-meaning");
+  const defExampleBox = document.getElementById("def-example-box");
   const defExampleText = document.getElementById("def-example-text");
   const btnCloseDefinition = document.getElementById("btn-close-definition");
   const btnOkDefinition = document.getElementById("btn-ok-definition");
@@ -50,10 +50,27 @@ document.addEventListener("DOMContentLoaded", () => {
   function showWordDefinitionModal(details) {
     if (!defModal || !details) return;
     if (defWordRibbon) defWordRibbon.textContent = details.word;
-    if (defPhonetic) defPhonetic.textContent = details.ph || "";
-    if (defTranslation) defTranslation.textContent = details.tr || "";
-    if (defMeaning) defMeaning.textContent = details.def || "";
-    if (defExampleText) defExampleText.textContent = details.ex || "";
+
+    if (defPhonetic) {
+      if (details.ph) {
+        defPhonetic.textContent = details.ph;
+        defPhonetic.style.display = "block";
+      } else {
+        defPhonetic.style.display = "none";
+      }
+    }
+
+    if (defTranslation) defTranslation.textContent = details.tr || details.word;
+    if (defMeaning) defMeaning.textContent = details.def || "Слово английского языка.";
+
+    if (defExampleBox && defExampleText) {
+      if (details.ex && details.ex.trim().length > 0 && !details.ex.includes("English context")) {
+        defExampleText.textContent = details.ex;
+        defExampleBox.style.display = "block";
+      } else {
+        defExampleBox.style.display = "none";
+      }
+    }
 
     defModal.style.setProperty("display", "flex", "important");
     defModal.classList.add("open");
@@ -77,7 +94,6 @@ document.addEventListener("DOMContentLoaded", () => {
         .map((w) => `<li class="win-word-item" data-word="${w}">✔ <strong>${w}</strong></li>`)
         .join("");
 
-      // Делаем слова в списке победы кликабельными для перевода
       winWordsList.querySelectorAll(".win-word-item").forEach(item => {
         item.style.cursor = "pointer";
         item.addEventListener("click", () => {
@@ -94,6 +110,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     winModal.style.setProperty("display", "flex", "important");
     winModal.classList.add("open");
+
+    // Обновляем шкалу XP и интерфейс
+    updateProfileUI();
   }
 
   hideVictoryModal();
@@ -114,12 +133,13 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Инициализация игрового ядра с колбэком перевода
+  // Инициализация игрового ядра
   const game = new WordRamGame({
     storage: storage,
     generator: generator,
     onLevelCompleted: (summary) => showVictoryModal(summary),
-    onWordDetailsRequested: (details) => showWordDefinitionModal(details)
+    onWordDetailsRequested: (details) => showWordDefinitionModal(details),
+    onXpUpdated: () => updateProfileUI()
   });
 
   // ----------------------------------------------------
@@ -143,6 +163,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function closePlacementTest() {
+    storage.setSetting("hasCompletedPlacementTest", true);
     if (placementModal) {
       placementModal.style.setProperty("display", "none", "important");
       placementModal.classList.remove("open");
@@ -203,7 +224,7 @@ document.addEventListener("DOMContentLoaded", () => {
     btnApplyPlacement.addEventListener("click", () => {
       if (evaluatedResult) {
         storage.setEnglishLevel(evaluatedResult.code);
-        updateCefrUI();
+        updateProfileUI();
       }
       closePlacementTest();
       game.startLevel(1, false);
@@ -211,26 +232,44 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  function updateCefrUI() {
+  function updateProfileUI() {
     const levelCode = storage.getEnglishLevel();
     if (headerCefrBadge) headerCefrBadge.textContent = `🇬🇧 ${levelCode}`;
-    if (settingsCefrName) {
-      const labels = {
-        A1: "A1 — Elementary",
-        A2: "A2 — Pre-Intermediate",
-        B1: "B1 — Intermediate",
-        B2: "B2 — Upper-Intermediate",
-        C1: "C1 — Advanced"
-      };
-      settingsCefrName.textContent = labels[levelCode] || levelCode;
+
+    const profileCefrBadge = document.getElementById("profile-cefr-badge");
+    const profileXpFill = document.getElementById("profile-xp-fill");
+    const profileXpText = document.getElementById("profile-xp-text");
+    const profileXpPercent = document.getElementById("profile-xp-percent");
+
+    const xpData = storage.getXpProgress();
+
+    if (profileCefrBadge) {
+      profileCefrBadge.textContent = xpData.rank.badge;
+    }
+
+    if (profileXpFill) {
+      profileXpFill.style.width = `${xpData.percent}%`;
+    }
+
+    if (profileXpText) {
+      if (xpData.isMax) {
+        profileXpText.textContent = `Опыт: ${xpData.currentXp} XP (Макс. ранг)`;
+      } else {
+        profileXpText.textContent = `Опыт: ${xpData.currentXp} / ${xpData.nextXp} XP`;
+      }
+    }
+
+    if (profileXpPercent) {
+      profileXpPercent.textContent = `${xpData.percent}%`;
     }
   }
 
   // ----------------------------------------------------
-  // Экраны и вкладки
+  // Экраны и вкладки (5 Вкладок)
   // ----------------------------------------------------
   const screens = {
     game: document.getElementById("screen-game"),
+    vocab: document.getElementById("screen-vocab"),
     levels: document.getElementById("screen-levels"),
     daily: document.getElementById("screen-daily"),
     settings: document.getElementById("screen-settings")
@@ -238,6 +277,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const navButtons = {
     game: document.getElementById("nav-btn-game"),
+    vocab: document.getElementById("nav-btn-vocab"),
     levels: document.getElementById("nav-btn-levels"),
     daily: document.getElementById("nav-btn-daily"),
     settings: document.getElementById("nav-btn-settings")
@@ -264,6 +304,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
+    if (tabKey === "vocab") renderVocabScreen();
     if (tabKey === "levels") renderLevelsScreen();
     if (tabKey === "daily") renderDailyScreen();
     if (tabKey === "settings") renderSettingsScreen();
@@ -275,7 +316,107 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // ----------------------------------------------------
+  // Экран: Мой словарь (Personal Vocabulary)
+  // ----------------------------------------------------
+  const vocabCardsGrid = document.getElementById("vocab-cards-grid");
+  const vocabStatsSubtitle = document.getElementById("vocab-stats-subtitle");
+  const vocabSearchInput = document.getElementById("vocab-search-input");
+  const vocabChips = document.querySelectorAll("#vocab-cefr-filters .chip");
+
+  let activeVocabFilter = "ALL";
+  let vocabSearchQuery = "";
+
+  function renderVocabScreen() {
+    if (!vocabCardsGrid) return;
+    vocabCardsGrid.innerHTML = "";
+
+    const collected = storage.getCollectedWords();
+    const collectedWordsList = Object.keys(collected);
+
+    if (vocabStatsSubtitle) {
+      vocabStatsSubtitle.textContent = `Выучено слов: ${collectedWordsList.length} из 534`;
+    }
+
+    // Определяем CEFR уровень для каждого слова
+    function findCefrLevel(word) {
+      for (const lvl of ["A1", "A2", "B1", "B2", "C1"]) {
+        const wordsAtLvl = WordRamData.cefrDictionary[lvl];
+        for (const len in wordsAtLvl) {
+          if (wordsAtLvl[len].includes(word)) return lvl;
+        }
+      }
+      return "A2";
+    }
+
+    const filtered = collectedWordsList.filter(w => {
+      const lvl = findCefrLevel(w);
+      if (activeVocabFilter !== "ALL" && lvl !== activeVocabFilter) return false;
+
+      if (vocabSearchQuery) {
+        const details = WordRamData.getWordDetails(w);
+        const q = vocabSearchQuery.toLowerCase();
+        const matchesWord = w.toLowerCase().includes(q);
+        const matchesTr = details && details.tr && details.tr.toLowerCase().includes(q);
+        if (!matchesWord && !matchesTr) return false;
+      }
+      return true;
+    });
+
+    if (filtered.length === 0) {
+      vocabCardsGrid.innerHTML = `
+        <div class="empty-vocab-msg">
+          <p>🔍 ${collectedWordsList.length === 0 ? "Вы еще не нашли ни одного слова. Проходите уровни, и слова появятся здесь!" : "По вашему запросу слов не найдено."}</p>
+        </div>
+      `;
+      return;
+    }
+
+    filtered.forEach(w => {
+      const details = WordRamData.getWordDetails(w);
+      const lvl = findCefrLevel(w);
+
+      const card = document.createElement("div");
+      card.className = "vocab-card";
+      card.innerHTML = `
+        <div class="vocab-card-left">
+          <div class="vocab-word-title">${w}</div>
+          <div class="vocab-word-tr">${details ? details.tr : ""}</div>
+          <div class="vocab-word-ph">${details && details.ph ? details.ph : ""}</div>
+        </div>
+        <div class="vocab-card-right">
+          <span class="vocab-tag">${lvl}</span>
+          <span style="font-size: 1.1rem;">➔</span>
+        </div>
+      `;
+
+      card.addEventListener("click", () => {
+        showWordDefinitionModal(details);
+      });
+
+      vocabCardsGrid.appendChild(card);
+    });
+  }
+
+  if (vocabSearchInput) {
+    vocabSearchInput.addEventListener("input", (e) => {
+      vocabSearchQuery = e.target.value.trim();
+      renderVocabScreen();
+    });
+  }
+
+  vocabChips.forEach(chip => {
+    chip.addEventListener("click", () => {
+      vocabChips.forEach(c => c.classList.remove("active"));
+      chip.classList.add("active");
+      activeVocabFilter = chip.dataset.filter;
+      renderVocabScreen();
+    });
+  });
+
+  // ----------------------------------------------------
   // Экран: Уровни
+  // ----------------------------------------------------
   const levelsGrid = document.getElementById("levels-grid");
   function renderLevelsScreen() {
     if (!levelsGrid) return;
@@ -316,10 +457,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Экран: Сегодня
+  // ----------------------------------------------------
+  // Экран: Сегодня и Ежедневный стрик
+  // ----------------------------------------------------
   const dailyBtnStart = document.getElementById("btn-start-daily");
   const dailyStreakEl = document.getElementById("daily-streak-count");
   const dailyStatusBadge = document.getElementById("daily-status-badge");
+  const dailyRewardsCalendar = document.getElementById("daily-rewards-calendar");
 
   function renderDailyScreen() {
     const status = storage.getDailyStatus();
@@ -331,10 +475,30 @@ document.addEventListener("DOMContentLoaded", () => {
         dailyStatusBadge.className = "status-badge completed";
         if (dailyBtnStart) dailyBtnStart.textContent = "Сыграть снова";
       } else {
-        dailyStatusBadge.textContent = "Новое испытание ждет вас!";
+        dailyStatusBadge.textContent = "Сегодня доступно";
         dailyStatusBadge.className = "status-badge pending";
-        if (dailyBtnStart) dailyBtnStart.textContent = "Начать игру (+50 🪙)";
+        if (dailyBtnStart) dailyBtnStart.textContent = "Сыграть уровень (+50 🪙, +150 XP)";
       }
+    }
+
+    if (dailyRewardsCalendar) {
+      dailyRewardsCalendar.innerHTML = "";
+      const currentDayInStreak = Math.max(1, (status.streak % 7) || (status.isTodayCompleted ? 7 : 1));
+
+      WordRamData.dailyStreakRewards.forEach(item => {
+        const isClaimed = item.day < currentDayInStreak || (item.day === currentDayInStreak && status.isTodayCompleted);
+        const isCurrent = item.day === currentDayInStreak;
+
+        const dayBox = document.createElement("div");
+        dayBox.className = `reward-day-item ${isClaimed ? "claimed" : ""} ${isCurrent ? "current" : ""}`;
+        dayBox.innerHTML = `
+          <span class="reward-day-title">${item.label}</span>
+          <span class="reward-day-prize">+${item.coins} 🪙</span>
+          ${item.hints > 0 ? `<span style="font-size: 0.65rem; color: #4338ca;">+${item.hints} 💡</span>` : ""}
+          <span style="font-size: 0.75rem;">${isClaimed ? "✔" : (isCurrent ? "⭐" : "🔒")}</span>
+        `;
+        dailyRewardsCalendar.appendChild(dayBox);
+      });
     }
   }
 
@@ -348,23 +512,41 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Экран: Настройки
+  // ----------------------------------------------------
+  // Экран: Профиль, Достижения и Настройки
+  // ----------------------------------------------------
   const toggleSound = document.getElementById("setting-sound");
   const toggleVibration = document.getElementById("setting-vibration");
   const toggleTheme = document.getElementById("setting-theme");
   const btnResetData = document.getElementById("btn-reset-data");
-  const statWords = document.getElementById("stat-total-words");
-  const statLevels = document.getElementById("stat-levels-completed");
+  const achievementsListEl = document.getElementById("achievements-list");
 
   function renderSettingsScreen() {
-    updateCefrUI();
+    updateProfileUI();
+
     if (toggleSound) toggleSound.checked = !!storage.getSetting("soundEnabled");
     if (toggleVibration) toggleVibration.checked = !!storage.getSetting("vibrationEnabled");
     if (toggleTheme) toggleTheme.checked = !!storage.getSetting("darkTheme");
 
-    const stats = storage.getSetting("stats");
-    if (statWords && stats) statWords.textContent = stats.totalWordsFound || 0;
-    if (statLevels && stats) statLevels.textContent = stats.levelsCompleted || 0;
+    if (achievementsListEl) {
+      achievementsListEl.innerHTML = "";
+      const unlockedIds = storage.state.unlockedAchievements || [];
+
+      WordRamData.achievements.forEach(ach => {
+        const isUnlocked = unlockedIds.includes(ach.id);
+        const card = document.createElement("div");
+        card.className = `achievement-card ${isUnlocked ? "unlocked" : ""}`;
+        card.innerHTML = `
+          <div class="ach-icon">${ach.icon}</div>
+          <div class="ach-info">
+            <div class="ach-title">${ach.title} ${isUnlocked ? "✔" : ""}</div>
+            <div class="ach-desc">${ach.desc}</div>
+          </div>
+          <div class="ach-reward">+${ach.rewardCoins} 🪙</div>
+        `;
+        achievementsListEl.appendChild(card);
+      });
+    }
   }
 
   if (toggleSound) {
@@ -398,7 +580,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (btnResetData) {
     btnResetData.addEventListener("click", () => {
-      if (confirm("Вы уверены, что хотите сбросить весь прогресс и монеты?")) {
+      if (confirm("Вы уверены, что хотите сбросить весь прогресс, монеты и личный словарь?")) {
         storage.resetAll();
         hideVictoryModal();
         hideWordDefinitionModal();
@@ -414,7 +596,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Запуск при старте
   // ----------------------------------------------------
   applyTheme(!!storage.getSetting("darkTheme"));
-  updateCefrUI();
+  updateProfileUI();
 
   const saved = storage.getActiveSavedGame();
   if (saved && saved.levelData && saved.foundWords && saved.foundWords.length < saved.levelData.words.length) {
