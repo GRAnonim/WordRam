@@ -4003,38 +4003,36 @@ const WordRamData = {
   },
 
   getWordForCefrAndLength(cefrLevel, targetLen, exclude = []) {
-    const allLevels = ["A1", "A2", "B1", "B2", "C1"];
-    let pool = [];
+    const rankOrder = ["A1", "A2", "B1", "B2", "C1"];
+    const userRankIdx = Math.max(0, rankOrder.indexOf(cefrLevel));
 
+    // 1. СТРОГО ищем слова на текущем уровне игрока (например, A2)
     if (this.cefrDictionary[cefrLevel] && this.cefrDictionary[cefrLevel][targetLen]) {
-      pool = pool.concat(this.cefrDictionary[cefrLevel][targetLen]);
-    }
-
-    for (const lvl of allLevels) {
-      if (lvl !== cefrLevel && this.cefrDictionary[lvl] && this.cefrDictionary[lvl][targetLen]) {
-        pool = pool.concat(this.cefrDictionary[lvl][targetLen]);
+      const available = this.cefrDictionary[cefrLevel][targetLen].filter(
+        w => !exclude.includes(w) && w.length === targetLen
+      );
+      if (available.length > 0) {
+        return available[Math.floor(Math.random() * available.length)];
       }
     }
 
-    const available = pool.filter(w => !exclude.includes(w) && w.length === targetLen);
-    if (available.length > 0) {
-      return available[Math.floor(Math.random() * available.length)];
+    // 2. Если на текущем уровне все слова этой длины закончились, берем ТОЛЬКО более простые уровни ниже (для закрепления материала). СЛОВА ИЗ БОЛЕЕ СЛОЖНЫХ УРОВНЕЙ ВЫШЕ НЕ БЕРУТСЯ!
+    for (let i = userRankIdx - 1; i >= 0; i--) {
+      const lowerLvl = rankOrder[i];
+      if (this.cefrDictionary[lowerLvl] && this.cefrDictionary[lowerLvl][targetLen]) {
+        const available = this.cefrDictionary[lowerLvl][targetLen].filter(
+          w => !exclude.includes(w) && w.length === targetLen
+        );
+        if (available.length > 0) {
+          return available[Math.floor(Math.random() * available.length)];
+        }
+      }
     }
 
-    const fallbacks = {
-      3: ["SUN", "CAT", "DOG", "CAR", "RED", "KEY", "SEA", "SKY", "AIR", "ICE", "RAW", "FOG", "RAY", "ERA", "EGO", "EBB", "AWE"],
-      4: ["BOOK", "DOOR", "MILK", "TREE", "FISH", "BIRD", "HOME", "COLD", "FOOD", "NAME", "CITY", "BALL", "SNOW", "RAIN", "TIME", "ROAD", "WIND", "FIRE", "STAR", "CAFE", "BOND", "CLAY", "DAWN", "ECHO", "FLOW", "APEX", "AXIS", "BULK", "CRUX", "FLUX"],
-      5: ["WATER", "APPLE", "HOUSE", "BREAD", "HAPPY", "GREEN", "RIVER", "MUSIC", "TABLE", "CHAIR", "CLEAN", "SLEEP", "PLANT", "NIGHT", "LIGHT", "BRAIN", "CANDY", "CLOUD", "DANCE", "DREAM", "ALERT", "AMBER", "ARROW", "ASSET", "BADGE", "ADAPT", "ALIBI", "ABBEY", "ANVIL"],
-      6: ["MOTHER", "FATHER", "SISTER", "FAMILY", "SCHOOL", "FRIEND", "YELLOW", "SUMMER", "WINTER", "GARDEN", "STREET", "ORANGE", "DOCTOR", "WINDOW", "ANIMAL", "ACTION", "BRIDGE", "CAMERA", "CASTLE", "DESERT", "ANCHOR", "AVENUE", "BREEZE", "BRONZE", "ALPINE", "BEACON", "BONSAI", "CLOVER"],
-      7: ["BROTHER", "STUDENT", "MORNING", "EVENING", "TEACHER", "HOLIDAY", "KITCHEN", "BEDROOM", "WEATHER", "PICTURE", "STATION", "AIRPORT", "WELCOME", "PACKAGE", "COUNTRY", "CAPTAIN", "CARAVAN", "CRYSTAL", "DOLPHIN", "FASHION", "JOURNEY", "ACADEMY", "BLOSSOM", "CASCADE", "BALLOON", "EMBRACE", "ACROBAT", "ANALOGY"],
-      8: ["HOSPITAL", "NOTEBOOK", "AIRPLANE", "BASEBALL", "CHILDREN", "DAUGHTER", "MOUNTAIN", "SANDWICH", "SWIMMING", "UMBRELLA", "VACATION", "WEEKENDS", "FOOTBALL", "BIRTHDAY", "BUSINESS", "CALENDAR", "COMPUTER", "DIRECTOR", "DISASTER", "ENGINEER", "ALLIANCE", "AUDIENCE", "CAMPAIGN", "CEREMONY", "ABSOLUTE", "ACADEMIC", "ACCURATE", "CATALYST", "EMISSARY"],
-      9: ["CLASSROOM", "BREAKFAST", "BEAUTIFUL", "AFTERNOON", "CHOCOLATE", "NEWSPAPER", "PASSENGER", "PROFESSOR", "TELEPHONE", "VEGETABLE", "APARTMENT", "YESTERDAY", "ADVENTURE", "COMMUNITY", "DANGEROUS", "EDUCATION", "EQUIPMENT", "IMPORTANT", "CHALLENGE", "CHEMISTRY", "DEMOCRACY", "DISCOVERY", "ALCHEMIST", "CONSENSUS", "ATTRITION", "CONUNDRUM"],
-      10: ["DICTIONARY", "COMMISSION", "DILETTANTE", "EQUANIMITY", "PERIPHERAL", "UBIQUITOUS"]
-    };
-
-    const fbList = (fallbacks[targetLen] || []).filter(w => !exclude.includes(w));
-    if (fbList.length > 0) {
-      return fbList[Math.floor(Math.random() * fbList.length)];
+    // 3. Fallback: берем слово с текущего уровня или ниже
+    if (this.cefrDictionary[cefrLevel] && this.cefrDictionary[cefrLevel][targetLen]) {
+      const list = this.cefrDictionary[cefrLevel][targetLen];
+      return list[Math.floor(Math.random() * list.length)];
     }
 
     return "WORD".padEnd(targetLen, "S").slice(0, targetLen);

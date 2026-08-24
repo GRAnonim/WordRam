@@ -1,19 +1,20 @@
 /**
- * WordRam - Service Worker (v16)
- * Теплая мокко-палитра, 100% переводы для 534 слов, PWA и оффлайн.
+ * WordRam - Service Worker (v17)
+ * Строгая фильтрация слов по уровню CEFR (исключены слова более высоких уровней),
+ * PWA и оффлайн.
  */
 
-const CACHE_NAME = "wordram-v16";
+const CACHE_NAME = "wordram-v17";
 const ASSETS_TO_CACHE = [
   "./",
   "./index.html",
-  "./styles.css?v=16",
-  "./data.js?v=16",
-  "./storage.js?v=16",
-  "./generator.js?v=16",
-  "./game.js?v=16",
-  "./main.js?v=16",
-  "./manifest.webmanifest?v=16"
+  "./styles.css?v=17",
+  "./data.js?v=17",
+  "./storage.js?v=17",
+  "./generator.js?v=17",
+  "./game.js?v=17",
+  "./main.js?v=17",
+  "./manifest.webmanifest?v=17"
 ];
 
 self.addEventListener("install", (event) => {
