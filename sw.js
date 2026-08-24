@@ -1,20 +1,20 @@
 /**
- * WordRam - Service Worker (v22)
- * Интерактивные справки (Копилка, Уровень, Монеты), детализация CEFR,
- * кастомные диалоги (без alert), фикс шапки Блица.
+ * WordRam - Service Worker (v24)
+ * 1 500 слов CEFR A1..C1, рамка-лоток игрового поля,
+ * 100% переводы и озвучка Web Speech API, PWA и оффлайн.
  */
 
-const CACHE_NAME = "wordram-v22";
+const CACHE_NAME = "wordram-v24";
 const ASSETS_TO_CACHE = [
   "./",
   "./index.html",
-  "./styles.css?v=22",
-  "./data.js?v=22",
-  "./storage.js?v=22",
-  "./generator.js?v=22",
-  "./game.js?v=22",
-  "./main.js?v=22",
-  "./manifest.webmanifest?v=22"
+  "./styles.css?v=24",
+  "./data.js?v=24",
+  "./storage.js?v=24",
+  "./generator.js?v=24",
+  "./game.js?v=24",
+  "./main.js?v=24",
+  "./manifest.webmanifest?v=24"
 ];
 
 self.addEventListener("install", (event) => {

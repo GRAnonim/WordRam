@@ -1,226 +1,1012 @@
 /**
- * WordRam - Data & Pedagogical Architecture (v20)
- * 534 слова, семантические темы, монстрики-этапы в колбе (по образцу Филвордов),
- * чистая терминология (без многобожия), Web Speech API озвучка.
+ * WordRam - Data & Pedagogical Architecture (v24)
+ * 1 500 слов (Oxford 3000 / CEFR Corpus A1..C1), 100% аутентичные переводы,
+ * элегантная рамка-лоток игрового поля, щедрая копилка эрудита (+5 монет, +5 XP).
  */
 
 const WordRamData = {
   cefrDictionary: {
   "A1": {
+    "2": [
+      "GO"
+    ],
     "3": [
-      "CAT",
-      "DOG",
-      "SUN",
-      "BOY",
-      "DAY",
-      "CAR",
-      "CUP",
+      "ACT",
+      "ADD",
+      "AGO",
+      "ALL",
+      "AND",
+      "ANY",
+      "ARM",
+      "ASK",
+      "BAD",
       "BAG",
       "BED",
-      "KEY",
-      "EGG",
-      "TEA",
-      "RED",
-      "PEN",
-      "EYE",
+      "BIG",
       "BOX",
+      "BOY",
       "BUS",
+      "BUY",
+      "CAP",
+      "CAR",
+      "CAT",
+      "CRY",
+      "CUP",
+      "CUT",
+      "DAY",
+      "DIE",
+      "DOG",
+      "DRY",
+      "EAT",
+      "EGG",
+      "END",
+      "EYE",
+      "FAR",
+      "FEW",
+      "FIT",
+      "FIX",
+      "FLY",
+      "FOR",
+      "FUN",
+      "GET",
       "HAT",
-      "ARM",
-      "LEG"
+      "HIT",
+      "HOW",
+      "KEY",
+      "KID",
+      "LAW",
+      "LAY",
+      "LEG",
+      "LET",
+      "LIE",
+      "LOT",
+      "LOW",
+      "MAN",
+      "MAY",
+      "MUD",
+      "NEW",
+      "NOT",
+      "NOW",
+      "OFF",
+      "OLD",
+      "ONE",
+      "OUR",
+      "OUT",
+      "OWN",
+      "PAY",
+      "PEN",
+      "PUT",
+      "RED",
+      "SAY",
+      "SEE",
+      "SET",
+      "SIT",
+      "SON",
+      "SUN",
+      "TEA",
+      "TIP",
+      "TOO",
+      "TOP",
+      "TRY",
+      "USE",
+      "VAN",
+      "WAY",
+      "WET",
+      "WHO",
+      "WHY",
+      "YES",
+      "YET"
     ],
     "4": [
-      "BOOK",
-      "DOOR",
-      "MILK",
-      "TREE",
-      "FISH",
-      "BIRD",
-      "HOME",
-      "COLD",
-      "FOOD",
-      "NAME",
-      "CITY",
-      "BALL",
-      "SNOW",
-      "RAIN",
-      "TIME",
-      "ROOM",
-      "PARK",
+      "ALSO",
+      "AREA",
+      "AWAY",
       "BABY",
+      "BACK",
+      "BAKE",
+      "BALL",
+      "BANK",
+      "BARK",
+      "BASE",
+      "BATH",
+      "BEAR",
+      "BEAT",
+      "BEEF",
+      "BELL",
+      "BELT",
+      "BEST",
+      "BIRD",
+      "BLUE",
+      "BOAT",
+      "BODY",
+      "BOIL",
+      "BONE",
+      "BOOK",
+      "BOOT",
+      "BORN",
+      "BOTH",
+      "BOWL",
+      "BULL",
+      "BUSH",
+      "BUSY",
+      "CALF",
+      "CALL",
+      "CALM",
+      "CAMP",
+      "CARD",
+      "CARE",
+      "CASE",
+      "CAVE",
+      "CHEF",
+      "CITY",
+      "COAT",
+      "COLD",
+      "COLT",
+      "COME",
+      "COOK",
+      "COST",
+      "DARK",
+      "DATE",
+      "DEAD",
+      "DEAL",
+      "DEAR",
+      "DEEP",
+      "DEER",
       "DESK",
-      "BOAT"
+      "DIET",
+      "DIRT",
+      "DISH",
+      "DOOR",
+      "DRAW",
+      "DROP",
+      "DUCK",
+      "DUNE",
+      "DUST",
+      "EACH",
+      "EASY",
+      "EDGE",
+      "EVEN",
+      "EVER",
+      "FACT",
+      "FAIL",
+      "FAIR",
+      "FALL",
+      "FAST",
+      "FEED",
+      "FEEL",
+      "FILL",
+      "FIND",
+      "FINE",
+      "FISH",
+      "FLAG",
+      "FLAT",
+      "FOOD",
+      "FOOT",
+      "FORK",
+      "FORM",
+      "FREE",
+      "FROG",
+      "FULL",
+      "GAIN",
+      "GATE",
+      "GIRL",
+      "GIVE",
+      "GLAD",
+      "GOAT",
+      "GOOD",
+      "GROW",
+      "HALF",
+      "HAND",
+      "HANG",
+      "HARD",
+      "HATE",
+      "HAVE",
+      "HAWK",
+      "HEAD",
+      "HEAR",
+      "HELP",
+      "HERE",
+      "HIDE",
+      "HIGH",
+      "HILL",
+      "HOLD",
+      "HOLE",
+      "HOME",
+      "HOPE",
+      "HOUR",
+      "HUGE",
+      "HURT",
+      "IDEA",
+      "INTO",
+      "IRON",
+      "ITEM",
+      "JOIN",
+      "JUMP",
+      "KEEP",
+      "KICK",
+      "KILL",
+      "KIND",
+      "KNOW",
+      "LADY",
+      "LAMB",
+      "LAMP",
+      "LAND",
+      "LANE",
+      "LAST",
+      "LATE",
+      "LEAD",
+      "LEAF",
+      "LEFT",
+      "LESS",
+      "LIFE",
+      "LIFT",
+      "LIKE",
+      "LINE",
+      "LIST",
+      "LIVE",
+      "LOCK",
+      "LONG",
+      "LOOK",
+      "LOSE",
+      "LOVE",
+      "MAIN",
+      "MAKE",
+      "MANY",
+      "MARE",
+      "MARK",
+      "MEAL",
+      "MEAT",
+      "MEET",
+      "MENU",
+      "MILK",
+      "MIND",
+      "MISS",
+      "MOLE",
+      "MOON",
+      "MORE",
+      "MOST",
+      "MOVE",
+      "MUCH",
+      "MULE",
+      "MUST",
+      "NAME",
+      "NEAR",
+      "NEED",
+      "NEWS",
+      "NEXT",
+      "NICE",
+      "NONE",
+      "NOSE",
+      "NOTE",
+      "NUTS",
+      "ONCE",
+      "ONLY",
+      "OPEN",
+      "OVEN",
+      "OVER",
+      "PACK",
+      "PAIN",
+      "PAIR",
+      "PARK",
+      "PART",
+      "PASS",
+      "PAST",
+      "PATH",
+      "PICK",
+      "PINE",
+      "PLAN",
+      "PLAY",
+      "PLUM",
+      "POND",
+      "PONY",
+      "POOR",
+      "PORK",
+      "PORT",
+      "POST",
+      "PULL",
+      "PUSH",
+      "RAIN",
+      "RARE",
+      "READ",
+      "REAL",
+      "REST",
+      "RICE",
+      "RICH",
+      "RIDE",
+      "RISE",
+      "RISK",
+      "ROCK",
+      "ROLE",
+      "ROOF",
+      "ROOM",
+      "ROOT",
+      "RULE",
+      "SAFE",
+      "SAIL",
+      "SALT",
+      "SAME",
+      "SAVE",
+      "SEAT",
+      "SEEK",
+      "SEEM",
+      "SELF",
+      "SELL",
+      "SEND",
+      "SHOW",
+      "SIDE",
+      "SIGN",
+      "SITE",
+      "SIZE",
+      "SLOW",
+      "SNOW",
+      "SOCK",
+      "SOFA",
+      "SOFT",
+      "SOIL",
+      "SOME",
+      "SONG",
+      "SOON",
+      "SORT",
+      "SOUP",
+      "STAY",
+      "STEM",
+      "STEP",
+      "STOP",
+      "SUIT",
+      "SURE",
+      "SWAN",
+      "SWIM",
+      "TAIL",
+      "TAKE",
+      "TALK",
+      "TALL",
+      "TASK",
+      "TAXI",
+      "TELL",
+      "TERM",
+      "THAT",
+      "THEM",
+      "THEN",
+      "THEY",
+      "THIN",
+      "THIS",
+      "TIME",
+      "TINY",
+      "TONE",
+      "TOOL",
+      "TOUR",
+      "TOWN",
+      "TRAM",
+      "TREE",
+      "TRIP",
+      "TRUE",
+      "TURN",
+      "TYPE",
+      "UGLY",
+      "UNIT",
+      "UPON",
+      "VERY",
+      "VIEW",
+      "WAIT",
+      "WAKE",
+      "WALL",
+      "WARM",
+      "WASH",
+      "WEAK",
+      "WEAR",
+      "WEEK",
+      "WELL",
+      "WEST",
+      "WHAT",
+      "WHEN",
+      "WHOM",
+      "WIDE",
+      "WIFE",
+      "WILD",
+      "WILL",
+      "WISH",
+      "WITH",
+      "WOLF",
+      "WOOD",
+      "WORD",
+      "WORK",
+      "YEAR",
+      "YOUR",
+      "ZONE"
     ],
     "5": [
-      "WATER",
       "APPLE",
-      "HOUSE",
+      "BEACH",
       "BREAD",
-      "HAPPY",
-      "GREEN",
-      "RIVER",
-      "MUSIC",
-      "TABLE",
       "CHAIR",
       "CLEAN",
-      "SLEEP",
-      "PLANT",
-      "NIGHT",
-      "LIGHT",
       "CLOCK",
-      "TRAIN",
-      "PAPER",
+      "GREEN",
+      "HAPPY",
+      "HOUSE",
+      "LIGHT",
       "MONEY",
-      "BEACH"
+      "MUSIC",
+      "NIGHT",
+      "PAPER",
+      "PLANT",
+      "RIVER",
+      "SLEEP",
+      "TABLE",
+      "TRAIN",
+      "WATER"
     ],
     "6": [
-      "MOTHER",
-      "FATHER",
-      "SISTER",
-      "FAMILY",
-      "SCHOOL",
-      "FRIEND",
-      "YELLOW",
-      "SUMMER",
-      "WINTER",
-      "GARDEN",
-      "STREET",
-      "ORANGE",
-      "DOCTOR",
-      "WINDOW",
       "ANIMAL",
       "BANANA",
-      "PENCIL",
+      "COFFEE",
+      "DOCTOR",
+      "FAMILY",
+      "FATHER",
       "FLOWER",
+      "FRIEND",
+      "GARDEN",
+      "MOTHER",
+      "ORANGE",
+      "PENCIL",
+      "SCHOOL",
+      "SISTER",
       "SOCCER",
-      "COFFEE"
+      "STREET",
+      "SUMMER",
+      "WINDOW",
+      "WINTER",
+      "YELLOW"
     ],
     "7": [
+      "AIRPORT",
+      "BEDROOM",
       "BROTHER",
-      "STUDENT",
-      "MORNING",
+      "COUNTRY",
       "EVENING",
-      "TEACHER",
       "HOLIDAY",
       "KITCHEN",
-      "BEDROOM",
-      "WEATHER",
+      "MORNING",
+      "PACKAGE",
       "PICTURE",
       "STATION",
-      "AIRPORT",
-      "WELCOME",
-      "PACKAGE",
-      "COUNTRY"
+      "STUDENT",
+      "TEACHER",
+      "WEATHER",
+      "WELCOME"
     ],
     "8": [
-      "HOSPITAL",
-      "NOTEBOOK",
       "AIRPLANE",
       "BASEBALL",
+      "BIRTHDAY",
       "CHILDREN",
       "DAUGHTER",
+      "FOOTBALL",
+      "HOSPITAL",
       "MOUNTAIN",
+      "NOTEBOOK",
       "SANDWICH",
       "SWIMMING",
       "UMBRELLA",
       "VACATION",
-      "WEEKENDS",
-      "FOOTBALL",
-      "BIRTHDAY"
+      "WEEKENDS"
     ],
     "9": [
-      "CLASSROOM",
-      "BREAKFAST",
-      "BEAUTIFUL",
       "AFTERNOON",
+      "APARTMENT",
+      "BEAUTIFUL",
+      "BREAKFAST",
       "CHOCOLATE",
+      "CLASSROOM",
       "NEWSPAPER",
       "PASSENGER",
       "PROFESSOR",
       "TELEPHONE",
       "VEGETABLE",
-      "APARTMENT",
       "YESTERDAY"
     ]
   },
   "A2": {
     "3": [
-      "SEA",
-      "SKY",
-      "AIR",
-      "ICE",
-      "MAP",
-      "OIL",
-      "RUN",
-      "WIN",
       "AGE",
-      "JOB",
+      "AIR",
       "ART",
       "EAR",
-      "ROW",
-      "TAX",
       "FAN",
+      "ICE",
+      "JOB",
       "LIP",
-      "TOY"
+      "MAP",
+      "OIL",
+      "ROW",
+      "RUN",
+      "SEA",
+      "SKY",
+      "TAX",
+      "TOY",
+      "WIN"
     ],
     "4": [
-      "ROAD",
-      "WIND",
-      "FIRE",
-      "STAR",
       "CAFE",
       "CAKE",
-      "SHIP",
       "COIN",
+      "FARM",
+      "FIRE",
       "GAME",
       "GIFT",
       "GOLD",
       "HERO",
       "LAKE",
+      "LION",
       "RING",
+      "ROAD",
       "SAND",
-      "FARM",
-      "LION"
+      "SHIP",
+      "STAR",
+      "WIND"
     ],
     "5": [
+      "ABOUT",
+      "ABOVE",
+      "ACTOR",
+      "AGAIN",
+      "AGREE",
+      "ALARM",
+      "ALLOW",
+      "ALONE",
+      "ALONG",
+      "AMONG",
+      "APART",
+      "AVOID",
+      "AWARD",
+      "BAKER",
+      "BASIC",
+      "BASIN",
+      "BEGIN",
+      "BELOW",
+      "BLACK",
+      "BLOCK",
+      "BOARD",
       "BRAIN",
+      "BRAVE",
+      "BREAK",
+      "BRING",
+      "BROWN",
+      "BRUSH",
+      "BUILD",
+      "CABLE",
+      "CAMEL",
+      "CANAL",
       "CANDY",
+      "CARRY",
+      "CATCH",
+      "CHECK",
+      "CLEAR",
+      "CLERK",
+      "CLIFF",
+      "CLOSE",
       "CLOUD",
+      "COLOR",
+      "COUNT",
+      "COVER",
+      "CREAM",
+      "CROSS",
       "DANCE",
       "DREAM",
+      "DRESS",
+      "DRINK",
+      "DRIVE",
+      "EAGLE",
+      "EARLY",
       "EARTH",
+      "EMPTY",
+      "ENTER",
+      "EQUAL",
+      "EVENT",
+      "EVERY",
+      "EXACT",
+      "FENCE",
+      "FIELD",
+      "FIGHT",
+      "FINAL",
+      "FIRST",
       "FLAME",
+      "FLOOR",
+      "FORCE",
+      "FRESH",
+      "FRONT",
       "FRUIT",
+      "FUNNY",
       "GLASS",
+      "GLOVE",
+      "GREAT",
+      "GROUP",
+      "GUESS",
+      "GUEST",
+      "GUIDE",
       "HEART",
+      "HEAVY",
+      "HORSE",
       "HOTEL",
+      "HUMAN",
+      "HURRY",
+      "IMAGE",
+      "JEANS",
+      "JUDGE",
       "JUICE",
       "KNIFE",
+      "LARGE",
+      "LAUGH",
+      "LEARN",
+      "LEAVE",
       "LEMON",
+      "LEVEL",
+      "LOCAL",
       "MAGIC",
+      "MAJOR",
+      "MAYBE",
+      "METRO",
+      "MIGHT",
+      "MONTH",
+      "MOUSE",
+      "NEVER",
+      "NOISE",
+      "NORTH",
+      "NURSE",
+      "OCCUR",
       "OCEAN",
-      "PARTY"
+      "OFFER",
+      "OFTEN",
+      "ORDER",
+      "OTHER",
+      "OTTER",
+      "OWNER",
+      "PAINT",
+      "PANDA",
+      "PARTY",
+      "PEACE",
+      "PEACH",
+      "PHONE",
+      "PHOTO",
+      "PIECE",
+      "PILOT",
+      "PLACE",
+      "PLATE",
+      "POINT",
+      "POWER",
+      "PRESS",
+      "PRICE",
+      "PRINT",
+      "PRIZE",
+      "PROUD",
+      "PROVE",
+      "PUPPY",
+      "QUICK",
+      "QUIET",
+      "QUITE",
+      "RAISE",
+      "RAPID",
+      "REACH",
+      "REACT",
+      "READY",
+      "RELAX",
+      "REPLY",
+      "RIGHT",
+      "ROBIN",
+      "ROUND",
+      "ROUTE",
+      "SCALE",
+      "SCARF",
+      "SCENE",
+      "SENSE",
+      "SHAPE",
+      "SHARE",
+      "SHARK",
+      "SHEEP",
+      "SHELF",
+      "SHINE",
+      "SHIRT",
+      "SHOES",
+      "SHORE",
+      "SHORT",
+      "SHOUT",
+      "SIGHT",
+      "SINCE",
+      "SKILL",
+      "SKIRT",
+      "SLOPE",
+      "SMALL",
+      "SMART",
+      "SMILE",
+      "SMOKE",
+      "SNACK",
+      "SOLID",
+      "SOLVE",
+      "SORRY",
+      "SOUND",
+      "SOUTH",
+      "SPACE",
+      "SPEAK",
+      "SPEED",
+      "SPELL",
+      "SPEND",
+      "SPICE",
+      "SPOON",
+      "STAGE",
+      "STAND",
+      "START",
+      "STATE",
+      "STICK",
+      "STILL",
+      "STONE",
+      "STORE",
+      "STORM",
+      "STORY",
+      "SUGAR",
+      "SUNNY",
+      "SUPER",
+      "SWEET",
+      "TASTE",
+      "THANK",
+      "THEIR",
+      "THEME",
+      "THERE",
+      "THESE",
+      "THICK",
+      "THING",
+      "THINK",
+      "THIRD",
+      "THOSE",
+      "THROW",
+      "TIGER",
+      "TIGHT",
+      "TIRED",
+      "TITLE",
+      "TOAST",
+      "TODAY",
+      "TOOTH",
+      "TOTAL",
+      "TOUCH",
+      "TOUGH",
+      "TOWEL",
+      "TOWER",
+      "TRACK",
+      "TREAT",
+      "TRUST",
+      "TWICE",
+      "UNCLE",
+      "UNDER",
+      "UNTIL",
+      "UPPER",
+      "USUAL",
+      "VALUE",
+      "VISIT",
+      "VOICE",
+      "WASTE",
+      "WATCH",
+      "WHALE",
+      "WHEEL",
+      "WHERE",
+      "WHICH",
+      "WHILE",
+      "WHITE",
+      "WHOLE",
+      "WHOSE",
+      "WOMAN",
+      "WORLD",
+      "WORRY",
+      "WORSE",
+      "WORST",
+      "WORTH",
+      "WOULD",
+      "WRITE",
+      "WRONG",
+      "YOUNG",
+      "YOUTH",
+      "ZEBRA"
     ],
     "6": [
+      "ACCEPT",
+      "ACROSS",
       "ACTION",
+      "ACTIVE",
+      "AFRAID",
+      "AFRICA",
+      "ALMOST",
+      "ALWAYS",
+      "AMOUNT",
+      "ANNUAL",
+      "ANSWER",
+      "ANYWAY",
+      "APPEAR",
+      "AROUND",
+      "ARRIVE",
+      "ARTIST",
+      "AUGUST",
+      "BECOME",
+      "BEFORE",
+      "BEHIND",
+      "BETTER",
+      "BORDER",
+      "BOTTLE",
+      "BOTTOM",
+      "BRANCH",
       "BRIDGE",
+      "BRIGHT",
+      "BUTTER",
+      "BUTTON",
       "CAMERA",
+      "CAMPUS",
+      "CANDLE",
+      "CAREER",
+      "CARPET",
+      "CARROT",
       "CASTLE",
+      "CENTER",
+      "CHANCE",
+      "CHANGE",
+      "CHEESE",
+      "CHERRY",
+      "CHOICE",
+      "CHOOSE",
+      "CLOSET",
+      "COMMON",
+      "DANCER",
+      "DECIDE",
+      "DEGREE",
+      "DEPEND",
       "DESERT",
+      "DINNER",
+      "DIRECT",
+      "DIVIDE",
+      "DONKEY",
+      "DRAWER",
+      "DRIVER",
+      "DURING",
+      "EFFORT",
+      "EITHER",
       "ENERGY",
+      "ENOUGH",
+      "ENTIRE",
+      "EXCEPT",
+      "EXPECT",
+      "FAMOUS",
+      "FARMER",
+      "FIGURE",
+      "FINGER",
+      "FINISH",
+      "FLAVOR",
+      "FOLLOW",
       "FOREST",
+      "FORGET",
       "FUTURE",
+      "GARAGE",
+      "GARLIC",
+      "GENTLE",
+      "GROUND",
+      "HANDLE",
+      "HAPPEN",
       "HEALTH",
+      "HONEST",
+      "HUNGRY",
+      "INFORM",
+      "INSIDE",
+      "INVITE",
       "ISLAND",
+      "JACKET",
       "JUNGLE",
+      "KITTEN",
+      "LAWYER",
+      "LEADER",
+      "LESSON",
+      "LETTER",
+      "LISTEN",
+      "LITTLE",
+      "LIZARD",
+      "MANAGE",
       "MARKET",
+      "MATTER",
+      "MEMBER",
       "MEMORY",
+      "MIDDLE",
+      "MINUTE",
+      "MOMENT",
+      "MONKEY",
+      "MUSEUM",
+      "MYSELF",
+      "NEARLY",
+      "NOBODY",
+      "NORMAL",
+      "NOTICE",
+      "NUMBER",
+      "OBJECT",
+      "OFFICE",
+      "ORIGIN",
+      "PABBIT",
       "PALACE",
+      "PARENT",
+      "PARROT",
+      "PEPPER",
+      "PERIOD",
+      "PERSON",
+      "PILLOW",
       "PLANET",
+      "POLICE",
+      "POTATO",
+      "PUBLIC",
+      "RATHER",
+      "REALLY",
+      "REASON",
+      "RECENT",
+      "RECIPE",
+      "RECORD",
+      "REDUCE",
+      "REFUSE",
+      "REMAIN",
+      "REMIND",
+      "REMOVE",
+      "REPEAT",
+      "REPORT",
+      "RESULT",
+      "RETURN",
+      "REVEAL",
+      "REVIEW",
+      "REWARD",
       "ROCKET",
+      "SAFETY",
+      "SAILOR",
+      "SAMPLE",
+      "SCREEN",
+      "SEASON",
+      "SECOND",
+      "SECRET",
+      "SELECT",
+      "SERIES",
+      "SETTLE",
+      "SHADOW",
       "SHIELD",
+      "SHORTS",
+      "SHOULD",
+      "SHOWER",
+      "SIGNAL",
+      "SILENT",
+      "SILVER",
+      "SIMPLE",
+      "SIMPLY",
+      "SINGER",
+      "SINGLE",
+      "SMOOTH",
+      "SOCIAL",
+      "SPIDER",
       "SPRING",
-      "VALLEY"
+      "SQUARE",
+      "STAIRS",
+      "STREAM",
+      "STRIKE",
+      "STRONG",
+      "SUBWAY",
+      "SUDDEN",
+      "SUNSET",
+      "SUPPER",
+      "SYSTEM",
+      "TAILOR",
+      "THANKS",
+      "THOUGH",
+      "TICKET",
+      "TOMATO",
+      "TRAVEL",
+      "TURTLE",
+      "USEFUL",
+      "VALLEY",
+      "WAITER",
+      "WEALTH",
+      "WEAPON",
+      "WEIGHT",
+      "WINNER",
+      "WITHIN",
+      "WONDER",
+      "WORKER",
+      "WRITER"
     ],
     "7": [
       "CAPTAIN",
@@ -248,13 +1034,14 @@ const WordRamData = {
       "INTERNET",
       "LOCATION",
       "MEDICINE",
-      "SURPRISE",
-      "STRENGTH",
       "QUESTION",
-      "RESOURCE"
+      "RESOURCE",
+      "STRENGTH",
+      "SURPRISE"
     ],
     "9": [
       "ADVENTURE",
+      "CELEBRATE",
       "COMMUNITY",
       "DANGEROUS",
       "EDUCATION",
@@ -263,26 +1050,25 @@ const WordRamData = {
       "POLLUTION",
       "TRANSPORT",
       "VOLUNTEER",
-      "WONDERFUL",
-      "CELEBRATE"
+      "WONDERFUL"
     ]
   },
   "B1": {
     "3": [
-      "RAW",
-      "FOG",
-      "RAY",
-      "ORE",
       "AIM",
-      "TIE",
-      "NET",
-      "GAP",
       "FEE",
+      "FOG",
+      "GAP",
+      "GEM",
+      "GUM",
+      "JAR",
+      "NET",
+      "ORE",
+      "RAW",
+      "RAY",
       "RIB",
       "ROD",
-      "GUM",
-      "GEM",
-      "JAR"
+      "TIE"
     ],
     "4": [
       "BOND",
@@ -291,19 +1077,19 @@ const WordRamData = {
       "ECHO",
       "FLOW",
       "GRID",
+      "HARE",
       "HORN",
+      "ISLE",
       "MAZE",
       "MINT",
       "PEAK",
+      "ROSE",
       "RUSH",
       "TIDE",
+      "VALE",
       "VEIN",
       "WAVE",
-      "YARD",
-      "HARE",
-      "ISLE",
-      "ROSE",
-      "VALE"
+      "YARD"
     ],
     "5": [
       "ALERT",
@@ -351,40 +1137,190 @@ const WordRamData = {
     ],
     "7": [
       "ACADEMY",
+      "AGAINST",
+      "ALREADY",
+      "AMAZING",
+      "ANOTHER",
+      "ANYBODY",
+      "BALCONY",
+      "BELIEVE",
+      "BETWEEN",
+      "BICYCLE",
+      "BISCUIT",
+      "BLANKET",
       "BLOSSOM",
+      "BUILDER",
+      "CAPABLE",
+      "CAPITAL",
+      "CAPTURE",
       "CASCADE",
+      "CEILING",
+      "CERTAIN",
+      "COMPANY",
       "COMPASS",
+      "CONNECT",
+      "CONTROL",
+      "CORRECT",
+      "CURTAIN",
+      "DENTIST",
+      "DESSERT",
+      "DEVELOP",
       "EMERALD",
+      "EXAMPLE",
+      "EXCITED",
+      "EXPLAIN",
       "EXPLORE",
+      "EXPRESS",
       "FEATHER",
       "FIREFLY",
+      "FOREIGN",
       "FORTUNE",
+      "FORWARD",
+      "GENERAL",
+      "GIRAFFE",
       "GLACIER",
+      "HAMSTER",
       "HARMONY",
+      "HIGHWAY",
+      "HISTORY",
       "HORIZON",
+      "HUNDRED",
       "ICEBERG",
+      "IMAGINE",
+      "IMPROVE",
+      "INCLUDE",
+      "INSTEAD",
+      "INVOLVE",
+      "MEETING",
       "MIRACLE",
+      "MISTAKE",
+      "NEITHER",
+      "NOTHING",
+      "OCTOPUS",
+      "OFFICER",
+      "OUTSIDE",
+      "PANCAKE",
+      "PARTNER",
+      "PATIENT",
+      "PENGUIN",
+      "PERFECT",
       "PHOENIX",
+      "POPULAR",
+      "PREPARE",
+      "PRESENT",
+      "PRIVATE",
+      "PROBLEM",
+      "PRODUCE",
+      "PRODUCT",
+      "PROJECT",
+      "PROMISE",
+      "PROTECT",
+      "PROVIDE",
       "RAINBOW",
+      "REALIZE",
+      "RECEIVE",
+      "RECIPES",
+      "REFLECT",
+      "REGULAR",
+      "RELEASE",
+      "REPLACE",
+      "REQUIRE",
+      "RESPECT",
+      "RESPOND",
+      "SAUSAGE",
       "SCENERY",
-      "TRIUMPH"
+      "SCIENCE",
+      "SECTION",
+      "SERIOUS",
+      "SERVICE",
+      "SEVERAL",
+      "SILENCE",
+      "SIMILAR",
+      "SOCIETY",
+      "SOLDIER",
+      "SOMEONE",
+      "SPARROW",
+      "SPECIAL",
+      "STRANGE",
+      "SUCCESS",
+      "SUGGEST",
+      "SUNRISE",
+      "SUPPORT",
+      "SUPPOSE",
+      "SURVIVE",
+      "THOUGHT",
+      "THROUGH",
+      "THUNDER",
+      "TONIGHT",
+      "TOURIST",
+      "TOWARDS",
+      "TRAFFIC",
+      "TRIUMPH",
+      "TROUBLE",
+      "TYPICAL",
+      "VARIETY",
+      "VARIOUS",
+      "VEHICLE",
+      "VISITOR",
+      "WHETHER",
+      "WITHOUT"
     ],
     "8": [
-      "CHAMPION",
-      "TREASURE",
       "ALLIANCE",
       "AUDIENCE",
+      "BUILDING",
       "CAMPAIGN",
       "CEREMONY",
+      "CHAMPION",
       "CLUSTERS",
+      "COMPLETE",
       "CREATION",
+      "CROSSING",
       "DATABASE",
+      "DESCRIBE",
+      "DISTANCE",
       "ELECTION",
+      "ELEPHANT",
+      "EVERYONE",
       "EXPLORER",
       "HORIZONS",
-      "STRATEGY"
+      "INCREASE",
+      "INDUSTRY",
+      "INTEREST",
+      "LANGUAGE",
+      "NEIGHBOR",
+      "NUTRIENT",
+      "OPPOSITE",
+      "ORIGINAL",
+      "PAVEMENT",
+      "POSITION",
+      "POSSIBLE",
+      "PRACTICE",
+      "RELATION",
+      "REMEMBER",
+      "RESEARCH",
+      "RESPONSE",
+      "SCHEDULE",
+      "SENTENCE",
+      "SEPARATE",
+      "SOLUTION",
+      "SOMEBODY",
+      "STANDARD",
+      "STRAIGHT",
+      "STRATEGY",
+      "SUDDENLY",
+      "SURROUND",
+      "TERRIBLE",
+      "TOGETHER",
+      "TOMORROW",
+      "TREASURE",
+      "WHATEVER",
+      "WHENEVER",
+      "WHEREVER",
+      "YOURSELF"
     ],
     "9": [
+      "AWARENESS",
       "CHALLENGE",
       "CHEMISTRY",
       "DEMOCRACY",
@@ -394,33 +1330,37 @@ const WordRamData = {
       "GEOGRAPHY",
       "INVENTION",
       "LANDSCAPE",
-      "RESOURCES",
-      "AWARENESS"
+      "RESOURCES"
     ]
   },
   "B2": {
     "3": [
-      "ERA",
-      "EGO",
-      "CUE",
-      "RIM",
-      "SUM",
-      "VOW",
-      "WIT",
       "APT",
-      "FOE",
-      "HUE",
       "ASH",
       "AXE",
       "BOG",
+      "CUE",
       "DOT",
-      "FIG"
+      "EGO",
+      "ERA",
+      "FIG",
+      "FOE",
+      "HUE",
+      "RIM",
+      "SUM",
+      "VOW",
+      "WIT"
     ],
     "4": [
+      "ACID",
+      "ALTO",
       "APEX",
+      "ARCH",
       "AXIS",
+      "BASK",
       "BULK",
       "COOP",
+      "CULL",
       "FLAW",
       "GLOW",
       "HEIR",
@@ -430,12 +1370,7 @@ const WordRamData = {
       "OATH",
       "PLEX",
       "VOID",
-      "ZEAL",
-      "ACID",
-      "ALTO",
-      "ARCH",
-      "BASK",
-      "CULL"
+      "ZEAL"
     ],
     "5": [
       "ADAPT",
@@ -473,6 +1408,8 @@ const WordRamData = {
     ],
     "7": [
       "BALLOON",
+      "BARRIER",
+      "CITIZEN",
       "EMBRACE",
       "FREEDOM",
       "GENUINE",
@@ -481,16 +1418,9 @@ const WordRamData = {
       "INSIGHT",
       "JUSTICE",
       "MONARCH",
-      "SOLVENT",
-      "BARRIER",
-      "CITIZEN",
-      "DYNAMIC"
+      "SOLVENT"
     ],
     "8": [
-      "HERITAGE",
-      "MONUMENT",
-      "SPECTRUM",
-      "UNIVERSE",
       "ABSOLUTE",
       "ACADEMIC",
       "ACCURATE",
@@ -502,48 +1432,93 @@ const WordRamData = {
       "ELOQUENT",
       "FRACTION",
       "GENEROUS",
-      "MOMENTUM"
+      "HERITAGE",
+      "MOMENTUM",
+      "MONUMENT",
+      "SPECTRUM",
+      "UNIVERSE"
     ],
     "9": [
       "ALCHEMIST",
+      "AUTHORITY",
+      "BUTTERFLY",
       "CONSENSUS",
-      "SPECTRUMS",
+      "CROCODILE",
+      "DELICIOUS",
+      "DIFFERENT",
+      "DIFFICULT",
       "DIMENSION",
       "DOMINANCE",
       "EVOLUTION",
       "FORMATION",
+      "FURNITURE",
       "INTEGRITY",
+      "INTERVIEW",
+      "KNOWLEDGE",
+      "LIGHTNING",
       "MIGRATION",
+      "RECOGNIZE",
+      "REPRESENT",
       "SANCTUARY",
-      "AUTHORITY",
-      "STRUCTURE"
+      "SCIENTIST",
+      "SITUATION",
+      "SOMETHING",
+      "SOMETIMES",
+      "SOMEWHERE",
+      "SPECTRUMS",
+      "STATEMENT",
+      "STRUCTURE",
+      "SURPRISED",
+      "TRADITION",
+      "TREATMENT",
+      "WATERFALL"
+    ],
+    "10": [
+      "ESPECIALLY",
+      "EXPERIENCE",
+      "INDIVIDUAL",
+      "SUCCESSFUL",
+      "SUGGESTION",
+      "UNDERSTAND"
+    ],
+    "11": [
+      "INFORMATION",
+      "INTERESTING",
+      "OPPORTUNITY",
+      "TEMPERATURE"
+    ],
+    "12": [
+      "ORGANIZATION"
+    ],
+    "13": [
+      "INTERNATIONAL"
     ]
   },
   "C1": {
     "3": [
-      "EBB",
       "AWE",
-      "NIL",
+      "EBB",
       "JAB",
-      "ZAG",
-      "YAK",
-      "URN",
+      "NIL",
+      "NIX",
       "PLY",
-      "NIX"
+      "URN",
+      "YAK",
+      "ZAG"
     ],
     "4": [
       "CRUX",
       "FLUX",
+      "FOIL",
+      "GIST",
       "KNIT",
       "LORE",
       "OMEN",
+      "PITH",
       "RUNE",
       "SAGE",
       "URGE",
-      "VIBE",
-      "GIST",
-      "PITH",
-      "FOIL"
+      "VIBE"
     ],
     "5": [
       "ABBEY",
@@ -551,6 +1526,7 @@ const WordRamData = {
       "BLEAK",
       "CREED",
       "DRAFT",
+      "DROSS",
       "ETHOS",
       "GUILE",
       "KNELL",
@@ -558,53 +1534,52 @@ const WordRamData = {
       "PRISM",
       "QUALM",
       "RELIC",
-      "SERVE",
-      "TENET",
       "RIGOR",
-      "DROSS",
+      "SERVE",
       "SLOTH",
+      "TENET",
       "VIGOR"
     ],
     "6": [
       "BONSAI",
       "CLOVER",
+      "COGNAC",
       "COSMOS",
       "HYMNAL",
+      "LIMPID",
       "MIRROR",
       "POCKET",
       "PUZZLE",
       "RABBIT",
-      "SECTOR",
-      "SUBTLE",
-      "COGNAC",
       "SCHISM",
-      "LIMPID"
+      "SECTOR",
+      "SUBTLE"
     ],
     "7": [
       "ACROBAT",
       "ANALOGY",
+      "AUSTERE",
+      "AZIMUTH",
       "DYNAMIC",
+      "ECLIPSE",
       "ENTROPY",
       "EPITOME",
-      "ECLIPSE",
+      "LACONIC",
       "MAJESTY",
       "PARADOX",
-      "VINTAGE",
-      "ZEALOUS",
-      "AZIMUTH",
-      "LACONIC",
-      "AUSTERE",
+      "SUBLIME",
       "SYNERGY",
-      "SUBLIME"
+      "VINTAGE",
+      "ZEALOUS"
     ],
     "8": [
+      "ALACRITY",
+      "ANTIDOTE",
       "CATALYST",
       "EMISSARY",
       "HERMETIC",
-      "OBLIVION",
-      "ALACRITY",
-      "ANTIDOTE",
       "METAPHOR",
+      "OBLIVION",
       "PARADIGM",
       "ZEALOTRY"
     ],
@@ -614,11 +1589,11 @@ const WordRamData = {
       "DICHOTOMY",
       "HAPHAZARD",
       "IMMUTABLE",
-      "PROXIMITY",
       "INCOGNITO",
       "JUXTAPOSE",
       "MALLEABLE",
-      "METAMORPH"
+      "METAMORPH",
+      "PROXIMITY"
     ]
   }
 },
@@ -788,12 +1763,12 @@ const WordRamData = {
   },
   "AIRPORT": {
     "tr": "Аэропорт",
-    "def": "Комплекс сооружений для взлета и посадки самолетов.",
+    "def": "Авиационный вокзал для пассажиров самолетов.",
     "ph": "[ˈeəpɔːt]",
-    "ex": "City airport — Городской аэропорт.",
+    "ex": "International airport — Международный аэропорт.",
     "collocations": [
-      "airport in context",
-      "use airport"
+      "arrive at airport",
+      "airport shuttle"
     ]
   },
   "ALACRITY": {
@@ -1077,13 +2052,13 @@ const WordRamData = {
     ]
   },
   "AVENUE": {
-    "tr": "Проспект / Авеню",
-    "def": "Широкая городская улица с деревьями.",
+    "tr": "Проспект",
+    "def": "Широкая зеленая улица в центре мегаполиса.",
     "ph": "[ˈævənjuː]",
-    "ex": "Fifth Avenue — Пятая авеню.",
+    "ex": "Fifth avenue — Пятая авеню.",
     "collocations": [
-      "avenue in context",
-      "use avenue"
+      "wide avenue",
+      "tree-lined avenue"
     ]
   },
   "AWARENESS": {
@@ -1279,12 +2254,12 @@ const WordRamData = {
   },
   "BIRD": {
     "tr": "Птица",
-    "def": "Оперенное теплокровное летающее существо.",
+    "def": "Оперенное крылатое существо, поющее в кронах.",
     "ph": "[bɜːd]",
     "ex": "Singing bird — Поющая птица.",
     "collocations": [
-      "bird in context",
-      "use bird"
+      "bird nest",
+      "fly like bird"
     ]
   },
   "BIRTHDAY": {
@@ -1461,12 +2436,11 @@ const WordRamData = {
   },
   "BRIDGE": {
     "tr": "Мост",
-    "def": "Сооружение для переправы через реку или препятствие.",
+    "def": "Инженерное сооружение через реку.",
     "ph": "[brɪdʒ]",
-    "ex": "Suspension bridge — Висячий мост.",
+    "ex": "Stone bridge — Каменный мост.",
     "collocations": [
-      "build a bridge",
-      "cross the bridge",
+      "cross bridge",
       "golden bridge"
     ]
   },
@@ -1506,8 +2480,8 @@ const WordRamData = {
     "ph": "[bʌs]",
     "ex": "Catch the bus — Сесть на автобус.",
     "collocations": [
-      "bus in context",
-      "use bus"
+      "bus stop",
+      "city bus"
     ]
   },
   "BUSINESS": {
@@ -1593,12 +2567,12 @@ const WordRamData = {
   },
   "CANYON": {
     "tr": "Каньон / Ущелье",
-    "def": "Глубокая долина реки с крутыми скалистыми стенами.",
+    "def": "Глубокая горная долина с отвесными скалами.",
     "ph": "[ˈkænjən]",
-    "ex": "Grand Canyon — Великий каньон.",
+    "ex": "Grand canyon — Великий каньон.",
     "collocations": [
-      "canyon in context",
-      "use canyon"
+      "deep canyon",
+      "rocky canyon"
     ]
   },
   "CAPTAIN": {
@@ -1612,13 +2586,13 @@ const WordRamData = {
     ]
   },
   "CAR": {
-    "tr": "Машина / Автомобиль",
-    "def": "Легковой автотранспорт для поездок.",
+    "tr": "Машина",
+    "def": "Легковой автомобиль для личных поездок.",
     "ph": "[kɑː]",
     "ex": "Drive a car — Водить машину.",
     "collocations": [
-      "car in context",
-      "use car"
+      "car park",
+      "fast car"
     ]
   },
   "CARAVAN": {
@@ -1643,12 +2617,12 @@ const WordRamData = {
   },
   "CASTLE": {
     "tr": "Замок / Крепость",
-    "def": "Укрепленное монументальное старинное жилище.",
+    "def": "Древнее монументальное оборонительное строение.",
     "ph": "[ˈkɑːsl]",
-    "ex": "Ancient castle — Древний замок.",
+    "ex": "Old castle — Старинный замок.",
     "collocations": [
-      "castle in context",
-      "use castle"
+      "visit castle",
+      "medieval castle"
     ]
   },
   "CAT": {
@@ -2349,12 +3323,12 @@ const WordRamData = {
   },
   "DOLPHIN": {
     "tr": "Дельфин",
-    "def": "Умное и дружелюбное морское млекопитающее.",
+    "def": "Умное дружелюбное морское млекопитающее.",
     "ph": "[ˈdɒlfɪn]",
     "ex": "Swim with dolphin — Плавать с дельфином.",
     "collocations": [
-      "dolphin in context",
-      "use dolphin"
+      "dolphin show",
+      "wild dolphin"
     ]
   },
   "DOMINANCE": {
@@ -2741,12 +3715,12 @@ const WordRamData = {
   },
   "FALCON": {
     "tr": "Сокол",
-    "def": "Быстрая хищная птица с острым охотничьим зрением.",
+    "def": "Быстрокрылая хищная птица-охотник.",
     "ph": "[ˈfɔːlkən]",
     "ex": "Hunting falcon — Охотничий сокол.",
     "collocations": [
-      "falcon in context",
-      "use falcon"
+      "peregrine falcon",
+      "trained falcon"
     ]
   },
   "FAMILY": {
@@ -2862,12 +3836,12 @@ const WordRamData = {
   },
   "FISH": {
     "tr": "Рыба",
-    "def": "Водное позвоночное существо с чешуей и плавниками.",
+    "def": "Водное существо, ценный продукт питания.",
     "ph": "[fɪʃ]",
-    "ex": "Gold fish — Золотая рыбка.",
+    "ex": "Grilled fish — Рыба на гриле.",
     "collocations": [
-      "fish in context",
-      "use fish"
+      "fresh fish",
+      "catch fish"
     ]
   },
   "FLAME": {
@@ -2971,13 +3945,13 @@ const WordRamData = {
     ]
   },
   "FOREST": {
-    "tr": "Лес",
-    "def": "Крупный массив земли, густо заросший деревьями.",
+    "tr": "Лес / Чаща",
+    "def": "Огромный зеленый массив вековых деревьев.",
     "ph": "[ˈfɒrɪst]",
-    "ex": "Pine forest — Сосновый лес.",
+    "ex": "Green forest — Зеленый лес.",
     "collocations": [
-      "forest in context",
-      "use forest"
+      "pine forest",
+      "deep in forest"
     ]
   },
   "FORGE": {
@@ -3066,10 +4040,10 @@ const WordRamData = {
     "tr": "Фрукт / Плод",
     "def": "Сочный сладкий плод дерева или кустарника.",
     "ph": "[fruːt]",
-    "ex": "Fresh fruit — Свежие фрукты.",
+    "ex": "Fresh fruit — Свежий фрукт.",
     "collocations": [
-      "fruit in context",
-      "use fruit"
+      "fruit juice",
+      "eat fruit"
     ]
   },
   "FUTURE": {
@@ -3497,12 +4471,12 @@ const WordRamData = {
   },
   "HOTEL": {
     "tr": "Отель / Гостиница",
-    "def": "Здание с номерами для временного проживания туристов.",
+    "def": "Здание с комфортными номерами для туристов.",
     "ph": "[həʊˈtel]",
     "ex": "Five-star hotel — Пятизвездочный отель.",
     "collocations": [
-      "hotel in context",
-      "use hotel"
+      "book a hotel",
+      "hotel room"
     ]
   },
   "HOUSE": {
@@ -3637,13 +4611,12 @@ const WordRamData = {
   },
   "ISLAND": {
     "tr": "Остров",
-    "def": "Участок суши, полностью омываемый водой.",
+    "def": "Участок суши среди бескрайних вод моря.",
     "ph": "[ˈaɪlənd]",
     "ex": "Green island — Зеленый остров.",
     "collocations": [
       "desert island",
-      "tropical island",
-      "isolated island"
+      "visit island"
     ]
   },
   "ISLE": {
@@ -3718,13 +4691,13 @@ const WordRamData = {
     ]
   },
   "JUNGLE": {
-    "tr": "Джунгли / Тропики",
-    "def": "Густой непроходимый влажный тропический лес.",
+    "tr": "Джунгли",
+    "def": "Непроходимые тропические влажные леса.",
     "ph": "[ˈdʒʌŋɡl]",
     "ex": "Wild jungle — Дикие джунгли.",
     "collocations": [
-      "jungle in context",
-      "use jungle"
+      "dense jungle",
+      "jungle trek"
     ]
   },
   "JUSTICE": {
@@ -3770,12 +4743,12 @@ const WordRamData = {
   },
   "KITCHEN": {
     "tr": "Кухня",
-    "def": "Помещение в доме, где готовят вкусную пищу.",
+    "def": "Помещение для готовки вкусной еды.",
     "ph": "[ˈkɪtʃɪn]",
-    "ex": "Modern kitchen — Современная кухня.",
+    "ex": "Clean kitchen — Чистая кухня.",
     "collocations": [
-      "kitchen in context",
-      "use kitchen"
+      "kitchen table",
+      "in the kitchen"
     ]
   },
   "KNELL": {
@@ -3911,12 +4884,12 @@ const WordRamData = {
   },
   "LION": {
     "tr": "Лев",
-    "def": "Могучий хищник саванны, царь зверей с пышной гривой.",
+    "def": "Царь зверей саванны с роскошной гривой.",
     "ph": "[ˈlaɪən]",
-    "ex": "Mighty lion — Могучий лев.",
+    "ex": "Brave lion — Храбрый лев.",
     "collocations": [
-      "lion in context",
-      "use lion"
+      "lion pride",
+      "roar of lion"
     ]
   },
   "LIP": {
@@ -4000,13 +4973,13 @@ const WordRamData = {
     ]
   },
   "MAP": {
-    "tr": "Карта местности",
-    "def": "Географический чертеж поверхности суши и морей.",
+    "tr": "Карта",
+    "def": "Схема улиц и дорог для навигации.",
     "ph": "[mæp]",
-    "ex": "World map — Карта мира.",
+    "ex": "City map — Карта города.",
     "collocations": [
-      "map in context",
-      "use map"
+      "check the map",
+      "world map"
     ]
   },
   "MARBLE": {
@@ -4428,12 +5401,12 @@ const WordRamData = {
   },
   "PALACE": {
     "tr": "Дворец",
-    "def": "Роскошное царственное здание правителей.",
+    "def": "Роскошная резиденция монархов.",
     "ph": "[ˈpæləs]",
     "ex": "Royal palace — Королевский дворец.",
     "collocations": [
-      "palace in context",
-      "use palace"
+      "palace gates",
+      "winter palace"
     ]
   },
   "PAPER": {
@@ -4467,13 +5440,13 @@ const WordRamData = {
     ]
   },
   "PARK": {
-    "tr": "Парк / Сквер",
-    "def": "Зеленый тенистый уголок природы для прогулок.",
+    "tr": "Парк",
+    "def": "Зеленая зона города для прогулок и отдыха.",
     "ph": "[pɑːk]",
-    "ex": "City park — Городской парк.",
+    "ex": "Central park — Центральный парк.",
     "collocations": [
-      "park in context",
-      "use park"
+      "walk in park",
+      "theme park"
     ]
   },
   "PARTY": {
@@ -4489,12 +5462,12 @@ const WordRamData = {
   },
   "PASSENGER": {
     "tr": "Пассажир",
-    "def": "Человек, совершающий поездку на поезде или авто.",
+    "def": "Человек в поездке на автобусе или самолете.",
     "ph": "[ˈpæsɪndʒə]",
-    "ex": "Train passenger — Пассажир поезда.",
+    "ex": "Flight passenger — Пассажир рейса.",
     "collocations": [
-      "passenger in context",
-      "use passenger"
+      "passenger seat",
+      "train passenger"
     ]
   },
   "PEAK": {
@@ -4741,12 +5714,12 @@ const WordRamData = {
   },
   "RAINBOW": {
     "tr": "Радуга",
-    "def": "Семицветная сияющая дуга в небе после грозы.",
+    "def": "Семицветное оптическое чудо в небе после грозы.",
     "ph": "[ˈreɪnbəʊ]",
     "ex": "Bright rainbow — Яркая радуга.",
     "collocations": [
-      "rainbow in context",
-      "use rainbow"
+      "color rainbow",
+      "see a rainbow"
     ]
   },
   "RAW": {
@@ -4861,14 +5834,13 @@ const WordRamData = {
     ]
   },
   "ROAD": {
-    "tr": "Дорога / Трасса",
-    "def": "Путь сообщения для автомобилей и путников.",
+    "tr": "Дорога",
+    "def": "Асфальтированная трасса между городами.",
     "ph": "[rəʊd]",
-    "ex": "Country road — Проселочная дорога.",
+    "ex": "Main road — Главная дорога.",
     "collocations": [
-      "on the road",
-      "road to success",
-      "country road"
+      "cross the road",
+      "road sign"
     ]
   },
   "ROBOT": {
@@ -5094,13 +6066,13 @@ const WordRamData = {
     ]
   },
   "SHIP": {
-    "tr": "Корабль / Судно",
-    "def": "Большой морской лайнер, бороздящий волны океанов.",
+    "tr": "Корабль",
+    "def": "Крупное морское судно для плаваний.",
     "ph": "[ʃɪp]",
     "ex": "Sailing ship — Парусный корабль.",
     "collocations": [
-      "ship in context",
-      "use ship"
+      "board a ship",
+      "cruise ship"
     ]
   },
   "SISTER": {
@@ -5248,12 +6220,11 @@ const WordRamData = {
   },
   "STATION": {
     "tr": "Станция / Вокзал",
-    "def": "Пункт остановки поездов для посадки пассажиров.",
+    "def": "Пункт отправки и прибытия поездов.",
     "ph": "[ˈsteɪʃn]",
-    "ex": "Train station — Железнодорожная станция.",
+    "ex": "Railway station — Железнодорожный вокзал.",
     "collocations": [
       "train station",
-      "bus station",
       "police station"
     ]
   },
@@ -5289,13 +6260,12 @@ const WordRamData = {
   },
   "STREET": {
     "tr": "Улица",
-    "def": "Городская дорога с тротуарами, домами и фонарями.",
+    "def": "Городская дорога с тротуарами и домами.",
     "ph": "[striːt]",
-    "ex": "Quiet street — Тихая улица.",
+    "ex": "Main street — Главная улица.",
     "collocations": [
-      "cross the street",
-      "quiet street",
-      "main street"
+      "cross street",
+      "quiet street"
     ]
   },
   "STRENGTH": {
@@ -5523,23 +6493,23 @@ const WordRamData = {
     ]
   },
   "TRAIN": {
-    "tr": "Поезд / Тренироваться",
-    "def": "Железнодорожный состав, мчащийся по рельсам.",
+    "tr": "Поезд",
+    "def": "Железнодорожный состав вагонов на рельсах.",
     "ph": "[treɪn]",
-    "ex": "Express train — Скоростной поезд.",
+    "ex": "Speed train — Скоростной поезд.",
     "collocations": [
-      "train in context",
-      "use train"
+      "catch train",
+      "train ticket"
     ]
   },
   "TRANSPORT": {
     "tr": "Транспорт",
-    "def": "Сеть машин, автобусов и поездов для перевозки.",
+    "def": "Вся сеть машин, автобусов и метро.",
     "ph": "[ˈtrænspɔːt]",
-    "ex": "City transport — Городской транспорт.",
+    "ex": "Public transport — Общественный транспорт.",
     "collocations": [
-      "transport in context",
-      "use transport"
+      "transport system",
+      "mode of transport"
     ]
   },
   "TREASURE": {
@@ -5656,12 +6626,12 @@ const WordRamData = {
   },
   "VALLEY": {
     "tr": "Долина",
-    "def": "Живописная равнина между горными хребтами.",
+    "def": "Равнинное пространство между цепями гор.",
     "ph": "[ˈvæli]",
-    "ex": "River valley — Речная долина.",
+    "ex": "River valley — Долина реки.",
     "collocations": [
-      "valley in context",
-      "use valley"
+      "green valley",
+      "peaceful valley"
     ]
   },
   "VALOR": {
@@ -5817,21 +6787,20 @@ const WordRamData = {
   },
   "WAVE": {
     "tr": "Волна",
-    "def": "Морской гребень волны или дружеский жест рукой.",
+    "def": "Морской водяной вал с белой пеной.",
     "ph": "[weɪv]",
-    "ex": "Ocean wave — Океанская волна.",
+    "ex": "Ocean wave — Морская волна.",
     "collocations": [
-      "wave in context",
-      "use wave"
+      "giant wave",
+      "sound wave"
     ]
   },
   "WEATHER": {
     "tr": "Погода",
-    "def": "Состояние неба: ясное солнце, теплый дождь или снег.",
+    "def": "Состояние атмосферы: тепло, дождь или ветер.",
     "ph": "[ˈweðə]",
     "ex": "Nice weather — Хорошая погода.",
     "collocations": [
-      "nice weather",
       "bad weather",
       "weather forecast"
     ]
@@ -6017,449 +6986,9665 @@ const WordRamData = {
       "zenith in context",
       "use zenith"
     ]
-  }
-},
-  themes: {
-  "food": {
-    "title": "Еда и напитки",
-    "icon": "☕",
-    "words": [
-      "APPLE",
-      "BANANA",
-      "BREAD",
-      "BREAKFAST",
-      "CAFE",
-      "CAKE",
-      "CANDY",
-      "CHOCOLATE",
-      "CLOVE",
-      "COFFEE",
-      "COGNAC",
-      "CUP",
-      "EGG",
-      "FIG",
-      "FOOD",
-      "FRUIT",
-      "GUM",
-      "JUICE",
-      "LEMON",
-      "MILK",
-      "MINT",
-      "ORANGE",
-      "SANDWICH",
-      "TEA",
-      "VEGETABLE",
-      "WALNUT",
-      "WATER"
+  },
+  "MEAT": {
+    "tr": "Мясо",
+    "def": "Продукт питания животного происхождения.",
+    "ph": "[miːt]",
+    "ex": "Fresh meat — Свежее мясо.",
+    "collocations": [
+      "eat meat",
+      "red meat"
     ]
   },
-  "nature": {
-    "title": "Природа и стихия",
-    "icon": "🌿",
-    "words": [
-      "AIR",
-      "ALPINE",
-      "AMBER",
-      "ASH",
-      "BEACH",
-      "BLAZE",
-      "BLOOM",
-      "BLOSSOM",
-      "BOG",
-      "BONSAI",
-      "BREEZE",
-      "CANYON",
-      "CASCADE",
-      "CLAY",
-      "CLOUD",
-      "CLOVER",
-      "CORAL",
-      "CRATER",
-      "CRYSTAL",
-      "DAWN",
-      "DESERT",
-      "EARTH",
-      "EBB",
-      "EMBER",
-      "EMERALD",
-      "FIRE",
-      "FIREFLY",
-      "FLAME",
-      "FLOW",
-      "FLOWER",
-      "FOG",
-      "FOREST",
-      "FOSSIL",
-      "GARDEN",
-      "GEYSER",
-      "GLACIER",
-      "GREEN",
-      "HABITAT",
-      "HARBOR",
-      "ICE",
-      "ICEBERG",
-      "ISLAND",
-      "ISLE",
-      "LAGOON",
-      "LAKE",
-      "LANDSCAPE",
-      "MOSS",
-      "MOUNTAIN",
-      "OCEAN",
-      "PUDDLE",
-      "RAIN",
-      "RAINBOW",
-      "RIVER",
-      "ROSE",
-      "SAND",
-      "SCENERY",
-      "SEA",
-      "SNOW",
-      "SPRING",
-      "STEAM",
-      "SUMMER",
-      "SUN",
-      "TIDE",
-      "TIMBER",
-      "TREE",
-      "VALE",
-      "VALLEY",
-      "WAVE",
-      "WEATHER",
-      "WIND",
-      "WINTER"
+  "SOUP": {
+    "tr": "Суп",
+    "def": "Жидкое горячее первое блюдо.",
+    "ph": "[suːp]",
+    "ex": "Hot soup — Горячий суп.",
+    "collocations": [
+      "bowl of soup",
+      "chicken soup"
     ]
   },
-  "space": {
-    "title": "Космос и наука",
-    "icon": "🚀",
-    "words": [
-      "ACADEMIC",
-      "ACADEMY",
-      "ACID",
-      "ALCHEMIST",
-      "AZIMUTH",
-      "CATALYST",
-      "CHEMISTRY",
-      "CLUSTERS",
-      "COBALT",
-      "COMPASS",
-      "COMPUTER",
-      "COSMOS",
-      "DATABASE",
-      "DIMENSION",
-      "DYNAMIC",
-      "ECLIPSE",
-      "ECOSYSTEM",
-      "EDUCATION",
-      "ENERGY",
-      "ENGINEER",
-      "ENTROPY",
-      "EVOLUTION",
-      "FORMATION",
-      "FREQUENCY",
-      "GALAXY",
-      "GEOGRAPHY",
-      "GRAVITY",
-      "GRID",
-      "INVENTION",
-      "MAGNET",
-      "METEOR",
-      "NEBULA",
-      "OCTAVE",
-      "PARADIGM",
-      "PARADOX",
-      "PLANET",
-      "PRISM",
-      "PROFESSOR",
-      "PULSE",
-      "RADAR",
-      "ROBOT",
-      "ROCKET",
-      "SOLVENT",
-      "SPECTRUM",
-      "SPECTRUMS",
-      "STRUCTURE",
-      "UNIVERSE",
-      "VORTEX",
-      "ZENITH"
+  "RICE": {
+    "tr": "Рис",
+    "def": "Популярная зерновая крупа белого цвета.",
+    "ph": "[raɪs]",
+    "ex": "Boiled rice — Вареный рис.",
+    "collocations": [
+      "eat rice",
+      "bowl of rice"
     ]
   },
-  "city": {
-    "title": "Город и путешествия",
-    "icon": "🏛️",
-    "words": [
-      "ABBEY",
-      "ADVENTURE",
-      "AIRPLANE",
-      "AIRPORT",
-      "APARTMENT",
-      "AVENUE",
-      "BARRIER",
-      "BRIDGE",
-      "BUILDING",
-      "BUS",
-      "CABIN",
-      "CALENDAR",
-      "CAMERA",
-      "CAMPAIGN",
-      "CAPTAIN",
-      "CAR",
-      "CARAVAN",
-      "CASTLE",
-      "CITY",
-      "CLASSROOM",
-      "CLOCK",
-      "CRUISE",
-      "DOOR",
-      "EXPLORE",
-      "EXPLORER",
-      "FESTIVAL",
-      "HOLIDAY",
-      "HOSPITAL",
-      "HOTEL",
-      "HOUSE",
-      "JOURNEY",
-      "KINGDOM",
-      "LANTERN",
-      "LOCATION",
-      "LOFT",
-      "MAP",
-      "MARKET",
-      "MAZE",
-      "MIGRATION",
-      "MONUMENT",
-      "MUSEUM",
-      "NEWSPAPER",
-      "PACKAGE",
-      "PALACE",
-      "PARK",
-      "PASSENGER",
-      "PYRAMID",
-      "ROAD",
-      "ROOM",
-      "SAFARI",
-      "SANCTUARY",
-      "SCHOOL",
-      "STATION",
-      "STATUE",
-      "STREET",
-      "TELEPHONE",
-      "TICKET",
-      "TRAIN",
-      "TRANSPORT",
-      "TUNNEL",
-      "VACATION",
-      "VILLAGE",
-      "VINTAGE",
-      "WINDOW"
+  "FORK": {
+    "tr": "Вилка",
+    "def": "Столовый прибор с зубцами для еды.",
+    "ph": "[fɔːk]",
+    "ex": "Knife and fork — Нож и вилка.",
+    "collocations": [
+      "use a fork",
+      "silver fork"
     ]
   },
-  "animals": {
-    "title": "Животный мир",
-    "icon": "🐾",
-    "words": [
-      "ANIMAL",
-      "BIRD",
-      "CAT",
-      "COOP",
-      "CRANE",
-      "DOG",
-      "DOLPHIN",
-      "DRAGON",
-      "FALCON",
-      "FEATHER",
-      "FISH",
-      "HARE",
-      "LION",
-      "PHOENIX",
-      "RABBIT",
-      "SLOTH",
-      "WARRIOR",
-      "YAK"
+  "BOWL": {
+    "tr": "Миска / Пиала",
+    "def": "Глубокая круглая посуда для супа или салата.",
+    "ph": "[bəʊl]",
+    "ex": "Salad bowl — Миска для салата.",
+    "collocations": [
+      "soup bowl",
+      "sugar bowl"
     ]
   },
-  "mind": {
-    "title": "Разум и общество",
-    "icon": "💡",
-    "words": [
-      "ABSOLUTE",
-      "ACCURATE",
-      "ACTION",
-      "ADAPT",
-      "ADVOCATE",
-      "AGE",
-      "AIM",
-      "ALACRITY",
-      "ALERT",
-      "ALIBI",
-      "ALLIANCE",
-      "ANALOGY",
-      "ANTIDOTE",
-      "APT",
-      "ASSET",
-      "ATTRITION",
-      "AUDIENCE",
-      "AUSTERE",
-      "AUTHORITY",
-      "AWARENESS",
-      "AWE",
-      "BADGE",
-      "BOND",
-      "BOOK",
-      "BRAIN",
-      "BUSINESS",
-      "CELEBRATE",
-      "CEREMONY",
-      "CHALLENGE",
-      "CHAMP",
-      "CHAMPION",
-      "CHARM",
-      "CHESS",
-      "CHIEF",
-      "CITIZEN",
-      "COHERENT",
-      "COIN",
-      "COMMISSION",
-      "COMMUNITY",
-      "CONSENSUS",
-      "CONUNDRUM",
-      "CREATION",
-      "CREED",
-      "CROWN",
-      "CRUX",
-      "DECISIVE",
-      "DEMOCRACY",
-      "DICHOTOMY",
-      "DIRECTOR",
-      "DISASTER",
-      "DISCOVERY",
-      "DOMINANCE",
-      "DOMINANT",
-      "DRAFT",
-      "DREAM",
-      "ELOQUENT",
-      "EMBRACE",
-      "EMISSARY",
-      "EPITOME",
-      "EQUIPMENT",
-      "ETHOS",
-      "EXERCISE",
-      "FASHION",
-      "FORTUNE",
-      "FRACTION",
-      "FREEDOM",
-      "FRIEND",
-      "FUTURE",
-      "GAME",
-      "GENEROUS",
-      "GENUINE",
-      "GIFT",
-      "GIST",
-      "GLOW",
-      "GOLD",
-      "GUILE",
-      "HARMONY",
-      "HEALTH",
-      "HEART",
-      "HEIR",
-      "HERITAGE",
-      "HERMETIC",
-      "HERO",
-      "HOME",
-      "HORIZON",
-      "HORIZONS",
-      "ICON",
-      "IMMUTABLE",
-      "IMPORTANT",
-      "INCOGNITO",
-      "INSIGHT",
-      "INTEGRITY",
-      "INTERNET",
-      "JUSTICE",
-      "JUXTAPOSE",
-      "KNELL",
-      "KNIGHT",
-      "KNOWLEDGE",
-      "LACONIC",
-      "LORE",
-      "MAGIC",
-      "MAJESTY",
-      "MALLEABLE",
-      "MEDICINE",
-      "MEMORY",
-      "METAPHOR",
-      "MOMENTUM",
-      "MONARCH",
-      "MONEY",
-      "MOTIF",
-      "MUSIC",
-      "NAME",
-      "NOBLE",
-      "NOTEBOOK",
-      "OATH",
-      "OBLIVION",
-      "OMEN",
-      "OPINION",
-      "PITH",
-      "POCKET",
-      "POLLUTION",
-      "PROXIMITY",
-      "PUZZLE",
-      "QUALM",
-      "QUESTION",
-      "RELIC",
-      "RESOURCE",
-      "RESOURCES",
-      "RIGOR",
-      "RUNE",
-      "RUSH",
-      "SAGE",
-      "SCHISM",
-      "SECTOR",
-      "SERVE",
-      "SHIELD",
-      "SILENCE",
-      "SKILL",
-      "SOLVENT",
-      "SPARK",
-      "SPEAR",
-      "STRATEGY",
-      "STRENGTH",
-      "STUDENT",
-      "SUBLIME",
-      "SUBTLE",
-      "SUCCESS",
-      "SUM",
-      "SURPRISE",
-      "SYNERGY",
-      "TALENT",
-      "TEACHER",
-      "TENET",
-      "THEORY",
-      "THOUGHT",
-      "TIME",
-      "TREASURE",
-      "TRIUMPH",
-      "TRUTH",
-      "UNIFORM",
-      "URGE",
-      "VALOR",
-      "VIBE",
-      "VICTORY",
-      "VIGOR",
-      "VISION",
-      "VOID",
-      "VOLUNTEER",
-      "VOW",
-      "WARRIOR",
-      "WIN",
-      "WIT",
-      "WONDERFUL",
-      "WRATH",
-      "ZEAL",
-      "ZEALOTRY",
-      "ZEALOUS"
+  "SALT": {
+    "tr": "Соль",
+    "def": "Белое минеральное вещество для вкуса пищи.",
+    "ph": "[sɔːlt]",
+    "ex": "Pinch of salt — Щепотка соли.",
+    "collocations": [
+      "add salt",
+      "sea salt"
+    ]
+  },
+  "BEEF": {
+    "tr": "Говядина",
+    "def": "Мясо крупного рогатого скота.",
+    "ph": "[biːf]",
+    "ex": "Roast beef — Жареная говядина.",
+    "collocations": [
+      "beef steak",
+      "lean beef"
+    ]
+  },
+  "CHEF": {
+    "tr": "Шеф-повар",
+    "def": "Главный кулинарный мастер ресторана.",
+    "ph": "[ʃef]",
+    "ex": "Head chef — Главный шеф-повар.",
+    "collocations": [
+      "famous chef",
+      "executive chef"
+    ]
+  },
+  "DISH": {
+    "tr": "Блюдо / Тарелка",
+    "def": "Приготовленное кушанье или посуда.",
+    "ph": "[dɪʃ]",
+    "ex": "Tasty dish — Вкусное блюдо.",
+    "collocations": [
+      "main dish",
+      "wash dishes"
+    ]
+  },
+  "OVEN": {
+    "tr": "Духовка / Печь",
+    "def": "Кухонный прибор для выпечки и запекания.",
+    "ph": "[ˈʌvn]",
+    "ex": "Bake in oven — Печь в духовке.",
+    "collocations": [
+      "preheat oven",
+      "hot oven"
+    ]
+  },
+  "BAKE": {
+    "tr": "Печь / Запекать",
+    "def": "Готовить мучные изделия или мясо в духовке.",
+    "ph": "[beɪk]",
+    "ex": "Bake a cake — Печь пирог.",
+    "collocations": [
+      "bake bread",
+      "freshly baked"
+    ]
+  },
+  "BOIL": {
+    "tr": "Варить / Кипятить",
+    "def": "Доводить жидкость до кипения при 100°C.",
+    "ph": "[bɔɪl]",
+    "ex": "Boil water — Вскипятить воду.",
+    "collocations": [
+      "boil eggs",
+      "bring to boil"
+    ]
+  },
+  "COOK": {
+    "tr": "Готовить / Повар",
+    "def": "Процесс приготовления пищи или кулинар.",
+    "ph": "[kʊk]",
+    "ex": "Cook dinner — Готовить ужин.",
+    "collocations": [
+      "good cook",
+      "learn to cook"
+    ]
+  },
+  "DIET": {
+    "tr": "Диета / Рацион",
+    "def": "Специальный режим и состав питания.",
+    "ph": "[ˈdaɪət]",
+    "ex": "Healthy diet — Здоровая диета.",
+    "collocations": [
+      "balanced diet",
+      "go on a diet"
+    ]
+  },
+  "FEED": {
+    "tr": "Кормить",
+    "def": "Давать пищу человеку или животному.",
+    "ph": "[fiːd]",
+    "ex": "Feed the cat — Покормить кота.",
+    "collocations": [
+      "feed baby",
+      "breast feed"
+    ]
+  },
+  "MEAL": {
+    "tr": "Прием пищи / Трапеза",
+    "def": "Еда: завтрак, обед или ужин.",
+    "ph": "[miːl]",
+    "ex": "Delicious meal — Вкусная трапеза.",
+    "collocations": [
+      "have a meal",
+      "three meals"
+    ]
+  },
+  "MENU": {
+    "tr": "Меню",
+    "def": "Список блюд и напитков в кафе.",
+    "ph": "[ˈmenjuː]",
+    "ex": "Read the menu — Читать меню.",
+    "collocations": [
+      "lunch menu",
+      "restaurant menu"
+    ]
+  },
+  "NUTS": {
+    "tr": "Орехи",
+    "def": "Питательные плоды в твердой скорлупе.",
+    "ph": "[nʌts]",
+    "ex": "Eat nuts — Есть орехи.",
+    "collocations": [
+      "mixed nuts",
+      "cracked nuts"
+    ]
+  },
+  "PORK": {
+    "tr": "Свинина",
+    "def": "Мясо домашней свиньи.",
+    "ph": "[pɔːk]",
+    "ex": "Roast pork — Жареная свинина.",
+    "collocations": [
+      "pork chop",
+      "lean pork"
+    ]
+  },
+  "SPOON": {
+    "tr": "Ложка",
+    "def": "Столовый прибор для жидкой пищи.",
+    "ph": "[spuːn]",
+    "ex": "Soup spoon — Суповая ложка.",
+    "collocations": [
+      "wooden spoon",
+      "teaspoon"
+    ]
+  },
+  "PLATE": {
+    "tr": "Тарелка",
+    "def": "Плоская столовая посуда для еды.",
+    "ph": "[pleɪt]",
+    "ex": "Clean plate — Чистая тарелка.",
+    "collocations": [
+      "paper plate",
+      "empty plate"
+    ]
+  },
+  "SNACK": {
+    "tr": "Перекус / Закуска",
+    "def": "Легкая еда между основными приемами пищи.",
+    "ph": "[snæk]",
+    "ex": "Quick snack — Быстрый перекус.",
+    "collocations": [
+      "healthy snack",
+      "snack bar"
+    ]
+  },
+  "TASTE": {
+    "tr": "Вкус / Пробовать",
+    "def": "Вкусовое ощущение пищи или проба блюда.",
+    "ph": "[teɪst]",
+    "ex": "Sweet taste — Сладкий вкус.",
+    "collocations": [
+      "taste good",
+      "have good taste"
+    ]
+  },
+  "DRINK": {
+    "tr": "Напиток / Пить",
+    "def": "Жидкий продукт для утоления жажды.",
+    "ph": "[drɪŋk]",
+    "ex": "Cold drink — Холодный напиток.",
+    "collocations": [
+      "soft drink",
+      "drink water"
+    ]
+  },
+  "SUGAR": {
+    "tr": "Сахар",
+    "def": "Сладкое кристаллическое вещество для чая.",
+    "ph": "[ˈʃʊɡə]",
+    "ex": "Brown sugar — Коричневый сахар.",
+    "collocations": [
+      "add sugar",
+      "sugar cane"
+    ]
+  },
+  "TOAST": {
+    "tr": "Тост / Гренка",
+    "def": "Подрумяненный ломтик хлеба к завтраку.",
+    "ph": "[təʊst]",
+    "ex": "Butter toast — Тост с маслом.",
+    "collocations": [
+      "french toast",
+      "make toast"
+    ]
+  },
+  "SWEET": {
+    "tr": "Сладкий / Конфета",
+    "def": "Имеющий приятный вкус сахара или меда.",
+    "ph": "[swiːt]",
+    "ex": "Sweet apple — Сладкое яблоко.",
+    "collocations": [
+      "sweet tooth",
+      "sweet smell"
+    ]
+  },
+  "SPICE": {
+    "tr": "Специя / Пряность",
+    "def": "Ароматная вкусовая добавка к пище.",
+    "ph": "[spaɪs]",
+    "ex": "Hot spice — Острая пряность.",
+    "collocations": [
+      "add spice",
+      "spice rack"
+    ]
+  },
+  "CREAM": {
+    "tr": "Сливки / Крем",
+    "def": "Жирная часть молока или десертный крем.",
+    "ph": "[kriːm]",
+    "ex": "Ice cream — Мороженое.",
+    "collocations": [
+      "sour cream",
+      "whipped cream"
+    ]
+  },
+  "CHEESE": {
+    "tr": "Сыр",
+    "def": "Популярный молочный продукт брожения.",
+    "ph": "[tʃiːz]",
+    "ex": "Goat cheese — Козий сыр.",
+    "collocations": [
+      "slice of cheese",
+      "cheese cake"
+    ]
+  },
+  "BUTTER": {
+    "tr": "Сливочное масло",
+    "def": "Питательный продукт из взбитых сливок.",
+    "ph": "[ˈbʌtə]",
+    "ex": "Peanut butter — Арахисовое масло.",
+    "collocations": [
+      "bread and butter",
+      "melt butter"
+    ]
+  },
+  "PEPPER": {
+    "tr": "Перец",
+    "def": "Острая пряность черного или красного цвета.",
+    "ph": "[ˈpepə]",
+    "ex": "Black pepper — Черный перец.",
+    "collocations": [
+      "salt and pepper",
+      "chili pepper"
+    ]
+  },
+  "DINNER": {
+    "tr": "Обед / Ужин",
+    "def": "Главный вечерний или дневной прием пищи.",
+    "ph": "[ˈdɪnə]",
+    "ex": "Family dinner — Семейный ужин.",
+    "collocations": [
+      "cook dinner",
+      "have dinner"
+    ]
+  },
+  "GARLIC": {
+    "tr": "Чеснок",
+    "def": "Пряное огородное растение с острым вкусом.",
+    "ph": "[ˈɡɑːlɪk]",
+    "ex": "Clove of garlic — Зубчик чеснока.",
+    "collocations": [
+      "garlic bread",
+      "fresh garlic"
+    ]
+  },
+  "CARROT": {
+    "tr": "Морковь",
+    "def": "Полезный оранжевый корнеплод с витаминами.",
+    "ph": "[ˈkærət]",
+    "ex": "Crunchy carrot — Хрустящая морковь.",
+    "collocations": [
+      "carrot juice",
+      "grated carrot"
+    ]
+  },
+  "TOMATO": {
+    "tr": "Помидор / Томат",
+    "def": "Сочный красный овощ для салатов и супов.",
+    "ph": "[təˈmɑːtəʊ]",
+    "ex": "Ripe tomato — Спелый помидор.",
+    "collocations": [
+      "tomato sauce",
+      "cherry tomato"
+    ]
+  },
+  "POTATO": {
+    "tr": "Картофель",
+    "def": "Популярный корнеплод, второй хлеб.",
+    "ph": "[pəˈteɪtəʊ]",
+    "ex": "Baked potato — Запеченный картофель.",
+    "collocations": [
+      "mashed potato",
+      "sweet potato"
+    ]
+  },
+  "FLAVOR": {
+    "tr": "Аромат / Вкус",
+    "def": "Особый букет вкусовых и обонятельных качеств.",
+    "ph": "[ˈfleɪvə]",
+    "ex": "Rich flavor — Насыщенный вкус.",
+    "collocations": [
+      "add flavor",
+      "vanilla flavor"
+    ]
+  },
+  "RECIPE": {
+    "tr": "Рецепт блюда",
+    "def": "Инструкция по приготовлению кушанья.",
+    "ph": "[ˈresəpi]",
+    "ex": "Secret recipe — Секретный рецепт.",
+    "collocations": [
+      "follow recipe",
+      "family recipe"
+    ]
+  },
+  "DESSERT": {
+    "tr": "Десерт / Сладость",
+    "def": "Сладкое завершающее блюдо трапезы.",
+    "ph": "[dɪˈzɜːt]",
+    "ex": "Chocolate dessert — Шоколадный десерт.",
+    "collocations": [
+      "order dessert",
+      "for dessert"
+    ]
+  },
+  "SAUSAGE": {
+    "tr": "Колбаса / Сосиска",
+    "def": "Мясное изделие в оболочке.",
+    "ph": "[ˈsɒsɪdʒ]",
+    "ex": "Hot sausage — Горячая сосиска.",
+    "collocations": [
+      "grilled sausage",
+      "pork sausage"
+    ]
+  },
+  "BISCUIT": {
+    "tr": "Печенье",
+    "def": "Сухое выпеченное сладкое лакомство.",
+    "ph": "[ˈbɪskɪt]",
+    "ex": "Sweet biscuit — Сладкое печенье.",
+    "collocations": [
+      "tea and biscuit",
+      "chocolate biscuit"
+    ]
+  },
+  "PANCAKE": {
+    "tr": "Блин / Оладья",
+    "def": "Тонкая лепешка из жидкого теста на сковороде.",
+    "ph": "[ˈpænkeɪk]",
+    "ex": "Sweet pancake — Сладкий блинчик.",
+    "collocations": [
+      "pancake syrup",
+      "make pancakes"
+    ]
+  },
+  "RECIPES": {
+    "tr": "Рецепты",
+    "def": "Сборник правил приготовления различных блюд.",
+    "ph": "[ˈresəpiz]",
+    "ex": "Book of recipes — Книга рецептов.",
+    "collocations": [
+      "easy recipes",
+      "healthy recipes"
+    ]
+  },
+  "NUTRIENT": {
+    "tr": "Питательное вещество",
+    "def": "Полезный компонент пищи: белок или витамин.",
+    "ph": "[ˈnjuːtriənt]",
+    "ex": "Vital nutrient — Жизненно важный элемент.",
+    "collocations": [
+      "rich in nutrients",
+      "essential nutrient"
+    ]
+  },
+  "DELICIOUS": {
+    "tr": "Восхитительный / Вкусный",
+    "def": "Чрезвычайно приятный и аппетитный на вкус.",
+    "ph": "[dɪˈlɪʃəs]",
+    "ex": "Delicious food — Очень вкусная еда.",
+    "collocations": [
+      "smell delicious",
+      "absolutely delicious"
+    ]
+  },
+  "BARK": {
+    "tr": "Кора дерева / Лай",
+    "def": "Защитный покров ствола дерева.",
+    "ph": "[bɑːk]",
+    "ex": "Tree bark — Кора дерева.",
+    "collocations": [
+      "thick bark",
+      "dog bark"
+    ]
+  },
+  "BUSH": {
+    "tr": "Куст / Кустарник",
+    "def": "Низкорослое многоствольное растение.",
+    "ph": "[bʊʃ]",
+    "ex": "Green bush — Зеленый куст.",
+    "collocations": [
+      "rose bush",
+      "hide in bush"
+    ]
+  },
+  "CLIFF": {
+    "tr": "Утес / Скала",
+    "def": "Высокий крутой обрыв над морем или рекой.",
+    "ph": "[klɪf]",
+    "ex": "High cliff — Высокий утес.",
+    "collocations": [
+      "edge of cliff",
+      "rocky cliff"
+    ]
+  },
+  "CAVE": {
+    "tr": "Пещера / Грот",
+    "def": "Естественная полость в скалах под землей.",
+    "ph": "[keɪv]",
+    "ex": "Dark cave — Темная пещера.",
+    "collocations": [
+      "explore a cave",
+      "cave entrance"
+    ]
+  },
+  "DIRT": {
+    "tr": "Грунт / Земля / Грязь",
+    "def": "Почва, пыль или земля на тропинке.",
+    "ph": "[dɜːt]",
+    "ex": "Dig dirt — Копать землю.",
+    "collocations": [
+      "wash off dirt",
+      "dirt road"
+    ]
+  },
+  "DUST": {
+    "tr": "Пыль",
+    "def": "Мельчайшие сухие частицы в воздухе.",
+    "ph": "[dʌst]",
+    "ex": "Gold dust — Золотая пыль.",
+    "collocations": [
+      "cloud of dust",
+      "dust storm"
+    ]
+  },
+  "DUNE": {
+    "tr": "Дюна / Бархан",
+    "def": "Песчаный холм, надутый ветром в пустыне.",
+    "ph": "[djuːn]",
+    "ex": "Sand dune — Песчаная дюна.",
+    "collocations": [
+      "climb a dune",
+      "desert dune"
+    ]
+  },
+  "HILL": {
+    "tr": "Холм / Пригорок",
+    "def": "Небольшая возвышенность на равнине.",
+    "ph": "[hɪl]",
+    "ex": "Green hill — Зеленый холм.",
+    "collocations": [
+      "climb a hill",
+      "top of hill"
+    ]
+  },
+  "LAND": {
+    "tr": "Земля / Суша",
+    "def": "Твердая поверхность планеты в отличие от моря.",
+    "ph": "[lænd]",
+    "ex": "Native land — Родная земля.",
+    "collocations": [
+      "dry land",
+      "land and sea"
+    ]
+  },
+  "LEAF": {
+    "tr": "Лист растения",
+    "def": "Зеленый орган фотосинтеза на ветке дерева.",
+    "ph": "[liːf]",
+    "ex": "Green leaf — Зеленый лист.",
+    "collocations": [
+      "falling leaf",
+      "maple leaf"
+    ]
+  },
+  "MOON": {
+    "tr": "Луна",
+    "def": "Естественный спутник Земли, сияющий ночью.",
+    "ph": "[muːn]",
+    "ex": "Full moon — Полная луна.",
+    "collocations": [
+      "moon light",
+      "crescent moon"
+    ]
+  },
+  "MUD": {
+    "tr": "Грязь / Ил",
+    "def": "Размокшая от дождей земля или глина.",
+    "ph": "[mʌd]",
+    "ex": "Wet mud — Мокрая грязь.",
+    "collocations": [
+      "covered in mud",
+      "mud bath"
+    ]
+  },
+  "PINE": {
+    "tr": "Сосна",
+    "def": "Хвойное вечнозеленое смолистое дерево.",
+    "ph": "[paɪn]",
+    "ex": "Pine tree — Сосна.",
+    "collocations": [
+      "pine needle",
+      "pine forest"
+    ]
+  },
+  "POND": {
+    "tr": "Пруд",
+    "def": "Небольшой искусственный или природный водоем.",
+    "ph": "[pɒnd]",
+    "ex": "Fish pond — Пруд с рыбой.",
+    "collocations": [
+      "duck pond",
+      "swim in pond"
+    ]
+  },
+  "ROOT": {
+    "tr": "Корень растения",
+    "def": "Подземная часть дерева, питающая ствол.",
+    "ph": "[ruːt]",
+    "ex": "Tree root — Корень дерева.",
+    "collocations": [
+      "deep roots",
+      "root cause"
+    ]
+  },
+  "ROCK": {
+    "tr": "Камень / Скала",
+    "def": "Твердая минеральная порода.",
+    "ph": "[rɒk]",
+    "ex": "Solid rock — Твердая скала.",
+    "collocations": [
+      "sharp rock",
+      "climb rocks"
+    ]
+  },
+  "SOIL": {
+    "tr": "Почва / Грунт",
+    "def": "Плодородный верхний слой земной коры.",
+    "ph": "[sɔɪl]",
+    "ex": "Rich soil — Богатая почва.",
+    "collocations": [
+      "fertile soil",
+      "dry soil"
+    ]
+  },
+  "STEM": {
+    "tr": "Стебель / Ствол",
+    "def": "Осевая опорная часть цветка или растения.",
+    "ph": "[stem]",
+    "ex": "Flower stem — Стебель цветка.",
+    "collocations": [
+      "green stem",
+      "cut stem"
+    ]
+  },
+  "WOOD": {
+    "tr": "Лес / Древесина",
+    "def": "Материал из срубленных деревьев или роща.",
+    "ph": "[wʊd]",
+    "ex": "Solid wood — Массив дерева.",
+    "collocations": [
+      "walk in wood",
+      "piece of wood"
+    ]
+  },
+  "BRANCH": {
+    "tr": "Ветка дерева",
+    "def": "Боковой отросток, растущий от ствола.",
+    "ph": "[brɑːntʃ]",
+    "ex": "Tree branch — Ветка дерева.",
+    "collocations": [
+      "bare branch",
+      "bird on branch"
+    ]
+  },
+  "SUNSET": {
+    "tr": "Закат солнца",
+    "def": "Вечернее опускание солнца за линию горизонта.",
+    "ph": "[ˈsʌnset]",
+    "ex": "Golden sunset — Золотой закат.",
+    "collocations": [
+      "watch sunset",
+      "at sunset"
+    ]
+  },
+  "SUNRISE": {
+    "tr": "Рассвет / Восход",
+    "def": "Первые утренние лучи поднимающегося солнца.",
+    "ph": "[ˈsʌnraɪz]",
+    "ex": "Early sunrise — Ранний восход.",
+    "collocations": [
+      "watch sunrise",
+      "before sunrise"
+    ]
+  },
+  "THUNDER": {
+    "tr": "Гром",
+    "def": "Грохочущий звук при ударе молнии в грозу.",
+    "ph": "[ˈθʌndə]",
+    "ex": "Loud thunder — Громкий гром.",
+    "collocations": [
+      "thunder storm",
+      "roll of thunder"
+    ]
+  },
+  "LIGHTNING": {
+    "tr": "Молния",
+    "def": "Ослепительный электрический разряд в тучах.",
+    "ph": "[ˈlaɪtnɪŋ]",
+    "ex": "Flash of lightning — Вспышка молнии.",
+    "collocations": [
+      "struck by lightning",
+      "lightning bolt"
+    ]
+  },
+  "WATERFALL": {
+    "tr": "Водопад",
+    "def": "Падение потока реки с крутого уступа скалы.",
+    "ph": "[ˈwɔːtəfɔːl]",
+    "ex": "High waterfall — Высокий водопад.",
+    "collocations": [
+      "mist of waterfall",
+      "visit waterfall"
+    ]
+  },
+  "BEAR": {
+    "tr": "Медведь",
+    "def": "Крупный сильный лесной зверь.",
+    "ph": "[beə]",
+    "ex": "Brown bear — Бурый медведь.",
+    "collocations": [
+      "polar bear",
+      "wild bear"
+    ]
+  },
+  "BULL": {
+    "tr": "Бык",
+    "def": "Могучее рогатое домашнее или дикое животное.",
+    "ph": "[bʊl]",
+    "ex": "Strong bull — Сильный бык.",
+    "collocations": [
+      "bull horn",
+      "charging bull"
+    ]
+  },
+  "CALF": {
+    "tr": "Теленок",
+    "def": "Детеныш коровы или оленя.",
+    "ph": "[kɑːf]",
+    "ex": "Young calf — Молодой теленок.",
+    "collocations": [
+      "feed a calf",
+      "calf leather"
+    ]
+  },
+  "COLT": {
+    "tr": "Жеребенок",
+    "def": "Молодой конь до трех лет.",
+    "ph": "[kəʊlt]",
+    "ex": "Fast colt — Быстрый жеребенок.",
+    "collocations": [
+      "colt horse",
+      "young colt"
+    ]
+  },
+  "DEER": {
+    "tr": "Олень",
+    "def": "Грациозное лесное копытное животное с рогами.",
+    "ph": "[dɪə]",
+    "ex": "Wild deer — Дикий олень.",
+    "collocations": [
+      "deer herd",
+      "deer antlers"
+    ]
+  },
+  "DUCK": {
+    "tr": "Утка",
+    "def": "Водоплавающая домашняя или дикая птица.",
+    "ph": "[dʌk]",
+    "ex": "Wild duck — Дикая утка.",
+    "collocations": [
+      "duck pond",
+      "feed ducks"
+    ]
+  },
+  "FROG": {
+    "tr": "Лягушка",
+    "def": "Бесхвостое земноводное, прыгающее у воды.",
+    "ph": "[frɒɡ]",
+    "ex": "Green frog — Зеленая лягушка.",
+    "collocations": [
+      "frog jump",
+      "croaking frog"
+    ]
+  },
+  "GOAT": {
+    "tr": "Коза / Козел",
+    "def": "Рогатое домашнее жвачное животное.",
+    "ph": "[ɡəʊt]",
+    "ex": "Mountain goat — Горный козел.",
+    "collocations": [
+      "goat milk",
+      "goat cheese"
+    ]
+  },
+  "HAWK": {
+    "tr": "Ястреб",
+    "def": "Хищная птица с острыми когтями и зрением.",
+    "ph": "[hɔːk]",
+    "ex": "Hunting hawk — Охотящийся ястреб.",
+    "collocations": [
+      "hawk eye",
+      "wild hawk"
+    ]
+  },
+  "LAMB": {
+    "tr": "Ягненок",
+    "def": "Детеныш овцы с мягкой белой шерсткой.",
+    "ph": "[læm]",
+    "ex": "Little lamb — Маленький ягненок.",
+    "collocations": [
+      "roast lamb",
+      "gentle as lamb"
+    ]
+  },
+  "MARE": {
+    "tr": "Кобыла",
+    "def": "Взрослая самка домашней лошади.",
+    "ph": "[meə]",
+    "ex": "White mare — Белая кобыла.",
+    "collocations": [
+      "mare horse",
+      "running mare"
+    ]
+  },
+  "MOLE": {
+    "tr": "Крот",
+    "def": "Подземный пушистый зверек, роющий ходы.",
+    "ph": "[məʊl]",
+    "ex": "Garden mole — Садовый крот.",
+    "collocations": [
+      "mole hill",
+      "blind mole"
+    ]
+  },
+  "MULE": {
+    "tr": "Мул",
+    "def": "Выносливое рабочее вьючное животное.",
+    "ph": "[mjuːl]",
+    "ex": "Pack mule — Вьючный мул.",
+    "collocations": [
+      "stubborn mule",
+      "ride a mule"
+    ]
+  },
+  "PONY": {
+    "tr": "Пони",
+    "def": "Маленькая низкорослая лошадка для детей.",
+    "ph": "[ˈpəʊni]",
+    "ex": "Ride a pony — Кататься на пони.",
+    "collocations": [
+      "cute pony",
+      "pony ride"
+    ]
+  },
+  "SWAN": {
+    "tr": "Лебедь",
+    "def": "Благородная грациозная белая птица на озере.",
+    "ph": "[swɒn]",
+    "ex": "White swan — Белый лебедь.",
+    "collocations": [
+      "swan lake",
+      "graceful swan"
+    ]
+  },
+  "WOLF": {
+    "tr": "Волк",
+    "def": "Умный хищный лесной зверь, живущий в стае.",
+    "ph": "[wʊlf]",
+    "ex": "Grey wolf — Серый волк.",
+    "collocations": [
+      "wolf pack",
+      "howling wolf"
+    ]
+  },
+  "CAMEL": {
+    "tr": "Верблюд",
+    "def": "Выносливое животное пустыни с горбами.",
+    "ph": "[ˈkæml]",
+    "ex": "Desert camel — Пустынный верблюд.",
+    "collocations": [
+      "ride a camel",
+      "camel caravan"
+    ]
+  },
+  "EAGLE": {
+    "tr": "Орел",
+    "def": "Могучая гордая хищная птица горных вершин.",
+    "ph": "[ˈiːɡl]",
+    "ex": "Golden eagle — Золотой беркут.",
+    "collocations": [
+      "eagle eye",
+      "soaring eagle"
+    ]
+  },
+  "HORSE": {
+    "tr": "Лошадь / Конь",
+    "def": "Верный четвероногий скакун человека.",
+    "ph": "[hɔːs]",
+    "ex": "Ride a horse — Скакать на лошади.",
+    "collocations": [
+      "race horse",
+      "horse power"
+    ]
+  },
+  "MOUSE": {
+    "tr": "Мышь",
+    "def": "Маленький юркий серый грызун.",
+    "ph": "[maʊs]",
+    "ex": "Field mouse — Полевая мышь.",
+    "collocations": [
+      "computer mouse",
+      "catch a mouse"
+    ]
+  },
+  "OTTER": {
+    "tr": "Выдра",
+    "def": "Ловкий водный пушной зверек с ценным мехом.",
+    "ph": "[ˈɒtə]",
+    "ex": "River otter — Речная выдра.",
+    "collocations": [
+      "playful otter",
+      "swimming otter"
+    ]
+  },
+  "PANDA": {
+    "tr": "Панда",
+    "def": "Бамбуковый черно-белый добродушный медведь.",
+    "ph": "[ˈpændə]",
+    "ex": "Giant panda — Большая панда.",
+    "collocations": [
+      "eat bamboo",
+      "baby panda"
+    ]
+  },
+  "PUPPY": {
+    "tr": "Щенок",
+    "def": "Маленький озорной детеныш собаки.",
+    "ph": "[ˈpʌpi]",
+    "ex": "Cute puppy — Милый щенок.",
+    "collocations": [
+      "play with puppy",
+      "adopt a puppy"
+    ]
+  },
+  "ROBIN": {
+    "tr": "Малиновка",
+    "def": "Певчая птичка с яркой красной грудкой.",
+    "ph": "[ˈrɒbɪn]",
+    "ex": "Singing robin — Поющая малиновка.",
+    "collocations": [
+      "robin bird",
+      "red robin"
+    ]
+  },
+  "SHARK": {
+    "tr": "Акула",
+    "def": "Опасная быстрая морская хищная рыба.",
+    "ph": "[ʃɑːk]",
+    "ex": "Great white shark — Белая акула.",
+    "collocations": [
+      "shark tooth",
+      "shark fin"
+    ]
+  },
+  "SHEEP": {
+    "tr": "Овца",
+    "def": "Домашнее кудрявое животное, дающее шерсть.",
+    "ph": "[ʃiːp]",
+    "ex": "Flock of sheep — Отара овец.",
+    "collocations": [
+      "sheep wool",
+      "black sheep"
+    ]
+  },
+  "TIGER": {
+    "tr": "Тигр",
+    "def": "Полосатый могучий хищник азиатских лесов.",
+    "ph": "[ˈtaɪɡə]",
+    "ex": "Bengal tiger — Бенгальский тигр.",
+    "collocations": [
+      "tiger stripes",
+      "hunting tiger"
+    ]
+  },
+  "WHALE": {
+    "tr": "Кит",
+    "def": "Крупнейшее морское млекопитающее океанов.",
+    "ph": "[weɪl]",
+    "ex": "Blue whale — Синий кит.",
+    "collocations": [
+      "whale watching",
+      "giant whale"
+    ]
+  },
+  "ZEBRA": {
+    "tr": "Зебра",
+    "def": "Полосатая африканская дикая лошадка.",
+    "ph": "[ˈzebrə]",
+    "ex": "Striped zebra — Полосатая зебра.",
+    "collocations": [
+      "zebra crossing",
+      "wild zebra"
+    ]
+  },
+  "DONKEY": {
+    "tr": "Осел / Ишак",
+    "def": "Трудолюбивое вьючное домашнее животное.",
+    "ph": "[ˈdɒŋki]",
+    "ex": "Ride a donkey — Ехать на осле.",
+    "collocations": [
+      "grey donkey",
+      "stubborn donkey"
+    ]
+  },
+  "KITTEN": {
+    "tr": "Котенок",
+    "def": "Маленький пушистый детеныш кошки.",
+    "ph": "[ˈkɪtn]",
+    "ex": "Little kitten — Маленький котенок.",
+    "collocations": [
+      "playful kitten",
+      "purring kitten"
+    ]
+  },
+  "LIZARD": {
+    "tr": "Ящерица",
+    "def": "Быстрая юркая чешуйчатая рептилия на камнях.",
+    "ph": "[ˈlɪzəd]",
+    "ex": "Green lizard — Зеленая ящерица.",
+    "collocations": [
+      "desert lizard",
+      "tail of lizard"
+    ]
+  },
+  "MONKEY": {
+    "tr": "Обезьяна",
+    "def": "Забавное ловкое животное, лазающее по деревьям.",
+    "ph": "[ˈmʌŋki]",
+    "ex": "Smart monkey — Умная обезьяна.",
+    "collocations": [
+      "climbing monkey",
+      "monkey jump"
+    ]
+  },
+  "PARROT": {
+    "tr": "Попугай",
+    "def": "Яркая тропическая птица, повторяющая слова.",
+    "ph": "[ˈpærət]",
+    "ex": "Color parrot — Цветной попугай.",
+    "collocations": [
+      "talking parrot",
+      "pet parrot"
+    ]
+  },
+  "PABBIT": {
+    "tr": "Кролик",
+    "def": "Пушистый ушастый зверек с мягким мехом.",
+    "ph": "[ˈræbɪt]",
+    "ex": "White rabbit — Белый кролик.",
+    "collocations": [
+      "rabbit hole",
+      "feed rabbit"
+    ]
+  },
+  "SPIDER": {
+    "tr": "Паук",
+    "def": "Восьмилапое членистоногое, плетущее паутину.",
+    "ph": "[ˈspaɪdə]",
+    "ex": "Spin web — Плести паутину.",
+    "collocations": [
+      "spider web",
+      "big spider"
+    ]
+  },
+  "TURTLE": {
+    "tr": "Черепаха",
+    "def": "Медлительное животное в прочном панцире.",
+    "ph": "[ˈtɜːtl]",
+    "ex": "Sea turtle — Морская черепаха.",
+    "collocations": [
+      "turtle shell",
+      "green turtle"
+    ]
+  },
+  "GIRAFFE": {
+    "tr": "Жираф",
+    "def": "Высочайшее животное саванны с длинной шеей.",
+    "ph": "[dʒəˈrɑːf]",
+    "ex": "Tall giraffe — Высокий жираф.",
+    "collocations": [
+      "giraffe neck",
+      "feed giraffe"
+    ]
+  },
+  "HAMSTER": {
+    "tr": "Хомяк",
+    "def": "Забавный домашний пушистый грызун.",
+    "ph": "[ˈhæmstə]",
+    "ex": "Pet hamster — Домашний хомячок.",
+    "collocations": [
+      "hamster cage",
+      "hamster wheel"
+    ]
+  },
+  "OCTOPUS": {
+    "tr": "Осьминог",
+    "def": "Морской моллюск с восемью щупальцами.",
+    "ph": "[ˈɒktəpəs]",
+    "ex": "Deep octopus — Глубоководный осьминог.",
+    "collocations": [
+      "octopus arms",
+      "smart octopus"
+    ]
+  },
+  "PENGUIN": {
+    "tr": "Пингвин",
+    "def": "Северная нелетающая птица во фраке.",
+    "ph": "[ˈpeŋɡwɪn]",
+    "ex": "Emperor penguin — Императорский пингвин.",
+    "collocations": [
+      "penguin colony",
+      "swimming penguin"
+    ]
+  },
+  "SPARROW": {
+    "tr": "Воробей",
+    "def": "Маленькая шустрая городская птичка.",
+    "ph": "[ˈspærəʊ]",
+    "ex": "Chirping sparrow — Чирикающий воробей.",
+    "collocations": [
+      "little sparrow",
+      "feed sparrows"
+    ]
+  },
+  "BUTTERFLY": {
+    "tr": "Бабочка",
+    "def": "Красивейшее крылатое насекомое с пестрыми крыльями.",
+    "ph": "[ˈbʌtəflaɪ]",
+    "ex": "Color butterfly — Пестрая бабочка.",
+    "collocations": [
+      "butterfly wings",
+      "catch butterfly"
+    ]
+  },
+  "CROCODILE": {
+    "tr": "Крокодил",
+    "def": "Крупная опасная тропическая рептилия в реке.",
+    "ph": "[ˈkrɒkədaɪl]",
+    "ex": "Nile crocodile — Нильский крокодил.",
+    "collocations": [
+      "crocodile teeth",
+      "watch crocodile"
+    ]
+  },
+  "ELEPHANT": {
+    "tr": "Слон",
+    "def": "Крупнейшее сухопутное животное с хоботом и бивнями.",
+    "ph": "[ˈelɪfənt]",
+    "ex": "African elephant — Африканский слон.",
+    "collocations": [
+      "elephant trunk",
+      "baby elephant"
+    ]
+  },
+  "WAY": {
+    "tr": "Путь / Дорога",
+    "def": "Направление движения к пункту назначения.",
+    "ph": "[weɪ]",
+    "ex": "On the way — По пути.",
+    "collocations": [
+      "right way",
+      "find a way"
+    ]
+  },
+  "LANE": {
+    "tr": "Полоса / Переулок",
+    "def": "Узкая дорожка или полоса движения авто.",
+    "ph": "[leɪn]",
+    "ex": "Bike lane — Велодорожка.",
+    "collocations": [
+      "fast lane",
+      "country lane"
+    ]
+  },
+  "PORT": {
+    "tr": "Порт / Гавань",
+    "def": "Морской причал для швартовки кораблей.",
+    "ph": "[pɔːt]",
+    "ex": "Sea port — Морской порт.",
+    "collocations": [
+      "arrive at port",
+      "busy port"
+    ]
+  },
+  "STOP": {
+    "tr": "Остановка",
+    "def": "Пункт посадки и высадки пассажиров.",
+    "ph": "[stɒp]",
+    "ex": "Bus stop — Автобусная остановка.",
+    "collocations": [
+      "next stop",
+      "full stop"
+    ]
+  },
+  "TAXI": {
+    "tr": "Такси",
+    "def": "Автомобиль с водителем по заказу.",
+    "ph": "[ˈtæksi]",
+    "ex": "Take a taxi — Взять такси.",
+    "collocations": [
+      "taxi driver",
+      "call a taxi"
+    ]
+  },
+  "TOWN": {
+    "tr": "Городок",
+    "def": "Небольшой населенный пункт.",
+    "ph": "[taʊn]",
+    "ex": "Small town — Маленький городок.",
+    "collocations": [
+      "old town",
+      "town center"
+    ]
+  },
+  "TRAM": {
+    "tr": "Трамвай",
+    "def": "Рельсовый городской уличный транспорт.",
+    "ph": "[træm]",
+    "ex": "Ride a tram — Ехать на трамвае.",
+    "collocations": [
+      "tram line",
+      "electric tram"
+    ]
+  },
+  "VAN": {
+    "tr": "Фургон / Микроавтобус",
+    "def": "Закрытый автомобиль для перевозки грузов.",
+    "ph": "[væn]",
+    "ex": "Delivery van — Фургон доставки.",
+    "collocations": [
+      "drive a van",
+      "white van"
+    ]
+  },
+  "TRACK": {
+    "tr": "Путь / Рельсы",
+    "def": "Железнодорожная колея или тропа.",
+    "ph": "[træk]",
+    "ex": "Train track — Железнодорожный путь.",
+    "collocations": [
+      "race track",
+      "keep track"
+    ]
+  },
+  "METRO": {
+    "tr": "Метрополитен",
+    "def": "Подземная скоростная железная дорога города.",
+    "ph": "[ˈmetrəʊ]",
+    "ex": "Take the metro — Поехать на метро.",
+    "collocations": [
+      "metro station",
+      "metro line"
+    ]
+  },
+  "ROUTE": {
+    "tr": "Маршрут / Путь",
+    "def": "Установленный путь следования транспорта.",
+    "ph": "[ruːt]",
+    "ex": "Bus route — Автобусный маршрут.",
+    "collocations": [
+      "direct route",
+      "shortest route"
+    ]
+  },
+  "MUSEUM": {
+    "tr": "Музей",
+    "def": "Хранилище памятников истории и культуры.",
+    "ph": "[mjuˈziːəm]",
+    "ex": "Art museum — Музей искусств.",
+    "collocations": [
+      "visit museum",
+      "free museum"
+    ]
+  },
+  "SQUARE": {
+    "tr": "Площадь города",
+    "def": "Открытое просторное место в центре города.",
+    "ph": "[skweə]",
+    "ex": "City square — Городская площадь.",
+    "collocations": [
+      "public square",
+      "central square"
+    ]
+  },
+  "SUBWAY": {
+    "tr": "Метро / Подземный переход",
+    "def": "Городская подземка в США.",
+    "ph": "[ˈsʌbweɪ]",
+    "ex": "Subway station — Станция метро.",
+    "collocations": [
+      "take subway",
+      "subway map"
+    ]
+  },
+  "TOWER": {
+    "tr": "Башня",
+    "def": "Высокое узкое архитектурное строение.",
+    "ph": "[ˈtaʊə]",
+    "ex": "Clock tower — Часовая башня.",
+    "collocations": [
+      "eiffel tower",
+      "tower top"
+    ]
+  },
+  "TRAFFIC": {
+    "tr": "Движение / Пробки",
+    "def": "Поток автомобилей на городских магистралях.",
+    "ph": "[ˈtræfɪk]",
+    "ex": "Heavy traffic — Плотное движение.",
+    "collocations": [
+      "traffic lights",
+      "traffic jam"
+    ]
+  },
+  "VEHICLE": {
+    "tr": "Транспортное средство",
+    "def": "Автомобиль, автобус или грузовик.",
+    "ph": "[ˈviːəkl]",
+    "ex": "Motor vehicle — Автотранспорт.",
+    "collocations": [
+      "electric vehicle",
+      "drive a vehicle"
+    ]
+  },
+  "HIGHWAY": {
+    "tr": "Автомагистраль",
+    "def": "Скоростная многополосная трасса.",
+    "ph": "[ˈhaɪweɪ]",
+    "ex": "Drive on highway — Ехать по трассе.",
+    "collocations": [
+      "highway code",
+      "interstate highway"
+    ]
+  },
+  "PAVEMENT": {
+    "tr": "Тротуар",
+    "def": "Пешеходная дорожка вдоль проезжей части.",
+    "ph": "[ˈpeɪvmənt]",
+    "ex": "Walk on pavement — Идти по тротуару.",
+    "collocations": [
+      "concrete pavement",
+      "stone pavement"
+    ]
+  },
+  "CROSSING": {
+    "tr": "Перекресток / Переход",
+    "def": "Место пересечения дорог или «зебра».",
+    "ph": "[ˈkrɒsɪŋ]",
+    "ex": "Pedestrian crossing — Пешеходный переход.",
+    "collocations": [
+      "border crossing",
+      "railway crossing"
+    ]
+  },
+  "ABOUT": {
+    "tr": "О / Около",
+    "def": "Предлог темы или приблизительного времени.",
+    "ph": "[əˈbaʊt]",
+    "ex": "Talk about work — Говорить о работе.",
+    "collocations": [
+      "all about",
+      "about time"
+    ]
+  },
+  "ABOVE": {
+    "tr": "Над / Выше",
+    "def": "Находящийся выше в пространстве.",
+    "ph": "[əˈbʌv]",
+    "ex": "Above the clouds — Над облаками.",
+    "collocations": [
+      "above all",
+      "see above"
+    ]
+  },
+  "ACROSS": {
+    "tr": "Через / Поперек",
+    "def": "С одной стороны на другую.",
+    "ph": "[əˈkrɒs]",
+    "ex": "Walk across street — Перейти улицу.",
+    "collocations": [
+      "across the world",
+      "across bridge"
+    ]
+  },
+  "ACT": {
+    "tr": "Действовать / Акт",
+    "def": "Совершать поступок или играть роль.",
+    "ph": "[ækt]",
+    "ex": "Act quickly — Действовать быстро.",
+    "collocations": [
+      "act now",
+      "act as"
+    ]
+  },
+  "ADD": {
+    "tr": "Добавлять / Складывать",
+    "def": "Присоединять или увеличивать количество.",
+    "ph": "[æd]",
+    "ex": "Add milk — Добавить молока.",
+    "collocations": [
+      "add up",
+      "add value"
+    ]
+  },
+  "AFRAID": {
+    "tr": "Испуганный / Боящийся",
+    "def": "Испытывающий чувство страха.",
+    "ph": "[əˈfreɪd]",
+    "ex": "Afraid of dark — Боящийся темноты.",
+    "collocations": [
+      "not afraid",
+      "afraid to ask"
+    ]
+  },
+  "AGAIN": {
+    "tr": "Снова / Опять",
+    "def": "Еще раз, повторно.",
+    "ph": "[əˈɡen]",
+    "ex": "Try again — Попробуй снова.",
+    "collocations": [
+      "never again",
+      "time and again"
+    ]
+  },
+  "AGAINST": {
+    "tr": "Против",
+    "def": "В противоположном направлении или вопреки.",
+    "ph": "[əˈɡenst]",
+    "ex": "Against the wall — У стены.",
+    "collocations": [
+      "fight against",
+      "vote against"
+    ]
+  },
+  "AGO": {
+    "tr": "Назад (во времени)",
+    "def": "В прошлом от текущего момента.",
+    "ph": "[əˈɡəʊ]",
+    "ex": "Two days ago — Два дня назад.",
+    "collocations": [
+      "long ago",
+      "years ago"
+    ]
+  },
+  "AGREE": {
+    "tr": "Соглашаться",
+    "def": "Иметь одинаковое мнение с собеседником.",
+    "ph": "[əˈɡriː]",
+    "ex": "Agree with you — Согласен с тобой.",
+    "collocations": [
+      "agree to terms",
+      "fully agree"
+    ]
+  },
+  "ALL": {
+    "tr": "Все / Весь",
+    "def": "Полный состав без исключения.",
+    "ph": "[ɔːl]",
+    "ex": "All people — Все люди.",
+    "collocations": [
+      "all day",
+      "all right"
+    ]
+  },
+  "ALLOW": {
+    "tr": "Разрешать / Позволять",
+    "def": "Давать согласие или возможность.",
+    "ph": "[əˈlaʊ]",
+    "ex": "Allow access — Разрешить доступ.",
+    "collocations": [
+      "allow time",
+      "not allow"
+    ]
+  },
+  "ALMOST": {
+    "tr": "Почти / Едва не",
+    "def": "Очень близко к завершению.",
+    "ph": "[ˈɔːlməʊst]",
+    "ex": "Almost ready — Почти готово.",
+    "collocations": [
+      "almost done",
+      "almost always"
+    ]
+  },
+  "ALONE": {
+    "tr": "Один / В одиночку",
+    "def": "Без других людей, самостоятельно.",
+    "ph": "[əˈləʊn]",
+    "ex": "Live alone — Жить одному.",
+    "collocations": [
+      "stand alone",
+      "leave alone"
+    ]
+  },
+  "ALONG": {
+    "tr": "Вдоль / Вместе",
+    "def": "По длине чего-либо.",
+    "ph": "[əˈlɒŋ]",
+    "ex": "Walk along beach — Идти вдоль пляжа.",
+    "collocations": [
+      "come along",
+      "all along"
+    ]
+  },
+  "ALREADY": {
+    "tr": "Уже",
+    "def": "Ранее указанного момента.",
+    "ph": "[ɔːlˈredi]",
+    "ex": "Already done — Уже сделано.",
+    "collocations": [
+      "already here",
+      "know already"
+    ]
+  },
+  "ALSO": {
+    "tr": "Также / Тоже",
+    "def": "В дополнение к сказанному.",
+    "ph": "[ˈɔːlsəʊ]",
+    "ex": "He also came — Он также пришел.",
+    "collocations": [
+      "also known",
+      "see also"
+    ]
+  },
+  "ALWAYS": {
+    "tr": "Всегда",
+    "def": "Во всех случаях, непрерывно.",
+    "ph": "[ˈɔːlweɪz]",
+    "ex": "Always remember — Всегда помни.",
+    "collocations": [
+      "as always",
+      "always there"
+    ]
+  },
+  "AMONG": {
+    "tr": "Среди / Между",
+    "def": "В окружении группы людей или вещей.",
+    "ph": "[əˈmʌŋ]",
+    "ex": "Among friends — Среди друзей.",
+    "collocations": [
+      "first among",
+      "choose among"
+    ]
+  },
+  "AND": {
+    "tr": "И / А",
+    "def": "Соединительный союз.",
+    "ph": "[ænd]",
+    "ex": "You and me — Ты и я.",
+    "collocations": [
+      "and so on",
+      "rock and roll"
+    ]
+  },
+  "ANOTHER": {
+    "tr": "Другой / Еще один",
+    "def": "Один в дополнение к имеющимся.",
+    "ph": "[əˈnʌðə]",
+    "ex": "Another day — Другой день.",
+    "collocations": [
+      "one another",
+      "another cup"
+    ]
+  },
+  "ANSWER": {
+    "tr": "Ответ / Отвечать",
+    "def": "Слова в ответ на вопрос.",
+    "ph": "[ˈɑːnsə]",
+    "ex": "Good answer — Хороший ответ.",
+    "collocations": [
+      "answer the call",
+      "know answer"
+    ]
+  },
+  "ANY": {
+    "tr": "Любой / Какой-нибудь",
+    "def": "Один из любого числа.",
+    "ph": "[ˈeni]",
+    "ex": "Any time — В любое время.",
+    "collocations": [
+      "any more",
+      "at any rate"
+    ]
+  },
+  "ANYBODY": {
+    "tr": "Кто-нибудь / Всякий",
+    "def": "Любой человек.",
+    "ph": "[ˈenibɒdi]",
+    "ex": "Anybody here? — Есть тут кто-нибудь?",
+    "collocations": [
+      "see anybody",
+      "help anybody"
+    ]
+  },
+  "APPEAR": {
+    "tr": "Появляться / Казаться",
+    "def": "Становиться видимым.",
+    "ph": "[əˈpɪə]",
+    "ex": "Appear suddenly — Появиться внезапно.",
+    "collocations": [
+      "appear to be",
+      "appear in"
+    ]
+  },
+  "AREA": {
+    "tr": "Зона / Площадь / Район",
+    "def": "Определенная территория местности.",
+    "ph": "[ˈeəriə]",
+    "ex": "Green area — Зеленая зона.",
+    "collocations": [
+      "local area",
+      "living area"
+    ]
+  },
+  "AROUND": {
+    "tr": "Вокруг / Около",
+    "def": "Кругом или поблизости.",
+    "ph": "[əˈraʊnd]",
+    "ex": "Walk around — Гулять вокруг.",
+    "collocations": [
+      "look around",
+      "all around"
+    ]
+  },
+  "ARRIVE": {
+    "tr": "Прибывать / Приезжать",
+    "def": "Достигать места назначения.",
+    "ph": "[əˈraɪv]",
+    "ex": "Arrive on time — Прибыть вовремя.",
+    "collocations": [
+      "arrive home",
+      "arrive at"
+    ]
+  },
+  "ASK": {
+    "tr": "Спрашивать / Просить",
+    "def": "Обращаться с вопросом или просьбой.",
+    "ph": "[ɑːsk]",
+    "ex": "Ask for help — Попросить о помощи.",
+    "collocations": [
+      "ask question",
+      "ask about"
+    ]
+  },
+  "AWAY": {
+    "tr": "Далеко / Прочь",
+    "def": "На расстоянии от места.",
+    "ph": "[əˈweɪ]",
+    "ex": "Run away — Убегать.",
+    "collocations": [
+      "far away",
+      "go away"
+    ]
+  },
+  "BAD": {
+    "tr": "Плохой / Нехороший",
+    "def": "Лишенный положительных качеств.",
+    "ph": "[bæd]",
+    "ex": "Bad news — Плохие новости.",
+    "collocations": [
+      "not bad",
+      "feel bad"
+    ]
+  },
+  "BECOME": {
+    "tr": "Становиться",
+    "def": "Переходить в новое состояние.",
+    "ph": "[bɪˈkʌm]",
+    "ex": "Become famous — Стать известным.",
+    "collocations": [
+      "become reality",
+      "become clear"
+    ]
+  },
+  "BEFORE": {
+    "tr": "До / Перед",
+    "def": "Раньше по времени или впереди.",
+    "ph": "[bɪˈfɔː]",
+    "ex": "Before lunch — До обеда.",
+    "collocations": [
+      "never before",
+      "day before"
+    ]
+  },
+  "BEGIN": {
+    "tr": "Начинать",
+    "def": "Приступать к первому действию.",
+    "ph": "[bɪˈɡɪn]",
+    "ex": "Begin the game — Начать игру.",
+    "collocations": [
+      "begin with",
+      "to begin"
+    ]
+  },
+  "BEHIND": {
+    "tr": "Позади / За",
+    "def": "Сзади от объекта.",
+    "ph": "[bɪˈhaɪnd]",
+    "ex": "Behind the door — За дверью.",
+    "collocations": [
+      "leave behind",
+      "stay behind"
+    ]
+  },
+  "BELIEVE": {
+    "tr": "Верить / Полагать",
+    "def": "Быть уверенным в истинности.",
+    "ph": "[bɪˈliːv]",
+    "ex": "Believe in yourself — Верь в себя.",
+    "collocations": [
+      "hard to believe",
+      "firmly believe"
+    ]
+  },
+  "BELOW": {
+    "tr": "Ниже / Внизу",
+    "def": "Находящийся под чем-либо.",
+    "ph": "[bɪˈləʊ]",
+    "ex": "See below — Смотри ниже.",
+    "collocations": [
+      "below zero",
+      "just below"
+    ]
+  },
+  "BEST": {
+    "tr": "Лучший",
+    "def": "Превосходящий всех по качеству.",
+    "ph": "[best]",
+    "ex": "Best friend — Лучший друг.",
+    "collocations": [
+      "all the best",
+      "do your best"
+    ]
+  },
+  "BETTER": {
+    "tr": "Лучше / Более хороший",
+    "def": "Качественнее, чем раньше.",
+    "ph": "[ˈbetə]",
+    "ex": "Feel better — Чувствовать себя лучше.",
+    "collocations": [
+      "much better",
+      "get better"
+    ]
+  },
+  "BETWEEN": {
+    "tr": "Между",
+    "def": "В промежутке двух предметов или дат.",
+    "ph": "[bɪˈtwiːn]",
+    "ex": "Between two hills — Между двух холмов.",
+    "collocations": [
+      "between us",
+      "choose between"
+    ]
+  },
+  "BIG": {
+    "tr": "Большой / Крупный",
+    "def": "Значительный по размеру.",
+    "ph": "[bɪɡ]",
+    "ex": "Big house — Большой дом.",
+    "collocations": [
+      "big deal",
+      "think big"
+    ]
+  },
+  "BLACK": {
+    "tr": "Черный",
+    "def": "Цвет угля и ночного неба.",
+    "ph": "[blæk]",
+    "ex": "Black coffee — Черный кофе.",
+    "collocations": [
+      "black and white",
+      "pitch black"
+    ]
+  },
+  "BODY": {
+    "tr": "Тело / Корпус",
+    "def": "Физический организм человека.",
+    "ph": "[ˈbɒdi]",
+    "ex": "Healthy body — Здоровое тело.",
+    "collocations": [
+      "whole body",
+      "human body"
+    ]
+  },
+  "BOTH": {
+    "tr": "Оба / И тот и другой",
+    "def": "Два объекта вместе.",
+    "ph": "[bəʊθ]",
+    "ex": "Both hands — Обе руки.",
+    "collocations": [
+      "both of them",
+      "both sides"
+    ]
+  },
+  "BRING": {
+    "tr": "Приносить / Приводить",
+    "def": "Доставлять предмет с собой.",
+    "ph": "[brɪŋ]",
+    "ex": "Bring tea — Принести чай.",
+    "collocations": [
+      "bring home",
+      "bring joy"
+    ]
+  },
+  "BUILD": {
+    "tr": "Строить / Создавать",
+    "def": "Возводить здание или систему.",
+    "ph": "[bɪld]",
+    "ex": "Build a house — Построить дом.",
+    "collocations": [
+      "build trust",
+      "build future"
+    ]
+  },
+  "BUSY": {
+    "tr": "Занятой",
+    "def": "Поглощенный делами и работой.",
+    "ph": "[ˈbɪzi]",
+    "ex": "Busy day — Занятой день.",
+    "collocations": [
+      "keep busy",
+      "busy street"
+    ]
+  },
+  "BUY": {
+    "tr": "Покупать",
+    "def": "Приобретать вещь за деньги.",
+    "ph": "[baɪ]",
+    "ex": "Buy a ticket — Купить билет.",
+    "collocations": [
+      "buy food",
+      "best buy"
+    ]
+  },
+  "CALL": {
+    "tr": "Звонить / Звать",
+    "def": "Набирать номер или окликать.",
+    "ph": "[kɔːl]",
+    "ex": "Call a friend — Позвонить другу.",
+    "collocations": [
+      "phone call",
+      "call back"
+    ]
+  },
+  "CARE": {
+    "tr": "Забота / Заботиться",
+    "def": "Внимание и уход за близкими.",
+    "ph": "[keə]",
+    "ex": "Take care — Береги себя.",
+    "collocations": [
+      "health care",
+      "care about"
+    ]
+  },
+  "CARRY": {
+    "tr": "Нести / Переносить",
+    "def": "Держать в руках при движении.",
+    "ph": "[ˈkæri]",
+    "ex": "Carry a bag — Нести сумку.",
+    "collocations": [
+      "carry on",
+      "carry out"
+    ]
+  },
+  "CASE": {
+    "tr": "Случай / Чехол / Дело",
+    "def": "Конкретная ситуация или футляр.",
+    "ph": "[keɪs]",
+    "ex": "In this case — В этом случае.",
+    "collocations": [
+      "in any case",
+      "just in case"
+    ]
+  },
+  "CATCH": {
+    "tr": "Ловить / Поймать",
+    "def": "Хватать летящий предмет или поезд.",
+    "ph": "[kætʃ]",
+    "ex": "Catch the ball — Поймать мяч.",
+    "collocations": [
+      "catch bus",
+      "catch up"
+    ]
+  },
+  "CENTER": {
+    "tr": "Центр / Середина",
+    "def": "Центральная точка пространства.",
+    "ph": "[ˈsentə]",
+    "ex": "City center — Центр города.",
+    "collocations": [
+      "in the center",
+      "shopping center"
+    ]
+  },
+  "CERTAIN": {
+    "tr": "Определенный / Уверенный",
+    "def": "Не вызывающий сомнений.",
+    "ph": "[ˈsɜːtn]",
+    "ex": "Certain of success — Уверен в успехе.",
+    "collocations": [
+      "for certain",
+      "certain way"
+    ]
+  },
+  "CHANCE": {
+    "tr": "Шанс / Возможность",
+    "def": "Удачный случай или вероятность.",
+    "ph": "[tʃɑːns]",
+    "ex": "Good chance — Хороший шанс.",
+    "collocations": [
+      "by chance",
+      "take a chance"
+    ]
+  },
+  "CHANGE": {
+    "tr": "Менять / Перемена",
+    "def": "Делать иным, обновлять.",
+    "ph": "[tʃeɪndʒ]",
+    "ex": "Change the world — Изменить мир.",
+    "collocations": [
+      "make a change",
+      "climate change"
+    ]
+  },
+  "CHECK": {
+    "tr": "Проверять / Чек",
+    "def": "Удостоверяться в правильности.",
+    "ph": "[tʃek]",
+    "ex": "Check the time — Проверить время.",
+    "collocations": [
+      "check in",
+      "double check"
+    ]
+  },
+  "CHOICE": {
+    "tr": "Выбор",
+    "def": "Принятие решения в пользу одного.",
+    "ph": "[tʃɔɪs]",
+    "ex": "Right choice — Правильный выбор.",
+    "collocations": [
+      "make a choice",
+      "good choice"
+    ]
+  },
+  "CHOOSE": {
+    "tr": "Выбирать",
+    "def": "Отбирать нужное из вариантов.",
+    "ph": "[tʃuːz]",
+    "ex": "Choose a path — Выбрать путь.",
+    "collocations": [
+      "choose wisely",
+      "choose between"
+    ]
+  },
+  "CLEAR": {
+    "tr": "Ясный / Чистый",
+    "def": "Понятный уму или прозрачный.",
+    "ph": "[klɪə]",
+    "ex": "Clear sky — Ясное небо.",
+    "collocations": [
+      "make clear",
+      "crystal clear"
+    ]
+  },
+  "CLOSE": {
+    "tr": "Закрывать / Близкий",
+    "def": "Смыкать створки или находящийся рядом.",
+    "ph": "[kləʊz]",
+    "ex": "Close the door — Закрыть дверь.",
+    "collocations": [
+      "close friend",
+      "stay close"
+    ]
+  },
+  "COLOR": {
+    "tr": "Цвет / Красить",
+    "def": "Оптический оттенок предмета.",
+    "ph": "[ˈkʌlə]",
+    "ex": "Bright color — Яркий цвет.",
+    "collocations": [
+      "color pencil",
+      "change color"
+    ]
+  },
+  "COME": {
+    "tr": "Приходить / Приезжать",
+    "def": "Приближаться к месту.",
+    "ph": "[kʌm]",
+    "ex": "Come home — Прийти домой.",
+    "collocations": [
+      "come in",
+      "come on"
+    ]
+  },
+  "COMMON": {
+    "tr": "Общий / Обычный",
+    "def": "Принадлежащий всем или частый.",
+    "ph": "[ˈkɒmən]",
+    "ex": "Common goal — Общая цель.",
+    "collocations": [
+      "in common",
+      "common sense"
+    ]
+  },
+  "COMPANY": {
+    "tr": "Компания / Общество",
+    "def": "Организация или группа друзей.",
+    "ph": "[ˈkʌmpəni]",
+    "ex": "Good company — Хорошая компания.",
+    "collocations": [
+      "in company",
+      "tech company"
+    ]
+  },
+  "COMPLETE": {
+    "tr": "Полный / Завершать",
+    "def": "Доведенный до конца, целый.",
+    "ph": "[kəmˈpliːt]",
+    "ex": "Complete success — Полный успех.",
+    "collocations": [
+      "complete guide",
+      "complete task"
+    ]
+  },
+  "CONNECT": {
+    "tr": "Соединять / Связывать",
+    "def": "Устанавливать связь деталей.",
+    "ph": "[kəˈnekt]",
+    "ex": "Connect devices — Подключить приборы.",
+    "collocations": [
+      "connect to internet",
+      "stay connected"
+    ]
+  },
+  "CONTROL": {
+    "tr": "Контроль / Управлять",
+    "def": "Руководство и надзор.",
+    "ph": "[kənˈtrəʊl]",
+    "ex": "Under control — Под контролем.",
+    "collocations": [
+      "remote control",
+      "in control"
+    ]
+  },
+  "CORRECT": {
+    "tr": "Правильный / Исправлять",
+    "def": "Лишенный ошибок, верный.",
+    "ph": "[kəˈrekt]",
+    "ex": "Correct answer — Правильный ответ.",
+    "collocations": [
+      "correct mistake",
+      "politically correct"
+    ]
+  },
+  "COST": {
+    "tr": "Стоимость / Стоить",
+    "def": "Денежная цена вещи.",
+    "ph": "[kɒst]",
+    "ex": "Low cost — Низкая стоимость.",
+    "collocations": [
+      "at all costs",
+      "cost money"
+    ]
+  },
+  "COUNT": {
+    "tr": "Считать / Подсчет",
+    "def": "Перечислять числа по порядку.",
+    "ph": "[kaʊnt]",
+    "ex": "Count to ten — Считать до десяти.",
+    "collocations": [
+      "count on me",
+      "every minute counts"
+    ]
+  },
+  "COVER": {
+    "tr": "Покрывать / Крышка",
+    "def": "Накрывать поверхность тканью.",
+    "ph": "[ˈkʌvə]",
+    "ex": "Cover the table — Накрыть стол.",
+    "collocations": [
+      "book cover",
+      "under cover"
+    ]
+  },
+  "CROSS": {
+    "tr": "Пересекать / Крест",
+    "def": "Переходить на другую сторону.",
+    "ph": "[krɒs]",
+    "ex": "Cross the road — Перейти дорогу.",
+    "collocations": [
+      "cross the line",
+      "red cross"
+    ]
+  },
+  "CRY": {
+    "tr": "Плакать / Кричать",
+    "def": "Проливать слезы или громко звать.",
+    "ph": "[kraɪ]",
+    "ex": "Cry for joy — Плакать от радости.",
+    "collocations": [
+      "loud cry",
+      "don't cry"
+    ]
+  },
+  "CUT": {
+    "tr": "Резать / Стричь",
+    "def": "Разделять ножом или ножницами.",
+    "ph": "[kʌt]",
+    "ex": "Cut paper — Резать бумагу.",
+    "collocations": [
+      "cut hair",
+      "cut off"
+    ]
+  },
+  "DARK": {
+    "tr": "Темный / Темнота",
+    "def": "Лишенный света, ночной.",
+    "ph": "[dɑːk]",
+    "ex": "Dark night — Темная ночь.",
+    "collocations": [
+      "in the dark",
+      "dark brown"
+    ]
+  },
+  "DATE": {
+    "tr": "Дата / Свидание",
+    "def": "Календарный день или встреча.",
+    "ph": "[deɪt]",
+    "ex": "Today date — Сегодняшняя дата.",
+    "collocations": [
+      "save the date",
+      "up to date"
+    ]
+  },
+  "DEAD": {
+    "tr": "Мертвый / Неживой",
+    "def": "Лишенный жизни, угасший.",
+    "ph": "[ded]",
+    "ex": "Dead silence — Мертвая тишина.",
+    "collocations": [
+      "drop dead",
+      "dead end"
+    ]
+  },
+  "DEAL": {
+    "tr": "Сделка / Соглашение",
+    "def": "Договор или деловое соглашение.",
+    "ph": "[diːl]",
+    "ex": "Good deal — Выгодная сделка.",
+    "collocations": [
+      "make a deal",
+      "big deal"
+    ]
+  },
+  "DEAR": {
+    "tr": "Дорогой / Милый",
+    "def": "Любимый и близкий сердцу.",
+    "ph": "[dɪə]",
+    "ex": "Dear friend — Дорогой друг.",
+    "collocations": [
+      "dear mother",
+      "oh dear"
+    ]
+  },
+  "DECIDE": {
+    "tr": "Решать / Определять",
+    "def": "Принимать твердое решение.",
+    "ph": "[dɪˈsaɪd]",
+    "ex": "Decide now — Решай сейчас.",
+    "collocations": [
+      "decide to go",
+      "cannot decide"
+    ]
+  },
+  "DEEP": {
+    "tr": "Глубокий",
+    "def": "Имеющий большую глубину.",
+    "ph": "[diːp]",
+    "ex": "Deep water — Глубокая вода.",
+    "collocations": [
+      "deep breath",
+      "deep sleep"
+    ]
+  },
+  "DEGREE": {
+    "tr": "Степень / Градус",
+    "def": "Единица температуры или ранг.",
+    "ph": "[dɪˈɡriː]",
+    "ex": "High degree — Высокая степень.",
+    "collocations": [
+      "university degree",
+      "zero degrees"
+    ]
+  },
+  "DEPEND": {
+    "tr": "Зависеть",
+    "def": "Быть обусловленным чем-либо.",
+    "ph": "[dɪˈpend]",
+    "ex": "Depend on you — Зависит от тебя.",
+    "collocations": [
+      "it depends",
+      "depend upon"
+    ]
+  },
+  "DESCRIBE": {
+    "tr": "Описывать",
+    "def": "Передавать словами вид предмета.",
+    "ph": "[dɪˈskraɪb]",
+    "ex": "Describe picture — Описать картину.",
+    "collocations": [
+      "describe details",
+      "hard to describe"
+    ]
+  },
+  "DEVELOP": {
+    "tr": "Развивать / Создавать",
+    "def": "Совершенствовать и расширять.",
+    "ph": "[dɪˈveləp]",
+    "ex": "Develop skills — Развивать навыки.",
+    "collocations": [
+      "develop plan",
+      "develop business"
+    ]
+  },
+  "DIE": {
+    "tr": "Умирать / Угасать",
+    "def": "Прекращать жизненный путь.",
+    "ph": "[daɪ]",
+    "ex": "Never die — Никогда не угасать.",
+    "collocations": [
+      "die out",
+      "die away"
+    ]
+  },
+  "DIFFERENT": {
+    "tr": "Разный / Другой",
+    "def": "Непохожий, отличающийся.",
+    "ph": "[ˈdɪfrənt]",
+    "ex": "Different colors — Разные цвета.",
+    "collocations": [
+      "completely different",
+      "different way"
+    ]
+  },
+  "DIFFICULT": {
+    "tr": "Трудный / Сложный",
+    "def": "Требующий больших усилий.",
+    "ph": "[ˈdɪfɪkəlt]",
+    "ex": "Difficult task — Трудная задача.",
+    "collocations": [
+      "difficult question",
+      "find difficult"
+    ]
+  },
+  "DIRECT": {
+    "tr": "Прямой / Направлять",
+    "def": "Без изгибов, идущий к цели.",
+    "ph": "[dəˈrekt]",
+    "ex": "Direct flight — Прямой рейс.",
+    "collocations": [
+      "direct contact",
+      "direct answer"
+    ]
+  },
+  "DISTANCE": {
+    "tr": "Расстояние / Дистанция",
+    "def": "Пространство между объектами.",
+    "ph": "[ˈdɪstəns]",
+    "ex": "Long distance — Далекое расстояние.",
+    "collocations": [
+      "in the distance",
+      "safe distance"
+    ]
+  },
+  "DIVIDE": {
+    "tr": "Делить / Разделять",
+    "def": "Разбивать на равные доли.",
+    "ph": "[dɪˈvaɪd]",
+    "ex": "Divide in two — Разделить на два.",
+    "collocations": [
+      "divide and conquer",
+      "divide equally"
+    ]
+  },
+  "DRAW": {
+    "tr": "Рисовать / Тянуть",
+    "def": "Изображать карандашом на бумаге.",
+    "ph": "[drɔː]",
+    "ex": "Draw a picture — Рисовать картину.",
+    "collocations": [
+      "draw line",
+      "draw attention"
+    ]
+  },
+  "DRESS": {
+    "tr": "Платье / Одеваться",
+    "def": "Женская одежда или надевать вещи.",
+    "ph": "[dres]",
+    "ex": "Beautiful dress — Красивое платье.",
+    "collocations": [
+      "dress up",
+      "evening dress"
+    ]
+  },
+  "DRIVE": {
+    "tr": "Водить машину / Ехать",
+    "def": "Управлять автомобилем.",
+    "ph": "[draɪv]",
+    "ex": "Drive safe — Веди машину аккуратно.",
+    "collocations": [
+      "drive home",
+      "learn to drive"
+    ]
+  },
+  "DROP": {
+    "tr": "Капля / Ронять",
+    "def": "Падать вниз или капелька воды.",
+    "ph": "[drɒp]",
+    "ex": "Drop of water — Капля воды.",
+    "collocations": [
+      "drop by",
+      "drop the ball"
+    ]
+  },
+  "DRY": {
+    "tr": "Сухой / Сушить",
+    "def": "Не содержащий влаги и воды.",
+    "ph": "[draɪ]",
+    "ex": "Dry leaves — Сухие листья.",
+    "collocations": [
+      "dry land",
+      "keep dry"
+    ]
+  },
+  "DURING": {
+    "tr": "Во время / В течение",
+    "def": "На протяжении периода времени.",
+    "ph": "[ˈdjʊərɪŋ]",
+    "ex": "During the lesson — Во время урока.",
+    "collocations": [
+      "during summer",
+      "during day"
+    ]
+  },
+  "EACH": {
+    "tr": "Каждый",
+    "def": "Один за другим по отдельности.",
+    "ph": "[iːtʃ]",
+    "ex": "Each day — Каждый день.",
+    "collocations": [
+      "each other",
+      "each one"
+    ]
+  },
+  "EARLY": {
+    "tr": "Ранний / Рано",
+    "def": "В начале дня или срока.",
+    "ph": "[ˈɜːli]",
+    "ex": "Early morning — Раннее утро.",
+    "collocations": [
+      "wake early",
+      "early bird"
+    ]
+  },
+  "EASY": {
+    "tr": "Легкий / Простой",
+    "def": "Не требующий тяжкого труда.",
+    "ph": "[ˈiːzi]",
+    "ex": "Easy task — Легкая задача.",
+    "collocations": [
+      "take it easy",
+      "easy way"
+    ]
+  },
+  "EAT": {
+    "tr": "Есть / Кушать",
+    "def": "Принимать пищу ртом.",
+    "ph": "[iːt]",
+    "ex": "Eat an apple — Съесть яблоко.",
+    "collocations": [
+      "eat well",
+      "ready to eat"
+    ]
+  },
+  "EDGE": {
+    "tr": "Край / Кромка",
+    "def": "Граница поверхности предмета.",
+    "ph": "[edʒ]",
+    "ex": "Edge of table — Край стола.",
+    "collocations": [
+      "cutting edge",
+      "on the edge"
+    ]
+  },
+  "EFFORT": {
+    "tr": "Усилие / Старание",
+    "def": "Напряжение сил ради результата.",
+    "ph": "[ˈefət]",
+    "ex": "Great effort — Большое усилие.",
+    "collocations": [
+      "make an effort",
+      "worth the effort"
+    ]
+  },
+  "EITHER": {
+    "tr": "Или / Любой из двух",
+    "def": "Один из двух предложенных.",
+    "ph": "[ˈaɪðə]",
+    "ex": "Either way — В любом случае.",
+    "collocations": [
+      "either or",
+      "either one"
+    ]
+  },
+  "EMPTY": {
+    "tr": "Пустой",
+    "def": "Ничем не заполненный внутри.",
+    "ph": "[ˈempti]",
+    "ex": "Empty glass — Пустой стакан.",
+    "collocations": [
+      "empty box",
+      "empty room"
+    ]
+  },
+  "END": {
+    "tr": "Конец / Завершать",
+    "def": "Финальная точка процесса.",
+    "ph": "[end]",
+    "ex": "The end — Конец.",
+    "collocations": [
+      "in the end",
+      "end of day"
+    ]
+  },
+  "ENOUGH": {
+    "tr": "Достаточно / Хватит",
+    "def": "В необходимом количестве.",
+    "ph": "[ɪˈnʌf]",
+    "ex": "Enough time — Достаточно времени.",
+    "collocations": [
+      "fair enough",
+      "good enough"
+    ]
+  },
+  "ENTER": {
+    "tr": "Входить / Вступать",
+    "def": "Проникать внутрь помещения.",
+    "ph": "[ˈentə]",
+    "ex": "Enter the room — Войти в комнату.",
+    "collocations": [
+      "press enter",
+      "enter password"
+    ]
+  },
+  "ENTIRE": {
+    "tr": "Целый / Весь",
+    "def": "Полный без изъятия частей.",
+    "ph": "[ɪnˈtaɪə]",
+    "ex": "Entire world — Весь мир.",
+    "collocations": [
+      "entire life",
+      "entire family"
+    ]
+  },
+  "EQUAL": {
+    "tr": "Равный / Одинаковый",
+    "def": "Одинаковый по величине и правам.",
+    "ph": "[ˈiːkwəl]",
+    "ex": "Equal rights — Равные права.",
+    "collocations": [
+      "all equal",
+      "equal value"
+    ]
+  },
+  "ESPECIALLY": {
+    "tr": "Особенно / В особенности",
+    "def": "В высшей степени, главным образом.",
+    "ph": "[ɪˈspeʃəli]",
+    "ex": "Especially today — Особенно сегодня.",
+    "collocations": [
+      "especially for you",
+      "like especially"
+    ]
+  },
+  "EVEN": {
+    "tr": "Даже / Четный / Ровный",
+    "def": "Усилительная частица или ровная гладь.",
+    "ph": "[ˈiːvn]",
+    "ex": "Even better — Даже лучше.",
+    "collocations": [
+      "even number",
+      "even if"
+    ]
+  },
+  "EVENT": {
+    "tr": "Событие / Мероприятие",
+    "def": "Важное происшествие или праздник.",
+    "ph": "[ɪˈvent]",
+    "ex": "Big event — Большое событие.",
+    "collocations": [
+      "sport event",
+      "in the event"
+    ]
+  },
+  "EVER": {
+    "tr": "Когда-либо / Всегда",
+    "def": "В какой-либо момент времени.",
+    "ph": "[ˈevə]",
+    "ex": "Ever after — Навсегда.",
+    "collocations": [
+      "better than ever",
+      "ever seen"
+    ]
+  },
+  "EVERY": {
+    "tr": "Каждый / Всякий",
+    "def": "Все без исключения по отдельности.",
+    "ph": "[ˈevri]",
+    "ex": "Every day — Каждый день.",
+    "collocations": [
+      "every time",
+      "every single"
+    ]
+  },
+  "EVERYONE": {
+    "tr": "Каждый / Все",
+    "def": "Все присутствующие люди.",
+    "ph": "[ˈevriwʌn]",
+    "ex": "Everyone knows — Все знают.",
+    "collocations": [
+      "good for everyone",
+      "thank everyone"
+    ]
+  },
+  "EXACT": {
+    "tr": "Точный / Аккуратный",
+    "def": "Строго соответствующий образцу.",
+    "ph": "[ɪɡˈzækt]",
+    "ex": "Exact time — Точное время.",
+    "collocations": [
+      "exact words",
+      "exact match"
+    ]
+  },
+  "EXAMPLE": {
+    "tr": "Пример / Образец",
+    "def": "Поясняющий случай или правило.",
+    "ph": "[ɪɡˈzɑːmpl]",
+    "ex": "For example — Например.",
+    "collocations": [
+      "good example",
+      "follow example"
+    ]
+  },
+  "EXCEPT": {
+    "tr": "Кроме / За исключением",
+    "def": "Не включая данный объект.",
+    "ph": "[ɪkˈsept]",
+    "ex": "All except one — Все кроме одного.",
+    "collocations": [
+      "except for",
+      "nothing except"
+    ]
+  },
+  "EXCITED": {
+    "tr": "Взволнованный / Радостный",
+    "def": "Охваченный приятным нетерпением.",
+    "ph": "[ɪkˈsaɪtɪd]",
+    "ex": "Excited to go — Рад поехать.",
+    "collocations": [
+      "feel excited",
+      "excited about"
+    ]
+  },
+  "EXPECT": {
+    "tr": "Ожидать / Надеяться",
+    "def": "Рассчитывать на наступление события.",
+    "ph": "[ɪkˈspekt]",
+    "ex": "Expect guests — Ожидать гостей.",
+    "collocations": [
+      "as expected",
+      "expect the best"
+    ]
+  },
+  "EXPERIENCE": {
+    "tr": "Опыт / Впечатление",
+    "def": "Накопленные знания на практике.",
+    "ph": "[ɪkˈspɪəriəns]",
+    "ex": "Work experience — Опыт работы.",
+    "collocations": [
+      "great experience",
+      "learn by experience"
+    ]
+  },
+  "EXPLAIN": {
+    "tr": "Объяснять / Разъяснять",
+    "def": "Делать мысль ясной для других.",
+    "ph": "[ɪkˈspleɪn]",
+    "ex": "Explain the rule — Объяснить правило.",
+    "collocations": [
+      "hard to explain",
+      "let me explain"
+    ]
+  },
+  "EXPRESS": {
+    "tr": "Выражать / Скоростной",
+    "def": "Передавать чувства словами или экспресс.",
+    "ph": "[ɪkˈspres]",
+    "ex": "Express feelings — Выразить чувства.",
+    "collocations": [
+      "express train",
+      "express opinion"
+    ]
+  },
+  "FACT": {
+    "tr": "Факт / Реальность",
+    "def": "Действительное реальное событие.",
+    "ph": "[fækt]",
+    "ex": "True fact — Правдивый факт.",
+    "collocations": [
+      "in fact",
+      "matter of fact"
+    ]
+  },
+  "FAIL": {
+    "tr": "Потерпеть неудачу",
+    "def": "Не достичь желанного успеха.",
+    "ph": "[feɪl]",
+    "ex": "Never fail — Никогда не сдаваться.",
+    "collocations": [
+      "fail exam",
+      "fail to do"
+    ]
+  },
+  "FAIR": {
+    "tr": "Справедливый / Ярмарка",
+    "def": "Честный, непредвзятый или выставка.",
+    "ph": "[feə]",
+    "ex": "Fair play — Честная игра.",
+    "collocations": [
+      "fair trade",
+      "to be fair"
+    ]
+  },
+  "FALL": {
+    "tr": "Падать / Осень",
+    "def": "Опускаться вниз или золотая пора.",
+    "ph": "[fɔːl]",
+    "ex": "Fall down — Упасть.",
+    "collocations": [
+      "fall in love",
+      "fall asleep"
+    ]
+  },
+  "FAMOUS": {
+    "tr": "Знаменитый / Известный",
+    "def": "Пользующийся широкой популярностью.",
+    "ph": "[ˈfeɪməs]",
+    "ex": "Famous writer — Знаменитый писатель.",
+    "collocations": [
+      "world famous",
+      "become famous"
+    ]
+  },
+  "FAR": {
+    "tr": "Далекий / Далеко",
+    "def": "Находящийся на большом расстоянии.",
+    "ph": "[fɑː]",
+    "ex": "Far away — Далеко-далеко.",
+    "collocations": [
+      "as far as",
+      "so far"
+    ]
+  },
+  "FAST": {
+    "tr": "Быстрый / Скоростной",
+    "def": "Двигающийся с высокой скоростью.",
+    "ph": "[fɑːst]",
+    "ex": "Fast train — Скоростной поезд.",
+    "collocations": [
+      "run fast",
+      "fast food"
+    ]
+  },
+  "FEEL": {
+    "tr": "Чувствовать / Ощущать",
+    "def": "Испытывать эмоции или касание.",
+    "ph": "[fiːl]",
+    "ex": "Feel happy — Чувствовать себя счастливым.",
+    "collocations": [
+      "feel good",
+      "feel like"
+    ]
+  },
+  "FEW": {
+    "tr": "Мало / Несколько",
+    "def": "Небольшое количество предметов.",
+    "ph": "[fjuː]",
+    "ex": "A few days — Несколько дней.",
+    "collocations": [
+      "very few",
+      "quite a few"
+    ]
+  },
+  "FIELD": {
+    "tr": "Поле / Область",
+    "def": "Широкий открытый луг или сфера науки.",
+    "ph": "[fiːld]",
+    "ex": "Green field — Зеленое поле.",
+    "collocations": [
+      "football field",
+      "field of view"
+    ]
+  },
+  "FIGHT": {
+    "tr": "Бороться / Сражаться",
+    "def": "Вести поединок или отстаивать правду.",
+    "ph": "[faɪt]",
+    "ex": "Fight for peace — Бороться за мир.",
+    "collocations": [
+      "fair fight",
+      "fight back"
+    ]
+  },
+  "FIGURE": {
+    "tr": "Фигура / Цифра / Число",
+    "def": "Геометрическая форма или силуэт.",
+    "ph": "[ˈfɪɡə]",
+    "ex": "Key figure — Ключевая фигура.",
+    "collocations": [
+      "public figure",
+      "figure out"
+    ]
+  },
+  "FILL": {
+    "tr": "Наполнять / Заполнять",
+    "def": "Занимать пространство до краев.",
+    "ph": "[fɪl]",
+    "ex": "Fill the glass — Наполнить стакан.",
+    "collocations": [
+      "fill in",
+      "fill out"
+    ]
+  },
+  "FINAL": {
+    "tr": "Финальный / Итоговый",
+    "def": "Завершающий, последний в ряду.",
+    "ph": "[ˈfaɪnl]",
+    "ex": "Final game — Финальная игра.",
+    "collocations": [
+      "final decision",
+      "final exam"
+    ]
+  },
+  "FIND": {
+    "tr": "Находить / Обнаруживать",
+    "def": "Отыскивать скрытое или новое.",
+    "ph": "[faɪnd]",
+    "ex": "Find the key — Найти ключ.",
+    "collocations": [
+      "find out",
+      "find a way"
+    ]
+  },
+  "FINE": {
+    "tr": "Прекрасный / Штраф",
+    "def": "Отличного качества или порядок.",
+    "ph": "[faɪn]",
+    "ex": "I am fine — Все в порядке.",
+    "collocations": [
+      "fine art",
+      "fine weather"
+    ]
+  },
+  "FINGER": {
+    "tr": "Палец руки",
+    "def": "Подвижная часть кисти руки.",
+    "ph": "[ˈfɪŋɡə]",
+    "ex": "Point a finger — Указать пальцем.",
+    "collocations": [
+      "ring finger",
+      "cross fingers"
+    ]
+  },
+  "FINISH": {
+    "tr": "Финишировать / Конец",
+    "def": "Завершать дело до конца.",
+    "ph": "[ˈfɪnɪʃ]",
+    "ex": "Finish work — Закончить работу.",
+    "collocations": [
+      "finish line",
+      "from start to finish"
+    ]
+  },
+  "FIRST": {
+    "tr": "Первый",
+    "def": "Начальный по номеру или времени.",
+    "ph": "[fɜːst]",
+    "ex": "First step — Первый шаг.",
+    "collocations": [
+      "first of all",
+      "at first"
+    ]
+  },
+  "FIT": {
+    "tr": "Подходить / В форме",
+    "def": "Соответствовать размеру или спортивный.",
+    "ph": "[fɪt]",
+    "ex": "Keep fit — Быть в форме.",
+    "collocations": [
+      "fit in",
+      "perfect fit"
+    ]
+  },
+  "FIX": {
+    "tr": "Чинить / Закреплять",
+    "def": "Устранять поломку или фиксировать.",
+    "ph": "[fɪks]",
+    "ex": "Fix a car — Починить машину.",
+    "collocations": [
+      "fix problem",
+      "quick fix"
+    ]
+  },
+  "FLAG": {
+    "tr": "Флаг / Знамя",
+    "def": "Полотнище с государственными цветами.",
+    "ph": "[flæɡ]",
+    "ex": "National flag — Государственный флаг.",
+    "collocations": [
+      "wave a flag",
+      "white flag"
+    ]
+  },
+  "FLAT": {
+    "tr": "Плоский / Квартира",
+    "def": "Ровный без выпуклостей или жилье.",
+    "ph": "[flæt]",
+    "ex": "Flat surface — Плоская поверхность.",
+    "collocations": [
+      "rent a flat",
+      "flat tire"
+    ]
+  },
+  "FLY": {
+    "tr": "Летать / Муха",
+    "def": "Парить в воздухе на крыльях.",
+    "ph": "[flaɪ]",
+    "ex": "Fly high — Летать высоко.",
+    "collocations": [
+      "fly a plane",
+      "birds fly"
+    ]
+  },
+  "FOLLOW": {
+    "tr": "Следовать / Идти за",
+    "def": "Двигаться позади или соблюдать совет.",
+    "ph": "[ˈfɒləʊ]",
+    "ex": "Follow me — Следуй за мной.",
+    "collocations": [
+      "follow rules",
+      "follow advice"
+    ]
+  },
+  "FOOT": {
+    "tr": "Ступня / Фут",
+    "def": "Нижняя часть ноги для ходьбы.",
+    "ph": "[fʊt]",
+    "ex": "On foot — Пешком.",
+    "collocations": [
+      "left foot",
+      "foot print"
+    ]
+  },
+  "FOR": {
+    "tr": "Для / Ради",
+    "def": "Предлог цели и адресата.",
+    "ph": "[fɔː]",
+    "ex": "Gift for you — Подарок для тебя.",
+    "collocations": [
+      "for ever",
+      "for free"
+    ]
+  },
+  "FORCE": {
+    "tr": "Сила / Заставлять",
+    "def": "Мощь воздействия или принуждение.",
+    "ph": "[fɔːs]",
+    "ex": "Air force — Военно-воздушные силы.",
+    "collocations": [
+      "by force",
+      "force of nature"
+    ]
+  },
+  "FOREIGN": {
+    "tr": "Иностранный / Зарубежный",
+    "def": "Принадлежащий другой стране.",
+    "ph": "[ˈfɒrən]",
+    "ex": "Foreign language — Иностранный язык.",
+    "collocations": [
+      "foreign student",
+      "travel foreign"
+    ]
+  },
+  "FORGET": {
+    "tr": "Забывать",
+    "def": "Утрачивать воспоминание из памяти.",
+    "ph": "[fəˈɡet]",
+    "ex": "Don't forget — Не забудь.",
+    "collocations": [
+      "forget about",
+      "easy to forget"
+    ]
+  },
+  "FORM": {
+    "tr": "Форма / Бланк",
+    "def": "Очертания предмета или анкета.",
+    "ph": "[fɔːm]",
+    "ex": "Fill out a form — Заполнить анкету.",
+    "collocations": [
+      "art form",
+      "in form"
+    ]
+  },
+  "FORWARD": {
+    "tr": "Вперед",
+    "def": "В направлении движения перед собой.",
+    "ph": "[ˈfɔːwəd]",
+    "ex": "Look forward — Смотреть вперед.",
+    "collocations": [
+      "step forward",
+      "move forward"
+    ]
+  },
+  "FREE": {
+    "tr": "Свободный / Бесплатный",
+    "def": "Не скованный правилами или без оплаты.",
+    "ph": "[friː]",
+    "ex": "Free time — Свободное время.",
+    "collocations": [
+      "for free",
+      "free will"
+    ]
+  },
+  "FRESH": {
+    "tr": "Свежий / Чистый",
+    "def": "Недавний, бодрящий и вкусный.",
+    "ph": "[freʃ]",
+    "ex": "Fresh air — Свежий воздух.",
+    "collocations": [
+      "fresh start",
+      "fresh fruit"
+    ]
+  },
+  "FRONT": {
+    "tr": "Перед / Передний",
+    "def": "Лицевая сторона здания или машины.",
+    "ph": "[frʌnt]",
+    "ex": "In front of — Впереди.",
+    "collocations": [
+      "front door",
+      "front row"
+    ]
+  },
+  "FULL": {
+    "tr": "Полный / Сытый",
+    "def": "Заполненный до самых краев.",
+    "ph": "[fʊl]",
+    "ex": "Full glass — Полный стакан.",
+    "collocations": [
+      "full of joy",
+      "feel full"
+    ]
+  },
+  "FUN": {
+    "tr": "Веселье / Забава",
+    "def": "Радостное приятное времяпрепровождение.",
+    "ph": "[fʌn]",
+    "ex": "Have fun — Веселиться.",
+    "collocations": [
+      "make fun",
+      "great fun"
+    ]
+  },
+  "FUNNY": {
+    "tr": "Смешной / Забавный",
+    "def": "Вызывающий улыбку и смех.",
+    "ph": "[ˈfʌni]",
+    "ex": "Funny story — Смешная история.",
+    "collocations": [
+      "look funny",
+      "very funny"
+    ]
+  },
+  "GAIN": {
+    "tr": "Приобретать / Прирост",
+    "def": "Получать пользу, вес или опыт.",
+    "ph": "[ɡeɪn]",
+    "ex": "Gain knowledge — Приобретать знания.",
+    "collocations": [
+      "gain weight",
+      "gain speed"
+    ]
+  },
+  "GENERAL": {
+    "tr": "Общий / Генерал",
+    "def": "Охватывающий все стороны или офицер.",
+    "ph": "[ˈdʒenrəl]",
+    "ex": "In general — В общем.",
+    "collocations": [
+      "general idea",
+      "general knowledge"
+    ]
+  },
+  "GENTLE": {
+    "tr": "Мягкий / Нежный",
+    "def": "Ласковый, спокойный, без резкости.",
+    "ph": "[ˈdʒentl]",
+    "ex": "Gentle touch — Нежное прикосновение.",
+    "collocations": [
+      "gentle breeze",
+      "gentle slope"
+    ]
+  },
+  "GET": {
+    "tr": "Получать / Добираться",
+    "def": "Приобретать вещь или статус.",
+    "ph": "[ɡet]",
+    "ex": "Get a prize — Получить приз.",
+    "collocations": [
+      "get ready",
+      "get up"
+    ]
+  },
+  "GIRL": {
+    "tr": "Девочка / Девушка",
+    "def": "Ребенок или подросток женского пола.",
+    "ph": "[ɡɜːl]",
+    "ex": "Little girl — Маленькая девочка.",
+    "collocations": [
+      "smart girl",
+      "girl friend"
+    ]
+  },
+  "GIVE": {
+    "tr": "Давать / Дарить",
+    "def": "Вручать предмет другому лицу.",
+    "ph": "[ɡɪv]",
+    "ex": "Give a gift — Сделать подарок.",
+    "collocations": [
+      "give up",
+      "give away"
+    ]
+  },
+  "GLAD": {
+    "tr": "Радостный / Довольный",
+    "def": "Испытывающий искреннее удовольствие.",
+    "ph": "[ɡlæd]",
+    "ex": "Glad to meet you — Рад встрече.",
+    "collocations": [
+      "so glad",
+      "glad news"
+    ]
+  },
+  "GO": {
+    "tr": "Идти / Ехать",
+    "def": "Передвигаться в пространстве.",
+    "ph": "[ɡəʊ]",
+    "ex": "Go home — Идти домой.",
+    "collocations": [
+      "go on",
+      "let it go"
+    ]
+  },
+  "GOOD": {
+    "tr": "Хороший / Добрый",
+    "def": "Обладающий полезными качествами.",
+    "ph": "[ɡʊd]",
+    "ex": "Good day — Добрый день.",
+    "collocations": [
+      "good job",
+      "good morning"
+    ]
+  },
+  "GREAT": {
+    "tr": "Великий / Отличный",
+    "def": "Выдающийся по масштабу и пользе.",
+    "ph": "[ɡreɪt]",
+    "ex": "Great leader — Великий лидер.",
+    "collocations": [
+      "great job",
+      "great idea"
+    ]
+  },
+  "GROUND": {
+    "tr": "Земля / Площадка",
+    "def": "Поверхность под ногами.",
+    "ph": "[ɡraʊnd]",
+    "ex": "Stand on ground — Стоять на земле.",
+    "collocations": [
+      "common ground",
+      "ground floor"
+    ]
+  },
+  "GROUP": {
+    "tr": "Группа / Команда",
+    "def": "Собрание людей с общей целью.",
+    "ph": "[ɡruːp]",
+    "ex": "Study group — Учебная группа.",
+    "collocations": [
+      "group work",
+      "in a group"
+    ]
+  },
+  "GROW": {
+    "tr": "Расти / Выращивать",
+    "def": "Увеличиваться в размере со временем.",
+    "ph": "[ɡrəʊ]",
+    "ex": "Grow flowers — Выращивать цветы.",
+    "collocations": [
+      "grow up",
+      "grow fast"
+    ]
+  },
+  "GUESS": {
+    "tr": "Угадывать / Догадка",
+    "def": "Высказывать верное предположение.",
+    "ph": "[ɡes]",
+    "ex": "Guess what? — Угадай что?",
+    "collocations": [
+      "lucky guess",
+      "hard to guess"
+    ]
+  },
+  "GUEST": {
+    "tr": "Гость",
+    "def": "Человек, приглашенный в дом на праздник.",
+    "ph": "[ɡest]",
+    "ex": "Welcome guest — Желанный гость.",
+    "collocations": [
+      "special guest",
+      "guest room"
+    ]
+  },
+  "GUIDE": {
+    "tr": "Гид / Руководство",
+    "def": "Проводник или инструкция по пути.",
+    "ph": "[ɡaɪd]",
+    "ex": "Tour guide — Экскурсовод.",
+    "collocations": [
+      "user guide",
+      "guide book"
+    ]
+  },
+  "HALF": {
+    "tr": "Половина",
+    "def": "Одна из двух равных частей целого.",
+    "ph": "[hɑːf]",
+    "ex": "Half an hour — Полчаса.",
+    "collocations": [
+      "half past",
+      "cut in half"
+    ]
+  },
+  "HAND": {
+    "tr": "Рука / Кисть",
+    "def": "Орган осязания и труда с пятью пальцами.",
+    "ph": "[hænd]",
+    "ex": "Left hand — Левая рука.",
+    "collocations": [
+      "hand in hand",
+      "shake hands"
+    ]
+  },
+  "HANDLE": {
+    "tr": "Рукоятка / Справляться",
+    "def": "Держатель двери или решение задачи.",
+    "ph": "[ˈhændl]",
+    "ex": "Door handle — Дверная ручка.",
+    "collocations": [
+      "handle with care",
+      "handle problem"
+    ]
+  },
+  "HANG": {
+    "tr": "Вешать / Висеть",
+    "def": "Прикреплять на стену или крючок.",
+    "ph": "[hæŋ]",
+    "ex": "Hang a picture — Повесить картину.",
+    "collocations": [
+      "hang up",
+      "hang out"
+    ]
+  },
+  "HAPPEN": {
+    "tr": "Случаться / Происходить",
+    "def": "Иметь место в реальности.",
+    "ph": "[ˈhæpən]",
+    "ex": "What happened? — Что случилось?",
+    "collocations": [
+      "happen again",
+      "as it happens"
+    ]
+  },
+  "HARD": {
+    "tr": "Твердый / Трудный",
+    "def": "Прочный по структуре или сложный.",
+    "ph": "[hɑːd]",
+    "ex": "Work hard — Упорно трудиться.",
+    "collocations": [
+      "hard rock",
+      "hard choice"
+    ]
+  },
+  "HATE": {
+    "tr": "Ненавидеть",
+    "def": "Испытывать сильное отторжение.",
+    "ph": "[heɪt]",
+    "ex": "Hate lies — Ненавидеть ложь.",
+    "collocations": [
+      "hate cold",
+      "love and hate"
+    ]
+  },
+  "HAVE": {
+    "tr": "Иметь / Обладать",
+    "def": "Владеть предметом или качеством.",
+    "ph": "[hæv]",
+    "ex": "Have time — Иметь время.",
+    "collocations": [
+      "have lunch",
+      "have fun"
+    ]
+  },
+  "HEAD": {
+    "tr": "Голова / Глава",
+    "def": "Верхняя часть тела с мозгом или лидер.",
+    "ph": "[hed]",
+    "ex": "Smart head — Умная голова.",
+    "collocations": [
+      "head of state",
+      "head coach"
+    ]
+  },
+  "HEAR": {
+    "tr": "Слышать / Услышать",
+    "def": "Воспринимать звуковые волны ухом.",
+    "ph": "[hɪə]",
+    "ex": "Hear music — Слышать музыку.",
+    "collocations": [
+      "hear about",
+      "hard to hear"
+    ]
+  },
+  "HEAVY": {
+    "tr": "Тяжелый",
+    "def": "Имеющий большой вес на весах.",
+    "ph": "[ˈhevi]",
+    "ex": "Heavy box — Тяжелая коробка.",
+    "collocations": [
+      "heavy rain",
+      "heavy traffic"
+    ]
+  },
+  "HELP": {
+    "tr": "Помощь / Помогать",
+    "def": "Оказание поддержки в беде.",
+    "ph": "[help]",
+    "ex": "Help friends — Помогать друзьям.",
+    "collocations": [
+      "ask for help",
+      "need help"
+    ]
+  },
+  "HERE": {
+    "tr": "Здесь / Сюда",
+    "def": "В данном конкретном месте.",
+    "ph": "[hɪə]",
+    "ex": "Come here — Иди сюда.",
+    "collocations": [
+      "here and now",
+      "right here"
+    ]
+  },
+  "HIDE": {
+    "tr": "Прятать / Скрывать",
+    "def": "Убирать с глаз в тайное место.",
+    "ph": "[haɪd]",
+    "ex": "Hide and seek — Игра в прятки.",
+    "collocations": [
+      "hide feelings",
+      "nowhere to hide"
+    ]
+  },
+  "HIGH": {
+    "tr": "Высокий",
+    "def": "Имеющий большую высоту от земли.",
+    "ph": "[haɪ]",
+    "ex": "High mountain — Высокая гора.",
+    "collocations": [
+      "high speed",
+      "high level"
+    ]
+  },
+  "HISTORY": {
+    "tr": "История",
+    "def": "Наука о событиях прошлого времени.",
+    "ph": "[ˈhɪstri]",
+    "ex": "Ancient history — Древняя история.",
+    "collocations": [
+      "make history",
+      "history book"
+    ]
+  },
+  "HIT": {
+    "tr": "Ударять / Хит",
+    "def": "Наносить удар или популярная песня.",
+    "ph": "[hɪt]",
+    "ex": "Hit the ball — Ударить по мячу.",
+    "collocations": [
+      "hit song",
+      "hit target"
+    ]
+  },
+  "HOLD": {
+    "tr": "Держать / Удерживать",
+    "def": "Сжимать в руках или проводить встречу.",
+    "ph": "[həʊld]",
+    "ex": "Hold my hand — Держи меня за руку.",
+    "collocations": [
+      "hold on",
+      "hold meeting"
+    ]
+  },
+  "HOLE": {
+    "tr": "Дыра / Отверстие",
+    "def": "Углубление или проем в стене.",
+    "ph": "[həʊl]",
+    "ex": "Deep hole — Глубокая яма.",
+    "collocations": [
+      "black hole",
+      "key hole"
+    ]
+  },
+  "HONEST": {
+    "tr": "Честный / Правдивый",
+    "def": "Говорящий чистую правду, верный.",
+    "ph": "[ˈɒnɪst]",
+    "ex": "Honest man — Честный человек.",
+    "collocations": [
+      "honest answer",
+      "to be honest"
+    ]
+  },
+  "HOPE": {
+    "tr": "Надежда / Надеяться",
+    "def": "Светлая вера в лучшее завтра.",
+    "ph": "[həʊp]",
+    "ex": "Ray of hope — Луч надежды.",
+    "collocations": [
+      "hope for best",
+      "full of hope"
+    ]
+  },
+  "HOUR": {
+    "tr": "Час",
+    "def": "Отрезок времени в 60 минут.",
+    "ph": "[ˈaʊə]",
+    "ex": "One hour — Один час.",
+    "collocations": [
+      "rush hour",
+      "hour by hour"
+    ]
+  },
+  "HOW": {
+    "tr": "Как / Каким образом",
+    "def": "Вопросительное слово способа.",
+    "ph": "[haʊ]",
+    "ex": "How are you? — Как дела?",
+    "collocations": [
+      "know how",
+      "how much"
+    ]
+  },
+  "HUGE": {
+    "tr": "Огромный / Громадный",
+    "def": "Колоссальный по своим размерам.",
+    "ph": "[hjuːdʒ]",
+    "ex": "Huge palace — Огромный дворец.",
+    "collocations": [
+      "huge success",
+      "huge amount"
+    ]
+  },
+  "HUMAN": {
+    "tr": "Человек / Человеческий",
+    "def": "Представитель разумного рода.",
+    "ph": "[ˈhjuːmən]",
+    "ex": "Human being — Человеческое существо.",
+    "collocations": [
+      "human brain",
+      "human nature"
+    ]
+  },
+  "HUNDRED": {
+    "tr": "Сотня / Сто",
+    "def": "Число десять десятков (100).",
+    "ph": "[ˈhʌndrəd]",
+    "ex": "One hundred — Сто.",
+    "collocations": [
+      "hundred percent",
+      "hundreds of"
+    ]
+  },
+  "HUNGRY": {
+    "tr": "Голодный",
+    "def": "Желающий подкрепиться пищей.",
+    "ph": "[ˈhʌŋɡri]",
+    "ex": "Feel hungry — Проголодаться.",
+    "collocations": [
+      "hungry wolf",
+      "stay hungry"
+    ]
+  },
+  "HURRY": {
+    "tr": "Спешить / Торопиться",
+    "def": "Действовать без промедления.",
+    "ph": "[ˈhʌri]",
+    "ex": "Hurry up — Поторопись.",
+    "collocations": [
+      "in a hurry",
+      "no hurry"
+    ]
+  },
+  "HURT": {
+    "tr": "Болеть / Ранить",
+    "def": "Причинять физическую боль.",
+    "ph": "[hɜːt]",
+    "ex": "Does it hurt? — Больно?",
+    "collocations": [
+      "hurt feelings",
+      "badly hurt"
+    ]
+  },
+  "IDEA": {
+    "tr": "Идея / Мысль",
+    "def": "Замысел или план в голове.",
+    "ph": "[aɪˈdɪə]",
+    "ex": "Great idea — Отличная идея.",
+    "collocations": [
+      "good idea",
+      "have an idea"
+    ]
+  },
+  "IMAGE": {
+    "tr": "Изображение / Образ",
+    "def": "Зрительный рисунок или кадр.",
+    "ph": "[ˈɪmɪdʒ]",
+    "ex": "Mirror image — Зеркальный образ.",
+    "collocations": [
+      "image quality",
+      "public image"
+    ]
+  },
+  "IMAGINE": {
+    "tr": "Представлять / Воображать",
+    "def": "Создавать мысленный образ в уме.",
+    "ph": "[ɪˈmædʒɪn]",
+    "ex": "Imagine the future — Представить будущее.",
+    "collocations": [
+      "hard to imagine",
+      "just imagine"
+    ]
+  },
+  "IMPROVE": {
+    "tr": "Улучшать / Совершенствовать",
+    "def": "Делать более качественным.",
+    "ph": "[ɪmˈpruːv]",
+    "ex": "Improve skills — Улучшить навыки.",
+    "collocations": [
+      "improve health",
+      "improve result"
+    ]
+  },
+  "INCLUDE": {
+    "tr": "Включать в себя",
+    "def": "Содержать как составную часть.",
+    "ph": "[ɪnˈkluːd]",
+    "ex": "Include tax — Включать налог.",
+    "collocations": [
+      "include everyone",
+      "all included"
+    ]
+  },
+  "INCREASE": {
+    "tr": "Увеличивать / Рост",
+    "def": "Повышать количество или объем.",
+    "ph": "[ɪnˈkriːs]",
+    "ex": "Increase speed — Увеличить скорость.",
+    "collocations": [
+      "rapid increase",
+      "increase sales"
+    ]
+  },
+  "INDIVIDUAL": {
+    "tr": "Личность / Индивидуальный",
+    "def": "Отдельный человек со своим характером.",
+    "ph": "[ˌɪndɪˈvɪdʒuəl]",
+    "ex": "Individual approach — Личный подход.",
+    "collocations": [
+      "unique individual",
+      "individual needs"
+    ]
+  },
+  "INDUSTRY": {
+    "tr": "Индустрия / Промышленность",
+    "def": "Сфера производства и заводов.",
+    "ph": "[ˈɪndəstri]",
+    "ex": "Auto industry — Автомобильная отрасль.",
+    "collocations": [
+      "heavy industry",
+      "music industry"
+    ]
+  },
+  "INFORM": {
+    "tr": "Информировать / Сообщать",
+    "def": "Передавать важные сведения.",
+    "ph": "[ɪnˈfɔːm]",
+    "ex": "Inform the team — Оповестить команду.",
+    "collocations": [
+      "keep informed",
+      "inform about"
+    ]
+  },
+  "INFORMATION": {
+    "tr": "Информация / Сведения",
+    "def": "Знания и данные о мире.",
+    "ph": "[ˌɪnfəˈmeɪʃn]",
+    "ex": "Useful information — Полезные сведения.",
+    "collocations": [
+      "get information",
+      "source of info"
+    ]
+  },
+  "INSIDE": {
+    "tr": "Внутри / Внутрь",
+    "def": "В пределах внутренних стен.",
+    "ph": "[ˌɪnˈsaɪd]",
+    "ex": "Inside the box — Внутри коробки.",
+    "collocations": [
+      "look inside",
+      "step inside"
+    ]
+  },
+  "INSTEAD": {
+    "tr": "Вместо / Взамен",
+    "def": "В качестве замены одного другим.",
+    "ph": "[ɪnˈsted]",
+    "ex": "Instead of tea — Вместо чая.",
+    "collocations": [
+      "instead of that",
+      "use instead"
+    ]
+  },
+  "INTEREST": {
+    "tr": "Интерес / Увлечение",
+    "def": "Любознательное внимание к теме.",
+    "ph": "[ˈɪntrəst]",
+    "ex": "Great interest — Большой интерес.",
+    "collocations": [
+      "show interest",
+      "point of interest"
+    ]
+  },
+  "INTERESTING": {
+    "tr": "Интересный",
+    "def": "Привлекающий внимание ума.",
+    "ph": "[ˈɪntrəstɪŋ]",
+    "ex": "Interesting book — Интересная книга.",
+    "collocations": [
+      "very interesting",
+      "find interesting"
+    ]
+  },
+  "INTERNATIONAL": {
+    "tr": "Международный",
+    "def": "Связывающий разные страны мира.",
+    "ph": "[ˌɪntəˈnæʃnəl]",
+    "ex": "International team — Международная команда.",
+    "collocations": [
+      "international law",
+      "international flights"
+    ]
+  },
+  "INTERVIEW": {
+    "tr": "Интервью / Беседа",
+    "def": "Опрос журналиста или собеседование.",
+    "ph": "[ˈɪntəvjuː]",
+    "ex": "Job interview — Собеседование на работу.",
+    "collocations": [
+      "give interview",
+      "conduct interview"
+    ]
+  },
+  "INTO": {
+    "tr": "В / Внутрь",
+    "def": "Предлог направления внутрь.",
+    "ph": "[ˈɪntuː]",
+    "ex": "Go into the room — Зайти в комнату.",
+    "collocations": [
+      "turn into",
+      "look into"
+    ]
+  },
+  "INVITE": {
+    "tr": "Приглашать / Звать",
+    "def": "Звать в гости на торжество.",
+    "ph": "[ɪnˈvaɪt]",
+    "ex": "Invite friends — Пригласить друзей.",
+    "collocations": [
+      "invite to dinner",
+      "party invite"
+    ]
+  },
+  "INVOLVE": {
+    "tr": "Вовлекать / Включать",
+    "def": "Делать участником процесса.",
+    "ph": "[ɪnˈvɒlv]",
+    "ex": "Involve people — Вовлекать людей.",
+    "collocations": [
+      "get involved",
+      "involve in"
+    ]
+  },
+  "IRON": {
+    "tr": "Железо / Утюг / Гладить",
+    "def": "Прочный металл или бытовой прибор.",
+    "ph": "[ˈaɪən]",
+    "ex": "Cast iron — Чугун.",
+    "collocations": [
+      "iron clothes",
+      "iron will"
+    ]
+  },
+  "ITEM": {
+    "tr": "Предмет / Пункт",
+    "def": "Отдельная вещь в списке.",
+    "ph": "[ˈaɪtəm]",
+    "ex": "New item — Новый предмет.",
+    "collocations": [
+      "item on list",
+      "menu item"
+    ]
+  },
+  "JOIN": {
+    "tr": "Присоединяться / Соединять",
+    "def": "Вступать в команду или связывать.",
+    "ph": "[dʒɔɪn]",
+    "ex": "Join the team — Вступить в команду.",
+    "collocations": [
+      "join us",
+      "join hands"
+    ]
+  },
+  "JUMP": {
+    "tr": "Прыгать / Прыжок",
+    "def": "Отталкиваться от земли вверх.",
+    "ph": "[dʒʌmp]",
+    "ex": "Jump high — Прыгать высоко.",
+    "collocations": [
+      "jump for joy",
+      "high jump"
+    ]
+  },
+  "KEEP": {
+    "tr": "Хранить / Сохранять",
+    "def": "Удерживать у себя в сохранности.",
+    "ph": "[kiːp]",
+    "ex": "Keep a secret — Хранить тайну.",
+    "collocations": [
+      "keep calm",
+      "keep going"
+    ]
+  },
+  "KICK": {
+    "tr": "Писать ногой / Удар",
+    "def": "Резкий удар ногой по мячу.",
+    "ph": "[kɪk]",
+    "ex": "Kick the ball — Ударить по мячу.",
+    "collocations": [
+      "kick off",
+      "free kick"
+    ]
+  },
+  "KID": {
+    "tr": "Ребенок / Малыш",
+    "def": "Разговорное название ребенка.",
+    "ph": "[kɪd]",
+    "ex": "Smart kid — Умный малыш.",
+    "collocations": [
+      "just a kid",
+      "kid around"
+    ]
+  },
+  "KILL": {
+    "tr": "Убивать / Лишать сил",
+    "def": "Прекращать чью-то жизнь.",
+    "ph": "[kɪl]",
+    "ex": "Kill time — Убить время.",
+    "collocations": [
+      "kill pain",
+      "don't kill"
+    ]
+  },
+  "KIND": {
+    "tr": "Добрый / Вид / Тип",
+    "def": "Отзывчивый сердцем или сорт.",
+    "ph": "[kaɪnd]",
+    "ex": "Kind heart — Доброе сердце.",
+    "collocations": [
+      "kind of",
+      "different kinds"
+    ]
+  },
+  "KNOW": {
+    "tr": "Знать / Понимать",
+    "def": "Иметь точные знания в памяти.",
+    "ph": "[nəʊ]",
+    "ex": "Know the answer — Знать ответ.",
+    "collocations": [
+      "know well",
+      "as you know"
+    ]
+  },
+  "KNOWLEDGE": {
+    "tr": "Знания / Эрудиция",
+    "def": "Совокупность проверенных фактов.",
+    "ph": "[ˈnɒlɪdʒ]",
+    "ex": "Deep knowledge — Глубокие знания.",
+    "collocations": [
+      "gain knowledge",
+      "knowledge is power"
+    ]
+  },
+  "LADY": {
+    "tr": "Леди / Дама",
+    "def": "Воспитанная благородная женщина.",
+    "ph": "[ˈleɪdi]",
+    "ex": "First lady — Первая леди.",
+    "collocations": [
+      "young lady",
+      "fine lady"
+    ]
+  },
+  "LANGUAGE": {
+    "tr": "Язык / Речь",
+    "def": "Система слов для общения народов.",
+    "ph": "[ˈlæŋɡwɪdʒ]",
+    "ex": "English language — Английский язык.",
+    "collocations": [
+      "body language",
+      "native language"
+    ]
+  },
+  "LARGE": {
+    "tr": "Крупный / Большой",
+    "def": "Превышающий обычные габариты.",
+    "ph": "[lɑːdʒ]",
+    "ex": "Large box — Большая коробка.",
+    "collocations": [
+      "large city",
+      "large scale"
+    ]
+  },
+  "LAST": {
+    "tr": "Последний / Длиться",
+    "def": "Финальный по счету или продолжаться.",
+    "ph": "[lɑːst]",
+    "ex": "Last level — Последний уровень.",
+    "collocations": [
+      "last minute",
+      "last long"
+    ]
+  },
+  "LATE": {
+    "tr": "Поздний / Поздно",
+    "def": "После назначенного времени.",
+    "ph": "[leɪt]",
+    "ex": "Late night — Поздняя ночь.",
+    "collocations": [
+      "too late",
+      "arrive late"
+    ]
+  },
+  "LAUGH": {
+    "tr": "Смеяться / Смех",
+    "def": "Издавать радостные звуки веселья.",
+    "ph": "[lɑːf]",
+    "ex": "Laugh out loud — Громко смеяться.",
+    "collocations": [
+      "make me laugh",
+      "happy laugh"
+    ]
+  },
+  "LAW": {
+    "tr": "Закон / Право",
+    "def": "Официальное незыблемое правило страны.",
+    "ph": "[lɔː]",
+    "ex": "Rule of law — Верховенство закона.",
+    "collocations": [
+      "law and order",
+      "break law"
+    ]
+  },
+  "LAWYER": {
+    "tr": "Юрист / Адвокат",
+    "def": "Специалист по законам и суду.",
+    "ph": "[ˈlɔːjə]",
+    "ex": "Good lawyer — Хороший юрист.",
+    "collocations": [
+      "hire a lawyer",
+      "defense lawyer"
+    ]
+  },
+  "LAY": {
+    "tr": "Класть / Положить",
+    "def": "Помещать предмет горизонтально.",
+    "ph": "[leɪ]",
+    "ex": "Lay the table — Накрыть на стол.",
+    "collocations": [
+      "lay down",
+      "lay ground"
+    ]
+  },
+  "LEAD": {
+    "tr": "Вести / Руководить",
+    "def": "Указывать путь другим людям.",
+    "ph": "[liːd]",
+    "ex": "Lead the team — Вести команду.",
+    "collocations": [
+      "lead to success",
+      "lead way"
+    ]
+  },
+  "LEADER": {
+    "tr": "Лидер / Руководитель",
+    "def": "Признанный глава коллектива.",
+    "ph": "[ˈliːdə]",
+    "ex": "Strong leader — Сильный лидер.",
+    "collocations": [
+      "world leader",
+      "team leader"
+    ]
+  },
+  "LEARN": {
+    "tr": "Учиться / Изучать",
+    "def": "Приобретать новые навыки.",
+    "ph": "[lɜːn]",
+    "ex": "Learn English — Учить английский.",
+    "collocations": [
+      "learn fast",
+      "learn to cook"
+    ]
+  },
+  "LEAVE": {
+    "tr": "Уходить / Оставлять",
+    "def": "Покидать место или сохранять вещь.",
+    "ph": "[liːv]",
+    "ex": "Leave home — Уйти из дома.",
+    "collocations": [
+      "leave behind",
+      "leave alone"
+    ]
+  },
+  "LEFT": {
+    "tr": "Левый / Налево",
+    "def": "Сторона, противоположная правой.",
+    "ph": "[left]",
+    "ex": "Turn left — Повернуть налево.",
+    "collocations": [
+      "left hand",
+      "on the left"
+    ]
+  },
+  "LESS": {
+    "tr": "Меньше / Менее",
+    "def": "В меньшем количестве.",
+    "ph": "[les]",
+    "ex": "Less time — Меньше времени.",
+    "collocations": [
+      "more or less",
+      "no less"
+    ]
+  },
+  "LESSON": {
+    "tr": "Урок / Занятие",
+    "def": "Учебный час с учителем.",
+    "ph": "[ˈlesn]",
+    "ex": "English lesson — Урок английского.",
+    "collocations": [
+      "take lessons",
+      "learn a lesson"
+    ]
+  },
+  "LET": {
+    "tr": "Позволять / Пускать",
+    "def": "Давать согласие на действие.",
+    "ph": "[let]",
+    "ex": "Let me see — Дай мне взглянуть.",
+    "collocations": [
+      "let it go",
+      "let in"
+    ]
+  },
+  "LETTER": {
+    "tr": "Буква / Письмо",
+    "def": "Символ алфавита или конверт.",
+    "ph": "[ˈletə]",
+    "ex": "Capital letter — Заглавная буква.",
+    "collocations": [
+      "write a letter",
+      "love letter"
+    ]
+  },
+  "LEVEL": {
+    "tr": "Уровень / Ступень",
+    "def": "Степень высоты или сложности.",
+    "ph": "[ˈlevl]",
+    "ex": "Next level — Следующий уровень.",
+    "collocations": [
+      "high level",
+      "water level"
+    ]
+  },
+  "LIE": {
+    "tr": "Лежать / Лгать / Ложь",
+    "def": "Находиться плашмя или неправда.",
+    "ph": "[laɪ]",
+    "ex": "Lie down — Прилечь.",
+    "collocations": [
+      "tell a lie",
+      "lie on beach"
+    ]
+  },
+  "LIFE": {
+    "tr": "Жизнь",
+    "def": "Бытие всего живого на Земле.",
+    "ph": "[laɪf]",
+    "ex": "Happy life — Счастливая жизнь.",
+    "collocations": [
+      "real life",
+      "all my life"
+    ]
+  },
+  "LIFT": {
+    "tr": "Поднимать / Лифт",
+    "def": "Перемещать вверх или подъемник.",
+    "ph": "[lɪft]",
+    "ex": "Take the lift — Сесть в лифт.",
+    "collocations": [
+      "lift weight",
+      "lift spirit"
+    ]
+  },
+  "LIKE": {
+    "tr": "Нравиться / Как",
+    "def": "Испытывать симпатию или подобно.",
+    "ph": "[laɪk]",
+    "ex": "Like music — Любить музыку.",
+    "collocations": [
+      "look like",
+      "feel like"
+    ]
+  },
+  "LINE": {
+    "tr": "Линия / Черта / Очередь",
+    "def": "Прямая полоса или ряд людей.",
+    "ph": "[laɪn]",
+    "ex": "Straight line — Прямая линия.",
+    "collocations": [
+      "wait in line",
+      "draw line"
+    ]
+  },
+  "LIST": {
+    "tr": "Список / Перечень",
+    "def": "Записанный перечень пунктов.",
+    "ph": "[lɪst]",
+    "ex": "Shopping list — Список покупок.",
+    "collocations": [
+      "make a list",
+      "check list"
+    ]
+  },
+  "LISTEN": {
+    "tr": "Слушать / Внимать",
+    "def": "Воспринимать слова ушами.",
+    "ph": "[ˈlɪsn]",
+    "ex": "Listen carefully — Слушать внимательно.",
+    "collocations": [
+      "listen to music",
+      "listen to me"
+    ]
+  },
+  "LITTLE": {
+    "tr": "Маленький / Мало",
+    "def": "Небольшой по размеру.",
+    "ph": "[ˈlɪtl]",
+    "ex": "Little boy — Маленький мальчик.",
+    "collocations": [
+      "a little bit",
+      "little time"
+    ]
+  },
+  "LIVE": {
+    "tr": "Жить / Живой",
+    "def": "Существовать в этом мире.",
+    "ph": "[lɪv]",
+    "ex": "Live well — Жить хорошо.",
+    "collocations": [
+      "live here",
+      "live music"
+    ]
+  },
+  "LOCAL": {
+    "tr": "Местный",
+    "def": "Относящийся к данному району.",
+    "ph": "[ˈləʊkl]",
+    "ex": "Local news — Местные новости.",
+    "collocations": [
+      "local time",
+      "local food"
+    ]
+  },
+  "LOCK": {
+    "tr": "Замок / Запирать",
+    "def": "Механизм для запирания двери.",
+    "ph": "[lɒk]",
+    "ex": "Lock the door — Запереть дверь.",
+    "collocations": [
+      "under lock",
+      "lock and key"
+    ]
+  },
+  "LONG": {
+    "tr": "Длинный / Долгий",
+    "def": "Имеющий большую протяженность.",
+    "ph": "[lɒŋ]",
+    "ex": "Long road — Длинная дорога.",
+    "collocations": [
+      "long time",
+      "as long as"
+    ]
+  },
+  "LOOK": {
+    "tr": "Смотреть / Взгляд / Вид",
+    "def": "Направлять взор на объект.",
+    "ph": "[lʊk]",
+    "ex": "Look at me — Посмотри на меня.",
+    "collocations": [
+      "look good",
+      "look for"
+    ]
+  },
+  "LOSE": {
+    "tr": "Терять / Проигрывать",
+    "def": "Утрачивать предмет или победу.",
+    "ph": "[luːz]",
+    "ex": "Lose weight — Сбросить вес.",
+    "collocations": [
+      "lose game",
+      "lose keys"
+    ]
+  },
+  "LOT": {
+    "tr": "Много / Участок",
+    "def": "Большое количество чего-либо.",
+    "ph": "[lɒt]",
+    "ex": "A lot of — Много.",
+    "collocations": [
+      "thanks a lot",
+      "parking lot"
+    ]
+  },
+  "LOVE": {
+    "tr": "Любовь / Любить",
+    "def": "Глубокая искренняя привязанность.",
+    "ph": "[lʌv]",
+    "ex": "True love — Истинная любовь.",
+    "collocations": [
+      "in love",
+      "with love"
+    ]
+  },
+  "LOW": {
+    "tr": "Низкий",
+    "def": "Малый по высоте или уровню.",
+    "ph": "[ləʊ]",
+    "ex": "Low price — Низкая цена.",
+    "collocations": [
+      "low voice",
+      "low battery"
+    ]
+  },
+  "MAIN": {
+    "tr": "Главный / Основной",
+    "def": "Самый важный среди прочих.",
+    "ph": "[meɪn]",
+    "ex": "Main goal — Главная цель.",
+    "collocations": [
+      "main street",
+      "in the main"
+    ]
+  },
+  "MAJOR": {
+    "tr": "Крупный / Главный",
+    "def": "Имеющий первостепенное значение.",
+    "ph": "[ˈmeɪdʒə]",
+    "ex": "Major change — Крупная перемена.",
+    "collocations": [
+      "major role",
+      "major city"
+    ]
+  },
+  "MAKE": {
+    "tr": "Делать / Создавать",
+    "def": "Изготавливать своими руками.",
+    "ph": "[meɪk]",
+    "ex": "Make a cake — Испечь пирог.",
+    "collocations": [
+      "make decision",
+      "make money"
+    ]
+  },
+  "MAN": {
+    "tr": "Мужчина / Человек",
+    "def": "Взрослый человек мужского пола.",
+    "ph": "[mæn]",
+    "ex": "Wise man — Мудрый человек.",
+    "collocations": [
+      "young man",
+      "old man"
+    ]
+  },
+  "MANAGE": {
+    "tr": "Управлять / Справляться",
+    "def": "Руководить проектом или успевать.",
+    "ph": "[ˈmænɪdʒ]",
+    "ex": "Manage time — Управлять временем.",
+    "collocations": [
+      "manage to do",
+      "manage team"
+    ]
+  },
+  "MANY": {
+    "tr": "Много (исчисляемое)",
+    "def": "Большое число предметов.",
+    "ph": "[ˈmeni]",
+    "ex": "Many friends — Много друзей.",
+    "collocations": [
+      "how many",
+      "many times"
+    ]
+  },
+  "MARK": {
+    "tr": "Отметка / Знак / Оценка",
+    "def": "След на бумаге или оценка в школе.",
+    "ph": "[mɑːk]",
+    "ex": "High mark — Высокая оценка.",
+    "collocations": [
+      "mark text",
+      "question mark"
+    ]
+  },
+  "MATTER": {
+    "tr": "Материя / Дело / Значить",
+    "def": "Суть вопроса или физическое тело.",
+    "ph": "[ˈmætə]",
+    "ex": "Does it matter? — Имеет значение?",
+    "collocations": [
+      "no matter",
+      "as a matter of fact"
+    ]
+  },
+  "MAY": {
+    "tr": "Мочь / Май",
+    "def": "Выражение разрешения или месяц весны.",
+    "ph": "[meɪ]",
+    "ex": "May I come in? — Можно войти?",
+    "collocations": [
+      "may be",
+      "month of May"
+    ]
+  },
+  "MAYBE": {
+    "tr": "Может быть / Возможно",
+    "def": "Вероятное предположение.",
+    "ph": "[ˈmeɪbi]",
+    "ex": "Maybe tomorrow — Может быть завтра.",
+    "collocations": [
+      "maybe later",
+      "maybe yes"
+    ]
+  },
+  "MEET": {
+    "tr": "Встречать / Знакомиться",
+    "def": "Сходиться с человеком лично.",
+    "ph": "[miːt]",
+    "ex": "Meet friends — Встретить друзей.",
+    "collocations": [
+      "nice to meet",
+      "meet at"
+    ]
+  },
+  "MEETING": {
+    "tr": "Встреча / Собрание",
+    "def": "Официальное собрание коллег.",
+    "ph": "[ˈmiːtɪŋ]",
+    "ex": "Team meeting — Собрание команды.",
+    "collocations": [
+      "have a meeting",
+      "meeting room"
+    ]
+  },
+  "MEMBER": {
+    "tr": "Член / Участник",
+    "def": "Состоящий в клубе или команде.",
+    "ph": "[ˈmembə]",
+    "ex": "Team member — Участник команды.",
+    "collocations": [
+      "family member",
+      "club member"
+    ]
+  },
+  "MIDDLE": {
+    "tr": "Середина / Средний",
+    "def": "Центральная точка отрезка.",
+    "ph": "[ˈmɪdl]",
+    "ex": "In the middle — Посередине.",
+    "collocations": [
+      "middle school",
+      "middle age"
+    ]
+  },
+  "MIGHT": {
+    "tr": "Мог бы / Мощь",
+    "def": "Выражение слабой вероятности.",
+    "ph": "[maɪt]",
+    "ex": "It might rain — Возможно пойдет дождь.",
+    "collocations": [
+      "might be",
+      "with all might"
+    ]
+  },
+  "MIND": {
+    "tr": "Разум / Душа / Возражать",
+    "def": "Интеллект человека или забота.",
+    "ph": "[maɪnd]",
+    "ex": "Open mind — Открытый разум.",
+    "collocations": [
+      "never mind",
+      "change mind"
+    ]
+  },
+  "MINUTE": {
+    "tr": "Минута",
+    "def": "Отрезок времени в 60 секунд.",
+    "ph": "[ˈmɪnɪt]",
+    "ex": "Just a minute — Всего минутку.",
+    "collocations": [
+      "five minutes",
+      "wait a minute"
+    ]
+  },
+  "MISS": {
+    "tr": "Скучать / Пропускать",
+    "def": "Тосковать по другу или опоздать.",
+    "ph": "[mɪs]",
+    "ex": "Miss the bus — Опоздать на автобус.",
+    "collocations": [
+      "miss you",
+      "miss chance"
+    ]
+  },
+  "MISTAKE": {
+    "tr": "Ошибка / Промах",
+    "def": "Неверное действие или суждение.",
+    "ph": "[mɪˈsteɪk]",
+    "ex": "Make a mistake — Сделать ошибку.",
+    "collocations": [
+      "by mistake",
+      "fix mistake"
+    ]
+  },
+  "MOMENT": {
+    "tr": "Момент / Мгновение",
+    "def": "Очень короткий миг времени.",
+    "ph": "[ˈməʊmənt]",
+    "ex": "One moment — Один момент.",
+    "collocations": [
+      "at the moment",
+      "happy moment"
+    ]
+  },
+  "MONTH": {
+    "tr": "Месяц",
+    "def": "Отрезок года около 30 дней.",
+    "ph": "[mʌnθ]",
+    "ex": "Next month — В следующем месяце.",
+    "collocations": [
+      "every month",
+      "month ago"
+    ]
+  },
+  "MORE": {
+    "tr": "Больше / Более",
+    "def": "В большем количестве.",
+    "ph": "[mɔː]",
+    "ex": "More time — Больше времени.",
+    "collocations": [
+      "more and more",
+      "once more"
+    ]
+  },
+  "MOST": {
+    "tr": "Больше всего / Большинство",
+    "def": "В наивысшей степени.",
+    "ph": "[məʊst]",
+    "ex": "Most people — Большинство людей.",
+    "collocations": [
+      "most beautiful",
+      "at most"
+    ]
+  },
+  "MOVE": {
+    "tr": "Двигаться / Переезд",
+    "def": "Менять положение в пространстве.",
+    "ph": "[muːv]",
+    "ex": "Move forward — Двигаться вперед.",
+    "collocations": [
+      "move in",
+      "make a move"
+    ]
+  },
+  "MUCH": {
+    "tr": "Много (неисчисляемое)",
+    "def": "В большом объеме.",
+    "ph": "[mʌtʃ]",
+    "ex": "Much better — Гораздо лучше.",
+    "collocations": [
+      "how much",
+      "so much"
+    ]
+  },
+  "MUST": {
+    "tr": "Должен / Обязан",
+    "def": "Выражение строгого обязательства.",
+    "ph": "[mʌst]",
+    "ex": "I must go — Я должен идти.",
+    "collocations": [
+      "must be",
+      "a must"
+    ]
+  },
+  "MYSELF": {
+    "tr": "Я сам / Себя",
+    "def": "Лично я в качестве объекта.",
+    "ph": "[maɪˈself]",
+    "ex": "Do it myself — Сделать самому.",
+    "collocations": [
+      "by myself",
+      "proud of myself"
+    ]
+  },
+  "NEAR": {
+    "tr": "Близкий / Рядом",
+    "def": "Находящийся на малом расстоянии.",
+    "ph": "[nɪə]",
+    "ex": "Near the house — Рядом с домом.",
+    "collocations": [
+      "near future",
+      "close and near"
+    ]
+  },
+  "NEARLY": {
+    "tr": "Почти / Около",
+    "def": "Очень близко к завершению.",
+    "ph": "[ˈnɪəli]",
+    "ex": "Nearly done — Почти готово.",
+    "collocations": [
+      "nearly all",
+      "nearly always"
+    ]
+  },
+  "NEED": {
+    "tr": "Нужда / Нуждаться",
+    "def": "Испытывать необходимость.",
+    "ph": "[niːd]",
+    "ex": "Need help — Нуждаться в помощи.",
+    "collocations": [
+      "no need",
+      "in need"
+    ]
+  },
+  "NEIGHBOR": {
+    "tr": "Сосед",
+    "def": "Человек, живущий в соседнем доме.",
+    "ph": "[ˈneɪbə]",
+    "ex": "Good neighbor — Хороший сосед.",
+    "collocations": [
+      "next door neighbor",
+      "friendly neighbor"
+    ]
+  },
+  "NEITHER": {
+    "tr": "Ни тот ни другой",
+    "def": "Ни один из двух вариантов.",
+    "ph": "[ˈnaɪðə]",
+    "ex": "Neither of them — Ни один из них.",
+    "collocations": [
+      "neither nor",
+      "neither one"
+    ]
+  },
+  "NEVER": {
+    "tr": "Никогда",
+    "def": "Ни в какой момент времени.",
+    "ph": "[ˈnevə]",
+    "ex": "Never give up — Никогда не сдавайся.",
+    "collocations": [
+      "never ever",
+      "better than never"
+    ]
+  },
+  "NEW": {
+    "tr": "Новый / Свежий",
+    "def": "Недавно созданный или купленный.",
+    "ph": "[njuː]",
+    "ex": "New day — Новый день.",
+    "collocations": [
+      "new year",
+      "brand new"
+    ]
+  },
+  "NEWS": {
+    "tr": "Новости / Вести",
+    "def": "Свежие сообщения о событиях.",
+    "ph": "[njuːz]",
+    "ex": "Good news — Хорошие новости.",
+    "collocations": [
+      "breaking news",
+      "watch news"
+    ]
+  },
+  "NEXT": {
+    "tr": "Следующий",
+    "def": "Идущий сразу за текущим.",
+    "ph": "[nekst]",
+    "ex": "Next level — Следующий уровень.",
+    "collocations": [
+      "next door",
+      "next time"
+    ]
+  },
+  "NICE": {
+    "tr": "Приятный / Милый",
+    "def": "Радующий глаз и душу.",
+    "ph": "[naɪs]",
+    "ex": "Nice day — Приятный день.",
+    "collocations": [
+      "nice to meet",
+      "very nice"
+    ]
+  },
+  "NOBODY": {
+    "tr": "Никто",
+    "def": "Ни один человек на свете.",
+    "ph": "[ˈnəʊbədi]",
+    "ex": "Nobody knows — Никто не знает.",
+    "collocations": [
+      "nobody home",
+      "tell nobody"
+    ]
+  },
+  "NOISE": {
+    "tr": "Шум / Гул",
+    "def": "Громкие неприятные звуки.",
+    "ph": "[nɔɪz]",
+    "ex": "Loud noise — Громкий шум.",
+    "collocations": [
+      "make noise",
+      "background noise"
+    ]
+  },
+  "NONE": {
+    "tr": "Никто / Ничто",
+    "def": "Ни один из множества.",
+    "ph": "[nʌn]",
+    "ex": "None of them — Никто из них.",
+    "collocations": [
+      "none at all",
+      "second to none"
+    ]
+  },
+  "NORMAL": {
+    "tr": "Обычный / Нормальный",
+    "def": "Соответствующий норме и стандарту.",
+    "ph": "[ˈnɔːml]",
+    "ex": "Normal day — Обычный день.",
+    "collocations": [
+      "back to normal",
+      "feel normal"
+    ]
+  },
+  "NORTH": {
+    "tr": "Север",
+    "def": "Сторона света напротив юга.",
+    "ph": "[nɔːθ]",
+    "ex": "Go north — Идти на север.",
+    "collocations": [
+      "north pole",
+      "north star"
+    ]
+  },
+  "NOSE": {
+    "tr": "Нос",
+    "def": "Орган обоняния на лице человека.",
+    "ph": "[nəʊz]",
+    "ex": "Touch nose — Коснуться носа.",
+    "collocations": [
+      "running nose",
+      "bridge of nose"
+    ]
+  },
+  "NOT": {
+    "tr": "Не / Нет",
+    "def": "Отрицательная частица.",
+    "ph": "[nɒt]",
+    "ex": "Not yet — Еще нет.",
+    "collocations": [
+      "not at all",
+      "why not"
+    ]
+  },
+  "NOTE": {
+    "tr": "Заметка / Нота",
+    "def": "Краткая запись на бумаге или звук.",
+    "ph": "[nəʊt]",
+    "ex": "Take note — Записать заметку.",
+    "collocations": [
+      "make a note",
+      "musical note"
+    ]
+  },
+  "NOTHING": {
+    "tr": "Ничто / Ничего",
+    "def": "Полное отсутствие предметов.",
+    "ph": "[ˈnʌθɪŋ]",
+    "ex": "Nothing to say — Нечего сказать.",
+    "collocations": [
+      "for nothing",
+      "nothing else"
+    ]
+  },
+  "NOTICE": {
+    "tr": "Замечать / Извещение",
+    "def": "Обращать внимание на деталь.",
+    "ph": "[ˈnəʊtɪs]",
+    "ex": "Notice details — Замечать детали.",
+    "collocations": [
+      "take notice",
+      "short notice"
+    ]
+  },
+  "NOW": {
+    "tr": "Сейчас / Теперь",
+    "def": "В данное текущее мгновение.",
+    "ph": "[naʊ]",
+    "ex": "Right now — Прямо сейчас.",
+    "collocations": [
+      "now and then",
+      "from now on"
+    ]
+  },
+  "NUMBER": {
+    "tr": "Номер / Число",
+    "def": "Математический символ счета.",
+    "ph": "[ˈnʌmbə]",
+    "ex": "Phone number — Номер телефона.",
+    "collocations": [
+      "lucky number",
+      "large number"
+    ]
+  },
+  "OBJECT": {
+    "tr": "Объект / Предмет / Возражать",
+    "def": "Материальная вещь в пространстве.",
+    "ph": "[ˈɒbdʒɪkt]",
+    "ex": "Direct object — Прямое дополнение.",
+    "collocations": [
+      "3d object",
+      "flying object"
+    ]
+  },
+  "OCCUR": {
+    "tr": "Случаться / Происходить",
+    "def": "Иметь место во времени.",
+    "ph": "[əˈkɜː]",
+    "ex": "Occur naturally — Происходить естественно.",
+    "collocations": [
+      "occur to me",
+      "rarely occur"
+    ]
+  },
+  "OFF": {
+    "tr": "Выключенный / Долой",
+    "def": "Отделенный от поверхности.",
+    "ph": "[ɒf]",
+    "ex": "Turn off — Выключить.",
+    "collocations": [
+      "day off",
+      "take off"
+    ]
+  },
+  "OFFER": {
+    "tr": "Предлагать / Предложение",
+    "def": "Выдвигать инициативу или скидку.",
+    "ph": "[ˈɒfə]",
+    "ex": "Special offer — Специальное предложение.",
+    "collocations": [
+      "offer help",
+      "job offer"
+    ]
+  },
+  "OFFICE": {
+    "tr": "Офис / Контора",
+    "def": "Рабочее помещение компании.",
+    "ph": "[ˈɒfɪs]",
+    "ex": "Office desk — Офисный стол.",
+    "collocations": [
+      "head office",
+      "in the office"
+    ]
+  },
+  "OFFICER": {
+    "tr": "Офицер / Чиновник",
+    "def": "Лицо на руководящей службе.",
+    "ph": "[ˈɒfɪsə]",
+    "ex": "Police officer — Офицер полиции.",
+    "collocations": [
+      "chief officer",
+      "customs officer"
+    ]
+  },
+  "OFTEN": {
+    "tr": "Часто",
+    "def": "Многократно через малые сроки.",
+    "ph": "[ˈɒfn]",
+    "ex": "Often visit — Часто навещать.",
+    "collocations": [
+      "how often",
+      "very often"
+    ]
+  },
+  "OLD": {
+    "tr": "Старый / Пожилой",
+    "def": "Имеющий большой возраст.",
+    "ph": "[əʊld]",
+    "ex": "Old town — Старый город.",
+    "collocations": [
+      "how old",
+      "grow old"
+    ]
+  },
+  "ONCE": {
+    "tr": "Однажды / Один раз",
+    "def": "Единожды во времени.",
+    "ph": "[wʌns]",
+    "ex": "Once upon a time — Однажды давным-давно.",
+    "collocations": [
+      "at once",
+      "once again"
+    ]
+  },
+  "ONE": {
+    "tr": "Один / Единица",
+    "def": "Первое натуральное число (1).",
+    "ph": "[wʌn]",
+    "ex": "Number one — Номер один.",
+    "collocations": [
+      "one by one",
+      "one day"
+    ]
+  },
+  "ONLY": {
+    "tr": "Только / Единственный",
+    "def": "Исключительно, без других.",
+    "ph": "[ˈəʊnli]",
+    "ex": "Only you — Только ты.",
+    "collocations": [
+      "only one",
+      "if only"
+    ]
+  },
+  "OPEN": {
+    "tr": "Открывать / Открытый",
+    "def": "Распахнутый для входа.",
+    "ph": "[ˈəʊpən]",
+    "ex": "Open door — Открытая дверь.",
+    "collocations": [
+      "open mind",
+      "wide open"
+    ]
+  },
+  "OPPORTUNITY": {
+    "tr": "Возможность / Шанс",
+    "def": "Благоприятные условия для цели.",
+    "ph": "[ˌɒpəˈtjuːnəti]",
+    "ex": "Great opportunity — Прекрасная возможность.",
+    "collocations": [
+      "take opportunity",
+      "equal opportunities"
+    ]
+  },
+  "OPPOSITE": {
+    "tr": "Противоположный",
+    "def": "Находящийся напротив или обратный.",
+    "ph": "[ˈɒpəzɪt]",
+    "ex": "Opposite side — Противоположная сторона.",
+    "collocations": [
+      "just opposite",
+      "exact opposite"
+    ]
+  },
+  "ORDER": {
+    "tr": "Порядок / Заказ / Приказ",
+    "def": "Гармоничное устройство или покупка.",
+    "ph": "[ˈɔːdə]",
+    "ex": "In order — В порядке.",
+    "collocations": [
+      "place an order",
+      "law and order"
+    ]
+  },
+  "ORGANIZATION": {
+    "tr": "Организация",
+    "def": "Сплоченное общество людей.",
+    "ph": "[ˌɔːɡənaɪˈzeɪʃn]",
+    "ex": "World organization — Всемирная организация.",
+    "collocations": [
+      "non-profit organization",
+      "join organization"
+    ]
+  },
+  "ORIGIN": {
+    "tr": "Происхождение / Исток",
+    "def": "Начало зарождения явления.",
+    "ph": "[ˈɒrɪdʒɪn]",
+    "ex": "Point of origin — Точка начала.",
+    "collocations": [
+      "country of origin",
+      "true origin"
+    ]
+  },
+  "ORIGINAL": {
+    "tr": "Оригинальный / Подлинный",
+    "def": "Первоначальный, неповторимый.",
+    "ph": "[əˈrɪdʒənl]",
+    "ex": "Original copy — Подлинная копия.",
+    "collocations": [
+      "original idea",
+      "original plan"
+    ]
+  },
+  "OTHER": {
+    "tr": "Другой / Иной",
+    "def": "Отличающийся от названного.",
+    "ph": "[ˈʌðə]",
+    "ex": "Other people — Другие люди.",
+    "collocations": [
+      "each other",
+      "one another"
+    ]
+  },
+  "OUR": {
+    "tr": "Наш",
+    "def": "Принадлежащий нам с вами.",
+    "ph": "[ˈaʊə]",
+    "ex": "Our team — Наша команда.",
+    "collocations": [
+      "our world",
+      "our family"
+    ]
+  },
+  "OUT": {
+    "tr": "Из / Вне / Наружу",
+    "def": "За пределами помещения.",
+    "ph": "[aʊt]",
+    "ex": "Go out — Выйти на улицу.",
+    "collocations": [
+      "out of time",
+      "find out"
+    ]
+  },
+  "OUTSIDE": {
+    "tr": "Снаружи / На улице",
+    "def": "На открытом свежем воздухе.",
+    "ph": "[ˌaʊtˈsaɪd]",
+    "ex": "Play outside — Играть на улице.",
+    "collocations": [
+      "step outside",
+      "outside world"
+    ]
+  },
+  "OVER": {
+    "tr": "Над / Поверх / Окончен",
+    "def": "Выше в пространстве или финал.",
+    "ph": "[ˈəʊvə]",
+    "ex": "Over the bridge — Через мост.",
+    "collocations": [
+      "game over",
+      "all over"
+    ]
+  },
+  "OWN": {
+    "tr": "Собственный / Владеть",
+    "def": "Лично принадлежащий человеку.",
+    "ph": "[əʊn]",
+    "ex": "My own house — Мой собственный дом.",
+    "collocations": [
+      "on my own",
+      "own business"
+    ]
+  },
+  "OWNER": {
+    "tr": "Владелец / Хозяин",
+    "def": "Человек, законно обладающий вещью.",
+    "ph": "[ˈəʊnə]",
+    "ex": "Car owner — Владелец автомобиля.",
+    "collocations": [
+      "home owner",
+      "proud owner"
+    ]
+  },
+  "ACTOR": {
+    "tr": "Актер",
+    "def": "Артист, исполняющий роли в театре и кино.",
+    "ph": "[ˈæktə]",
+    "ex": "Famous actor — Знаменитый актер.",
+    "collocations": [
+      "great actor",
+      "actor on stage"
+    ]
+  },
+  "ARTIST": {
+    "tr": "Художник",
+    "def": "Мастер живописи и изобразительного искусства.",
+    "ph": "[ˈɑːtɪst]",
+    "ex": "Talented artist — Талантливый художник.",
+    "collocations": [
+      "visual artist",
+      "creative artist"
+    ]
+  },
+  "BAKER": {
+    "tr": "Пекарь",
+    "def": "Мастер выпечки свежего хлеба и сдобы.",
+    "ph": "[ˈbeɪkə]",
+    "ex": "Friendly baker — Приветливый пекарь.",
+    "collocations": [
+      "baker shop",
+      "fresh baker bread"
+    ]
+  },
+  "BUILDER": {
+    "tr": "Строитель",
+    "def": "Специалист по возведению домов и мостов.",
+    "ph": "[ˈbɪldə]",
+    "ex": "House builder — Строитель домов.",
+    "collocations": [
+      "master builder",
+      "builder team"
+    ]
+  },
+  "CLERK": {
+    "tr": "Клерк / Служащий",
+    "def": "Служащий офиса, банка или гостиницы.",
+    "ph": "[klɑːk]",
+    "ex": "Bank clerk — Банковский служащий.",
+    "collocations": [
+      "office clerk",
+      "hotel clerk"
+    ]
+  },
+  "DANCER": {
+    "tr": "Танцор / Балерина",
+    "def": "Артист, исполняющий хореографию.",
+    "ph": "[ˈdɑːnsə]",
+    "ex": "Ballet dancer — Артист балета.",
+    "collocations": [
+      "professional dancer",
+      "tap dancer"
+    ]
+  },
+  "DENTIST": {
+    "tr": "Зубной врач / Стоматолог",
+    "def": "Врач, лечащий зубы и десны.",
+    "ph": "[ˈdentɪst]",
+    "ex": "Visit dentist — Пойти к стоматологу.",
+    "collocations": [
+      "gentle dentist",
+      "dentist appointment"
+    ]
+  },
+  "DRIVER": {
+    "tr": "Водитель / Шофер",
+    "def": "Человек, управляющий автомобилем.",
+    "ph": "[ˈdraɪvə]",
+    "ex": "Bus driver — Водитель автобуса.",
+    "collocations": [
+      "careful driver",
+      "taxi driver"
+    ]
+  },
+  "FARMER": {
+    "tr": "Фермер",
+    "def": "Труженик сельского хозяйства и полей.",
+    "ph": "[ˈfɑːmə]",
+    "ex": "Organic farmer — Органический фермер.",
+    "collocations": [
+      "dairy farmer",
+      "farmer market"
+    ]
+  },
+  "JUDGE": {
+    "tr": "Судья / Судить",
+    "def": "Служитель правосудия, выносящий вердикты.",
+    "ph": "[dʒʌdʒ]",
+    "ex": "Fair judge — Справедливый судья.",
+    "collocations": [
+      "supreme judge",
+      "judge by actions"
+    ]
+  },
+  "NURSE": {
+    "tr": "Медсестра / Медбрат",
+    "def": "Медицинский работник по уходу за больными.",
+    "ph": "[nɜːs]",
+    "ex": "Hospital nurse — Больничная медсестра.",
+    "collocations": [
+      "school nurse",
+      "caring nurse"
+    ]
+  },
+  "PILOT": {
+    "tr": "Пилот / Летчик",
+    "def": "Командир воздушного судна за штурвалом.",
+    "ph": "[ˈpaɪlət]",
+    "ex": "Airline pilot — Пилот авиалиний.",
+    "collocations": [
+      "fighter pilot",
+      "test pilot"
+    ]
+  },
+  "POLICE": {
+    "tr": "Полиция",
+    "def": "Органы охраны правопорядка и безопасности.",
+    "ph": "[pəˈliːs]",
+    "ex": "Call police — Вызвать полицию.",
+    "collocations": [
+      "police officer",
+      "police car"
+    ]
+  },
+  "SAILOR": {
+    "tr": "Моряк / Матрос",
+    "def": "Человек, служащий на морском судне.",
+    "ph": "[ˈseɪlə]",
+    "ex": "Brave sailor — Храбрый моряк.",
+    "collocations": [
+      "sailor suit",
+      "merchant sailor"
+    ]
+  },
+  "SINGER": {
+    "tr": "Певец / Певица",
+    "def": "Музыкант с красивым певческим голосом.",
+    "ph": "[ˈsɪŋə]",
+    "ex": "Lead singer — Солист группы.",
+    "collocations": [
+      "opera singer",
+      "pop singer"
+    ]
+  },
+  "SOLDIER": {
+    "tr": "Солдат / Воин",
+    "def": "Военнослужащий, защищающий Родину.",
+    "ph": "[ˈsəʊldʒə]",
+    "ex": "Brave soldier — Храбрый солдат.",
+    "collocations": [
+      "toy soldier",
+      "foot soldier"
+    ]
+  },
+  "TAILOR": {
+    "tr": "Портной",
+    "def": "Мастер по пошиву красивой одежды.",
+    "ph": "[ˈteɪlə]",
+    "ex": "Master tailor — Мастер-портной.",
+    "collocations": [
+      "custom tailor",
+      "tailor suit"
+    ]
+  },
+  "WAITER": {
+    "tr": "Официант",
+    "def": "Сотрудник ресторана, подающий блюда.",
+    "ph": "[ˈweɪtə]",
+    "ex": "Polite waiter — Вежливый официант.",
+    "collocations": [
+      "call waiter",
+      "tip the waiter"
+    ]
+  },
+  "WORKER": {
+    "tr": "Рабочий / Сотрудник",
+    "def": "Трудящийся человек на предприятии.",
+    "ph": "[ˈwɜːkə]",
+    "ex": "Hard worker — Усердный работник.",
+    "collocations": [
+      "factory worker",
+      "social worker"
+    ]
+  },
+  "WRITER": {
+    "tr": "Писатель / Автор",
+    "def": "Создатель литературных романов и повестей.",
+    "ph": "[ˈraɪtə]",
+    "ex": "Famous writer — Знаменитый писатель.",
+    "collocations": [
+      "fiction writer",
+      "creative writer"
+    ]
+  },
+  "ALARM": {
+    "tr": "Будильник / Тревога",
+    "def": "Прибор утреннего звонка или сигнал.",
+    "ph": "[əˈlɑːm]",
+    "ex": "Set alarm — Завести будильник.",
+    "collocations": [
+      "fire alarm",
+      "alarm clock"
+    ]
+  },
+  "BALCONY": {
+    "tr": "Балкон / Лоджия",
+    "def": "Открытая площадка с перилами на фасаде.",
+    "ph": "[ˈbælkəni]",
+    "ex": "Sunny balcony — Солнечный балкон.",
+    "collocations": [
+      "step on balcony",
+      "flower balcony"
+    ]
+  },
+  "BASIN": {
+    "tr": "Раковина / Таз",
+    "def": "Умывальник в ванной комнате.",
+    "ph": "[ˈbeɪsn]",
+    "ex": "Wash basin — Умывальник.",
+    "collocations": [
+      "water basin",
+      "clean basin"
+    ]
+  },
+  "BATH": {
+    "tr": "Ванна / Купание",
+    "def": "Большая емкость для мытья водой.",
+    "ph": "[bɑːθ]",
+    "ex": "Take a bath — Принять ванну.",
+    "collocations": [
+      "hot bath",
+      "bath towel"
+    ]
+  },
+  "BLANKET": {
+    "tr": "Одеяло / Покрывало",
+    "def": "Теплое шерстяное покрывало для сна.",
+    "ph": "[ˈblæŋkɪt]",
+    "ex": "Warm blanket — Теплое одеяло.",
+    "collocations": [
+      "wool blanket",
+      "under blanket"
+    ]
+  },
+  "CARPET": {
+    "tr": "Ковер / Палас",
+    "def": "Мягкое узорное полотно на полу комнаты.",
+    "ph": "[ˈkɑːpɪt]",
+    "ex": "Red carpet — Красный ковер.",
+    "collocations": [
+      "clean carpet",
+      "magic carpet"
+    ]
+  },
+  "CEILING": {
+    "tr": "Потолок",
+    "def": "Верхнее внутреннее перекрытие комнаты.",
+    "ph": "[ˈsiːlɪŋ]",
+    "ex": "High ceiling — Высокий потолок.",
+    "collocations": [
+      "painted ceiling",
+      "look at ceiling"
+    ]
+  },
+  "CLOSET": {
+    "tr": "Шкаф / Гардероб",
+    "def": "Мебель с полками для развешивания одежды.",
+    "ph": "[ˈklɒzɪt]",
+    "ex": "Clothes closet — Шкаф для одежды.",
+    "collocations": [
+      "walk in closet",
+      "clean closet"
+    ]
+  },
+  "CURTAIN": {
+    "tr": "Штора / Занавеска",
+    "def": "Тканевое полотно на окне от солнца.",
+    "ph": "[ˈkɜːtn]",
+    "ex": "Draw curtain — Задернуть штору.",
+    "collocations": [
+      "silk curtain",
+      "window curtain"
+    ]
+  },
+  "DRAWER": {
+    "tr": "Выдвижной ящик",
+    "def": "Выдвижная секция стола или комода.",
+    "ph": "[drɔː]",
+    "ex": "Desk drawer — Ящик стола.",
+    "collocations": [
+      "top drawer",
+      "open drawer"
+    ]
+  },
+  "FENCE": {
+    "tr": "Забор / Ограда",
+    "def": "Деревянная или кованая ограда двора.",
+    "ph": "[fens]",
+    "ex": "Wooden fence — Деревянный забор.",
+    "collocations": [
+      "paint fence",
+      "white fence"
+    ]
+  },
+  "FLOOR": {
+    "tr": "Пол / Этаж",
+    "def": "Нижняя поверхность помещения под ногами.",
+    "ph": "[flɔː]",
+    "ex": "First floor — Первый этаж.",
+    "collocations": [
+      "clean floor",
+      "wooden floor"
+    ]
+  },
+  "FURNITURE": {
+    "tr": "Мебель",
+    "def": "Шкафы, столы, стулья и кровати в доме.",
+    "ph": "[ˈfɜːnɪtʃə]",
+    "ex": "Wooden furniture — Деревянная мебель.",
+    "collocations": [
+      "antique furniture",
+      "buy furniture"
+    ]
+  },
+  "GARAGE": {
+    "tr": "Гараж",
+    "def": "Бокс для стоянки и ремонта автомобиля.",
+    "ph": "[ˈɡærɑːʒ]",
+    "ex": "Park in garage — Припарковать в гараже.",
+    "collocations": [
+      "garage door",
+      "double garage"
+    ]
+  },
+  "GATE": {
+    "tr": "Ворота / Калитка",
+    "def": "Широкий створчатый проход во двор.",
+    "ph": "[ɡeɪt]",
+    "ex": "Garden gate — Садовая калитка.",
+    "collocations": [
+      "open gate",
+      "iron gate"
+    ]
+  },
+  "LAMP": {
+    "tr": "Лампа / Светильник",
+    "def": "Осветительный прибор на столе или полу.",
+    "ph": "[læmp]",
+    "ex": "Desk lamp — Настольная лампа.",
+    "collocations": [
+      "turn on lamp",
+      "floor lamp"
+    ]
+  },
+  "PILLOW": {
+    "tr": "Подушка",
+    "def": "Мягкий пуховый валик под голову для сна.",
+    "ph": "[ˈpɪləʊ]",
+    "ex": "Soft pillow — Мягкая подушка.",
+    "collocations": [
+      "feather pillow",
+      "pillow case"
+    ]
+  },
+  "ROOF": {
+    "tr": "Крыша / Кровля",
+    "def": "Верхнее защитное покрытие дома от дождей.",
+    "ph": "[ruːf]",
+    "ex": "House roof — Крыша дома.",
+    "collocations": [
+      "under one roof",
+      "red roof"
+    ]
+  },
+  "SHELF": {
+    "tr": "Полка",
+    "def": "Горизонтальная доска на стене для книг.",
+    "ph": "[ʃelf]",
+    "ex": "Book shelf — Книжная полка.",
+    "collocations": [
+      "top shelf",
+      "wooden shelf"
+    ]
+  },
+  "SHOWER": {
+    "tr": "Душ / Ливень",
+    "def": "Водная гигиеническая процедура.",
+    "ph": "[ˈʃaʊə]",
+    "ex": "Take a shower — Принять душ.",
+    "collocations": [
+      "morning shower",
+      "hot shower"
+    ]
+  },
+  "SOFA": {
+    "tr": "Диван",
+    "def": "Удобная мягкая мебель со спинкой в гостиной.",
+    "ph": "[ˈsəʊfə]",
+    "ex": "Sit on sofa — Сидеть на диване.",
+    "collocations": [
+      "leather sofa",
+      "cozy sofa"
+    ]
+  },
+  "STAIRS": {
+    "tr": "Лестница / Ступени",
+    "def": "Марш ступеней для подъема на этаж.",
+    "ph": "[steəz]",
+    "ex": "Climb stairs — Подниматься по лестнице.",
+    "collocations": [
+      "flight of stairs",
+      "down the stairs"
+    ]
+  },
+  "TOWEL": {
+    "tr": "Полотенце",
+    "def": "Мягкая ткань для вытирания после купания.",
+    "ph": "[ˈtaʊəl]",
+    "ex": "Bath towel — Банное полотенце.",
+    "collocations": [
+      "dry with towel",
+      "paper towel"
+    ]
+  },
+  "WALL": {
+    "tr": "Стена",
+    "def": "Вертикальная кирпичная опора здания.",
+    "ph": "[wɔːl]",
+    "ex": "Brick wall — Кирпичная стена.",
+    "collocations": [
+      "hang on wall",
+      "stone wall"
+    ]
+  },
+  "BOOT": {
+    "tr": "Ботинок / Сапог",
+    "def": "Прочная кожаная обувь для осени и зимы.",
+    "ph": "[buːt]",
+    "ex": "Leather boot — Кожаный ботинок.",
+    "collocations": [
+      "winter boot",
+      "hiking boot"
+    ]
+  },
+  "BELT": {
+    "tr": "Ремень / Пояс",
+    "def": "Кожаная полоса с пряжкой вокруг талии.",
+    "ph": "[belt]",
+    "ex": "Leather belt — Кожаный ремень.",
+    "collocations": [
+      "fasten belt",
+      "seat belt"
+    ]
+  },
+  "CAP": {
+    "tr": "Кепка / Бейсболка",
+    "def": "Легкий головной убор с козырьком.",
+    "ph": "[kæp]",
+    "ex": "Baseball cap — Бейсболка.",
+    "collocations": [
+      "wear a cap",
+      "red cap"
+    ]
+  },
+  "COAT": {
+    "tr": "Пальто / Куртка",
+    "def": "Теплая верхняя одежда для холодных дней.",
+    "ph": "[kəʊt]",
+    "ex": "Winter coat — Зимнее пальто.",
+    "collocations": [
+      "warm coat",
+      "wear coat"
+    ]
+  },
+  "GLOVE": {
+    "tr": "Перчатка",
+    "def": "Утепляющий чехол для ладони с пятью пальцами.",
+    "ph": "[ɡlʌv]",
+    "ex": "Warm glove — Теплая перчатка.",
+    "collocations": [
+      "leather glove",
+      "pair of gloves"
+    ]
+  },
+  "JACKET": {
+    "tr": "Куртка / Пиджак",
+    "def": "Короткая верхняя одежда с застежкой.",
+    "ph": "[ˈdʒækɪt]",
+    "ex": "Denim jacket — Джинсовая куртка.",
+    "collocations": [
+      "leather jacket",
+      "zip jacket"
+    ]
+  },
+  "JEANS": {
+    "tr": "Джинсы",
+    "def": "Прочные удобные брюки из хлопкового денима.",
+    "ph": "[dʒiːnz]",
+    "ex": "Blue jeans — Синие джинсы.",
+    "collocations": [
+      "pair of jeans",
+      "wear jeans"
+    ]
+  },
+  "SCARF": {
+    "tr": "Шарф",
+    "def": "Теплая вязаная полоса ткани вокруг шеи.",
+    "ph": "[skɑːf]",
+    "ex": "Wool scarf — Шерстяной шарф.",
+    "collocations": [
+      "warm scarf",
+      "tie a scarf"
+    ]
+  },
+  "SHIRT": {
+    "tr": "Рубашка",
+    "def": "Одежда с воротником и пуговицами спереди.",
+    "ph": "[ʃɜːt]",
+    "ex": "White shirt — Белая рубашка.",
+    "collocations": [
+      "iron shirt",
+      "cotton shirt"
+    ]
+  },
+  "SHOES": {
+    "tr": "Туфли / Обувь",
+    "def": "Пара обуви для прогулок по улицам.",
+    "ph": "[ʃuːz]",
+    "ex": "Running shoes — Кроссовки для бега.",
+    "collocations": [
+      "pair of shoes",
+      "clean shoes"
+    ]
+  },
+  "SHORTS": {
+    "tr": "Шорты",
+    "def": "Короткие летние брюки выше колен.",
+    "ph": "[ʃɔːts]",
+    "ex": "Summer shorts — Летние шорты.",
+    "collocations": [
+      "denim shorts",
+      "wear shorts"
+    ]
+  },
+  "SKIRT": {
+    "tr": "Юбка",
+    "def": "Женская поясная одежда ниже талии.",
+    "ph": "[skɜːt]",
+    "ex": "Long skirt — Длинная юбка.",
+    "collocations": [
+      "pleated skirt",
+      "summer skirt"
+    ]
+  },
+  "SOCK": {
+    "tr": "Носок",
+    "def": "Короткий трикотажный чулок на стопу.",
+    "ph": "[sɒk]",
+    "ex": "Wool sock — Шерстяной носок.",
+    "collocations": [
+      "pair of socks",
+      "warm socks"
+    ]
+  },
+  "SUIT": {
+    "tr": "Костюм / Подходить",
+    "def": "Классический комплект из пиджака и брюк.",
+    "ph": "[suːt]",
+    "ex": "Business suit — Деловой костюм.",
+    "collocations": [
+      "wear a suit",
+      "tailored suit"
+    ]
+  },
+  "WATCH": {
+    "tr": "Наручные часы",
+    "def": "Элегантный прибор на руке со стрелками.",
+    "ph": "[wɒtʃ]",
+    "ex": "Wrist watch — Наручные часы.",
+    "collocations": [
+      "gold watch",
+      "check watch"
+    ]
+  },
+  "PACK": {
+    "tr": "Упаковывать / Пачка",
+    "def": "Складывать вещи в чемодан или коробка.",
+    "ph": "[pæk]",
+    "ex": "Pack bags — Собирать чемоданы.",
+    "collocations": [
+      "pack up",
+      "six pack"
+    ]
+  },
+  "PAIN": {
+    "tr": "Боль / Страдание",
+    "def": "Неприятное физическое ощущение.",
+    "ph": "[peɪn]",
+    "ex": "Relieve pain — Снять боль.",
+    "collocations": [
+      "pain killer",
+      "feel pain"
+    ]
+  },
+  "PAINT": {
+    "tr": "Красить / Краска",
+    "def": "Наносить цвет на стену или холст.",
+    "ph": "[peɪnt]",
+    "ex": "Paint picture — Писать картину.",
+    "collocations": [
+      "oil paint",
+      "fresh paint"
+    ]
+  },
+  "PAIR": {
+    "tr": "Пара",
+    "def": "Два одинаковых предмета вместе.",
+    "ph": "[peə]",
+    "ex": "Pair of shoes — Пара обуви.",
+    "collocations": [
+      "in pairs",
+      "pair of hands"
+    ]
+  },
+  "PARENT": {
+    "tr": "Родитель",
+    "def": "Отец или мать ребенка.",
+    "ph": "[ˈpeərənt]",
+    "ex": "Single parent — Родитель-одиночка.",
+    "collocations": [
+      "proud parent",
+      "parent care"
+    ]
+  },
+  "PART": {
+    "tr": "Часть / Доля",
+    "def": "Фрагмент единого целого.",
+    "ph": "[pɑːt]",
+    "ex": "Part of team — Часть команды.",
+    "collocations": [
+      "take part",
+      "for the most part"
+    ]
+  },
+  "PARTNER": {
+    "tr": "Партнер / Напарник",
+    "def": "Участник совместного дела или игры.",
+    "ph": "[ˈpɑːtnə]",
+    "ex": "Business partner — Деловой партнер.",
+    "collocations": [
+      "dance partner",
+      "trusted partner"
+    ]
+  },
+  "PASS": {
+    "tr": "Проходить / Передавать",
+    "def": "Двигаться мимо или передавать мяч.",
+    "ph": "[pɑːs]",
+    "ex": "Pass by — Проходить мимо.",
+    "collocations": [
+      "pass exam",
+      "pass time"
+    ]
+  },
+  "PAST": {
+    "tr": "Прошлое / Прошлый",
+    "def": "События минувших дней.",
+    "ph": "[pɑːst]",
+    "ex": "In the past — В прошлом.",
+    "collocations": [
+      "past time",
+      "walk past"
+    ]
+  },
+  "PATH": {
+    "tr": "Тропинка / Путь",
+    "def": "Узкая дорожка в лесу или парке.",
+    "ph": "[pɑːθ]",
+    "ex": "Forest path — Лесная тропа.",
+    "collocations": [
+      "follow path",
+      "choose path"
+    ]
+  },
+  "PATIENT": {
+    "tr": "Терпеливый / Пациент",
+    "def": "Умеющий ждать или больной на приеме.",
+    "ph": "[ˈpeɪʃnt]",
+    "ex": "Be patient — Будь терпелив.",
+    "collocations": [
+      "hospital patient",
+      "patient listener"
+    ]
+  },
+  "PAY": {
+    "tr": "Платить / Оплата",
+    "def": "Отдавать деньги за товар или труд.",
+    "ph": "[peɪ]",
+    "ex": "Pay money — Платить деньги.",
+    "collocations": [
+      "pay attention",
+      "pay back"
+    ]
+  },
+  "PEACE": {
+    "tr": "Мир / Покой",
+    "def": "Состояние согласия без войн и тревог.",
+    "ph": "[piːs]",
+    "ex": "Live in peace — Жить в мире.",
+    "collocations": [
+      "peace and quiet",
+      "peace of mind"
+    ]
+  },
+  "PERFECT": {
+    "tr": "Идеальный / Совершенный",
+    "def": "Лишенный малейших изъянов.",
+    "ph": "[ˈpɜːfɪkt]",
+    "ex": "Perfect day — Идеальный день.",
+    "collocations": [
+      "practice makes perfect",
+      "perfect match"
+    ]
+  },
+  "PERIOD": {
+    "tr": "Период / Эпоха",
+    "def": "Отрезок времени с границами.",
+    "ph": "[ˈpɪəriəd]",
+    "ex": "Time period — Отрезок времени.",
+    "collocations": [
+      "grace period",
+      "period of history"
+    ]
+  },
+  "PERSON": {
+    "tr": "Человек / Персона",
+    "def": "Отдельная человеческая личность.",
+    "ph": "[ˈpɜːsn]",
+    "ex": "Good person — Хороший человек.",
+    "collocations": [
+      "in person",
+      "first person"
+    ]
+  },
+  "PHONE": {
+    "tr": "Телефон",
+    "def": "Устройство связи для звонков.",
+    "ph": "[fəʊn]",
+    "ex": "Smart phone — Смартфон.",
+    "collocations": [
+      "phone call",
+      "mobile phone"
+    ]
+  },
+  "PHOTO": {
+    "tr": "Фотоснимок",
+    "def": "Кадр, снятый на камеру.",
+    "ph": "[ˈfəʊtəʊ]",
+    "ex": "Take a photo — Сделать фото.",
+    "collocations": [
+      "photo album",
+      "family photo"
+    ]
+  },
+  "PICK": {
+    "tr": "Выбирать / Собирать",
+    "def": "Отбирать плоды с ветки или вещь.",
+    "ph": "[pɪk]",
+    "ex": "Pick flowers — Собирать цветы.",
+    "collocations": [
+      "pick up",
+      "pick and choose"
+    ]
+  },
+  "PIECE": {
+    "tr": "Кусок / Часть",
+    "def": "Отдельный ломтик или фрагмент.",
+    "ph": "[piːs]",
+    "ex": "Piece of cake — Кусочек пирога.",
+    "collocations": [
+      "piece of paper",
+      "in one piece"
+    ]
+  },
+  "PLACE": {
+    "tr": "Место / Помещать",
+    "def": "Точка в пространстве или ставить.",
+    "ph": "[pleɪs]",
+    "ex": "Nice place — Приятное место.",
+    "collocations": [
+      "take place",
+      "in place"
+    ]
+  },
+  "PLAN": {
+    "tr": "План / Планировать",
+    "def": "Заранее составленный порядок действий.",
+    "ph": "[plæn]",
+    "ex": "Action plan — План действий.",
+    "collocations": [
+      "plan ahead",
+      "make plans"
+    ]
+  },
+  "PLAY": {
+    "tr": "Играть / Пьеса",
+    "def": "Участвовать в игре или театральная пьеса.",
+    "ph": "[pleɪ]",
+    "ex": "Play a game — Играть в игру.",
+    "collocations": [
+      "play music",
+      "fair play"
+    ]
+  },
+  "POINT": {
+    "tr": "Точка / Указывать",
+    "def": "Место на карте или суть мысли.",
+    "ph": "[pɔɪnt]",
+    "ex": "Good point — Хорошая мысль.",
+    "collocations": [
+      "point of view",
+      "starting point"
+    ]
+  },
+  "POOR": {
+    "tr": "Бедный / Скудный",
+    "def": "Лишенный достатка или слабый.",
+    "ph": "[pɔː]",
+    "ex": "Poor quality — Скудное качество.",
+    "collocations": [
+      "poor man",
+      "feel poor"
+    ]
+  },
+  "POPULAR": {
+    "tr": "Популярный",
+    "def": "Пользующийся любовью многих людей.",
+    "ph": "[ˈpɒpjələ]",
+    "ex": "Popular game — Популярная игра.",
+    "collocations": [
+      "very popular",
+      "popular music"
+    ]
+  },
+  "POSITION": {
+    "tr": "Позиция / Должность",
+    "def": "Расположение в пространстве или пост.",
+    "ph": "[pəˈzɪʃn]",
+    "ex": "Top position — Высшая позиция.",
+    "collocations": [
+      "key position",
+      "stand position"
+    ]
+  },
+  "POSSIBLE": {
+    "tr": "Возможный",
+    "def": "Реализуемый на практике.",
+    "ph": "[ˈpɒsəbl]",
+    "ex": "As soon as possible — Как можно скорее.",
+    "collocations": [
+      "if possible",
+      "all possible"
+    ]
+  },
+  "POST": {
+    "tr": "Почта / Столб / Публиковать",
+    "def": "Отправка писем или запись в блоге.",
+    "ph": "[pəʊst]",
+    "ex": "Post office — Почтовое отделение.",
+    "collocations": [
+      "blog post",
+      "lamp post"
+    ]
+  },
+  "POWER": {
+    "tr": "Сила / Энергия / Власть",
+    "def": "Могущество или электричество.",
+    "ph": "[ˈpaʊə]",
+    "ex": "Solar power — Солнечная энергия.",
+    "collocations": [
+      "power plant",
+      "great power"
+    ]
+  },
+  "PRACTICE": {
+    "tr": "Практика / Тренироваться",
+    "def": "Применение знаний на деле.",
+    "ph": "[ˈpræktɪs]",
+    "ex": "Practice makes perfect — Навык мастера ставит.",
+    "collocations": [
+      "daily practice",
+      "put into practice"
+    ]
+  },
+  "PREPARE": {
+    "tr": "Готовить / Подготавливать",
+    "def": "Приводить в готовность заранее.",
+    "ph": "[prɪˈpeə]",
+    "ex": "Prepare food — Готовить еду.",
+    "collocations": [
+      "prepare for exam",
+      "well prepared"
+    ]
+  },
+  "PRESENT": {
+    "tr": "Подарок / Настоящее время",
+    "def": "Дар на праздник или текущий миг.",
+    "ph": "[ˈpreznt]",
+    "ex": "Birthday present — Подарок на день рождения.",
+    "collocations": [
+      "at present",
+      "present moment"
+    ]
+  },
+  "PRESS": {
+    "tr": "Нажимать / Пресса",
+    "def": "Давить на кнопку или газеты.",
+    "ph": "[pres]",
+    "ex": "Press enter — Нажать ввод.",
+    "collocations": [
+      "press release",
+      "press button"
+    ]
+  },
+  "PRICE": {
+    "tr": "Цена / Стоимость",
+    "def": "Денежное выражение ценности вещи.",
+    "ph": "[praɪs]",
+    "ex": "Good price — Хорошая цена.",
+    "collocations": [
+      "high price",
+      "price tag"
+    ]
+  },
+  "PRINT": {
+    "tr": "Печатать / Оттиск",
+    "def": "Наносить текст краской на бумагу.",
+    "ph": "[prɪnt]",
+    "ex": "Print a document — Распечатать документ.",
+    "collocations": [
+      "print out",
+      "in print"
+    ]
+  },
+  "PRIVATE": {
+    "tr": "Частный / Личный",
+    "def": "Принадлежащий отдельному лицу.",
+    "ph": "[ˈpraɪvət]",
+    "ex": "Private life — Личная жизнь.",
+    "collocations": [
+      "in private",
+      "private property"
+    ]
+  },
+  "PRIZE": {
+    "tr": "Приз / Награда",
+    "def": "Ценный подарок за победу в турнире.",
+    "ph": "[praɪz]",
+    "ex": "First prize — Первый приз.",
+    "collocations": [
+      "win a prize",
+      "grand prize"
+    ]
+  },
+  "PROBLEM": {
+    "tr": "Проблема / Задача",
+    "def": "Сложный вопрос, требующий решения.",
+    "ph": "[ˈprɒbləm]",
+    "ex": "Solve a problem — Решить проблему.",
+    "collocations": [
+      "no problem",
+      "big problem"
+    ]
+  },
+  "PRODUCE": {
+    "tr": "Производить / Создавать",
+    "def": "Изготавливать товары на фабрике.",
+    "ph": "[prəˈdjuːs]",
+    "ex": "Produce goods — Производить товары.",
+    "collocations": [
+      "produce food",
+      "local produce"
+    ]
+  },
+  "PRODUCT": {
+    "tr": "Продукт / Товар",
+    "def": "Результат труда, готовый к продаже.",
+    "ph": "[ˈprɒdʌkt]",
+    "ex": "Quality product — Качественный продукт.",
+    "collocations": [
+      "new product",
+      "dairy product"
+    ]
+  },
+  "PROJECT": {
+    "tr": "Проект / План",
+    "def": "Замысел масштабной работы с дедлайном.",
+    "ph": "[ˈprɒdʒekt]",
+    "ex": "Team project — Командный проект.",
+    "collocations": [
+      "start project",
+      "school project"
+    ]
+  },
+  "PROMISE": {
+    "tr": "Обещание / Обещать",
+    "def": "Честное слово выполнить дело.",
+    "ph": "[ˈprɒmɪs]",
+    "ex": "Keep a promise — Сдержать обещание.",
+    "collocations": [
+      "make promise",
+      "break promise"
+    ]
+  },
+  "PROTECT": {
+    "tr": "Защищать / Охранять",
+    "def": "Оберегать от бед и опасностей.",
+    "ph": "[prəˈtekt]",
+    "ex": "Protect nature — Защищать природу.",
+    "collocations": [
+      "protect rights",
+      "protect from harm"
+    ]
+  },
+  "PROUD": {
+    "tr": "Гордый",
+    "def": "Испытывающий законное чувство гордости.",
+    "ph": "[praʊd]",
+    "ex": "Proud of you — Горжусь тобой.",
+    "collocations": [
+      "feel proud",
+      "proud moment"
+    ]
+  },
+  "PROVE": {
+    "tr": "Доказывать",
+    "def": "Подтверждать истину фактами.",
+    "ph": "[pruːv]",
+    "ex": "Prove a point — Доказать мысль.",
+    "collocations": [
+      "prove right",
+      "hard to prove"
+    ]
+  },
+  "PROVIDE": {
+    "tr": "Предоставлять / Снабжать",
+    "def": "Обеспечивать необходимыми ресурсами.",
+    "ph": "[prəˈvaɪd]",
+    "ex": "Provide help — Предоставить помощь.",
+    "collocations": [
+      "provide info",
+      "provide service"
+    ]
+  },
+  "PUBLIC": {
+    "tr": "Общественный / Публика",
+    "def": "Открытый для всех граждан города.",
+    "ph": "[ˈpʌblɪk]",
+    "ex": "Public park — Общественный парк.",
+    "collocations": [
+      "in public",
+      "public opinion"
+    ]
+  },
+  "PULL": {
+    "tr": "Тянуть / Тащить",
+    "def": "Притягивать объект к себе.",
+    "ph": "[pʊl]",
+    "ex": "Pull the door — Тянуть дверь на себя.",
+    "collocations": [
+      "pull together",
+      "pull off"
+    ]
+  },
+  "PUSH": {
+    "tr": "Толкать / Нажимать",
+    "def": "Двигать предмет от себя вперед.",
+    "ph": "[pʊʃ]",
+    "ex": "Push the button — Нажать кнопку.",
+    "collocations": [
+      "push forward",
+      "push limits"
+    ]
+  },
+  "PUT": {
+    "tr": "Класть / Ставить",
+    "def": "Помещать вещь в определенное место.",
+    "ph": "[pʊt]",
+    "ex": "Put on table — Положить на стол.",
+    "collocations": [
+      "put down",
+      "put on"
+    ]
+  },
+  "QUICK": {
+    "tr": "Быстрый / Скорый",
+    "def": "Действующий без лишних задержек.",
+    "ph": "[kwɪk]",
+    "ex": "Quick answer — Быстрый ответ.",
+    "collocations": [
+      "quick look",
+      "quick lunch"
+    ]
+  },
+  "QUIET": {
+    "tr": "Тихий / Спокойный",
+    "def": "Лишенный громких звуков, мирный.",
+    "ph": "[ˈkwaɪət]",
+    "ex": "Quiet room — Тихая комната.",
+    "collocations": [
+      "keep quiet",
+      "quiet night"
+    ]
+  },
+  "QUITE": {
+    "tr": "Вполне / Довольно",
+    "def": "В значительной степени.",
+    "ph": "[kwaɪt]",
+    "ex": "Quite good — Довольно хорошо.",
+    "collocations": [
+      "quite well",
+      "not quite"
+    ]
+  },
+  "RAISE": {
+    "tr": "Поднимать / Растить",
+    "def": "Перемещать вверх или воспитывать.",
+    "ph": "[reɪz]",
+    "ex": "Raise hands — Поднять руки.",
+    "collocations": [
+      "raise voice",
+      "raise children"
+    ]
+  },
+  "RAPID": {
+    "tr": "Стремительный / Быстрый",
+    "def": "Происходящий за короткий срок.",
+    "ph": "[ˈræpɪd]",
+    "ex": "Rapid growth — Стремительный рост.",
+    "collocations": [
+      "rapid change",
+      "rapid pace"
+    ]
+  },
+  "RARE": {
+    "tr": "Редкий",
+    "def": "Встречающийся в исключительных случаях.",
+    "ph": "[reə]",
+    "ex": "Rare gem — Редкий самоцвет.",
+    "collocations": [
+      "rare bird",
+      "rare case"
+    ]
+  },
+  "RATHER": {
+    "tr": "Скорее / Довольно",
+    "def": "Предпочтительнее или в некоторой мере.",
+    "ph": "[ˈrɑːðə]",
+    "ex": "Rather good — Довольно хороший.",
+    "collocations": [
+      "would rather",
+      "rather than"
+    ]
+  },
+  "REACH": {
+    "tr": "Достигать / Дотягиваться",
+    "def": "Добраться до пункта назначения.",
+    "ph": "[riːtʃ]",
+    "ex": "Reach the top — Достичь вершины.",
+    "collocations": [
+      "reach goal",
+      "out of reach"
+    ]
+  },
+  "REACT": {
+    "tr": "Реагировать / Отвечать",
+    "def": "Отвечать действием на внешний стимул.",
+    "ph": "[riˈækt]",
+    "ex": "React quickly — Быстро реагировать.",
+    "collocations": [
+      "react to news",
+      "chemical react"
+    ]
+  },
+  "READ": {
+    "tr": "Читать / Прочесть",
+    "def": "Воспринимать печатные строки глазами.",
+    "ph": "[riːd]",
+    "ex": "Read a book — Читать книгу.",
+    "collocations": [
+      "read aloud",
+      "learn to read"
+    ]
+  },
+  "READY": {
+    "tr": "Готовый",
+    "def": "Подготовленный к началу дела.",
+    "ph": "[ˈredi]",
+    "ex": "Ready to start — Готов начать.",
+    "collocations": [
+      "get ready",
+      "all ready"
+    ]
+  },
+  "REAL": {
+    "tr": "Настоящий / Реальный",
+    "def": "Действительно существующий.",
+    "ph": "[ˈriːəl]",
+    "ex": "Real life — Настоящая жизнь.",
+    "collocations": [
+      "for real",
+      "real world"
+    ]
+  },
+  "REALIZE": {
+    "tr": "Осознавать / Понимать",
+    "def": "Ясно понимать суть происходящего.",
+    "ph": "[ˈriːəlaɪz]",
+    "ex": "Realize truth — Осознать правду.",
+    "collocations": [
+      "suddenly realize",
+      "realize dream"
+    ]
+  },
+  "REALLY": {
+    "tr": "Действительно / Правда",
+    "def": "В самом деле, искренне.",
+    "ph": "[ˈrɪəli]",
+    "ex": "Really happy — Действительно счастлив.",
+    "collocations": [
+      "really good",
+      "not really"
+    ]
+  },
+  "REASON": {
+    "tr": "Причина / Разум",
+    "def": "Основание поступка или мыслительная сила.",
+    "ph": "[ˈriːzn]",
+    "ex": "Good reason — Веская причина.",
+    "collocations": [
+      "main reason",
+      "for this reason"
+    ]
+  },
+  "RECEIVE": {
+    "tr": "Получать / Принимать",
+    "def": "Принимать письмо или подарок.",
+    "ph": "[rɪˈsiːv]",
+    "ex": "Receive a letter — Получить письмо.",
+    "collocations": [
+      "receive gift",
+      "receive award"
+    ]
+  },
+  "RECENT": {
+    "tr": "Недавний / Свежий",
+    "def": "Произошедший совсем недавно.",
+    "ph": "[ˈriːsnt]",
+    "ex": "Recent news — Свежие новости.",
+    "collocations": [
+      "in recent years",
+      "recent events"
+    ]
+  },
+  "RECOGNIZE": {
+    "tr": "Узнавать / Признавать",
+    "def": "Вспоминать знакомое лицо или факт.",
+    "ph": "[ˈrekəɡnaɪz]",
+    "ex": "Recognize a friend — Узнать друга.",
+    "collocations": [
+      "recognize voice",
+      "widely recognized"
+    ]
+  },
+  "RECORD": {
+    "tr": "Запись / Рекорд",
+    "def": "Фиксация звука или высшее достижение.",
+    "ph": "[ˈrekɔːd]",
+    "ex": "World record — Мировой рекорд.",
+    "collocations": [
+      "break a record",
+      "set record"
+    ]
+  },
+  "REDUCE": {
+    "tr": "Снижать / Уменьшать",
+    "def": "Делать меньшим по объему.",
+    "ph": "[rɪˈdjuːs]",
+    "ex": "Reduce waste — Уменьшить отходы.",
+    "collocations": [
+      "reduce cost",
+      "reduce speed"
+    ]
+  },
+  "REFLECT": {
+    "tr": "Отражать / Размышлять",
+    "def": "Отражать световые лучи или думать.",
+    "ph": "[rɪˈflekt]",
+    "ex": "Reflect light — Отражать свет.",
+    "collocations": [
+      "reflect on life",
+      "reflect in mirror"
+    ]
+  },
+  "REFUSE": {
+    "tr": "Отказываться / Отклонять",
+    "def": "Не соглашаться принять предложение.",
+    "ph": "[rɪˈfjuːz]",
+    "ex": "Refuse to give up — Отказаться сдаваться.",
+    "collocations": [
+      "refuse offer",
+      "firmly refuse"
+    ]
+  },
+  "REGULAR": {
+    "tr": "Регулярный / Обычный",
+    "def": "Повторяющийся через равные сроки.",
+    "ph": "[ˈreɡjələ]",
+    "ex": "Regular exercise — Регулярные тренировки.",
+    "collocations": [
+      "regular basis",
+      "regular size"
+    ]
+  },
+  "RELATION": {
+    "tr": "Отношение / Связь",
+    "def": "Взаимная связь между предметами.",
+    "ph": "[rɪˈleɪʃn]",
+    "ex": "In relation to — В отношении.",
+    "collocations": [
+      "good relations",
+      "family relation"
+    ]
+  },
+  "RELAX": {
+    "tr": "Отдыхать / Расслабляться",
+    "def": "Снимать физическое и нервное напряжение.",
+    "ph": "[rɪˈlæks]",
+    "ex": "Relax at home — Отдыхать дома.",
+    "collocations": [
+      "relax mind",
+      "time to relax"
+    ]
+  },
+  "RELEASE": {
+    "tr": "Выпускать / Релиз",
+    "def": "Освобождать или выпускать новинку.",
+    "ph": "[rɪˈliːs]",
+    "ex": "Release a new game — Выпустить новую игру.",
+    "collocations": [
+      "press release",
+      "release date"
+    ]
+  },
+  "REMAIN": {
+    "tr": "Оставаться",
+    "def": "Продолжать находиться на месте.",
+    "ph": "[rɪˈmeɪn]",
+    "ex": "Remain calm — Сохранять спокойствие.",
+    "collocations": [
+      "remain seated",
+      "remain true"
+    ]
+  },
+  "REMEMBER": {
+    "tr": "Помнить / Вспоминать",
+    "def": "Сохранять в светлой памяти сердца.",
+    "ph": "[rɪˈmembə]",
+    "ex": "Remember this day — Запомни этот день.",
+    "collocations": [
+      "remember well",
+      "always remember"
+    ]
+  },
+  "REMIND": {
+    "tr": "Напоминать",
+    "def": "Побуждать вспомнить о деле.",
+    "ph": "[rɪˈmaɪnd]",
+    "ex": "Remind me later — Напомни мне позже.",
+    "collocations": [
+      "remind of home",
+      "let me remind"
+    ]
+  },
+  "REMOVE": {
+    "tr": "Удалять / Убирать",
+    "def": "Устранять с поверхности или пути.",
+    "ph": "[rɪˈmuːv]",
+    "ex": "Remove shoes — Снять обувь.",
+    "collocations": [
+      "remove dirt",
+      "remove from list"
+    ]
+  },
+  "REPEAT": {
+    "tr": "Повторять",
+    "def": "Воспроизводить сказанное еще раз.",
+    "ph": "[rɪˈpiːt]",
+    "ex": "Repeat after me — Повторяй за мной.",
+    "collocations": [
+      "repeat word",
+      "history repeats"
+    ]
+  },
+  "REPLACE": {
+    "tr": "Заменять / Замещать",
+    "def": "Ставить новое взамен старого.",
+    "ph": "[rɪˈpleɪs]",
+    "ex": "Replace old parts — Заменить старые детали.",
+    "collocations": [
+      "replace with",
+      "hard to replace"
+    ]
+  },
+  "REPLY": {
+    "tr": "Отвечать / Ответ",
+    "def": "Письменный или устный отклик.",
+    "ph": "[rɪˈplaɪ]",
+    "ex": "Quick reply — Быстрый ответ.",
+    "collocations": [
+      "reply to email",
+      "in reply"
+    ]
+  },
+  "REPORT": {
+    "tr": "Отчет / Докладывать",
+    "def": "Официальный документ со сводкой.",
+    "ph": "[rɪˈpɔːt]",
+    "ex": "Annual report — Годовой отчет.",
+    "collocations": [
+      "news report",
+      "report facts"
+    ]
+  },
+  "REPRESENT": {
+    "tr": "Представлять / Выражать",
+    "def": "Быть полномочным лицом от коллектива.",
+    "ph": "[ˌreprɪˈzent]",
+    "ex": "Represent team — Представлять команду.",
+    "collocations": [
+      "represent country",
+      "accurately represent"
+    ]
+  },
+  "REQUIRE": {
+    "tr": "Требовать / Нуждаться",
+    "def": "Делать обязательным условием.",
+    "ph": "[rɪˈkwaɪə]",
+    "ex": "Require time — Требовать времени.",
+    "collocations": [
+      "require skills",
+      "as required"
+    ]
+  },
+  "RESEARCH": {
+    "tr": "Исследование / Изучать",
+    "def": "Тщательный научный поиск фактов.",
+    "ph": "[rɪˈsɜːtʃ]",
+    "ex": "Scientific research — Научное исследование.",
+    "collocations": [
+      "do research",
+      "market research"
+    ]
+  },
+  "RESPECT": {
+    "tr": "Уважение / Уважать",
+    "def": "Почтительное отношение к мудрости.",
+    "ph": "[rɪˈspekt]",
+    "ex": "Show respect — Проявлять уважение.",
+    "collocations": [
+      "deep respect",
+      "mutual respect"
+    ]
+  },
+  "RESPOND": {
+    "tr": "Отвечать / Реагировать",
+    "def": "Давать ответ на запрос или действие.",
+    "ph": "[rɪˈspɒnd]",
+    "ex": "Respond in time — Ответить вовремя.",
+    "collocations": [
+      "respond to call",
+      "promptly respond"
+    ]
+  },
+  "RESPONSE": {
+    "tr": "Ответ / Отклик",
+    "def": "Реакция на полученное сообщение.",
+    "ph": "[rɪˈspɒns]",
+    "ex": "Quick response — Быстрый отклик.",
+    "collocations": [
+      "in response",
+      "positive response"
+    ]
+  },
+  "REST": {
+    "tr": "Отдых / Остаток",
+    "def": "Перерыв в трудах или оставшаяся часть.",
+    "ph": "[rest]",
+    "ex": "Take a rest — Отдохнуть.",
+    "collocations": [
+      "rest of the day",
+      "peaceful rest"
+    ]
+  },
+  "RESULT": {
+    "tr": "Результат / Итог",
+    "def": "Конечный плод приложенных трудов.",
+    "ph": "[rɪˈzʌlt]",
+    "ex": "Great result — Отличный результат.",
+    "collocations": [
+      "as a result",
+      "final result"
+    ]
+  },
+  "RETURN": {
+    "tr": "Возвращаться / Возврат",
+    "def": "Идти обратно в родные края.",
+    "ph": "[rɪˈtɜːn]",
+    "ex": "Return home — Вернуться домой.",
+    "collocations": [
+      "return ticket",
+      "many happy returns"
+    ]
+  },
+  "REVEAL": {
+    "tr": "Раскрывать / Открывать",
+    "def": "Делать явным тайное знание.",
+    "ph": "[rɪˈviːl]",
+    "ex": "Reveal secret — Раскрыть тайну.",
+    "collocations": [
+      "reveal truth",
+      "reveal identity"
+    ]
+  },
+  "REVIEW": {
+    "tr": "Обзор / Отзыв / Проверять",
+    "def": "Критическая оценка или повторение.",
+    "ph": "[rɪˈvjuː]",
+    "ex": "Book review — Обзор книги.",
+    "collocations": [
+      "write review",
+      "annual review"
+    ]
+  },
+  "REWARD": {
+    "tr": "Награда / Вознаграждение",
+    "def": "Приз за честный доблестный труд.",
+    "ph": "[rɪˈwɔːd]",
+    "ex": "Deserved reward — Заслуженная награда.",
+    "collocations": [
+      "coin reward",
+      "reward for efforts"
+    ]
+  },
+  "RICH": {
+    "tr": "Богатый / Насыщенный",
+    "def": "Имеющий много ресурсов или вкусный.",
+    "ph": "[rɪtʃ]",
+    "ex": "Rich flavor — Насыщенный вкус.",
+    "collocations": [
+      "rich soil",
+      "rich history"
+    ]
+  },
+  "RIDE": {
+    "tr": "Ехать верхом / Поездка",
+    "def": "Двигаться на коне или велосипеде.",
+    "ph": "[raɪd]",
+    "ex": "Ride a bike — Ехать на велосипеде.",
+    "collocations": [
+      "ride horse",
+      "free ride"
+    ]
+  },
+  "RIGHT": {
+    "tr": "Правый / Правильный / Право",
+    "def": "Верный выбор или законное право.",
+    "ph": "[raɪt]",
+    "ex": "Turn right — Повернуть направо.",
+    "collocations": [
+      "all right",
+      "right now"
+    ]
+  },
+  "RISE": {
+    "tr": "Подниматься / Восход",
+    "def": "Двигаться вверх на небосводе.",
+    "ph": "[raɪz]",
+    "ex": "Sun rises — Солнце восходит.",
+    "collocations": [
+      "rise and shine",
+      "on the rise"
+    ]
+  },
+  "RISK": {
+    "tr": "Риск / Рисковать",
+    "def": "Возможность опасности ради победы.",
+    "ph": "[rɪsk]",
+    "ex": "High risk — Высокий риск.",
+    "collocations": [
+      "take a risk",
+      "at risk"
+    ]
+  },
+  "ROLE": {
+    "tr": "Роль",
+    "def": "Функция человека в коллективе.",
+    "ph": "[rəʊl]",
+    "ex": "Play a role — Играть роль.",
+    "collocations": [
+      "key role",
+      "leading role"
+    ]
+  },
+  "ROUND": {
+    "tr": "Круглый / Раунд",
+    "def": "Имеющий форму идеального круга.",
+    "ph": "[raʊnd]",
+    "ex": "Round table — Круглый стол.",
+    "collocations": [
+      "round the world",
+      "next round"
+    ]
+  },
+  "RULE": {
+    "tr": "Правило / Править",
+    "def": "Установленный закон игры или порядок.",
+    "ph": "[ruːl]",
+    "ex": "Game rules — Правила игры.",
+    "collocations": [
+      "follow rules",
+      "golden rule"
+    ]
+  },
+  "SAFE": {
+    "tr": "Безопасный / Сейф",
+    "def": "Защищенный от угроз и бед.",
+    "ph": "[seɪf]",
+    "ex": "Stay safe — Будьте в безопасности.",
+    "collocations": [
+      "safe and sound",
+      "safe journey"
+    ]
+  },
+  "SAFETY": {
+    "tr": "Безопасность",
+    "def": "Состояние полной защищенности.",
+    "ph": "[ˈseɪfti]",
+    "ex": "Road safety — Безопасность на дороге.",
+    "collocations": [
+      "safety first",
+      "public safety"
+    ]
+  },
+  "SAIL": {
+    "tr": "Плыть под парусом / Парус",
+    "def": "Идти по морю на корабле.",
+    "ph": "[seɪl]",
+    "ex": "Set sail — Отплывать.",
+    "collocations": [
+      "white sail",
+      "sail the seas"
+    ]
+  },
+  "SAME": {
+    "tr": "Такой же / Одинаковый",
+    "def": "В точности сходный, единый.",
+    "ph": "[seɪm]",
+    "ex": "Same time — В то же время.",
+    "collocations": [
+      "all the same",
+      "same to you"
+    ]
+  },
+  "SAMPLE": {
+    "tr": "Образец / Пример",
+    "def": "Пробный экземпляр для анализа.",
+    "ph": "[ˈsɑːmpl]",
+    "ex": "Free sample — Бесплатный образец.",
+    "collocations": [
+      "blood sample",
+      "sample text"
+    ]
+  },
+  "SAVE": {
+    "tr": "Спасать / Сохранять / Копить",
+    "def": "Беречь ресурсы или спасать друга.",
+    "ph": "[seɪv]",
+    "ex": "Save money — Копить деньги.",
+    "collocations": [
+      "save time",
+      "save game"
+    ]
+  },
+  "SAY": {
+    "tr": "Говорить / Сказать",
+    "def": "Произносить слова вслух.",
+    "ph": "[seɪ]",
+    "ex": "Say hello — Сказать привет.",
+    "collocations": [
+      "what to say",
+      "they say"
+    ]
+  },
+  "SCALE": {
+    "tr": "Шкала / Масштаб / Весы",
+    "def": "Градация измерений или размах.",
+    "ph": "[skeɪl]",
+    "ex": "Large scale — Крупный масштаб.",
+    "collocations": [
+      "on a scale",
+      "weigh on scale"
+    ]
+  },
+  "SCENE": {
+    "tr": "Сцена / Кадр",
+    "def": "Место действия в кино или театре.",
+    "ph": "[siːn]",
+    "ex": "Behind the scene — За кулисами.",
+    "collocations": [
+      "beautiful scene",
+      "opening scene"
+    ]
+  },
+  "SCHEDULE": {
+    "tr": "Расписание / График",
+    "def": "Четкий план времени по часам.",
+    "ph": "[ˈʃedjuːl]",
+    "ex": "On schedule — По расписанию.",
+    "collocations": [
+      "busy schedule",
+      "ahead of schedule"
+    ]
+  },
+  "SCIENCE": {
+    "tr": "Наука",
+    "def": "Система доказанных знаний о мире.",
+    "ph": "[ˈsaɪəns]",
+    "ex": "Natural science — Естественная наука.",
+    "collocations": [
+      "science fiction",
+      "modern science"
+    ]
+  },
+  "SCIENTIST": {
+    "tr": "Ученый / Исследователь",
+    "def": "Деятель науки, открывающий законы.",
+    "ph": "[ˈsaɪəntɪst]",
+    "ex": "Brilliant scientist — Блестящий ученый.",
+    "collocations": [
+      "research scientist",
+      "great scientist"
+    ]
+  },
+  "SCREEN": {
+    "tr": "Экран / Монитор",
+    "def": "Стеклянная панель вывода картинки.",
+    "ph": "[skriːn]",
+    "ex": "Touch screen — Сенсорный экран.",
+    "collocations": [
+      "computer screen",
+      "on screen"
+    ]
+  },
+  "SEASON": {
+    "tr": "Сезон / Время года",
+    "def": "Одна из четырех пор года.",
+    "ph": "[ˈsiːzn]",
+    "ex": "Holiday season — Сезон праздников.",
+    "collocations": [
+      "summer season",
+      "four seasons"
+    ]
+  },
+  "SEAT": {
+    "tr": "Сиденье / Место",
+    "def": "Стул или кресло для посадки.",
+    "ph": "[siːt]",
+    "ex": "Take a seat — Присаживайтесь.",
+    "collocations": [
+      "driver seat",
+      "window seat"
+    ]
+  },
+  "SECOND": {
+    "tr": "Второй / Секунда",
+    "def": "Следующий за первым или миг времени.",
+    "ph": "[ˈsekənd]",
+    "ex": "Second chance — Второй шанс.",
+    "collocations": [
+      "just a second",
+      "every second"
+    ]
+  },
+  "SECRET": {
+    "tr": "Секрет / Тайна",
+    "def": "Сокровенное знание для избранных.",
+    "ph": "[ˈsiːkrət]",
+    "ex": "Keep a secret — Хранить секрет.",
+    "collocations": [
+      "top secret",
+      "secret path"
+    ]
+  },
+  "SECTION": {
+    "tr": "Секция / Раздел",
+    "def": "Отдельная глава или часть зала.",
+    "ph": "[ˈsekʃn]",
+    "ex": "Book section — Раздел книги.",
+    "collocations": [
+      "sports section",
+      "cross section"
+    ]
+  },
+  "SEE": {
+    "tr": "Видеть / Смотреть",
+    "def": "Воспринимать свет глазами.",
+    "ph": "[siː]",
+    "ex": "See you soon — До скорой встречи.",
+    "collocations": [
+      "see the point",
+      "let me see"
+    ]
+  },
+  "SEEK": {
+    "tr": "Искать / Стремиться",
+    "def": "Отыскивать правду или совет.",
+    "ph": "[siːk]",
+    "ex": "Seek truth — Искать истину.",
+    "collocations": [
+      "seek help",
+      "hide and seek"
+    ]
+  },
+  "SEEM": {
+    "tr": "Казаться / Представляться",
+    "def": "Производить определенное впечатление.",
+    "ph": "[siːm]",
+    "ex": "It seems good — Кажется хорошим.",
+    "collocations": [
+      "seem like",
+      "so it seems"
+    ]
+  },
+  "SELECT": {
+    "tr": "Выбирать / Отбирать",
+    "def": "Отбирать наилучшие варианты.",
+    "ph": "[sɪˈlekt]",
+    "ex": "Select words — Выбрать слова.",
+    "collocations": [
+      "select all",
+      "carefully select"
+    ]
+  },
+  "SELF": {
+    "tr": "Сам / Личность",
+    "def": "Личное «я» человека.",
+    "ph": "[self]",
+    "ex": "True self — Истинное я.",
+    "collocations": [
+      "self control",
+      "self confidence"
+    ]
+  },
+  "SELL": {
+    "tr": "Продавать",
+    "def": "Отдавать товар за деньги.",
+    "ph": "[sel]",
+    "ex": "Sell goods — Продавать товары.",
+    "collocations": [
+      "best seller",
+      "sell out"
+    ]
+  },
+  "SEND": {
+    "tr": "Отправлять / Посылать",
+    "def": "Посылать письмо или посылку.",
+    "ph": "[send]",
+    "ex": "Send a message — Отправить сообщение.",
+    "collocations": [
+      "send gift",
+      "send email"
+    ]
+  },
+  "SENSE": {
+    "tr": "Чувство / Смысл",
+    "def": "Ощущение или здравый рассудок.",
+    "ph": "[sens]",
+    "ex": "Common sense — Здравый смысл.",
+    "collocations": [
+      "make sense",
+      "sixth sense"
+    ]
+  },
+  "SENTENCE": {
+    "tr": "Предложение / Фраза",
+    "def": "Связная грамматическая мысль слов.",
+    "ph": "[ˈsentəns]",
+    "ex": "Simple sentence — Простое предложение.",
+    "collocations": [
+      "write sentence",
+      "complete sentence"
+    ]
+  },
+  "SEPARATE": {
+    "tr": "Раздельный / Отделять",
+    "def": "Обособленный от других.",
+    "ph": "[ˈseprət]",
+    "ex": "Separate rooms — Раздельные комнаты.",
+    "collocations": [
+      "keep separate",
+      "separate ways"
+    ]
+  },
+  "SERIES": {
+    "tr": "Серия / Ряд",
+    "def": "Цепь последовательных выпусков.",
+    "ph": "[ˈsɪəriːz]",
+    "ex": "Book series — Серия книг.",
+    "collocations": [
+      "series of games",
+      "tv series"
+    ]
+  },
+  "SERIOUS": {
+    "tr": "Серьезный / Важный",
+    "def": "Требующий глубокого внимания.",
+    "ph": "[ˈsɪəriəs]",
+    "ex": "Serious approach — Серьезный подход.",
+    "collocations": [
+      "be serious",
+      "serious problem"
+    ]
+  },
+  "SERVICE": {
+    "tr": "Служба / Сервис / Услуга",
+    "def": "Полезная помощь клиентам.",
+    "ph": "[ˈsɜːvɪs]",
+    "ex": "Good service — Хороший сервис.",
+    "collocations": [
+      "customer service",
+      "public service"
+    ]
+  },
+  "SET": {
+    "tr": "Набор / Комплект / Ставить",
+    "def": "Комплект деталей или закат солнца.",
+    "ph": "[set]",
+    "ex": "Set of tools — Набор инструментов.",
+    "collocations": [
+      "set goals",
+      "all set"
+    ]
+  },
+  "SETTLE": {
+    "tr": "Обосноваться / Улаживать",
+    "def": "Поселиться на месте или решить спор.",
+    "ph": "[ˈsetl]",
+    "ex": "Settle down — Обосноваться.",
+    "collocations": [
+      "settle a dispute",
+      "settle in"
+    ]
+  },
+  "SEVERAL": {
+    "tr": "Несколько",
+    "def": "Некоторое число предметов (более двух).",
+    "ph": "[ˈsevrəl]",
+    "ex": "Several times — Несколько раз.",
+    "collocations": [
+      "several days",
+      "several people"
+    ]
+  },
+  "SHADOW": {
+    "tr": "Тень",
+    "def": "Темный силуэт на освещенном фоне.",
+    "ph": "[ˈʃædəʊ]",
+    "ex": "Cast a shadow — Отбрасывать тень.",
+    "collocations": [
+      "in the shadow",
+      "tree shadow"
+    ]
+  },
+  "SHAPE": {
+    "tr": "Форма / Очертания",
+    "def": "Геометрический контур предмета.",
+    "ph": "[ʃeɪp]",
+    "ex": "In good shape — В хорошей форме.",
+    "collocations": [
+      "round shape",
+      "shape of heart"
+    ]
+  },
+  "SHARE": {
+    "tr": "Делиться / Доля",
+    "def": "Разделять радость или пищу с другом.",
+    "ph": "[ʃeə]",
+    "ex": "Share with friends — Делиться с друзьями.",
+    "collocations": [
+      "share ideas",
+      "equal share"
+    ]
+  },
+  "SHINE": {
+    "tr": "Сиять / Блестеть",
+    "def": "Излучать яркий лучистый свет.",
+    "ph": "[ʃaɪn]",
+    "ex": "Sun shines — Солнце сияет.",
+    "collocations": [
+      "shine bright",
+      "shoes shine"
+    ]
+  },
+  "SHORE": {
+    "tr": "Берег моря или озера",
+    "def": "Прибрежная полоса суши у волн.",
+    "ph": "[ʃɔː]",
+    "ex": "Sandy shore — Песчаный берег.",
+    "collocations": [
+      "reach the shore",
+      "sea shore"
+    ]
+  },
+  "SHORT": {
+    "tr": "Короткий / Низкий",
+    "def": "Малый по длине или росту.",
+    "ph": "[ʃɔːt]",
+    "ex": "Short break — Короткий перерыв.",
+    "collocations": [
+      "short story",
+      "in short"
+    ]
+  },
+  "SHOULD": {
+    "tr": "Следует / Должен",
+    "def": "Выражение доброго совета.",
+    "ph": "[ʃʊd]",
+    "ex": "You should try — Тебе следует попробовать.",
+    "collocations": [
+      "should be",
+      "should know"
+    ]
+  },
+  "SHOUT": {
+    "tr": "Кричать / Крик",
+    "def": "Громко восклицать вслух.",
+    "ph": "[ʃaʊt]",
+    "ex": "Shout for joy — Кричать от радости.",
+    "collocations": [
+      "don't shout",
+      "loud shout"
+    ]
+  },
+  "SHOW": {
+    "tr": "Показывать / Шоу",
+    "def": "Демонстрировать взору публики.",
+    "ph": "[ʃəʊ]",
+    "ex": "Show me way — Покажи мне дорогу.",
+    "collocations": [
+      "show up",
+      "game show"
+    ]
+  },
+  "SIDE": {
+    "tr": "Сторона / Бок",
+    "def": "Боковая грань предмета или позиция.",
+    "ph": "[saɪd]",
+    "ex": "On your side — На твоей стороне.",
+    "collocations": [
+      "both sides",
+      "step aside"
+    ]
+  },
+  "SIGHT": {
+    "tr": "Зрение / Достопримечательность",
+    "def": "Способность видеть или памятник.",
+    "ph": "[saɪt]",
+    "ex": "Catch sight of — Заметить краем глаза.",
+    "collocations": [
+      "out of sight",
+      "city sights"
+    ]
+  },
+  "SIGN": {
+    "tr": "Знак / Подписывать",
+    "def": "Символ на дороге или автограф.",
+    "ph": "[saɪn]",
+    "ex": "Road sign — Дорожный знак.",
+    "collocations": [
+      "sign contract",
+      "good sign"
+    ]
+  },
+  "SIGNAL": {
+    "tr": "Сигнал / Подавать знак",
+    "def": "Условный знак для начала действия.",
+    "ph": "[ˈsɪɡnəl]",
+    "ex": "Traffic signal — Сигнал светофора.",
+    "collocations": [
+      "radio signal",
+      "give signal"
+    ]
+  },
+  "SILENCE": {
+    "tr": "Тишина / Молчание",
+    "def": "Полное отсутствие звуков и шума.",
+    "ph": "[ˈsaɪləns]",
+    "ex": "Golden silence — Золотая тишина.",
+    "collocations": [
+      "keep silence",
+      "in silence"
+    ]
+  },
+  "SILENT": {
+    "tr": "Тихий / Безмолвный",
+    "def": "Не издающий ни звука, мирный.",
+    "ph": "[ˈsaɪlənt]",
+    "ex": "Silent night — Тихая ночь.",
+    "collocations": [
+      "stay silent",
+      "silent movie"
+    ]
+  },
+  "SILVER": {
+    "tr": "Серебро / Серебряный",
+    "def": "Благородный драгоценный белый металл.",
+    "ph": "[ˈsɪlvə]",
+    "ex": "Silver coin — Серебряная монета.",
+    "collocations": [
+      "silver medal",
+      "pure silver"
+    ]
+  },
+  "SIMILAR": {
+    "tr": "Похожий / Сходный",
+    "def": "Обладающий общими чертами.",
+    "ph": "[ˈsɪmələ]",
+    "ex": "Similar taste — Похожий вкус.",
+    "collocations": [
+      "very similar",
+      "similar to"
+    ]
+  },
+  "SIMPLE": {
+    "tr": "Простой / Легкий",
+    "def": "Несложный для понимания умом.",
+    "ph": "[ˈsɪmpl]",
+    "ex": "Simple solution — Простое решение.",
+    "collocations": [
+      "simple rule",
+      "pure and simple"
+    ]
+  },
+  "SIMPLY": {
+    "tr": "Просто / Всего лишь",
+    "def": "Легко, без излишней сложности.",
+    "ph": "[ˈsɪmpli]",
+    "ex": "Simply the best — Просто лучший.",
+    "collocations": [
+      "simply put",
+      "quite simply"
+    ]
+  },
+  "SINCE": {
+    "tr": "С тех пор как / Поскольку",
+    "def": "Начиная с указанной даты.",
+    "ph": "[sɪns]",
+    "ex": "Ever since — С тех самых пор.",
+    "collocations": [
+      "since then",
+      "since morning"
+    ]
+  },
+  "SINGLE": {
+    "tr": "Одиночный / Единственный",
+    "def": "Только один, без пары.",
+    "ph": "[ˈsɪŋɡl]",
+    "ex": "Single word — Единственное слово.",
+    "collocations": [
+      "every single",
+      "single room"
+    ]
+  },
+  "SIT": {
+    "tr": "Сидеть / Садиться",
+    "def": "Занимать место на стуле.",
+    "ph": "[sɪt]",
+    "ex": "Sit down — Присаживайтесь.",
+    "collocations": [
+      "sit next to",
+      "sit quietly"
+    ]
+  },
+  "SITE": {
+    "tr": "Сайт / Площадка",
+    "def": "Интернет-ресурс или стройплощадка.",
+    "ph": "[saɪt]",
+    "ex": "Web site — Веб-сайт.",
+    "collocations": [
+      "historic site",
+      "camp site"
+    ]
+  },
+  "SITUATION": {
+    "tr": "Ситуация / Положение",
+    "def": "Совокупность обстоятельств.",
+    "ph": "[ˌsɪtʃuˈeɪʃn]",
+    "ex": "Win situation — Выигрышная ситуация.",
+    "collocations": [
+      "in this situation",
+      "current situation"
+    ]
+  },
+  "SIZE": {
+    "tr": "Размер / Величина",
+    "def": "Габариты предмета в пространстве.",
+    "ph": "[saɪz]",
+    "ex": "Right size — Нужный размер.",
+    "collocations": [
+      "medium size",
+      "pocket size"
+    ]
+  },
+  "SKILL": {
+    "tr": "Навык / Мастерство",
+    "def": "Умение, доведенное практикой до идеала.",
+    "ph": "[skɪl]",
+    "ex": "High skill — Высокое мастерство.",
+    "collocations": [
+      "language skills",
+      "learn skills"
+    ]
+  },
+  "SLOPE": {
+    "tr": "Склон / Спуск",
+    "def": "Наклонная поверхность горы.",
+    "ph": "[sləʊp]",
+    "ex": "Ski slope — Лыжный склон.",
+    "collocations": [
+      "mountain slope",
+      "gentle slope"
+    ]
+  },
+  "SLOW": {
+    "tr": "Медленный / Неспешный",
+    "def": "Двигающийся с малой скоростью.",
+    "ph": "[sləʊ]",
+    "ex": "Slow and steady — Тише едешь, дальше будешь.",
+    "collocations": [
+      "walk slow",
+      "slow down"
+    ]
+  },
+  "SMALL": {
+    "tr": "Маленький / Небольшой",
+    "def": "Скромный по своим размерам.",
+    "ph": "[smɔːl]",
+    "ex": "Small gift — Небольшой подарок.",
+    "collocations": [
+      "small town",
+      "think small"
+    ]
+  },
+  "SMART": {
+    "tr": "Умный / Сообразительный",
+    "def": "Обладающий острым светлым разумом.",
+    "ph": "[smɑːt]",
+    "ex": "Smart student — Умный студент.",
+    "collocations": [
+      "smart phone",
+      "smart idea"
+    ]
+  },
+  "SMILE": {
+    "tr": "Улыбка / Улыбаться",
+    "def": "Радостное выражение лица с сиянием глаз.",
+    "ph": "[smaɪl]",
+    "ex": "Warm smile — Теплая улыбка.",
+    "collocations": [
+      "keep smiling",
+      "big smile"
+    ]
+  },
+  "SMOKE": {
+    "tr": "Дым / Курить",
+    "def": "Серый столб пара от костра.",
+    "ph": "[sməʊk]",
+    "ex": "No smoke — Без дыма.",
+    "collocations": [
+      "smoke free",
+      "thick smoke"
+    ]
+  },
+  "SMOOTH": {
+    "tr": "Гладкий / Плавный",
+    "def": "Ровный без шероховатостей.",
+    "ph": "[smuːð]",
+    "ex": "Smooth surface — Гладкая поверхность.",
+    "collocations": [
+      "smooth sailing",
+      "smooth skin"
+    ]
+  },
+  "SOCIAL": {
+    "tr": "Социальный / Общественный",
+    "def": "Связанный с жизнью общества людей.",
+    "ph": "[ˈsəʊʃl]",
+    "ex": "Social network — Социальная сеть.",
+    "collocations": [
+      "social media",
+      "social life"
+    ]
+  },
+  "SOCIETY": {
+    "tr": "Общество / Социум",
+    "def": "Объединение людей страны.",
+    "ph": "[səˈsaɪəti]",
+    "ex": "Modern society — Современное общество.",
+    "collocations": [
+      "civil society",
+      "high society"
+    ]
+  },
+  "SOFT": {
+    "tr": "Мягкий / Нежный",
+    "def": "Приятный на ощупь, как пух.",
+    "ph": "[sɒft]",
+    "ex": "Soft pillow — Мягкая подушка.",
+    "collocations": [
+      "soft voice",
+      "soft drink"
+    ]
+  },
+  "SOLID": {
+    "tr": "Твердый / Прочный",
+    "def": "Плотный, надежный и монолитный.",
+    "ph": "[ˈsɒlɪd]",
+    "ex": "Solid rock — Твердая скала.",
+    "collocations": [
+      "solid ground",
+      "solid proof"
+    ]
+  },
+  "SOLUTION": {
+    "tr": "Решение задачи",
+    "def": "Верный ответ на сложный вопрос.",
+    "ph": "[səˈluːʃn]",
+    "ex": "Find a solution — Найти решение.",
+    "collocations": [
+      "smart solution",
+      "ideal solution"
+    ]
+  },
+  "SOLVE": {
+    "tr": "Решать / Разгадывать",
+    "def": "Находить правильный ответ.",
+    "ph": "[sɒlv]",
+    "ex": "Solve the puzzle — Разгадать головоломку.",
+    "collocations": [
+      "solve problem",
+      "solve mystery"
+    ]
+  },
+  "SOME": {
+    "tr": "Некоторый / Немного",
+    "def": "Неопределенная часть целого.",
+    "ph": "[sʌm]",
+    "ex": "Some water — Немного воды.",
+    "collocations": [
+      "some people",
+      "some day"
+    ]
+  },
+  "SOMEBODY": {
+    "tr": "Кто-то / Некто",
+    "def": "Один неизвестный человек.",
+    "ph": "[ˈsʌmbədi]",
+    "ex": "Somebody called — Кто-то звонил.",
+    "collocations": [
+      "ask somebody",
+      "tell somebody"
+    ]
+  },
+  "SOMEONE": {
+    "tr": "Кто-то",
+    "def": "Один человек из окружающих.",
+    "ph": "[ˈsʌmwʌn]",
+    "ex": "Someone special — Особенный человек.",
+    "collocations": [
+      "help someone",
+      "meet someone"
+    ]
+  },
+  "SOMETHING": {
+    "tr": "Что-то / Нечто",
+    "def": "Неопределенный предмет или новость.",
+    "ph": "[ˈsʌmθɪŋ]",
+    "ex": "Something new — Что-то новое.",
+    "collocations": [
+      "learn something",
+      "have something"
+    ]
+  },
+  "SOMETIMES": {
+    "tr": "Иногда / Порой",
+    "def": "Время от времени, не всегда.",
+    "ph": "[ˈsʌmtaɪmz]",
+    "ex": "Sometimes we win — Порой мы побеждаем.",
+    "collocations": [
+      "sometimes yes",
+      "every now and then"
+    ]
+  },
+  "SOMEWHERE": {
+    "tr": "Где-то / Куда-то",
+    "def": "В неопределенном месте.",
+    "ph": "[ˈsʌmweə]",
+    "ex": "Somewhere far — Где-то далеко.",
+    "collocations": [
+      "go somewhere",
+      "somewhere out there"
+    ]
+  },
+  "SON": {
+    "tr": "Сын",
+    "def": "Мальчик по отношению к родителям.",
+    "ph": "[sʌn]",
+    "ex": "Dear son — Дорогой сын.",
+    "collocations": [
+      "only son",
+      "father and son"
+    ]
+  },
+  "SONG": {
+    "tr": "Песня",
+    "def": "Музыкальное вокальное произведение со словами.",
+    "ph": "[sɒŋ]",
+    "ex": "Favorite song — Любимая песня.",
+    "collocations": [
+      "sing a song",
+      "folk song"
+    ]
+  },
+  "SOON": {
+    "tr": "Скоро / Вскоре",
+    "def": "Через короткий промежуток времени.",
+    "ph": "[suːn]",
+    "ex": "See you soon — До скорой встречи.",
+    "collocations": [
+      "as soon as",
+      "coming soon"
+    ]
+  },
+  "SORRY": {
+    "tr": "Простите / Жаль",
+    "def": "Слово вежливости и сочувствия.",
+    "ph": "[ˈsɒri]",
+    "ex": "I am sorry — Прошу прощения.",
+    "collocations": [
+      "feel sorry",
+      "say sorry"
+    ]
+  },
+  "SORT": {
+    "tr": "Сорт / Сортировать",
+    "def": "Разновидность или раскладывать по типам.",
+    "ph": "[sɔːt]",
+    "ex": "Sort of — Вроде того.",
+    "collocations": [
+      "all sorts",
+      "sort out"
+    ]
+  },
+  "SOUND": {
+    "tr": "Звук / Звучать",
+    "def": "Колебания воздуха, слышимые ухом.",
+    "ph": "[saʊnd]",
+    "ex": "Sound of music — Звуки музыки.",
+    "collocations": [
+      "sound good",
+      "safe and sound"
+    ]
+  },
+  "SOUTH": {
+    "tr": "Юг",
+    "def": "Теплая сторона света напротив севера.",
+    "ph": "[saʊθ]",
+    "ex": "Go south — Ехать на юг.",
+    "collocations": [
+      "south pole",
+      "south wind"
+    ]
+  },
+  "SPACE": {
+    "tr": "Пространство / Космос",
+    "def": "Свободное место или Вселенная.",
+    "ph": "[speɪs]",
+    "ex": "Space travel — Космическое путешествие.",
+    "collocations": [
+      "open space",
+      "save space"
+    ]
+  },
+  "SPEAK": {
+    "tr": "Говорить / Разговаривать",
+    "def": "Владеть речью и языком.",
+    "ph": "[spiːk]",
+    "ex": "Speak English — Говорить по-английски.",
+    "collocations": [
+      "speak aloud",
+      "speak truth"
+    ]
+  },
+  "SPECIAL": {
+    "tr": "Особенный / Специальный",
+    "def": "Выделяющийся уникальностью.",
+    "ph": "[ˈspeʃl]",
+    "ex": "Special day — Особенный день.",
+    "collocations": [
+      "special offer",
+      "very special"
+    ]
+  },
+  "SPEED": {
+    "tr": "Скорость",
+    "def": "Быстрота перемещения в пространстве.",
+    "ph": "[spiːd]",
+    "ex": "High speed — Высокая скорость.",
+    "collocations": [
+      "speed of light",
+      "full speed"
+    ]
+  },
+  "SPELL": {
+    "tr": "Произносить по буквам",
+    "def": "Называть слово по отдельным литерам.",
+    "ph": "[spel]",
+    "ex": "Spell your name — Назовите имя по буквам.",
+    "collocations": [
+      "how to spell",
+      "spell check"
+    ]
+  },
+  "SPEND": {
+    "tr": "Тратить / Проводить",
+    "def": "Расходовать деньги или время с семьей.",
+    "ph": "[spend]",
+    "ex": "Spend time — Проводить время.",
+    "collocations": [
+      "spend money",
+      "well spent"
+    ]
+  },
+  "STAGE": {
+    "tr": "Этап / Сцена",
+    "def": "Ступень развития или помост театра.",
+    "ph": "[steɪdʒ]",
+    "ex": "Next stage — Следующий этап.",
+    "collocations": [
+      "on stage",
+      "final stage"
+    ]
+  },
+  "STAND": {
+    "tr": "Стоять / Выдерживать",
+    "def": "Находиться вертикально на ногах.",
+    "ph": "[stænd]",
+    "ex": "Stand up — Встать.",
+    "collocations": [
+      "stand by",
+      "stand for"
+    ]
+  },
+  "STANDARD": {
+    "tr": "Стандарт / Норма",
+    "def": "Образец высокого качества.",
+    "ph": "[ˈstændəd]",
+    "ex": "Gold standard — Золотой стандарт.",
+    "collocations": [
+      "high standard",
+      "standard model"
+    ]
+  },
+  "START": {
+    "tr": "Старт / Начинать",
+    "def": "Отправная точка любого пути.",
+    "ph": "[stɑːt]",
+    "ex": "Start now — Начни прямо сейчас.",
+    "collocations": [
+      "fresh start",
+      "from the start"
+    ]
+  },
+  "STATE": {
+    "tr": "Состояние / Государство",
+    "def": "Положение дел или страна.",
+    "ph": "[steɪt]",
+    "ex": "State of mind — Состояние ума.",
+    "collocations": [
+      "solid state",
+      "head of state"
+    ]
+  },
+  "STATEMENT": {
+    "tr": "Заявление / Утверждение",
+    "def": "Официальное публичное высказывание.",
+    "ph": "[ˈsteɪtmənt]",
+    "ex": "Make a statement — Сделать заявление.",
+    "collocations": [
+      "bank statement",
+      "true statement"
+    ]
+  },
+  "STAY": {
+    "tr": "Оставаться / Пребывать",
+    "def": "Не уходить, находиться на месте.",
+    "ph": "[steɪ]",
+    "ex": "Stay with me — Останься со мной.",
+    "collocations": [
+      "stay safe",
+      "stay home"
+    ]
+  },
+  "STEP": {
+    "tr": "Шаг / Ступать",
+    "def": "Движение одной ноги при ходьбе.",
+    "ph": "[step]",
+    "ex": "Step by step — Шаг за шагом.",
+    "collocations": [
+      "next step",
+      "watch your step"
+    ]
+  },
+  "STICK": {
+    "tr": "Палка / Приклеивать",
+    "def": "Деревянный прут или крепить клеем.",
+    "ph": "[stɪk]",
+    "ex": "Stick together — Держаться вместе.",
+    "collocations": [
+      "walking stick",
+      "stick to plan"
+    ]
+  },
+  "STILL": {
+    "tr": "Все еще / Спокойный",
+    "def": "Неподвижный или продолжающийся.",
+    "ph": "[stɪl]",
+    "ex": "Still here — Все еще здесь.",
+    "collocations": [
+      "stand still",
+      "still water"
+    ]
+  },
+  "STONE": {
+    "tr": "Камень / Каменный",
+    "def": "Твердый природный минерал.",
+    "ph": "[stəʊn]",
+    "ex": "Stone wall — Каменная стена.",
+    "collocations": [
+      "rolling stone",
+      "precious stone"
+    ]
+  },
+  "STORE": {
+    "tr": "Магазин / Хранить",
+    "def": "Торговая лавка или хранилище запасов.",
+    "ph": "[stɔː]",
+    "ex": "Book store — Книжный магазин.",
+    "collocations": [
+      "store data",
+      "in store"
+    ]
+  },
+  "STORM": {
+    "tr": "Шторм / Буря",
+    "def": "Сильный ураганный ветер с ливнем.",
+    "ph": "[stɔːm]",
+    "ex": "Thunder storm — Грозовой шторм.",
+    "collocations": [
+      "eye of the storm",
+      "weather storm"
+    ]
+  },
+  "STORY": {
+    "tr": "История / Рассказ",
+    "def": "Повествование о событиях и героях.",
+    "ph": "[ˈstɔːri]",
+    "ex": "True story — Правдивая история.",
+    "collocations": [
+      "tell a story",
+      "bedtime story"
+    ]
+  },
+  "STRAIGHT": {
+    "tr": "Прямой / Прямо",
+    "def": "Без изгибов и поворотов.",
+    "ph": "[streɪt]",
+    "ex": "Straight ahead — Прямо вперед.",
+    "collocations": [
+      "straight line",
+      "go straight"
+    ]
+  },
+  "STRANGE": {
+    "tr": "Странный / Необычный",
+    "def": "Вызывающий удивление своей новизной.",
+    "ph": "[streɪndʒ]",
+    "ex": "Strange noise — Странный шум.",
+    "collocations": [
+      "strange feeling",
+      "nothing strange"
+    ]
+  },
+  "STREAM": {
+    "tr": "Ручей / Поток",
+    "def": "Небольшой журчащий поток воды в лесу.",
+    "ph": "[striːm]",
+    "ex": "Mountain stream — Горный ручей.",
+    "collocations": [
+      "live stream",
+      "stream of water"
+    ]
+  },
+  "STRIKE": {
+    "tr": "Ударять / Забастовка",
+    "def": "Наносить удар или прекращать работу.",
+    "ph": "[straɪk]",
+    "ex": "Strike a balance — Найти баланс.",
+    "collocations": [
+      "clock strikes",
+      "lightning strike"
+    ]
+  },
+  "STRONG": {
+    "tr": "Сильный / Крепкий",
+    "def": "Обладающий могучей физической силой.",
+    "ph": "[strɒŋ]",
+    "ex": "Strong wind — Сильный ветер.",
+    "collocations": [
+      "strong mind",
+      "stay strong"
+    ]
+  },
+  "SUCCESS": {
+    "tr": "Успех / Триумф",
+    "def": "Достижение желанной цели и победа.",
+    "ph": "[səkˈses]",
+    "ex": "Great success — Большой успех.",
+    "collocations": [
+      "key to success",
+      "wish you success"
+    ]
+  },
+  "SUCCESSFUL": {
+    "tr": "Успешный / Удачливый",
+    "def": "Достигший признания и результатов.",
+    "ph": "[səkˈsesfl]",
+    "ex": "Successful project — Успешный проект.",
+    "collocations": [
+      "highly successful",
+      "successful career"
+    ]
+  },
+  "SUDDEN": {
+    "tr": "Внезапный / Неожиданный",
+    "def": "Случившийся в один миг без предупреждения.",
+    "ph": "[ˈsʌdn]",
+    "ex": "Sudden change — Внезапная перемена.",
+    "collocations": [
+      "all of a sudden",
+      "sudden move"
+    ]
+  },
+  "SUDDENLY": {
+    "tr": "Внезапно / Вдруг",
+    "def": "Неожиданно для всех.",
+    "ph": "[ˈsʌdənli]",
+    "ex": "Suddenly appeared — Внезапно появился.",
+    "collocations": [
+      "came suddenly",
+      "stop suddenly"
+    ]
+  },
+  "SUGGEST": {
+    "tr": "Предлагать / Советовать",
+    "def": "Выдвигать мудрую идею на обсуждение.",
+    "ph": "[səˈdʒest]",
+    "ex": "Suggest a plan — Предложить план.",
+    "collocations": [
+      "strongly suggest",
+      "let me suggest"
+    ]
+  },
+  "SUGGESTION": {
+    "tr": "Предложение / Совет",
+    "def": "Инициатива для улучшения дел.",
+    "ph": "[səˈdʒestʃən]",
+    "ex": "Good suggestion — Хорошее предложение.",
+    "collocations": [
+      "welcome suggestions",
+      "make suggestion"
+    ]
+  },
+  "SUNNY": {
+    "tr": "Солнечный",
+    "def": "Залитый ярким светом солнца.",
+    "ph": "[ˈsʌni]",
+    "ex": "Sunny day — Солнечный день.",
+    "collocations": [
+      "sunny smile",
+      "warm and sunny"
+    ]
+  },
+  "SUPER": {
+    "tr": "Супер / Отличный",
+    "def": "Превосходный по своим качествам.",
+    "ph": "[ˈsuːpə]",
+    "ex": "Super game — Отличная игра.",
+    "collocations": [
+      "super star",
+      "super fast"
+    ]
+  },
+  "SUPPER": {
+    "tr": "Ужин",
+    "def": "Легкая вечерняя трапеза в кругу семьи.",
+    "ph": "[ˈsʌpə]",
+    "ex": "Eat supper — Ужинать.",
+    "collocations": [
+      "after supper",
+      "hot supper"
+    ]
+  },
+  "SUPPORT": {
+    "tr": "Поддержка / Поддерживать",
+    "def": "Опора и плечо друга в трудный час.",
+    "ph": "[səˈpɔːt]",
+    "ex": "Support friends — Поддерживать друзей.",
+    "collocations": [
+      "technical support",
+      "family support"
+    ]
+  },
+  "SUPPOSE": {
+    "tr": "Полагать / Допускать",
+    "def": "Предполагать вероятность события.",
+    "ph": "[səˈpəʊz]",
+    "ex": "I suppose so — Полагаю, что так.",
+    "collocations": [
+      "suppose that",
+      "as you suppose"
+    ]
+  },
+  "SURE": {
+    "tr": "Уверенный",
+    "def": "Не испытывающий ни тени сомнений.",
+    "ph": "[ʃɔː]",
+    "ex": "Are you sure? — Ты уверен?",
+    "collocations": [
+      "for sure",
+      "make sure"
+    ]
+  },
+  "SURPRISED": {
+    "tr": "Удивленный",
+    "def": "Пораженный приятной неожиданностью.",
+    "ph": "[səˈpraɪzd]",
+    "ex": "Pleasantly surprised — Приятно удивлен.",
+    "collocations": [
+      "look surprised",
+      "surprised to see"
+    ]
+  },
+  "SURROUND": {
+    "tr": "Окружать",
+    "def": "Находиться вокруг со всех сторон.",
+    "ph": "[səˈraʊnd]",
+    "ex": "Surrounded by nature — В окружении природы.",
+    "collocations": [
+      "surround with care",
+      "mountains surround"
+    ]
+  },
+  "SURVIVE": {
+    "tr": "Выживать / Уцелеть",
+    "def": "Сохранять жизнь в бурях и испытаниях.",
+    "ph": "[səˈvaɪv]",
+    "ex": "Survive the winter — Пережить зиму.",
+    "collocations": [
+      "survive storm",
+      "learn to survive"
+    ]
+  },
+  "SWIM": {
+    "tr": "Плавать",
+    "def": "Держаться на воде и двигаться вперед.",
+    "ph": "[swɪm]",
+    "ex": "Swim fast — Плавать быстро.",
+    "collocations": [
+      "swim in pool",
+      "learn to swim"
+    ]
+  },
+  "SYSTEM": {
+    "tr": "Система / Структура",
+    "def": "Слаженный порядок взаимодействующих частей.",
+    "ph": "[ˈsɪstəm]",
+    "ex": "Solar system — Солнечная система.",
+    "collocations": [
+      "operating system",
+      "education system"
+    ]
+  },
+  "TAIL": {
+    "tr": "Хвост",
+    "def": "Подвижный придаток на теле зверей и птиц.",
+    "ph": "[teɪl]",
+    "ex": "Wag the tail — Вилять хвостом.",
+    "collocations": [
+      "cat tail",
+      "heads or tails"
+    ]
+  },
+  "TAKE": {
+    "tr": "Брать / Принимать",
+    "def": "Брать предмет в руки или делать фото.",
+    "ph": "[teɪk]",
+    "ex": "Take a picture — Сделать снимок.",
+    "collocations": [
+      "take care",
+      "take time"
+    ]
+  },
+  "TALK": {
+    "tr": "Говорить / Беседа",
+    "def": "Обмениваться словами в диалоге.",
+    "ph": "[tɔːk]",
+    "ex": "Talk to me — Поговори со мной.",
+    "collocations": [
+      "have a talk",
+      "talk about"
+    ]
+  },
+  "TALL": {
+    "tr": "Высокий (о росте)",
+    "def": "Имеющий большой рост от пяток до макушки.",
+    "ph": "[tɔːl]",
+    "ex": "Tall tree — Высокое дерево.",
+    "collocations": [
+      "tall man",
+      "grow tall"
+    ]
+  },
+  "TASK": {
+    "tr": "Задача / Задание",
+    "def": "Порученное дело, которое нужно решить.",
+    "ph": "[tɑːsk]",
+    "ex": "Daily task — Ежедневная задача.",
+    "collocations": [
+      "complete task",
+      "easy task"
+    ]
+  },
+  "TELL": {
+    "tr": "Рассказывать / Говорить",
+    "def": "Передавать историю слушателю.",
+    "ph": "[tel]",
+    "ex": "Tell the truth — Говорить правду.",
+    "collocations": [
+      "tell a story",
+      "tell time"
+    ]
+  },
+  "TEMPERATURE": {
+    "tr": "Температура",
+    "def": "Градус тепла воздуха или тела.",
+    "ph": "[ˈtemprətʃə]",
+    "ex": "High temperature — Высокая температура.",
+    "collocations": [
+      "body temperature",
+      "room temperature"
+    ]
+  },
+  "TERM": {
+    "tr": "Термин / Срок / Семестр",
+    "def": "Специальное слово или учебный период.",
+    "ph": "[tɜːm]",
+    "ex": "Short term — Краткий срок.",
+    "collocations": [
+      "school term",
+      "in terms of"
+    ]
+  },
+  "TERRIBLE": {
+    "tr": "Ужасный / Скверный",
+    "def": "Очень плохой по ощущениям.",
+    "ph": "[ˈterəbl]",
+    "ex": "Terrible storm — Ужасная буря.",
+    "collocations": [
+      "feel terrible",
+      "terrible mistake"
+    ]
+  },
+  "THANK": {
+    "tr": "Благодарить",
+    "def": "Выражать признательность от сердца.",
+    "ph": "[θæŋk]",
+    "ex": "Thank you — Спасибо вам.",
+    "collocations": [
+      "thank goodness",
+      "thank for help"
+    ]
+  },
+  "THANKS": {
+    "tr": "Спасибо / Благодарность",
+    "def": "Слово искренней признательности.",
+    "ph": "[θæŋks]",
+    "ex": "Many thanks — Большое спасибо.",
+    "collocations": [
+      "thanks a lot",
+      "thanks to you"
+    ]
+  },
+  "THAT": {
+    "tr": "Тот / Что",
+    "def": "Указательное местоимение.",
+    "ph": "[ðæt]",
+    "ex": "That is right — Это верно.",
+    "collocations": [
+      "like that",
+      "all that"
+    ]
+  },
+  "THEIR": {
+    "tr": "Их",
+    "def": "Принадлежащий им.",
+    "ph": "[ðeə]",
+    "ex": "Their house — Их дом.",
+    "collocations": [
+      "their children",
+      "their way"
+    ]
+  },
+  "THEM": {
+    "tr": "Их / Им",
+    "def": "Местоимение третьего лица во множественном числе.",
+    "ph": "[ðem]",
+    "ex": "Help them — Помочь им.",
+    "collocations": [
+      "see them",
+      "with them"
+    ]
+  },
+  "THEME": {
+    "tr": "Тема / Лейтмотив",
+    "def": "Главная мысль или тема разговора.",
+    "ph": "[θiːm]",
+    "ex": "Theme of the lesson — Тема урока.",
+    "collocations": [
+      "theme park",
+      "main theme"
+    ]
+  },
+  "THEN": {
+    "tr": "Тогда / Затем",
+    "def": "В тот момент или после этого.",
+    "ph": "[ðen]",
+    "ex": "And then — А затем.",
+    "collocations": [
+      "see you then",
+      "now and then"
+    ]
+  },
+  "THERE": {
+    "tr": "Там / Туда",
+    "def": "В том указанном месте.",
+    "ph": "[ðeə]",
+    "ex": "Over there — Вон там.",
+    "collocations": [
+      "there is",
+      "there you go"
+    ]
+  },
+  "THESE": {
+    "tr": "Эти",
+    "def": "Указательное местоимение для предметов рядом.",
+    "ph": "[ðiːz]",
+    "ex": "These days — В эти дни.",
+    "collocations": [
+      "these words",
+      "all these"
+    ]
+  },
+  "THEY": {
+    "tr": "Они",
+    "def": "Личное местоимение множественного числа.",
+    "ph": "[ðeɪ]",
+    "ex": "They are happy — Они счастливы.",
+    "collocations": [
+      "they say",
+      "as they do"
+    ]
+  },
+  "THICK": {
+    "tr": "Толстый / Густой",
+    "def": "Имеющий большую толщину или туманный.",
+    "ph": "[θɪk]",
+    "ex": "Thick book — Толстая книга.",
+    "collocations": [
+      "thick fog",
+      "thick forest"
+    ]
+  },
+  "THIN": {
+    "tr": "Тонкий / Худой",
+    "def": "Имеющий малую толщину листа.",
+    "ph": "[θɪn]",
+    "ex": "Thin paper — Тонкая бумага.",
+    "collocations": [
+      "thin air",
+      "thin line"
+    ]
+  },
+  "THING": {
+    "tr": "Вещь / Предмет",
+    "def": "Любой материальный объект или мысль.",
+    "ph": "[θɪŋ]",
+    "ex": "Good thing — Хорошая вещь.",
+    "collocations": [
+      "first thing",
+      "every little thing"
+    ]
+  },
+  "THINK": {
+    "tr": "Думать / Мыслить",
+    "def": "Рассуждать в уме логически.",
+    "ph": "[θɪŋk]",
+    "ex": "Think positive — Мысли позитивно.",
+    "collocations": [
+      "think about",
+      "think twice"
+    ]
+  },
+  "THIRD": {
+    "tr": "Третий",
+    "def": "Следующий за вторым по счету.",
+    "ph": "[θɜːd]",
+    "ex": "Third place — Третье место.",
+    "collocations": [
+      "one third",
+      "third time"
+    ]
+  },
+  "THIS": {
+    "tr": "Этот / Эта",
+    "def": "Указательное местоимение для предмета рядом.",
+    "ph": "[ðɪs]",
+    "ex": "This day — Этот день.",
+    "collocations": [
+      "this way",
+      "like this"
+    ]
+  },
+  "THOSE": {
+    "tr": "Те",
+    "def": "Указательное местоимение для далеких предметов.",
+    "ph": "[ðəʊz]",
+    "ex": "Those days — Те дни.",
+    "collocations": [
+      "all those",
+      "those people"
+    ]
+  },
+  "THOUGH": {
+    "tr": "Хотя / Однако",
+    "def": "Уступительный союз вопреки фактам.",
+    "ph": "[ðəʊ]",
+    "ex": "Even though — Даже хотя.",
+    "collocations": [
+      "as though",
+      "good though"
+    ]
+  },
+  "THOUGHT": {
+    "tr": "Мысль / Раздумье",
+    "def": "Плод работы человеческого разума.",
+    "ph": "[θɔːt]",
+    "ex": "Deep thought — Глубокая мысль.",
+    "collocations": [
+      "train of thought",
+      "give thought"
+    ]
+  },
+  "THROUGH": {
+    "tr": "Сквозь / Через",
+    "def": "Проходя насквозь сквозь препятствие.",
+    "ph": "[θruː]",
+    "ex": "Walk through forest — Идти сквозь лес.",
+    "collocations": [
+      "all through",
+      "see through"
+    ]
+  },
+  "THROW": {
+    "tr": "Бросать / Кидать",
+    "def": "Посылать предмет в воздух рукой.",
+    "ph": "[θrəʊ]",
+    "ex": "Throw the ball — Бросить мяч.",
+    "collocations": [
+      "throw away",
+      "throw party"
+    ]
+  },
+  "TICKET": {
+    "tr": "Билет",
+    "def": "Проездной или входной документ на шоу.",
+    "ph": "[ˈtɪkɪt]",
+    "ex": "Train ticket — Билет на поезд.",
+    "collocations": [
+      "buy a ticket",
+      "return ticket"
+    ]
+  },
+  "TIGHT": {
+    "tr": "Плотный / Тесный",
+    "def": "Туго прилегающий без зазоров.",
+    "ph": "[taɪt]",
+    "ex": "Hold tight — Держись крепче.",
+    "collocations": [
+      "tight fit",
+      "sleep tight"
+    ]
+  },
+  "TINY": {
+    "tr": "Крошечный / Малюсенький",
+    "def": "Очень маленький по величине.",
+    "ph": "[ˈtaɪni]",
+    "ex": "Tiny seed — Крошечное семечко.",
+    "collocations": [
+      "tiny step",
+      "tiny baby"
+    ]
+  },
+  "TIP": {
+    "tr": "Подсказка / Чаевые / Кончик",
+    "def": "Полезный совет или вознаграждение.",
+    "ph": "[tɪp]",
+    "ex": "Helpful tip — Полезная подсказка.",
+    "collocations": [
+      "pro tip",
+      "leave a tip"
+    ]
+  },
+  "TIRED": {
+    "tr": "Усталый / Утомленный",
+    "def": "Испытывающий потребность во сне.",
+    "ph": "[ˈtaɪəd]",
+    "ex": "Feel tired — Чувствовать усталость.",
+    "collocations": [
+      "tired of waiting",
+      "get tired"
+    ]
+  },
+  "TITLE": {
+    "tr": "Заголовок / Название",
+    "def": "Имя книги, фильма или уровень ранга.",
+    "ph": "[ˈtaɪtl]",
+    "ex": "Book title — Название книги.",
+    "collocations": [
+      "job title",
+      "title page"
+    ]
+  },
+  "TODAY": {
+    "tr": "Сегодня",
+    "def": "Текущий день нашей жизни.",
+    "ph": "[təˈdeɪ]",
+    "ex": "Today is good — Сегодня прекрасный день.",
+    "collocations": [
+      "today morning",
+      "born today"
+    ]
+  },
+  "TOGETHER": {
+    "tr": "Вместе / Совместно",
+    "def": "В союзе друг с другом, в согласии.",
+    "ph": "[təˈɡeðə]",
+    "ex": "Work together — Трудиться вместе.",
+    "collocations": [
+      "all together",
+      "stay together"
+    ]
+  },
+  "TOMORROW": {
+    "tr": "Завтра",
+    "def": "День, который наступит вслед за сегодня.",
+    "ph": "[təˈmɒrəʊ]",
+    "ex": "See you tomorrow — Увидимся завтра.",
+    "collocations": [
+      "tomorrow morning",
+      "plan for tomorrow"
+    ]
+  },
+  "TONE": {
+    "tr": "Тон / Оттенок",
+    "def": "Высота голоса или цветовой оттенок.",
+    "ph": "[təʊn]",
+    "ex": "Warm tone — Теплый тон.",
+    "collocations": [
+      "tone of voice",
+      "skin tone"
+    ]
+  },
+  "TONIGHT": {
+    "tr": "Сегодня вечером / Ночью",
+    "def": "Наступающий сегодняшний вечер.",
+    "ph": "[təˈnaɪt]",
+    "ex": "Tonight at eight — Сегодня в восемь.",
+    "collocations": [
+      "see you tonight",
+      "party tonight"
+    ]
+  },
+  "TOO": {
+    "tr": "Тоже / Слишком",
+    "def": "Также или в избыточной мере.",
+    "ph": "[tuː]",
+    "ex": "Too much — Слишком много.",
+    "collocations": [
+      "me too",
+      "too late"
+    ]
+  },
+  "TOOL": {
+    "tr": "Инструмент / Орудие",
+    "def": "Прибор для созидательного труда.",
+    "ph": "[tuːl]",
+    "ex": "Hand tool — Ручной инструмент.",
+    "collocations": [
+      "set of tools",
+      "useful tool"
+    ]
+  },
+  "TOOTH": {
+    "tr": "Зуб",
+    "def": "Твердое костное образование во рту.",
+    "ph": "[tuːθ]",
+    "ex": "Clean a tooth — Чистить зуб.",
+    "collocations": [
+      "sweet tooth",
+      "baby tooth"
+    ]
+  },
+  "TOP": {
+    "tr": "Верх / Вершина / Топ",
+    "def": "Наивысшая верхняя часть предмета.",
+    "ph": "[tɒp]",
+    "ex": "On top of the world — На вершине мира.",
+    "collocations": [
+      "top speed",
+      "from top to bottom"
+    ]
+  },
+  "TOTAL": {
+    "tr": "Общий / Полный",
+    "def": "Суммарный итог без остатка.",
+    "ph": "[ˈtəʊtl]",
+    "ex": "Total sum — Общая сумма.",
+    "collocations": [
+      "total score",
+      "in total"
+    ]
+  },
+  "TOUCH": {
+    "tr": "Прикосновение / Касаться",
+    "def": "Осязать предмет кончиками пальцев.",
+    "ph": "[tʌtʃ]",
+    "ex": "Touch screen — Сенсорный экран.",
+    "collocations": [
+      "stay in touch",
+      "gentle touch"
+    ]
+  },
+  "TOUGH": {
+    "tr": "Крепкий / Стойкий / Трудный",
+    "def": "Выносливый или требующий сил.",
+    "ph": "[tʌf]",
+    "ex": "Tough choice — Трудный выбор.",
+    "collocations": [
+      "tough guy",
+      "get tough"
+    ]
+  },
+  "TOUR": {
+    "tr": "Тур / Экскурсия",
+    "def": "Путешествие по красивым местам.",
+    "ph": "[tʊə]",
+    "ex": "City tour — Экскурсия по городу.",
+    "collocations": [
+      "tour guide",
+      "take a tour"
+    ]
+  },
+  "TOURIST": {
+    "tr": "Турист / Путешественник",
+    "def": "Человек, осматривающий красоты мира.",
+    "ph": "[ˈtʊərɪst]",
+    "ex": "Happy tourist — Счастливый турист.",
+    "collocations": [
+      "tourist spot",
+      "tourist map"
+    ]
+  },
+  "TOWARDS": {
+    "tr": "По направлению к",
+    "def": "В сторону определенного объекта.",
+    "ph": "[təˈwɔːdz]",
+    "ex": "Step towards goal — Шаг к цели.",
+    "collocations": [
+      "walk towards",
+      "move towards"
+    ]
+  },
+  "TRADITION": {
+    "tr": "Традиция / Обычай",
+    "def": "Уклад предков, передаваемый веками.",
+    "ph": "[trəˈdɪʃn]",
+    "ex": "Family tradition — Семейная традиция.",
+    "collocations": [
+      "rich tradition",
+      "keep tradition"
+    ]
+  },
+  "TRAVEL": {
+    "tr": "Путешествовать / Поездка",
+    "def": "Странствовать по городам и странам.",
+    "ph": "[ˈtrævl]",
+    "ex": "Travel the world — Путешествовать по миру.",
+    "collocations": [
+      "travel by train",
+      "love travel"
+    ]
+  },
+  "TREAT": {
+    "tr": "Относиться / Лечить / Угощать",
+    "def": "Проявлять заботу или вкусное угощение.",
+    "ph": "[triːt]",
+    "ex": "Treat with care — Бережно относиться.",
+    "collocations": [
+      "trick or treat",
+      "treat well"
+    ]
+  },
+  "TREATMENT": {
+    "tr": "Лечение / Уход",
+    "def": "Медицинская терапия или отношение.",
+    "ph": "[ˈtriːtmənt]",
+    "ex": "Medical treatment — Медицинское лечение.",
+    "collocations": [
+      "spa treatment",
+      "fair treatment"
+    ]
+  },
+  "TRIP": {
+    "tr": "Поездка / Путешествие",
+    "def": "Короткое приятное путешествие.",
+    "ph": "[trɪp]",
+    "ex": "Day trip — Однодневная поездка.",
+    "collocations": [
+      "safe trip",
+      "business trip"
+    ]
+  },
+  "TROUBLE": {
+    "tr": "Беда / Неприятность",
+    "def": "Сложное положение или тревога.",
+    "ph": "[ˈtrʌbl]",
+    "ex": "No trouble — Никаких проблем.",
+    "collocations": [
+      "get in trouble",
+      "ask for trouble"
+    ]
+  },
+  "TRUE": {
+    "tr": "Истинный / Правдивый",
+    "def": "Соответствующий чистой правде.",
+    "ph": "[truː]",
+    "ex": "True story — Правдивая история.",
+    "collocations": [
+      "come true",
+      "true friend"
+    ]
+  },
+  "TRUST": {
+    "tr": "Доверие / Доверять",
+    "def": "Твердая вера в честность и надежность.",
+    "ph": "[trʌst]",
+    "ex": "Trust in you — Доверяю тебе.",
+    "collocations": [
+      "build trust",
+      "mutual trust"
+    ]
+  },
+  "TRY": {
+    "tr": "Пробовать / Стараться",
+    "def": "Прилагать искренние усилия к делу.",
+    "ph": "[traɪ]",
+    "ex": "Try your best — Старайся изо всех сил.",
+    "collocations": [
+      "try again",
+      "have a try"
+    ]
+  },
+  "TURN": {
+    "tr": "Поворачивать / Очередь",
+    "def": "Менять направление или твой черед.",
+    "ph": "[tɜːn]",
+    "ex": "Turn left — Повернуть налево.",
+    "collocations": [
+      "your turn",
+      "turn around"
+    ]
+  },
+  "TWICE": {
+    "tr": "Дважды / Вдвойне",
+    "def": "Два раза по времени или объему.",
+    "ph": "[twaɪs]",
+    "ex": "Think twice — Подумай дважды.",
+    "collocations": [
+      "twice a week",
+      "twice as much"
+    ]
+  },
+  "TYPE": {
+    "tr": "Тип / Вид / Печатать",
+    "def": "Разновидность или набор букв на клавишах.",
+    "ph": "[taɪp]",
+    "ex": "Type of flower — Сорт цветка.",
+    "collocations": [
+      "type fast",
+      "blood type"
+    ]
+  },
+  "TYPICAL": {
+    "tr": "Типичный / Характерный",
+    "def": "Образцовый для данной категории.",
+    "ph": "[ˈtɪpɪkl]",
+    "ex": "Typical day — Обычный типичный день.",
+    "collocations": [
+      "typical example",
+      "typical for"
+    ]
+  },
+  "UGLY": {
+    "tr": "Некрасивый / Неприглядный",
+    "def": "Лишенный внешней красоты.",
+    "ph": "[ˈʌɡli]",
+    "ex": "Ugly weather — Скверная погода.",
+    "collocations": [
+      "ugly duckling",
+      "look ugly"
+    ]
+  },
+  "UNCLE": {
+    "tr": "Дядя",
+    "def": "Брат отца или матери.",
+    "ph": "[ˈʌŋkl]",
+    "ex": "Dear uncle — Дорогой дядя.",
+    "collocations": [
+      "uncle Sam",
+      "visit uncle"
+    ]
+  },
+  "UNDER": {
+    "tr": "Под / Ниже",
+    "def": "Находящийся внизу под предметом.",
+    "ph": "[ˈʌndə]",
+    "ex": "Under the tree — Под деревом.",
+    "collocations": [
+      "under control",
+      "under water"
+    ]
+  },
+  "UNDERSTAND": {
+    "tr": "Понимать / Осознавать",
+    "def": "Ясно постигать смысл умом.",
+    "ph": "[ˌʌndəˈstænd]",
+    "ex": "I understand — Я понимаю.",
+    "collocations": [
+      "hard to understand",
+      "clearly understand"
+    ]
+  },
+  "UNIT": {
+    "tr": "Единица / Блок",
+    "def": "Составная часть большой системы.",
+    "ph": "[ˈjuːnɪt]",
+    "ex": "Lesson unit — Раздел урока.",
+    "collocations": [
+      "family unit",
+      "unit of measure"
+    ]
+  },
+  "UNTIL": {
+    "tr": "До тех пор пока / До",
+    "def": "Вплоть до указанного момента.",
+    "ph": "[ənˈtɪl]",
+    "ex": "Until tomorrow — До завтра.",
+    "collocations": [
+      "wait until",
+      "until the end"
+    ]
+  },
+  "UPON": {
+    "tr": "На / Поверх",
+    "def": "Предлог нахождения на поверхности.",
+    "ph": "[əˈpɒn]",
+    "ex": "Once upon a time — Однажды давным-давно.",
+    "collocations": [
+      "upon arrival",
+      "depend upon"
+    ]
+  },
+  "UPPER": {
+    "tr": "Верхний / Высший",
+    "def": "Расположенный выше других.",
+    "ph": "[ˈʌpə]",
+    "ex": "Upper floor — Верхний этаж.",
+    "collocations": [
+      "upper level",
+      "upper case"
+    ]
+  },
+  "USE": {
+    "tr": "Использовать / Польза",
+    "def": "Применять предмет для дела.",
+    "ph": "[juːz]",
+    "ex": "Use a computer — Использовать компьютер.",
+    "collocations": [
+      "make use of",
+      "in use"
+    ]
+  },
+  "USEFUL": {
+    "tr": "Полезный",
+    "def": "Приносящий ощутимое благо и помощь.",
+    "ph": "[ˈjuːsfl]",
+    "ex": "Useful tip — Полезный совет.",
+    "collocations": [
+      "very useful",
+      "useful skills"
+    ]
+  },
+  "USUAL": {
+    "tr": "Обычный / Привычный",
+    "def": "Соответствующий заведенному порядку.",
+    "ph": "[ˈjuːʒuəl]",
+    "ex": "As usual — Как обычно.",
+    "collocations": [
+      "usual time",
+      "more than usual"
+    ]
+  },
+  "VALUE": {
+    "tr": "Ценность / Значение / Ценить",
+    "def": "Важность вещи или ее стоимость.",
+    "ph": "[ˈvæljuː]",
+    "ex": "True value — Истинная ценность.",
+    "collocations": [
+      "add value",
+      "moral values"
+    ]
+  },
+  "VARIETY": {
+    "tr": "Разнообразие / Сорт",
+    "def": "Множество различных видов.",
+    "ph": "[vəˈraɪəti]",
+    "ex": "Great variety — Большое разнообразие.",
+    "collocations": [
+      "variety of food",
+      "for a variety of reasons"
+    ]
+  },
+  "VARIOUS": {
+    "tr": "Различный / Разнообразный",
+    "def": "Неодинаковый по своим формам.",
+    "ph": "[ˈveəriəs]",
+    "ex": "Various topics — Различные темы.",
+    "collocations": [
+      "for various reasons",
+      "various colors"
+    ]
+  },
+  "VERY": {
+    "tr": "Очень",
+    "def": "В высшей степени проявления качества.",
+    "ph": "[ˈveri]",
+    "ex": "Very good — Очень хорошо.",
+    "collocations": [
+      "very much",
+      "the very best"
+    ]
+  },
+  "VIEW": {
+    "tr": "Вид / Взгляд / Смотреть",
+    "def": "Панорама пейзажа или точка зрения.",
+    "ph": "[vjuː]",
+    "ex": "Stunning view — Потрясающий вид.",
+    "collocations": [
+      "point of view",
+      "room with view"
+    ]
+  },
+  "VISIT": {
+    "tr": "Посещать / Визит",
+    "def": "Приходить в гости или музей.",
+    "ph": "[ˈvɪzɪt]",
+    "ex": "Visit friends — Навещать друзей.",
+    "collocations": [
+      "pay a visit",
+      "visit city"
+    ]
+  },
+  "VISITOR": {
+    "tr": "Посетитель / Гость",
+    "def": "Человек, пришедший на выставку.",
+    "ph": "[ˈvɪzɪtə]",
+    "ex": "Welcome visitor — Желанный гость.",
+    "collocations": [
+      "museum visitor",
+      "frequent visitor"
+    ]
+  },
+  "VOICE": {
+    "tr": "Голос",
+    "def": "Звуки, издаваемые человеком при речи.",
+    "ph": "[vɔɪs]",
+    "ex": "Warm voice — Теплый голос.",
+    "collocations": [
+      "tone of voice",
+      "clear voice"
+    ]
+  },
+  "WAIT": {
+    "tr": "Ждать / Ожидание",
+    "def": "Проводить время в надежде на встречу.",
+    "ph": "[weɪt]",
+    "ex": "Wait for me — Подожди меня.",
+    "collocations": [
+      "wait a minute",
+      "cannot wait"
+    ]
+  },
+  "WAKE": {
+    "tr": "Просыпаться / Будить",
+    "def": "Переходить от сна к бодрствованию.",
+    "ph": "[weɪk]",
+    "ex": "Wake up — Просыпайся.",
+    "collocations": [
+      "wake early",
+      "wake me up"
+    ]
+  },
+  "WARM": {
+    "tr": "Теплый / Согревать",
+    "def": "Имеющий приятную ласковую температуру.",
+    "ph": "[wɔːm]",
+    "ex": "Warm sun — Теплое солнце.",
+    "collocations": [
+      "warm heart",
+      "keep warm"
+    ]
+  },
+  "WASH": {
+    "tr": "Мыть / Стирать",
+    "def": "Очищать водой с мылом.",
+    "ph": "[wɒʃ]",
+    "ex": "Wash hands — Мыть руки.",
+    "collocations": [
+      "wash face",
+      "car wash"
+    ]
+  },
+  "WASTE": {
+    "tr": "Тратить впустую / Отходы",
+    "def": "Нерационально расходовать время.",
+    "ph": "[weɪst]",
+    "ex": "Don't waste time — Не теряй время.",
+    "collocations": [
+      "waste of money",
+      "zero waste"
+    ]
+  },
+  "WEAK": {
+    "tr": "Слабый",
+    "def": "Лишенный достаточной физической силы.",
+    "ph": "[wiːk]",
+    "ex": "Feel weak — Чувствовать слабость.",
+    "collocations": [
+      "weak point",
+      "weak voice"
+    ]
+  },
+  "WEALTH": {
+    "tr": "Богатство / Изобилие",
+    "def": "Материальный достаток и ресурсы.",
+    "ph": "[welθ]",
+    "ex": "Health is wealth — Здоровье — главное богатство.",
+    "collocations": [
+      "wealth of knowledge",
+      "create wealth"
+    ]
+  },
+  "WEAPON": {
+    "tr": "Оружие",
+    "def": "Орудие защиты и обороны.",
+    "ph": "[ˈwepən]",
+    "ex": "Secret weapon — Секретное оружие.",
+    "collocations": [
+      "peace weapon",
+      "defensive weapon"
+    ]
+  },
+  "WEAR": {
+    "tr": "Носить (одежду)",
+    "def": "Быть одетым в наряд.",
+    "ph": "[weə]",
+    "ex": "Wear a hat — Носить шляпу.",
+    "collocations": [
+      "wear clothes",
+      "wear smile"
+    ]
+  },
+  "WEEK": {
+    "tr": "Неделя",
+    "def": "Период времени из 7 дней.",
+    "ph": "[wiːk]",
+    "ex": "Next week — На следующей неделе.",
+    "collocations": [
+      "week by week",
+      "weekend"
+    ]
+  },
+  "WEIGHT": {
+    "tr": "Вес / Тяжесть",
+    "def": "Масса тела на весах.",
+    "ph": "[weɪt]",
+    "ex": "Lose weight — Сбросить вес.",
+    "collocations": [
+      "heavy weight",
+      "weight lift"
+    ]
+  },
+  "WELL": {
+    "tr": "Хорошо / Колодец",
+    "def": "Успешно, качественно или источник воды.",
+    "ph": "[wel]",
+    "ex": "Well done — Отлично сделано.",
+    "collocations": [
+      "as well",
+      "feel well"
+    ]
+  },
+  "WEST": {
+    "tr": "Запад",
+    "def": "Сторона света заката солнца.",
+    "ph": "[west]",
+    "ex": "Go west — Идти на запад.",
+    "collocations": [
+      "wild west",
+      "west coast"
+    ]
+  },
+  "WET": {
+    "tr": "Мокрый / Влажный",
+    "def": "Пропитанный дождевой водой.",
+    "ph": "[wet]",
+    "ex": "Wet grass — Мокрая трава.",
+    "collocations": [
+      "wet floor",
+      "get wet"
+    ]
+  },
+  "WHAT": {
+    "tr": "Что / Какой",
+    "def": "Вопросительное слово о предметах.",
+    "ph": "[wɒt]",
+    "ex": "What is this? — Что это?",
+    "collocations": [
+      "what time",
+      "what about"
+    ]
+  },
+  "WHATEVER": {
+    "tr": "Что бы ни / Любой",
+    "def": "Любое мыслимое событие.",
+    "ph": "[wɒtˈevə]",
+    "ex": "Whatever happens — Что бы ни случилось.",
+    "collocations": [
+      "do whatever",
+      "whatever you want"
+    ]
+  },
+  "WHEEL": {
+    "tr": "Колесо",
+    "def": "Круглый вращающийся диск на оси.",
+    "ph": "[wiːl]",
+    "ex": "Car wheel — Колесо автомобиля.",
+    "collocations": [
+      "ferris wheel",
+      "spin the wheel"
+    ]
+  },
+  "WHEN": {
+    "tr": "Когда",
+    "def": "Вопросительное слово момента времени.",
+    "ph": "[wen]",
+    "ex": "When to start? — Когда начинать?",
+    "collocations": [
+      "since when",
+      "when ready"
+    ]
+  },
+  "WHENEVER": {
+    "tr": "Всякий раз когда",
+    "def": "В любой момент наступления события.",
+    "ph": "[wenˈevə]",
+    "ex": "Whenever you want — Когда захочешь.",
+    "collocations": [
+      "whenever possible",
+      "call whenever"
+    ]
+  },
+  "WHERE": {
+    "tr": "Где / Куда",
+    "def": "Вопросительное слово места.",
+    "ph": "[weə]",
+    "ex": "Where are you? — Где ты?",
+    "collocations": [
+      "where to go",
+      "where from"
+    ]
+  },
+  "WHEREVER": {
+    "tr": "Где бы ни / Куда угодно",
+    "def": "В любом месте пространства.",
+    "ph": "[weərˈevə]",
+    "ex": "Wherever you go — Куда бы ты ни пошел.",
+    "collocations": [
+      "find wherever",
+      "wherever possible"
+    ]
+  },
+  "WHETHER": {
+    "tr": "Ли (союз)",
+    "def": "Союз выбора из двух вероятностей.",
+    "ph": "[ˈweðə]",
+    "ex": "Whether or not — Так или иначе.",
+    "collocations": [
+      "know whether",
+      "decide whether"
+    ]
+  },
+  "WHICH": {
+    "tr": "Который / Какой из",
+    "def": "Определенный объект из группы.",
+    "ph": "[wɪtʃ]",
+    "ex": "Which one? — Который из них?",
+    "collocations": [
+      "which way",
+      "choose which"
+    ]
+  },
+  "WHILE": {
+    "tr": "Пока / В то время как",
+    "def": "На протяжении одновременного действия.",
+    "ph": "[waɪl]",
+    "ex": "While listening — Пока слушал.",
+    "collocations": [
+      "for a while",
+      "worth while"
+    ]
+  },
+  "WHITE": {
+    "tr": "Белый",
+    "def": "Цвет снега, мела и чистоты.",
+    "ph": "[waɪt]",
+    "ex": "White snow — Белый снег.",
+    "collocations": [
+      "black and white",
+      "pure white"
+    ]
+  },
+  "WHO": {
+    "tr": "Кто",
+    "def": "Вопросительное слово о личности человека.",
+    "ph": "[huː]",
+    "ex": "Who is that? — Кто это?",
+    "collocations": [
+      "who knows",
+      "who else"
+    ]
+  },
+  "WHOLE": {
+    "tr": "Весь / Целый",
+    "def": "Полный без остатка.",
+    "ph": "[həʊl]",
+    "ex": "Whole family — Вся семья.",
+    "collocations": [
+      "whole world",
+      "on the whole"
+    ]
+  },
+  "WHOM": {
+    "tr": "Кого / Кому",
+    "def": "Объектное местоимение человека.",
+    "ph": "[huːm]",
+    "ex": "To whom it may concern — Тем, кого это касается.",
+    "collocations": [
+      "with whom",
+      "by whom"
+    ]
+  },
+  "WHOSE": {
+    "tr": "Чей",
+    "def": "Вопросительное слово принадлежности.",
+    "ph": "[huːz]",
+    "ex": "Whose book is this? — Чья это книга?",
+    "collocations": [
+      "whose turn",
+      "know whose"
+    ]
+  },
+  "WHY": {
+    "tr": "Почему / Зачем",
+    "def": "Вопросительное слово причины.",
+    "ph": "[waɪ]",
+    "ex": "Why not? — Почему бы и нет?",
+    "collocations": [
+      "that is why",
+      "ask why"
+    ]
+  },
+  "WIDE": {
+    "tr": "Широкий",
+    "def": "Имеющий большое поперечное расстояние.",
+    "ph": "[waɪd]",
+    "ex": "Wide road — Широкая дорога.",
+    "collocations": [
+      "wide smile",
+      "world wide"
+    ]
+  },
+  "WIFE": {
+    "tr": "Жена / Супруга",
+    "def": "Замужняя женщина по отношению к мужу.",
+    "ph": "[waɪf]",
+    "ex": "Beloved wife — Любимая жена.",
+    "collocations": [
+      "husband and wife",
+      "good wife"
+    ]
+  },
+  "WILD": {
+    "tr": "Дикий / Неприрученный",
+    "def": "Живущий свободно в природе лесов.",
+    "ph": "[waɪld]",
+    "ex": "Wild animal — Дикое животное.",
+    "collocations": [
+      "wild nature",
+      "wild life"
+    ]
+  },
+  "WILL": {
+    "tr": "Воля / Будет",
+    "def": "Сила духа или показатель будущего времени.",
+    "ph": "[wɪl]",
+    "ex": "Free will — Свободная воля.",
+    "collocations": [
+      "strong will",
+      "will to win"
+    ]
+  },
+  "WINNER": {
+    "tr": "Победитель / Чемпион",
+    "def": "Человек, одержавший триумф.",
+    "ph": "[ˈwɪnə]",
+    "ex": "Proud winner — Гордый победитель.",
+    "collocations": [
+      "prize winner",
+      "lucky winner"
+    ]
+  },
+  "WISH": {
+    "tr": "Желание / Желать",
+    "def": "Искреннее стремление сердца.",
+    "ph": "[wɪʃ]",
+    "ex": "Make a wish — Загадать желание.",
+    "collocations": [
+      "best wishes",
+      "wish you well"
+    ]
+  },
+  "WITH": {
+    "tr": "С / Вместе с",
+    "def": "Предлог совместного действия.",
+    "ph": "[wɪð]",
+    "ex": "Come with me — Пойдем со мной.",
+    "collocations": [
+      "with love",
+      "with pleasure"
+    ]
+  },
+  "WITHIN": {
+    "tr": "Внутри / В пределах",
+    "def": "Не выходя за установленные рамки.",
+    "ph": "[wɪˈðɪn]",
+    "ex": "Within an hour — В течение часа.",
+    "collocations": [
+      "within reach",
+      "from within"
+    ]
+  },
+  "WITHOUT": {
+    "tr": "Без",
+    "def": "В отсутствие названного предмета.",
+    "ph": "[wɪˈðaʊt]",
+    "ex": "Without doubt — Без сомнения.",
+    "collocations": [
+      "do without",
+      "without you"
+    ]
+  },
+  "WOMAN": {
+    "tr": "Женщина",
+    "def": "Взрослый человек женского пола.",
+    "ph": "[ˈwʊmən]",
+    "ex": "Kind woman — Добрая женщина.",
+    "collocations": [
+      "young woman",
+      "wise woman"
+    ]
+  },
+  "WONDER": {
+    "tr": "Чудо / Интересоваться",
+    "def": "Удивляться или великое чудо света.",
+    "ph": "[ˈwʌndə]",
+    "ex": "Wonder of the world — Чудо света.",
+    "collocations": [
+      "no wonder",
+      "I wonder"
+    ]
+  },
+  "WORD": {
+    "tr": "Слово",
+    "def": "Единица человеческой речи и мысли.",
+    "ph": "[wɜːd]",
+    "ex": "Kind word — Доброе слово.",
+    "collocations": [
+      "in other words",
+      "word of honor"
+    ]
+  },
+  "WORK": {
+    "tr": "Работа / Трудиться",
+    "def": "Полезная созидательная деятельность.",
+    "ph": "[wɜːk]",
+    "ex": "Hard work — Упорный труд.",
+    "collocations": [
+      "work hard",
+      "go to work"
+    ]
+  },
+  "WORLD": {
+    "tr": "Мир / Земной шар",
+    "def": "Вся наша обитаемая планета.",
+    "ph": "[wɜːld]",
+    "ex": "Around the world — Вокруг света.",
+    "collocations": [
+      "world peace",
+      "real world"
+    ]
+  },
+  "WORRY": {
+    "tr": "Беспокоиться / Тревога",
+    "def": "Испытывать душевное волнение.",
+    "ph": "[ˈwʌri]",
+    "ex": "Don't worry — Не волнуйся.",
+    "collocations": [
+      "worry about",
+      "no worries"
+    ]
+  },
+  "WORSE": {
+    "tr": "Хуже",
+    "def": "Более плохой по сравнению с прежним.",
+    "ph": "[wɜːs]",
+    "ex": "Getting worse — Становится хуже.",
+    "collocations": [
+      "for worse",
+      "much worse"
+    ]
+  },
+  "WORST": {
+    "tr": "Худший / Хуже всего",
+    "def": "Наиболее плохой из всех возможных.",
+    "ph": "[wɜːst]",
+    "ex": "Worst case — Худший случай.",
+    "collocations": [
+      "at worst",
+      "worst ever"
+    ]
+  },
+  "WORTH": {
+    "tr": "Стоящий / Ценность",
+    "def": "Заслуживающий внимания и сил.",
+    "ph": "[wɜːθ]",
+    "ex": "Worth it — Оно того стоит.",
+    "collocations": [
+      "worth seeing",
+      "net worth"
+    ]
+  },
+  "WOULD": {
+    "tr": "Бы (сослагательное)",
+    "def": "Выражение вежливой просьбы или мечты.",
+    "ph": "[wʊd]",
+    "ex": "Would you like? — Не желаете ли?",
+    "collocations": [
+      "would love to",
+      "as it would"
+    ]
+  },
+  "WRITE": {
+    "tr": "Писать / Сочинять",
+    "def": "Фиксировать слова ручкой на бумаге.",
+    "ph": "[raɪt]",
+    "ex": "Write a letter — Написать письмо.",
+    "collocations": [
+      "write down",
+      "learn to write"
+    ]
+  },
+  "WRONG": {
+    "tr": "Неправильный / Ошибка",
+    "def": "Содержащий ошибку или несправедливый.",
+    "ph": "[rɒŋ]",
+    "ex": "Wrong answer — Неправильный ответ.",
+    "collocations": [
+      "what is wrong",
+      "go wrong"
+    ]
+  },
+  "YEAR": {
+    "tr": "Год",
+    "def": "Отрезок времени в 12 месяцев (365 дней).",
+    "ph": "[jɪə]",
+    "ex": "Happy New Year — С Новым Годом!",
+    "collocations": [
+      "year after year",
+      "this year"
+    ]
+  },
+  "YES": {
+    "tr": "Да",
+    "def": "Слово согласия и утверждения.",
+    "ph": "[jes]",
+    "ex": "Yes of course — Да, конечно.",
+    "collocations": [
+      "say yes",
+      "oh yes"
+    ]
+  },
+  "YET": {
+    "tr": "Еще / Все же",
+    "def": "До настоящего момента или однако.",
+    "ph": "[jet]",
+    "ex": "Not yet — Еще нет.",
+    "collocations": [
+      "better yet",
+      "as yet"
+    ]
+  },
+  "YOUNG": {
+    "tr": "Молодой / Юный",
+    "def": "Имеющий малый возраст, полный сил.",
+    "ph": "[jʌŋ]",
+    "ex": "Young man — Молодой человек.",
+    "collocations": [
+      "forever young",
+      "young generation"
+    ]
+  },
+  "YOUR": {
+    "tr": "Твой / Ваш",
+    "def": "Принадлежащий вам.",
+    "ph": "[jɔː]",
+    "ex": "Your turn — Твой черед.",
+    "collocations": [
+      "your choice",
+      "your name"
+    ]
+  },
+  "YOURSELF": {
+    "tr": "Ты сам / Себя",
+    "def": "Лично ты в качестве объекта.",
+    "ph": "[jɔːˈself]",
+    "ex": "Be yourself — Будь собой.",
+    "collocations": [
+      "by yourself",
+      "take care of yourself"
+    ]
+  },
+  "YOUTH": {
+    "tr": "Молодость / Юность",
+    "def": "Прекрасная пора юности и открытий.",
+    "ph": "[juːθ]",
+    "ex": "In my youth — В моей юности.",
+    "collocations": [
+      "youth club",
+      "fountain of youth"
+    ]
+  },
+  "ZONE": {
+    "tr": "Зона / Область",
+    "def": "Выделенный сектор пространства.",
+    "ph": "[zəʊn]",
+    "ex": "Time zone — Часовой пояс.",
+    "collocations": [
+      "comfort zone",
+      "safe zone"
+    ]
+  },
+  "ACCEPT": {
+    "tr": "Принимать",
+    "def": "Соглашаться взять подарок или предложение.",
+    "ph": "[əkˈsept]",
+    "ex": "Accept invitation — Принять приглашение.",
+    "collocations": [
+      "accept offer",
+      "willing to accept"
+    ]
+  },
+  "ACTIVE": {
+    "tr": "Активный / Деятельный",
+    "def": "Полный энергии и движения.",
+    "ph": "[ˈæktɪv]",
+    "ex": "Active life — Активная жизнь.",
+    "collocations": [
+      "stay active",
+      "active member"
+    ]
+  },
+  "AFRICA": {
+    "tr": "Африка",
+    "def": "Второй по величине континент планеты.",
+    "ph": "[ˈæfrɪkə]",
+    "ex": "Travel to Africa — Путешествовать в Африку.",
+    "collocations": [
+      "wild Africa",
+      "African safari"
+    ]
+  },
+  "AMAZING": {
+    "tr": "Удивительный / Потрясающий",
+    "def": "Вызывающий сильное восхищение.",
+    "ph": "[əˈmeɪzɪŋ]",
+    "ex": "Amazing view — Потрясающий вид.",
+    "collocations": [
+      "look amazing",
+      "truly amazing"
+    ]
+  },
+  "AMOUNT": {
+    "tr": "Количество",
+    "def": "Общий объем или сумма.",
+    "ph": "[əˈmaʊnt]",
+    "ex": "Equal amount — Равное количество.",
+    "collocations": [
+      "large amount",
+      "small amount"
+    ]
+  },
+  "ANNUAL": {
+    "tr": "Ежегодный",
+    "def": "Происходящий раз в год.",
+    "ph": "[ˈænjuəl]",
+    "ex": "Annual meeting — Годовое собрание.",
+    "collocations": [
+      "annual event",
+      "annual report"
+    ]
+  },
+  "ANYWAY": {
+    "tr": "В любом случае",
+    "def": "Несмотря ни на что.",
+    "ph": "[ˈeniweɪ]",
+    "ex": "Thanks anyway — В любом случае спасибо.",
+    "collocations": [
+      "do anyway",
+      "anyway let us start"
+    ]
+  },
+  "APART": {
+    "tr": "Врозь / Отдельно",
+    "def": "На некотором расстоянии друг от друга.",
+    "ph": "[əˈpɑːt]",
+    "ex": "Stand apart — Стоять поодаль.",
+    "collocations": [
+      "apart from",
+      "fall apart"
+    ]
+  },
+  "AUGUST": {
+    "tr": "Август",
+    "def": "Последний теплый месяц лета.",
+    "ph": "[ˈɔːɡəst]",
+    "ex": "In August — В августе.",
+    "collocations": [
+      "month of August",
+      "late August"
+    ]
+  },
+  "AVOID": {
+    "tr": "Избегать",
+    "def": "Уклоняться от ошибок и опасностей.",
+    "ph": "[əˈvɔɪd]",
+    "ex": "Avoid mistakes — Избегать ошибок.",
+    "collocations": [
+      "avoid danger",
+      "carefully avoid"
+    ]
+  },
+  "AWARD": {
+    "tr": "Награда",
+    "def": "Почетный приз за победу.",
+    "ph": "[əˈwɔːd]",
+    "ex": "Win an award — Выиграть награду.",
+    "collocations": [
+      "gold award",
+      "award ceremony"
+    ]
+  },
+  "BACK": {
+    "tr": "Назад / Спина",
+    "def": "В обратную сторону или спина.",
+    "ph": "[bæk]",
+    "ex": "Come back — Возвращайся.",
+    "collocations": [
+      "back yard",
+      "look back"
+    ]
+  },
+  "BANK": {
+    "tr": "Банк / Берег реки",
+    "def": "Финансовое учреждение или берег реки.",
+    "ph": "[bæŋk]",
+    "ex": "River bank — Берег реки.",
+    "collocations": [
+      "piggy bank",
+      "bank account"
+    ]
+  },
+  "BASE": {
+    "tr": "База / Основа",
+    "def": "Фундамент или опорная точка.",
+    "ph": "[beɪs]",
+    "ex": "Home base — Домашняя база.",
+    "collocations": [
+      "data base",
+      "base on facts"
+    ]
+  },
+  "BASIC": {
+    "tr": "Базовый / Основной",
+    "def": "Фундаментальный, элементарный.",
+    "ph": "[ˈbeɪsɪk]",
+    "ex": "Basic rules — Базовые правила.",
+    "collocations": [
+      "basic knowledge",
+      "basic needs"
+    ]
+  },
+  "BEAT": {
+    "tr": "Побеждать / Бить",
+    "def": "Одерживать победу или ритмичный стук.",
+    "ph": "[biːt]",
+    "ex": "Heart beat — Стук сердца.",
+    "collocations": [
+      "beat record",
+      "beat the clock"
+    ]
+  },
+  "BELL": {
+    "tr": "Колокол / Звонок",
+    "def": "Звонкий металлический прибор.",
+    "ph": "[bel]",
+    "ex": "Ring the bell — Звонить в колокол.",
+    "collocations": [
+      "school bell",
+      "door bell"
+    ]
+  },
+  "BICYCLE": {
+    "tr": "Велосипед",
+    "def": "Двухколесный транспорт с педалями.",
+    "ph": "[ˈbaɪsɪkl]",
+    "ex": "Ride a bicycle — Ехать на велосипеде.",
+    "collocations": [
+      "bicycle path",
+      "buy bicycle"
+    ]
+  },
+  "BLOCK": {
+    "tr": "Блок / Квартал",
+    "def": "Строительный элемент или квартал.",
+    "ph": "[blɒk]",
+    "ex": "City block — Городской квартал.",
+    "collocations": [
+      "block of flats",
+      "building block"
+    ]
+  },
+  "BLUE": {
+    "tr": "Синий / Голубой",
+    "def": "Цвет ясного неба и морских глубин.",
+    "ph": "[bluː]",
+    "ex": "Blue ocean — Синий океан.",
+    "collocations": [
+      "sky blue",
+      "blue eyes"
+    ]
+  },
+  "BOARD": {
+    "tr": "Доска / Совет",
+    "def": "Деревянная панель или совет директоров.",
+    "ph": "[bɔːd]",
+    "ex": "Board game — Настольная игра.",
+    "collocations": [
+      "on board",
+      "black board"
+    ]
+  },
+  "BONE": {
+    "tr": "Кость",
+    "def": "Твердый элемент скелета тела.",
+    "ph": "[bəʊn]",
+    "ex": "Solid bone — Крепкая кость.",
+    "collocations": [
+      "bone structure",
+      "dry bone"
+    ]
+  },
+  "BORDER": {
+    "tr": "Граница",
+    "def": "Разделительная черта стран.",
+    "ph": "[ˈbɔːdə]",
+    "ex": "Cross the border — Пересечь границу.",
+    "collocations": [
+      "border control",
+      "national border"
+    ]
+  },
+  "BORN": {
+    "tr": "Рожденный",
+    "def": "Появившийся на белый свет.",
+    "ph": "[bɔːn]",
+    "ex": "Born in spring — Рожденный весной.",
+    "collocations": [
+      "new born",
+      "where were you born"
+    ]
+  },
+  "BOTTLE": {
+    "tr": "Бутылка",
+    "def": "Стеклянный сосуд для воды и сока.",
+    "ph": "[ˈbɒtl]",
+    "ex": "Bottle of water — Бутылка воды.",
+    "collocations": [
+      "glass bottle",
+      "open bottle"
+    ]
+  },
+  "BOTTOM": {
+    "tr": "Дно / Низ",
+    "def": "Самая нижняя часть сосуда.",
+    "ph": "[ˈbɒtəm]",
+    "ex": "At the bottom — На самом дне.",
+    "collocations": [
+      "sea bottom",
+      "from top to bottom"
+    ]
+  },
+  "BRAVE": {
+    "tr": "Храбрый / Смелый",
+    "def": "Обладающий мужеством и отвагой.",
+    "ph": "[breɪv]",
+    "ex": "Brave heart — Храброе сердце.",
+    "collocations": [
+      "brave warrior",
+      "stay brave"
+    ]
+  },
+  "BREAK": {
+    "tr": "Перерыв / Ломать",
+    "def": "Пауза для отдыха или разлом.",
+    "ph": "[breɪk]",
+    "ex": "Coffee break — Кофе-брейк.",
+    "collocations": [
+      "take a break",
+      "lunch break"
+    ]
+  },
+  "BRIGHT": {
+    "tr": "Яркий / Светлый",
+    "def": "Излучающий сильный чистый свет.",
+    "ph": "[braɪt]",
+    "ex": "Bright sun — Яркое солнце.",
+    "collocations": [
+      "bright future",
+      "bright smile"
+    ]
+  },
+  "BROWN": {
+    "tr": "Коричневый",
+    "def": "Цвет дубовой коры и шоколада.",
+    "ph": "[braʊn]",
+    "ex": "Brown eyes — Карие глаза.",
+    "collocations": [
+      "dark brown",
+      "brown bread"
+    ]
+  },
+  "BRUSH": {
+    "tr": "Щетка / Кисть",
+    "def": "Инструмент для чистки или рисования.",
+    "ph": "[brʌʃ]",
+    "ex": "Paint brush — Кисть для красок.",
+    "collocations": [
+      "tooth brush",
+      "hair brush"
+    ]
+  },
+  "BUILDING": {
+    "tr": "Здание / Строение",
+    "def": "Архитектурное сооружение со стенами.",
+    "ph": "[ˈbɪldɪŋ]",
+    "ex": "Tall building — Высокое здание.",
+    "collocations": [
+      "modern building",
+      "historic building"
+    ]
+  },
+  "BUTTON": {
+    "tr": "Кнопка / Пуговица",
+    "def": "Элемент управления или застежка.",
+    "ph": "[ˈbʌtn]",
+    "ex": "Press button — Нажать кнопку.",
+    "collocations": [
+      "push button",
+      "shirt button"
+    ]
+  },
+  "CABLE": {
+    "tr": "Кабель",
+    "def": "Провод в прочной изоляции.",
+    "ph": "[ˈkeɪbl]",
+    "ex": "Electric cable — Электрический кабель.",
+    "collocations": [
+      "cable car",
+      "underground cable"
+    ]
+  },
+  "CALM": {
+    "tr": "Спокойный",
+    "def": "Мирный, лишенный волнения.",
+    "ph": "[kɑːm]",
+    "ex": "Calm sea — Спокойное море.",
+    "collocations": [
+      "keep calm",
+      "calm voice"
+    ]
+  },
+  "CAMP": {
+    "tr": "Лагерь",
+    "def": "Палаточный городок на природе.",
+    "ph": "[kæmp]",
+    "ex": "Summer camp — Летний лагерь.",
+    "collocations": [
+      "camp fire",
+      "tent camp"
+    ]
+  },
+  "CAMPUS": {
+    "tr": "Кампус",
+    "def": "Территория учебного городка.",
+    "ph": "[ˈkæmpəs]",
+    "ex": "University campus — Университетский городок.",
+    "collocations": [
+      "on campus",
+      "campus tour"
+    ]
+  },
+  "CANAL": {
+    "tr": "Канал",
+    "def": "Искусственный водный путь.",
+    "ph": "[kəˈnæl]",
+    "ex": "Water canal — Водный канал.",
+    "collocations": [
+      "panama canal",
+      "boat on canal"
+    ]
+  },
+  "CANDLE": {
+    "tr": "Свеча",
+    "def": "Восковой цилиндр с фитилем.",
+    "ph": "[ˈkændl]",
+    "ex": "Candle light — Свет свечи.",
+    "collocations": [
+      "light a candle",
+      "scented candle"
+    ]
+  },
+  "CAPABLE": {
+    "tr": "Способный",
+    "def": "Обладающий нужными силами.",
+    "ph": "[ˈkeɪpəbl]",
+    "ex": "Capable leader — Способный лидер.",
+    "collocations": [
+      "highly capable",
+      "capable of"
+    ]
+  },
+  "CAPITAL": {
+    "tr": "Столица",
+    "def": "Главный город государства.",
+    "ph": "[ˈkæpɪtl]",
+    "ex": "Capital city — Столица.",
+    "collocations": [
+      "state capital",
+      "capital letter"
+    ]
+  },
+  "CAPTURE": {
+    "tr": "Захватывать",
+    "def": "Ловить момент или образ.",
+    "ph": "[ˈkæptʃə]",
+    "ex": "Capture moment — Запечатлеть момент.",
+    "collocations": [
+      "capture attention",
+      "capture image"
+    ]
+  },
+  "CARD": {
+    "tr": "Карточка",
+    "def": "Плотный лист бумаги или карта.",
+    "ph": "[kɑːd]",
+    "ex": "Credit card — Кредитная карта.",
+    "collocations": [
+      "post card",
+      "business card"
+    ]
+  },
+  "CAREER": {
+    "tr": "Карьера",
+    "def": "Путь профессионального роста.",
+    "ph": "[kəˈrɪə]",
+    "ex": "Bright career — Блестящая карьера.",
+    "collocations": [
+      "career path",
+      "start career"
+    ]
+  },
+  "CHERRY": {
+    "tr": "Вишня / Черешня",
+    "def": "Сочная сладкая темно-красная ягода.",
+    "ph": "[ˈtʃeri]",
+    "ex": "Sweet cherry — Сладкая вишня.",
+    "collocations": [
+      "cherry pie",
+      "cherry tree"
+    ]
+  },
+  "PLUM": {
+    "tr": "Слива",
+    "def": "Сладкий фиолетовый садовый плод.",
+    "ph": "[plʌm]",
+    "ex": "Ripe plum — Спелая слива.",
+    "collocations": [
+      "sweet plum",
+      "plum jam"
+    ]
+  },
+  "PEACH": {
+    "tr": "Персик",
+    "def": "Бархатистый сладкий сочный фрукт.",
+    "ph": "[piːtʃ]",
+    "ex": "Juicy peach — Сочный персик.",
+    "collocations": [
+      "fresh peach",
+      "peach pie"
     ]
   }
 },
@@ -6530,14 +16715,14 @@ const WordRamData = {
 
   // Ранги опыта (XP) и CEFR
   xpRanks: [
-    { code: "A1", title: "Начальный (A1)", badge: "A1 — Elementary", minXp: 0, nextXp: 300 },
-    { code: "A2", title: "Базовый (A2)", badge: "A2 — Pre-Intermediate", minXp: 300, nextXp: 800 },
-    { code: "B1", title: "Средний (B1)", badge: "B1 — Intermediate", minXp: 800, nextXp: 1600 },
-    { code: "B2", title: "Выше среднего (B2)", badge: "B2 — Upper-Intermediate", minXp: 1600, nextXp: 3000 },
-    { code: "C1", title: "Продвинутый (C1)", badge: "C1 — Advanced", minXp: 3000, nextXp: 5000 }
+    { code: "A1", title: "Начальный (A1)", badge: "A1 — Elementary", minXp: 0, nextXp: 400 },
+    { code: "A2", title: "Базовый (A2)", badge: "A2 — Pre-Intermediate", minXp: 400, nextXp: 1000 },
+    { code: "B1", title: "Средний (B1)", badge: "B1 — Intermediate", minXp: 1000, nextXp: 2200 },
+    { code: "B2", title: "Выше среднего (B2)", badge: "B2 — Upper-Intermediate", minXp: 2200, nextXp: 4000 },
+    { code: "C1", title: "Продвинутый (C1)", badge: "C1 — Advanced", minXp: 4000, nextXp: 7000 }
   ],
 
-  // Еженедельные лиги (благородные соревновательные названия)
+  // Еженедельные лиги
   leagues: [
     { id: 1, name: "Бронзовая лига", icon: "🥉", color: "#cd7f32", minXpWeek: 0, rewardCoins: 50 },
     { id: 2, name: "Серебряная лига", icon: "🥈", color: "#94a3b8", minXpWeek: 200, rewardCoins: 100 },
@@ -6565,12 +16750,12 @@ const WordRamData = {
     { id: "vocab_review", title: "Любознательность", desc: "Откройте и изучите 3 карточки в словаре", target: 3, rewardCoins: 15, rewardXp: 30 }
   ],
 
-  // Список достижений (чистые благородные названия)
+  // Список достижений
   achievements: [
     { id: "first_words", icon: "🐣", title: "Первые шаги", desc: "Собрать первые 10 слов в словаре", target: 10, type: "words", rewardCoins: 25 },
     { id: "bookworm", icon: "📚", title: "Книжный червь", desc: "Собрать 50 слов в личный словарь", target: 50, type: "words", rewardCoins: 50 },
     { id: "linguist", icon: "🎓", title: "Лингвист", desc: "Собрать 150 слов в словаре", target: 150, type: "words", rewardCoins: 100 },
-    { id: "polyglot", icon: "👑", title: "Полиглот", desc: "Собрать 300 слов в словаре", target: 300, type: "words", rewardCoins: 200 },
+    { id: "polyglot", icon: "👑", title: "Полиглот", desc: "Собрать 500 слов в словаре", target: 500, type: "words", rewardCoins: 250 },
     { id: "streak_3", icon: "🔥", title: "Ударный режим", desc: "Играть 3 дня подряд", target: 3, type: "streak", rewardCoins: 35 },
     { id: "streak_7", icon: "⚡", title: "Неделя без пропусков", desc: "Играть 7 дней подряд", target: 7, type: "streak", rewardCoins: 100 },
     { id: "no_hints", icon: "💡", title: "Острый ум", desc: "Пройти 5 уровней без подсказок", target: 5, type: "no_hints", rewardCoins: 50 },
@@ -6621,7 +16806,7 @@ const WordRamData = {
     return {
       word: upper,
       tr: upper.charAt(0) + upper.slice(1).toLowerCase(),
-      def: "Лексическая единица словаря английского языка.",
+      def: "Слово словаря английского языка.",
       ph: "",
       ex: "",
       collocations: []
@@ -6722,11 +16907,6 @@ const WordRamData = {
 
     const totalCells = gridSize * gridSize;
 
-    // Подбираем семантическую тему уровня
-    const themeKeys = Object.keys(this.themes);
-    const themeKey = themeKeys[(levelNumber - 1) % themeKeys.length];
-    const themeInfo = this.themes[themeKey];
-
     return {
       level: levelNumber,
       gridSize: gridSize,
@@ -6735,30 +16915,16 @@ const WordRamData = {
       wordCount: wordLengths.length,
       minTurns: 1,
       cefrLevel: userCefr,
-      themeKey: themeKey,
-      themeTitle: themeInfo.title,
-      themeIcon: themeInfo.icon,
       coinsReward: 15 + Math.min(levelNumber, 60),
       xpReward: 30 + Math.min(levelNumber * 2, 70)
     };
   },
 
-  getWordForCefrAndLength(cefrLevel, targetLen, exclude = [], themeKey = null) {
+  getWordForCefrAndLength(cefrLevel, targetLen, exclude = []) {
     const rankOrder = ["A1", "A2", "B1", "B2", "C1"];
     const userRankIdx = Math.max(0, rankOrder.indexOf(cefrLevel));
 
-    // 1. Сначала пробуем найти слово ТЕКУЩЕЙ ТЕМЫ на текущем уровне игрока
-    if (themeKey && this.themes[themeKey] && this.cefrDictionary[cefrLevel] && this.cefrDictionary[cefrLevel][targetLen]) {
-      const themeWords = this.themes[themeKey].words;
-      const themedAvailable = this.cefrDictionary[cefrLevel][targetLen].filter(
-        w => themeWords.includes(w) && !exclude.includes(w) && w.length === targetLen
-      );
-      if (themedAvailable.length > 0) {
-        return themedAvailable[Math.floor(Math.random() * themedAvailable.length)];
-      }
-    }
-
-    // 2. Любое слово на текущем уровне игрока
+    // 1. СТРОГО ищем слова на текущем уровне игрока (A1, A2, B1, B2, C1)
     if (this.cefrDictionary[cefrLevel] && this.cefrDictionary[cefrLevel][targetLen]) {
       const available = this.cefrDictionary[cefrLevel][targetLen].filter(
         w => !exclude.includes(w) && w.length === targetLen
@@ -6768,7 +16934,7 @@ const WordRamData = {
       }
     }
 
-    // 3. Закрепление пройденного: уровни ниже
+    // 2. Закрепление: если все слова текущего уровня уже на поле, берем из уровней ниже
     for (let i = userRankIdx - 1; i >= 0; i--) {
       const lowerLvl = rankOrder[i];
       if (this.cefrDictionary[lowerLvl] && this.cefrDictionary[lowerLvl][targetLen]) {
@@ -6781,7 +16947,7 @@ const WordRamData = {
       }
     }
 
-    // 4. Fallback
+    // 3. Fallback
     if (this.cefrDictionary[cefrLevel] && this.cefrDictionary[cefrLevel][targetLen]) {
       const list = this.cefrDictionary[cefrLevel][targetLen];
       return list[Math.floor(Math.random() * list.length)];

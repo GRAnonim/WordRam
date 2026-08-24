@@ -1,7 +1,7 @@
 /**
- * WordRam - Organic Labyrinth Generator & Semantic Level Packer (v19)
+ * WordRam - Organic Labyrinth Generator & Level Packer (v23)
  * 100% покрытие поля, нетривиальные змейки (без 2x2 квадратов и прямых линий),
- * поддержка тематических семантических уровней.
+ * строгий подбор слов по уровню CEFR.
  */
 
 class WordRamGenerator {
@@ -31,7 +31,6 @@ class WordRamGenerator {
       }
     }
 
-    // Запасной генератор
     return this._generateFallbackRoutes(gridSize, wordLengths);
   }
 
@@ -144,7 +143,6 @@ class WordRamGenerator {
       routes.push(path);
     }
 
-    // Проверяем 100% покрытие
     for (let r = 0; r < gridSize; r++) {
       for (let c = 0; c < gridSize; c++) {
         if (grid[r][c] === -1) return null;
@@ -152,19 +150,6 @@ class WordRamGenerator {
     }
 
     return routes;
-  }
-
-  partition6x6Modular() {
-    const blocks = [
-      { r0: 0, c0: 0 }, { r0: 0, c0: 3 },
-      { r0: 3, c0: 0 }, { r0: 3, c0: 3 }
-    ];
-    const routes = [];
-    for (const b of blocks) {
-      const bRoutes = this.get3x3BlockRoutes(b.r0, b.c0);
-      routes.push(...bRoutes);
-    }
-    return routes.slice(0, 6);
   }
 
   partition9x9Modular() {
@@ -178,23 +163,6 @@ class WordRamGenerator {
       }
     }
     return routes;
-  }
-
-  get3x3BlockRoutes(r0, c0) {
-    const templates = [
-      {
-        r1: [[0,0],[0,1],[1,1],[1,0],[2,0],[2,1]],
-        r2: [[0,2],[1,2],[2,2]]
-      },
-      {
-        r1: [[0,0],[1,0],[1,1],[0,1],[0,2],[1,2]],
-        r2: [[2,0],[2,1],[2,2]]
-      }
-    ];
-    const tmpl = templates[Math.floor(Math.random() * templates.length)];
-    const route1 = tmpl.r1.map(([r, c]) => [r0 + r, c0 + c]);
-    const route2 = tmpl.r2.map(([r, c]) => [r0 + r, c0 + c]);
-    return [route1, route2];
   }
 
   get3x3Snake9(r0, c0) {
@@ -264,7 +232,7 @@ class WordRamGenerator {
     for (let i = 0; i < routesArray.length; i++) {
       const route = routesArray[i];
       const len = route.length;
-      let word = this.data.getWordForCefrAndLength(userCefr, len, usedWords, config.themeKey);
+      let word = this.data.getWordForCefrAndLength(userCefr, len, usedWords);
       if (!word || word.length !== len) {
         word = (word || "WORD").padEnd(len, "S").slice(0, len);
       }
@@ -285,9 +253,6 @@ class WordRamGenerator {
       words: words,
       routes: routesMap,
       grid: grid,
-      themeKey: config.themeKey,
-      themeTitle: config.themeTitle,
-      themeIcon: config.themeIcon,
       coinsReward: config.coinsReward,
       xpReward: config.xpReward
     };

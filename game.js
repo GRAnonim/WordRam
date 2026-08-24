@@ -276,16 +276,7 @@ class WordRamGame {
       }
     }
 
-    // Обновляем плашку семантической темы прямо над слотами
-    const themeIconEl = document.getElementById("theme-icon");
-    const themeTitleEl = document.getElementById("theme-title");
-    const themeBadgeEl = document.getElementById("level-theme-badge");
 
-    if (themeIconEl && themeTitleEl && this.levelData) {
-      themeIconEl.textContent = this.levelData.themeIcon || "🌿";
-      themeTitleEl.textContent = `Тема: ${this.levelData.themeTitle || "Слова"}`;
-      if (themeBadgeEl) themeBadgeEl.style.display = "inline-flex";
-    }
 
     if (this.cefrBadgeDisplay) {
       this.cefrBadgeDisplay.textContent = `🇬🇧 ${this.storage.getEnglishLevel()}`;
@@ -624,7 +615,7 @@ class WordRamGame {
         if (!this.foundBonusWordsInLevel.includes(word)) {
           this.foundBonusWordsInLevel.push(word);
           this.storage.state.stats.bonusWordsFound = (this.storage.state.stats.bonusWordsFound || 0) + 1;
-          this.storage.addCoins(1);
+          this.storage.addCoins(5); // Щедрая награда: +5 монет за найденное скрытое слово!
           this.storage.addXp(5);
           this.storage.checkAchievements();
           this.updateCoinsDisplay();
@@ -633,7 +624,7 @@ class WordRamGame {
           if (this.storage.getSetting("voiceSpeechEnabled") !== false) {
             this.speakWord(word);
           }
-          this.showFloatingMessage(`🌟 Слово-бонус: ${word} (+1 🪙 в Копилку)!`, "bonus");
+          this.showFloatingMessage(`🌟 Слово-бонус: ${word} (+5 🪙 в Копилку, +5 XP)!`, "bonus");
         } else {
           this.showFloatingMessage("Это бонусное слово уже собрано на этом уровне!", "info");
         }

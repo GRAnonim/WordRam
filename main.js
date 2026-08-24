@@ -221,7 +221,7 @@ document.addEventListener("DOMContentLoaded", () => {
       showCustomInfoDialog(
         "🐷",
         "Копилка эрудита",
-        "<p>Собрано бонусных слов: <strong>" + bonusCount + "</strong> (+" + bonusCount + " 🪙 получено).</p><p class='mt-2'>Сюда попадают реальные английские слова, найденные вами на сетке вне списка обязательных заданий уровня.</p><p class='mt-2'>За каждое найденное слово-бонус вы получаете <strong>+1 🪙 монету</strong> и <strong>+5 XP</strong>!</p>"
+        "<p>Собрано бонусных слов: <strong>" + bonusCount + "</strong> (+" + (bonusCount * 5) + " 🪙 монет получено).</p><p class='mt-2'>Сюда попадают реальные английские слова, найденные вами на игровом поле вне обязательного списка уровня.</p><p class='mt-2'>За каждое найденное слово-бонус начисляется <strong>+5 🪙 монет</strong> и <strong>+5 XP опыта</strong>!</p>"
       );
     });
   }
@@ -645,12 +645,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const userRankIdx = rankOrder.indexOf(userCefr);
 
     if (vocabStatsSubtitle) {
-      vocabStatsSubtitle.textContent = "Выучено слов: " + collectedWordsList.length + " из 534";
+      vocabStatsSubtitle.textContent = "Выучено слов: " + collectedWordsList.length + " из 1500";
     }
 
     // Подсчет статистики по уровням CEFR
     const cefrCounts = { A1: 0, A2: 0, B1: 0, B2: 0, C1: 0 };
-    const cefrTotals = { A1: 121, A2: 108, B1: 115, B2: 105, C1: 86 };
+    const cefrTotals = { A1: 482, A2: 531, B1: 264, B2: 137, C1: 86 };
 
     collectedWordsList.forEach(w => {
       const lvl = findCefrLevel(w);
@@ -848,7 +848,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // 6. Счетчик копилки бонусных слов
     if (bonusWordsCounter) {
       const bonusWords = storage.state.stats.bonusWordsFound || 0;
-      bonusWordsCounter.textContent = `${bonusWords} 🪙`;
+      bonusWordsCounter.textContent = `${bonusWords * 5} 🪙`;
     }
 
     // 7. Сетка всех уровней (со звездами)
