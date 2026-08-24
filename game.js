@@ -1,7 +1,7 @@
 /**
- * WordRam - Core Game Engine (v18)
- * Мелодичный звук, комбо-множитель, SVG линии свайпа,
- * интеграция с квестами, личным словарем и XP.
+ * WordRam - Core Game Engine (v19)
+ * Web Speech API озвучка, слова-бонусы, Magnifier Bubble над пальцем,
+ * комбо-множитель, тематические уровни и SVG линии.
  */
 
 class WordRamGame {
@@ -26,6 +26,7 @@ class WordRamGame {
     this.levelData = null;
     this.isDailyMode = false;
     this.foundWords = [];
+    this.foundBonusWordsInLevel = [];
     this.selectedPath = [];
     this.isDragging = false;
     this.revealedHints = {};
@@ -35,6 +36,15 @@ class WordRamGame {
     // Комбо-система
     this.comboStreak = 0;
     this.lastWordFoundTime = 0;
+
+    // Magnifier Bubble над пальцем
+    this.magnifierBubble = document.getElementById("cell-magnifier-bubble");
+    if (!this.magnifierBubble) {
+      this.magnifierBubble = document.createElement("div");
+      this.magnifierBubble.id = "cell-magnifier-bubble";
+      this.magnifierBubble.className = "magnifier-bubble";
+      document.body.appendChild(this.magnifierBubble);
+    }
 
     // Сочная палитра цветов для слов
     this.wordColors = [
@@ -72,6 +82,17 @@ class WordRamGame {
     if (this.audioCtx && this.audioCtx.state === "suspended") {
       this.audioCtx.resume();
     }
+  }
+
+  speakWord(word) {
+    if (!window.speechSynthesis) return;
+    try {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(word);
+      utterance.lang = "en-US";
+      utterance.rate = 0.88; // Четкий, понятный темп для обучения
+      window.speechSynthesis.speak(utterance);
+    } catch (e) {}
   }
 
   playSound(type) {
@@ -205,6 +226,7 @@ class WordRamGame {
     this.isDailyMode = isDaily;
     this.currentLevel = levelNumber;
     this.foundWords = [];
+    this.foundBonusWordsInLevel = [];
     this.selectedPath = [];
     this.revealedHints = {};
     this.hintsUsedInLevel = 0;
@@ -226,6 +248,7 @@ class WordRamGame {
     this.updateCoinsDisplay();
     this.updateHintButtonLabel();
     this.clearSvgConnector();
+    this.hideMagnifier();
 
     this.saveCurrentGameState();
   }
@@ -244,11 +267,13 @@ class WordRamGame {
 
   renderHeader() {
     const size = this.levelData ? this.levelData.gridSize : 5;
+    const themeStr = this.levelData && this.levelData.themeTitle ? `${this.levelData.themeIcon} ${this.levelData.themeTitle}` : "";
+
     if (this.levelTitleDisplay) {
       if (this.isDailyMode) {
         this.levelTitleDisplay.textContent = `Сегодня (${size}×${size})`;
       } else {
-        this.levelTitleDisplay.textContent = `Уровень ${this.currentLevel} (${size}×${size})`;
+        this.levelTitleDisplay.textContent = `Ур. ${this.currentLevel} (${size}×${size}) ${themeStr}`;
       }
     }
 
@@ -354,6 +379,20 @@ class WordRamGame {
     }
   }
 
+  showMagnifier(letter, clientX, clientY) {
+    if (!this.magnifierBubble) return;
+    this.magnifierBubble.textContent = letter;
+    this.magnifierBubble.style.left = `${clientX}px`;
+    this.magnifierBubble.style.top = `${clientY - 55}px`;
+    this.magnifierBubble.classList.add("show");
+  }
+
+  hideMagnifier() {
+    if (this.magnifierBubble) {
+      this.magnifierBubble.classList.remove("show");
+    }
+  }
+
   getCellElement(r, c) {
     return this.gridElement ? this.gridElement.querySelector(`[data-row='${r}'][data-col='${c}']`) : null;
   }
@@ -393,41 +432,45 @@ class WordRamGame {
     if (cell && this.gridElement.contains(cell)) {
       const r = parseInt(cell.dataset.row, 10);
       const c = parseInt(cell.dataset.col, 10);
-      return [r, c];
+      return { coords: [r, c], clientX, clientY };
     }
     return null;
   }
 
   handlePointerStart(e) {
     if (this.isGameOver) return;
-    const coords = this.getCellFromPointer(e);
-    if (!coords) return;
+    const res = this.getCellFromPointer(e);
+    if (!res) return;
 
     if (e.cancelable && e.type.startsWith("touch")) {
       e.preventDefault();
     }
 
+    const [r, c] = res.coords;
     this.isDragging = true;
-    this.selectedPath = [coords];
+    this.selectedPath = [[r, c]];
     this.playSound("select");
     this.vibrate(15);
     this.refreshCellStates();
     this.updatePreviewFromPath();
     this.updateSvgConnector();
+    this.showMagnifier(this.levelData.grid[r][c], res.clientX, res.clientY);
   }
 
   handlePointerMove(e) {
     if (!this.isDragging || this.isGameOver) return;
-    const coords = this.getCellFromPointer(e);
-    if (!coords) return;
+    const res = this.getCellFromPointer(e);
+    if (!res) return;
 
     if (e.cancelable && e.type.startsWith("touch")) {
       e.preventDefault();
     }
 
-    const [r, c] = coords;
+    const [r, c] = res.coords;
     const pathLen = this.selectedPath.length;
     const [lastR, lastC] = this.selectedPath[pathLen - 1];
+
+    this.showMagnifier(this.levelData.grid[r][c], res.clientX, res.clientY);
 
     if (pathLen > 1) {
       const [prevR, prevC] = this.selectedPath[pathLen - 2];
@@ -447,7 +490,7 @@ class WordRamGame {
 
     const manhattanDist = Math.abs(r - lastR) + Math.abs(c - lastC);
     if (manhattanDist === 1) {
-      this.selectedPath.push(coords);
+      this.selectedPath.push([r, c]);
       this.playSound("select");
       this.vibrate(15);
       this.refreshCellStates();
@@ -460,6 +503,7 @@ class WordRamGame {
     if (!this.isDragging || this.isGameOver) return;
     this.isDragging = false;
     this.clearSvgConnector();
+    this.hideMagnifier();
 
     if (this.selectedPath.length >= 2) {
       this.submitSelectedWord();
@@ -493,6 +537,7 @@ class WordRamGame {
     const details = this.generator.data.getWordDetails(word);
     if (details && typeof this.onWordDetailsRequested === "function") {
       this.playSound("select");
+      this.speakWord(word);
       this.onWordDetailsRequested(details);
       this.storage.updateDailyQuestProgress("vocab_review", 1);
     }
@@ -522,7 +567,6 @@ class WordRamGame {
       if (!this.foundWords.includes(matchedTarget)) {
         this.foundWords.push(matchedTarget);
 
-        // Расчет комбо (если интервал < 7 секунд)
         const now = Date.now();
         if (this.lastWordFoundTime > 0 && now - this.lastWordFoundTime <= 7000) {
           this.comboStreak++;
@@ -531,8 +575,9 @@ class WordRamGame {
         }
         this.lastWordFoundTime = now;
 
-        // Записываем слово в Личный словарь и начисляем XP
+        // Записываем слово в Личный словарь, говорим слово голосом
         const newAchs = this.storage.recordWordToVocabulary(matchedTarget);
+        this.speakWord(matchedTarget);
 
         if (this.comboStreak > 1) {
           this.storage.addXp(this.comboStreak * 5);
@@ -568,9 +613,25 @@ class WordRamGame {
         this.showFloatingMessage("Уже найдено! Нажмите на слово для перевода.", "info");
       }
     } else {
-      this.playSound("error");
-      this.vibrate([30, 40, 30]);
-      this.animateErrorCells(this.selectedPath);
+      // Проверяем: может быть, это реальное английское слово (Слово-бонус!)
+      const isBonusCandidate = WordRamData.isValidWord(word) ? word : (WordRamData.isValidWord(reversedWord) ? reversedWord : null);
+
+      if (isBonusCandidate && !this.foundBonusWordsInLevel.includes(isBonusCandidate)) {
+        this.foundBonusWordsInLevel.push(isBonusCandidate);
+        this.storage.state.stats.bonusWordsFound = (this.storage.state.stats.bonusWordsFound || 0) + 1;
+        this.storage.addCoins(1);
+        this.storage.addXp(5);
+        this.storage.checkAchievements();
+        this.updateCoinsDisplay();
+        this.playSound("combo");
+        this.vibrate([20, 40]);
+        this.speakWord(isBonusCandidate);
+        this.showFloatingMessage(`🌟 Слово-бонус: ${isBonusCandidate} (+1 🪙 в Копилку)!`, "bonus");
+      } else {
+        this.playSound("error");
+        this.vibrate([30, 40, 30]);
+        this.animateErrorCells(this.selectedPath);
+      }
     }
 
     this.selectedPath = [];
@@ -774,6 +835,7 @@ class WordRamGame {
     this.updateCoinsDisplay();
     this.updateHintButtonLabel();
     this.clearSvgConnector();
+    this.hideMagnifier();
     return true;
   }
 }

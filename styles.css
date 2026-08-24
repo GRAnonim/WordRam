@@ -1171,3 +1171,115 @@ html, body {
 .game-toast.toast-warning { background: #dc2626; border-color: #ef4444; }
 .game-toast.toast-success { background: #15803d; border-color: #22c55e; }
 .game-toast.toast-bonus { background: #b45309; border-color: #f59e0b; }
+
+/* ======================================================
+   Magnifier Bubble & Speech Buttons (v19)
+   ====================================================== */
+.magnifier-bubble {
+  position: fixed;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #a855f7;
+  color: #ffffff;
+  border: 3px solid #fde047;
+  font-size: 1.5rem;
+  font-weight: 900;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 10000;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.45);
+  animation: popMagnifier 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.magnifier-bubble.show {
+  display: flex !important;
+}
+
+@keyframes popMagnifier {
+  from { transform: translate(-50%, -50%) scale(0.6); opacity: 0; }
+  to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+
+.ribbon-wrap {
+  position: absolute;
+  top: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 10;
+}
+
+.ribbon-wrap .word-ribbon-badge {
+  position: static;
+  transform: none;
+}
+
+.speak-btn {
+  background: #ffffff;
+  border: 2px solid #a855f7;
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  font-size: 1.15rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: transform 0.12s;
+}
+
+.speak-btn:active {
+  transform: scale(0.9);
+  background: #f3e8ff;
+}
+
+.small-speak {
+  width: 32px;
+  height: 32px;
+  font-size: 1rem;
+}
+
+.def-collocations-box {
+  background: rgba(168, 85, 247, 0.08);
+  border: 1px dashed rgba(168, 85, 247, 0.4);
+  border-radius: 12px;
+  padding: 8px 10px;
+}
+
+.collocations-label {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: #7c3aed;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.collocations-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.collocation-tag {
+  background: #ffffff;
+  border: 1px solid #e9d5ff;
+  color: #6b21a8;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 8px;
+}
+
+.blitz-word-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}

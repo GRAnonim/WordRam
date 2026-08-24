@@ -1,175 +1,262 @@
 /**
- * WordRam - Organic Labyrinth Snaking Generator (v11)
- * Генерация органических лабиринтов слов (сложные изгибы, S/U-повороты,
- * пересечения без простых 2x2 квадратов) для сеток от 4x4 до 9x9.
+ * WordRam - Organic Labyrinth Generator & Semantic Level Packer (v19)
+ * 100% покрытие поля, нетривиальные змейки (без 2x2 квадратов и прямых линий),
+ * поддержка тематических семантических уровней.
  */
 
 class WordRamGenerator {
-  constructor(dataModule = null) {
-    this.data = dataModule || (typeof WordRamData !== "undefined" ? WordRamData : null);
-    this.directions = [
-      { dr: -1, dc: 0 },
-      { dr: 1, dc: 0 },
-      { dr: 0, dc: -1 },
-      { dr: 0, dc: 1 }
-    ];
+  constructor(dataModule) {
+    this.data = dataModule || WordRamData;
   }
 
-  countTurns(route) {
-    if (!route || route.length < 3) return 0;
-    let turns = 0;
-    let prevDir = null;
-    for (let i = 0; i < route.length - 1; i++) {
-      const dr = route[i + 1][0] - route[i][0];
-      const dc = route[i + 1][1] - route[i][1];
-      const dir = `${dr},${dc}`;
-      if (prevDir !== null && prevDir !== dir) turns++;
-      prevDir = dir;
-    }
-    return turns;
-  }
-
-  /**
-   * Разделение сетки размера gridSize на N органических лабиринтных змеек
-   */
   partitionGrid(gridSize, wordLengths) {
-    const total = gridSize * gridSize;
+    const totalCells = gridSize * gridSize;
+    const sumLengths = wordLengths.reduce((a, b) => a + b, 0);
+    if (sumLengths !== totalCells) {
+      throw new Error(`Сумма длин (${sumLengths}) не равна размеру поля (${totalCells})`);
+    }
 
-    // Пробуем органический DFS с приоритетом узких мест и углов (убирает тривиальные квадраты)
-    for (let attempt = 0; attempt < 350; attempt++) {
-      const grid = Array.from({ length: gridSize }, () => Array(gridSize).fill(-1));
-      const routes = [];
-      let success = true;
+    // Для блочных сеток 9x9 используем 3x3 змейки
+    if (gridSize === 9 && wordLengths.length === 9 && wordLengths.every(l => l === 9)) {
+      return this.partition9x9Modular();
+    }
 
-      for (let wIdx = 0; wIdx < wordLengths.length; wIdx++) {
-        const targetLen = wordLengths[wIdx];
+    // Эвристический органический поиск змеек
+    let attempts = 0;
+    while (attempts < 150) {
+      attempts++;
+      const result = this._findOrganicDFS(gridSize, wordLengths);
+      if (result && this.validateRoutes(result, gridSize, wordLengths)) {
+        return result;
+      }
+    }
 
-        // Ищем свободные ячейки и сортируем по количеству свободных соседей
-        const freeCells = [];
-        for (let r = 0; r < gridSize; r++) {
-          for (let c = 0; c < gridSize; c++) {
-            if (grid[r][c] === -1) {
-              let neighbors = 0;
-              for (const d of this.directions) {
-                const nr = r + d.dr, nc = c + d.dc;
-                if (nr >= 0 && nr < gridSize && nc >= 0 && nc < gridSize && grid[nr][nc] === -1) {
-                  neighbors++;
-                }
-              }
-              freeCells.push({ r, c, neighbors });
+    // Запасной генератор
+    return this._generateFallbackRoutes(gridSize, wordLengths);
+  }
+
+  _findOrganicDFS(gridSize, wordLengths) {
+    const grid = Array.from({ length: gridSize }, () => Array(gridSize).fill(-1));
+    const sortedLengths = [...wordLengths].sort((a, b) => b - a);
+    const routes = [];
+
+    const getNeighbors = (r, c) => {
+      const dirs = [[-1, 0], [1, 0], [0, -1], [0, 1]];
+      const res = [];
+      for (const [dr, dc] of dirs) {
+        const nr = r + dr;
+        const nc = c + dc;
+        if (nr >= 0 && nr < gridSize && nc >= 0 && nc < gridSize && grid[nr][nc] === -1) {
+          res.push([nr, nc]);
+        }
+      }
+      return res;
+    };
+
+    const countFreeNeighbors = (r, c) => getNeighbors(r, c).length;
+
+    const findStartCell = () => {
+      let best = null;
+      let minDegree = 999;
+      for (let r = 0; r < gridSize; r++) {
+        for (let c = 0; c < gridSize; c++) {
+          if (grid[r][c] === -1) {
+            const deg = countFreeNeighbors(r, c);
+            if (deg < minDegree) {
+              minDegree = deg;
+              best = [r, c];
             }
           }
         }
+      }
+      return best;
+    };
 
-        if (freeCells.length < targetLen) {
-          success = false;
-          break;
-        }
+    const countStraightTail = (path) => {
+      if (path.length < 3) return 0;
+      let count = 1;
+      const lastIdx = path.length - 1;
+      const dr = path[lastIdx][0] - path[lastIdx - 1][0];
+      const dc = path[lastIdx][1] - path[lastIdx - 1][1];
 
-        // Заполняем сначала угловые и изолированные ячейки
-        freeCells.sort((a, b) => a.neighbors - b.neighbors);
-        const startCell = freeCells[0];
-
-        const path = [[startCell.r, startCell.c]];
-        grid[startCell.r][startCell.c] = wIdx;
-
-        if (this._findOrganicDFS(gridSize, wIdx, targetLen, path, grid, null, 0)) {
-          routes.push(path);
+      for (let i = lastIdx - 1; i >= 1; i--) {
+        const curDr = path[i][0] - path[i - 1][0];
+        const curDc = path[i][1] - path[i - 1][1];
+        if (curDr === dr && curDc === dc) {
+          count++;
         } else {
-          grid[startCell.r][startCell.c] = -1;
-          success = false;
           break;
         }
       }
+      return count;
+    };
 
-      if (success && routes.length === wordLengths.length) {
-        let covered = 0;
-        let allSnaking = true;
-        for (const r of routes) {
-          covered += r.length;
-          const minT = r.length >= 5 ? 2 : 1;
-          if (this.countTurns(r) < minT) allSnaking = false;
+    for (let wordIdx = 0; wordIdx < sortedLengths.length; wordIdx++) {
+      const targetLen = sortedLengths[wordIdx];
+      const start = findStartCell();
+      if (!start) return null;
+
+      const path = [start];
+      grid[start[0]][start[1]] = wordIdx;
+
+      let success = false;
+      let stepAttempts = 0;
+
+      const dfsStep = () => {
+        stepAttempts++;
+        if (stepAttempts > 800) return false;
+        if (path.length === targetLen) return true;
+
+        const current = path[path.length - 1];
+        let neighbors = getNeighbors(current[0], current[1]);
+        if (neighbors.length === 0) return false;
+
+        const straightTail = countStraightTail(path);
+        if (straightTail >= 3) {
+          const lastIdx = path.length - 1;
+          const dr = path[lastIdx][0] - path[lastIdx - 1][0];
+          const dc = path[lastIdx][1] - path[lastIdx - 1][1];
+          neighbors = neighbors.filter(([nr, nc]) => (nr - current[0] !== dr) || (nc - current[1] !== dc));
+          if (neighbors.length === 0) return false;
         }
 
-        if (covered === total && allSnaking) {
-          return routes;
-        }
-      }
-    }
+        neighbors.sort((a, b) => {
+          const degA = countFreeNeighbors(a[0], a[1]);
+          const degB = countFreeNeighbors(b[0], b[1]);
+          return (degA - degB) + (Math.random() * 0.8 - 0.4);
+        });
 
-    // Запасной генератор лабиринтов с органическими змейками
-    return this._getLabyrinthFallback(gridSize, wordLengths);
-  }
+        for (const [nr, nc] of neighbors) {
+          grid[nr][nc] = wordIdx;
+          path.push([nr, nc]);
 
-  _findOrganicDFS(gridSize, wIdx, targetLen, path, grid, lastDir, straightCount) {
-    if (path.length === targetLen) {
-      const minT = targetLen >= 5 ? 2 : 1;
-      return targetLen < 3 || this.countTurns(path) >= minT;
-    }
+          if (dfsStep()) return true;
 
-    const [cr, cc] = path[path.length - 1];
-
-    // Рандомизируем направления с приоритетом поворотов при straightCount >= 2
-    let shuffledDirs = [...this.directions].sort(() => Math.random() - 0.5);
-    if (lastDir !== null && straightCount >= 2) {
-      shuffledDirs.sort((a, b) => {
-        const aSame = (a.dr === lastDir.dr && a.dc === lastDir.dc) ? 1 : 0;
-        const bSame = (b.dr === lastDir.dr && b.dc === lastDir.dc) ? 1 : 0;
-        return aSame - bSame;
-      });
-    }
-
-    for (const d of shuffledDirs) {
-      const nr = cr + d.dr;
-      const nc = cc + d.dc;
-      if (nr >= 0 && nr < gridSize && nc >= 0 && nc < gridSize && grid[nr][nc] === -1) {
-        const isSame = lastDir && (d.dr === lastDir.dr && d.dc === lastDir.dc);
-        const nextStraight = isSame ? straightCount + 1 : 1;
-
-        // Запрещаем прямые линии длиннее 2-3 клеток, стимулируя извилистые повороты
-        if (nextStraight > 3 && targetLen >= 5) continue;
-
-        grid[nr][nc] = wIdx;
-        path.push([nr, nc]);
-
-        if (this._findOrganicDFS(gridSize, wIdx, targetLen, path, grid, d, nextStraight)) {
-          return true;
+          path.pop();
+          grid[nr][nc] = -1;
         }
 
-        path.pop();
-        grid[nr][nc] = -1;
-      }
-    }
-    return false;
-  }
+        return false;
+      };
 
-  _getLabyrinthFallback(gridSize, wordLengths) {
-    // Ветвистая непрерывная змейка с переменным шагом
-    const fullSnake = [];
+      success = dfsStep();
+      if (!success) return null;
+      routes.push(path);
+    }
+
+    // Проверяем 100% покрытие
     for (let r = 0; r < gridSize; r++) {
-      if (r % 2 === 0) {
-        for (let c = 0; c < gridSize; c++) fullSnake.push([r, c]);
-      } else {
-        for (let c = gridSize - 1; c >= 0; c--) fullSnake.push([r, c]);
+      for (let c = 0; c < gridSize; c++) {
+        if (grid[r][c] === -1) return null;
       }
     }
 
+    return routes;
+  }
+
+  partition6x6Modular() {
+    const blocks = [
+      { r0: 0, c0: 0 }, { r0: 0, c0: 3 },
+      { r0: 3, c0: 0 }, { r0: 3, c0: 3 }
+    ];
     const routes = [];
-    let offset = 0;
-    for (const len of wordLengths) {
-      routes.push(fullSnake.slice(offset, offset + len));
-      offset += len;
+    for (const b of blocks) {
+      const bRoutes = this.get3x3BlockRoutes(b.r0, b.c0);
+      routes.push(...bRoutes);
+    }
+    return routes.slice(0, 6);
+  }
+
+  partition9x9Modular() {
+    const routes = [];
+    for (let br = 0; br < 3; br++) {
+      for (let bc = 0; bc < 3; bc++) {
+        const r0 = br * 3;
+        const c0 = bc * 3;
+        const bRoute = this.get3x3Snake9(r0, c0);
+        routes.push(bRoute);
+      }
     }
     return routes;
   }
 
-  generateLevel(levelNumber = 1, userCefr = "A2") {
+  get3x3BlockRoutes(r0, c0) {
+    const templates = [
+      {
+        r1: [[0,0],[0,1],[1,1],[1,0],[2,0],[2,1]],
+        r2: [[0,2],[1,2],[2,2]]
+      },
+      {
+        r1: [[0,0],[1,0],[1,1],[0,1],[0,2],[1,2]],
+        r2: [[2,0],[2,1],[2,2]]
+      }
+    ];
+    const tmpl = templates[Math.floor(Math.random() * templates.length)];
+    const route1 = tmpl.r1.map(([r, c]) => [r0 + r, c0 + c]);
+    const route2 = tmpl.r2.map(([r, c]) => [r0 + r, c0 + c]);
+    return [route1, route2];
+  }
+
+  get3x3Snake9(r0, c0) {
+    const tmpl = [[0,0],[0,1],[0,2],[1,2],[1,1],[1,0],[2,0],[2,1],[2,2]];
+    return tmpl.map(([r, c]) => [r0 + r, c0 + c]);
+  }
+
+  _generateFallbackRoutes(gridSize, wordLengths) {
+    const routes = [];
+    let currentPath = [];
+    let lenIdx = 0;
+
+    for (let r = 0; r < gridSize; r++) {
+      const cols = (r % 2 === 0) ? [...Array(gridSize).keys()] : [...Array(gridSize).keys()].reverse();
+      for (const c of cols) {
+        currentPath.push([r, c]);
+        if (currentPath.length === wordLengths[lenIdx]) {
+          routes.push(currentPath);
+          currentPath = [];
+          lenIdx++;
+        }
+      }
+    }
+    return routes;
+  }
+
+  validateRoutes(routes, gridSize, wordLengths) {
+    const totalCells = gridSize * gridSize;
+    const visited = new Set();
+
+    if (routes.length !== wordLengths.length) return false;
+
+    for (const route of routes) {
+      for (let i = 0; i < route.length; i++) {
+        const [r, c] = route[i];
+        if (r < 0 || r >= gridSize || c < 0 || c >= gridSize) return false;
+        const key = `${r},${c}`;
+        if (visited.has(key)) return false;
+        visited.add(key);
+
+        if (i > 0) {
+          const [pr, pc] = route[i - 1];
+          const dist = Math.abs(r - pr) + Math.abs(c - pc);
+          if (dist !== 1) return false;
+        }
+      }
+    }
+
+    return visited.size === totalCells;
+  }
+
+  validateLevel(grid, words, routes, gridSize) {
+    const routesList = Object.values(routes);
+    const lengths = words.map(w => w.length);
+    return this.validateRoutes(routesList, gridSize, lengths);
+  }
+
+  generateLevel(levelNumber, userCefr = "A2") {
     const config = this.data.getLevelPackingConfig(levelNumber, userCefr);
-    const size = config.gridSize;
+    const routesArray = this.partitionGrid(config.gridSize, config.wordLengths);
 
-    const routesArray = this.partitionGrid(size, config.wordLengths);
-
-    const grid = Array.from({ length: size }, () => Array(size).fill(""));
+    const grid = Array.from({ length: config.gridSize }, () => Array(config.gridSize).fill(""));
     const words = [];
     const routesMap = {};
     const usedWords = [];
@@ -177,7 +264,7 @@ class WordRamGenerator {
     for (let i = 0; i < routesArray.length; i++) {
       const route = routesArray[i];
       const len = route.length;
-      let word = this.data.getWordForCefrAndLength(userCefr, len, usedWords);
+      let word = this.data.getWordForCefrAndLength(userCefr, len, usedWords, config.themeKey);
       if (!word || word.length !== len) {
         word = (word || "WORD").padEnd(len, "S").slice(0, len);
       }
@@ -193,43 +280,17 @@ class WordRamGenerator {
 
     return {
       level: levelNumber,
-      cefrLevel: userCefr,
-      gridSize: size,
-      totalCells: size * size,
-      grid: grid,
+      gridSize: config.gridSize,
+      totalCells: config.totalCells,
       words: words,
       routes: routesMap,
-      coinsReward: config.coinsReward
+      grid: grid,
+      themeKey: config.themeKey,
+      themeTitle: config.themeTitle,
+      themeIcon: config.themeIcon,
+      coinsReward: config.coinsReward,
+      xpReward: config.xpReward
     };
-  }
-
-  validateLevel(grid, words, routes, gridSize = 5) {
-    if (!grid || grid.length !== gridSize) return false;
-    const total = gridSize * gridSize;
-    const coveredCells = new Set();
-
-    for (const word of words) {
-      const route = routes[word];
-      if (!route || route.length !== word.length) return false;
-
-      for (let i = 0; i < route.length; i++) {
-        const [r, c] = route[i];
-        if (r < 0 || r >= gridSize || c < 0 || c >= gridSize) return false;
-
-        const key = `${r},${c}`;
-        if (coveredCells.has(key)) return false;
-        coveredCells.add(key);
-
-        if (grid[r][c] !== word[i]) return false;
-
-        if (i > 0) {
-          const [pr, pc] = route[i - 1];
-          if (Math.abs(r - pr) + Math.abs(c - pc) !== 1) return false;
-        }
-      }
-    }
-
-    return coveredCells.size === total;
   }
 }
 

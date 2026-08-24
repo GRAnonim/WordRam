@@ -1,20 +1,20 @@
 /**
- * WordRam - Service Worker (v18)
- * Полная геймификация: Лиги, Квесты дня, Колесо фортуны,
- * Блиц-повторение, Заморозка стрика, Карта путешествий.
+ * WordRam - Service Worker (v19)
+ * Тематические уровни, Web Speech API озвучка, коллокации,
+ * слова-бонусы, Magnifier Bubble, PWA и оффлайн.
  */
 
-const CACHE_NAME = "wordram-v18";
+const CACHE_NAME = "wordram-v19";
 const ASSETS_TO_CACHE = [
   "./",
   "./index.html",
-  "./styles.css?v=18",
-  "./data.js?v=18",
-  "./storage.js?v=18",
-  "./generator.js?v=18",
-  "./game.js?v=18",
-  "./main.js?v=18",
-  "./manifest.webmanifest?v=18"
+  "./styles.css?v=19",
+  "./data.js?v=19",
+  "./storage.js?v=19",
+  "./generator.js?v=19",
+  "./game.js?v=19",
+  "./main.js?v=19",
+  "./manifest.webmanifest?v=19"
 ];
 
 self.addEventListener("install", (event) => {

@@ -76,8 +76,20 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  const btnSpeakDef = document.getElementById("btn-speak-definition");
+  const defCollocationsBox = document.getElementById("def-collocations-box");
+  const defCollocationsList = document.getElementById("def-collocations-list");
+  let currentActiveWord = "";
+
+  if (btnSpeakDef) {
+    btnSpeakDef.addEventListener("click", () => {
+      if (currentActiveWord) game.speakWord(currentActiveWord);
+    });
+  }
+
   function showWordDefinitionModal(details) {
     if (!defModal || !details) return;
+    currentActiveWord = details.word;
     if (defWordRibbon) defWordRibbon.textContent = details.word;
 
     if (defPhonetic) {
@@ -98,6 +110,17 @@ document.addEventListener("DOMContentLoaded", () => {
         defExampleBox.style.display = "block";
       } else {
         defExampleBox.style.display = "none";
+      }
+    }
+
+    if (defCollocationsBox && defCollocationsList) {
+      if (details.collocations && details.collocations.length > 0) {
+        defCollocationsList.innerHTML = details.collocations
+          .map(c => `<span class="collocation-tag">${c}</span>`)
+          .join("");
+        defCollocationsBox.style.display = "block";
+      } else {
+        defCollocationsBox.style.display = "none";
       }
     }
 
@@ -284,6 +307,15 @@ document.addEventListener("DOMContentLoaded", () => {
   let blitzIndex = 0;
   let blitzScore = 0;
 
+  const btnSpeakBlitz = document.getElementById("btn-speak-blitz");
+  let currentBlitzTargetWord = "";
+
+  if (btnSpeakBlitz) {
+    btnSpeakBlitz.addEventListener("click", () => {
+      if (currentBlitzTargetWord) game.speakWord(currentBlitzTargetWord);
+    });
+  }
+
   function startBlitzSession() {
     const collected = storage.getCollectedWords();
     const words = Object.keys(collected);
@@ -293,7 +325,13 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    blitzQuestions = [...words].sort(() => 0.5 - Math.random()).slice(0, 10);
+    // Умное интервальное повторение: сначала слова с наименьшим мастерством (1 звезда)
+    blitzQuestions = [...words].sort((a, b) => {
+      const mA = (collected[a] && collected[a].mastery) || 1;
+      const mB = (collected[b] && collected[b].mastery) || 1;
+      return (mA - mB) + (Math.random() * 0.4 - 0.2);
+    }).slice(0, 10);
+
     blitzIndex = 0;
     blitzScore = 0;
 
@@ -313,7 +351,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    const currentWord = blitzQuestions[blitzIndex];
+    const currentWord = blitzQuestions[blitzIndex]; currentBlitzTargetWord = currentWord; game.speakWord(currentWord);
     const details = WordRamData.getWordDetails(currentWord);
 
     if (blitzWordEl) blitzWordEl.textContent = currentWord;
