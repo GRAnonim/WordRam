@@ -1,20 +1,20 @@
 /**
- * WordRam - Service Worker (v30)
- * Кнопки «Поделиться с другом» и «Обратная связь» на видном месте,
- * Яндекс Метрика 111905696, 1500 слов CEFR, PWA и оффлайн.
+ * WordRam - Service Worker (v31)
+ * 1 500 слов CEFR, 10 чистых тем, Telegram-бот @WordRamFeedbackBot,
+ * рабочее Слово дня, PWA и оффлайн.
  */
 
-const CACHE_NAME = "wordram-v30";
+const CACHE_NAME = "wordram-v31";
 const ASSETS_TO_CACHE = [
   "./",
   "./index.html",
-  "./styles.css?v=30",
-  "./data.js?v=30",
-  "./storage.js?v=30",
-  "./generator.js?v=30",
-  "./game.js?v=30",
-  "./main.js?v=30",
-  "./manifest.webmanifest?v=30"
+  "./styles.css?v=31",
+  "./data.js?v=31",
+  "./storage.js?v=31",
+  "./generator.js?v=31",
+  "./game.js?v=31",
+  "./main.js?v=31",
+  "./manifest.webmanifest?v=31"
 ];
 
 self.addEventListener("install", (event) => {
