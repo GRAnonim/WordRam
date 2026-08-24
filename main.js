@@ -1,19 +1,35 @@
 /**
- * WordRam - Main Application Controller (v7)
- * Управление экранами (Игра, Уровни, Сегодня, Настройки),
- * модальными окнами, вкладками нижнего меню и PWA Service Worker.
+ * WordRam - Main Application Controller (v8)
+ * Управление экранами, тестом уровня английского языка (CEFR A1-C1),
+ * модальными окнами и PWA Service Worker.
  */
 
 document.addEventListener("DOMContentLoaded", () => {
   const storage = new WordRamStorage();
   const generator = new WordRamGenerator(WordRamData);
 
-  // Модальное окно победы
+  // DOM Элементы модалок
   const winModal = document.getElementById("modal-victory");
   const winWordsList = document.getElementById("win-words-list");
   const winRewardText = document.getElementById("win-reward-text");
   const btnNextLevel = document.getElementById("btn-next-level");
   const btnCloseModal = document.getElementById("btn-close-modal");
+
+  const placementModal = document.getElementById("modal-placement");
+  const btnOpenPlacement = document.getElementById("btn-open-placement-test");
+  const btnClosePlacement = document.getElementById("btn-close-placement");
+  const quizStep = document.getElementById("placement-quiz-step");
+  const resultStep = document.getElementById("placement-result-step");
+  const quizWordEl = document.getElementById("quiz-word-display");
+  const quizHintEl = document.getElementById("quiz-hint-display");
+  const quizCounterEl = document.getElementById("quiz-progress-counter");
+  const quizFillEl = document.getElementById("quiz-progress-fill");
+  const btnApplyPlacement = document.getElementById("btn-apply-placement");
+  const resultBadgeEl = document.getElementById("placement-result-badge");
+  const resultTitleEl = document.getElementById("placement-result-title");
+  const resultDescEl = document.getElementById("placement-result-desc");
+  const settingsCefrName = document.getElementById("settings-cefr-name");
+  const headerCefrBadge = document.getElementById("header-cefr-badge");
 
   function hideVictoryModal() {
     if (winModal) {
@@ -29,12 +45,6 @@ document.addEventListener("DOMContentLoaded", () => {
       winWordsList.innerHTML = summary.words
         .map((w) => `<li class="win-word-item">✔ <strong>${w}</strong></li>`)
         .join("");
-
-      if (summary.bonusWordsFound && summary.bonusWordsFound.length > 0) {
-        winWordsList.innerHTML += summary.bonusWordsFound
-          .map((w) => `<li class="win-word-item bonus">★ Бонус: ${w}</li>`)
-          .join("");
-      }
     }
 
     if (winRewardText) {
@@ -45,12 +55,14 @@ document.addEventListener("DOMContentLoaded", () => {
     winModal.classList.add("open");
   }
 
-  // Принудительно скрываем модальное окно при старте
+  // Принудительно скрываем модалки при старте
   hideVictoryModal();
-
-  if (btnCloseModal) {
-    btnCloseModal.addEventListener("click", () => hideVictoryModal());
+  if (placementModal) {
+    placementModal.style.setProperty("display", "none", "important");
+    placementModal.classList.remove("open");
   }
+
+  if (btnCloseModal) btnCloseModal.addEventListener("click", () => hideVictoryModal());
 
   if (btnNextLevel) {
     btnNextLevel.addEventListener("click", () => {
@@ -68,7 +80,115 @@ document.addEventListener("DOMContentLoaded", () => {
     onLevelCompleted: (summary) => showVictoryModal(summary)
   });
 
-  // Экраны (вкладки)
+  // ----------------------------------------------------
+  // Диагностический тест уровня английского (CEFR)
+  // ----------------------------------------------------
+  let quizIndex = 0;
+  let quizAnswers = {};
+  let evaluatedResult = null;
+
+  function openPlacementTest() {
+    quizIndex = 0;
+    quizAnswers = {};
+    if (quizStep) quizStep.style.display = "block";
+    if (resultStep) resultStep.style.display = "none";
+    renderQuizQuestion();
+
+    if (placementModal) {
+      placementModal.style.setProperty("display", "flex", "important");
+      placementModal.classList.add("open");
+    }
+  }
+
+  function closePlacementTest() {
+    if (placementModal) {
+      placementModal.style.setProperty("display", "none", "important");
+      placementModal.classList.remove("open");
+    }
+  }
+
+  function renderQuizQuestion() {
+    const questions = WordRamData.placementTestWords;
+    if (quizIndex >= questions.length) {
+      showQuizResult();
+      return;
+    }
+
+    const current = questions[quizIndex];
+    if (quizWordEl) quizWordEl.textContent = current.word;
+    if (quizHintEl) quizHintEl.textContent = current.hint;
+    if (quizCounterEl) quizCounterEl.textContent = `${quizIndex + 1} / ${questions.length}`;
+    if (quizFillEl) {
+      const pct = ((quizIndex + 1) / questions.length) * 100;
+      quizFillEl.style.width = `${pct}%`;
+    }
+  }
+
+  function handleQuizAnswer(answerType) {
+    const questions = WordRamData.placementTestWords;
+    const current = questions[quizIndex];
+    quizAnswers[current.word] = answerType;
+
+    quizIndex++;
+    if (quizIndex < questions.length) {
+      renderQuizQuestion();
+    } else {
+      showQuizResult();
+    }
+  }
+
+  function showQuizResult() {
+    evaluatedResult = WordRamData.evaluatePlacementTest(quizAnswers);
+    if (quizStep) quizStep.style.display = "none";
+    if (resultStep) resultStep.style.display = "block";
+
+    if (resultBadgeEl) resultBadgeEl.textContent = evaluatedResult.badge;
+    if (resultTitleEl) resultTitleEl.textContent = `Ваш уровень: ${evaluatedResult.title}`;
+    if (resultDescEl) resultDescEl.textContent = evaluatedResult.desc;
+  }
+
+  // Привязка кнопок теста
+  const quizButtons = document.querySelectorAll(".quiz-btn");
+  quizButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const ans = btn.dataset.answer;
+      handleQuizAnswer(ans);
+    });
+  });
+
+  if (btnOpenPlacement) btnOpenPlacement.addEventListener("click", () => openPlacementTest());
+  if (btnClosePlacement) btnClosePlacement.addEventListener("click", () => closePlacementTest());
+
+  if (btnApplyPlacement) {
+    btnApplyPlacement.addEventListener("click", () => {
+      if (evaluatedResult) {
+        storage.setEnglishLevel(evaluatedResult.code);
+        updateCefrUI();
+      }
+      closePlacementTest();
+      game.startLevel(1, false);
+      switchTab("game");
+    });
+  }
+
+  function updateCefrUI() {
+    const levelCode = storage.getEnglishLevel();
+    if (headerCefrBadge) headerCefrBadge.textContent = `🇬🇧 ${levelCode}`;
+    if (settingsCefrName) {
+      const labels = {
+        A1: "A1 — Elementary",
+        A2: "A2 — Pre-Intermediate",
+        B1: "B1 — Intermediate",
+        B2: "B2 — Upper-Intermediate",
+        C1: "C1 — Advanced"
+      };
+      settingsCefrName.textContent = labels[levelCode] || levelCode;
+    }
+  }
+
+  // ----------------------------------------------------
+  // Экраны и вкладки
+  // ----------------------------------------------------
   const screens = {
     game: document.getElementById("screen-game"),
     levels: document.getElementById("screen-levels"),
@@ -76,7 +196,6 @@ document.addEventListener("DOMContentLoaded", () => {
     settings: document.getElementById("screen-settings")
   };
 
-  // Кнопки нижнего меню
   const navButtons = {
     game: document.getElementById("nav-btn-game"),
     levels: document.getElementById("nav-btn-levels"),
@@ -89,18 +208,12 @@ document.addEventListener("DOMContentLoaded", () => {
   function switchTab(tabKey) {
     activeTab = tabKey;
 
-    // Переключение экранов
     Object.keys(screens).forEach((key) => {
       if (screens[key]) {
-        if (key === tabKey) {
-          screens[key].style.display = "flex";
-        } else {
-          screens[key].style.display = "none";
-        }
+        screens[key].style.display = (key === tabKey) ? "flex" : "none";
       }
     });
 
-    // Переключение подсветки меню
     Object.keys(navButtons).forEach((key) => {
       if (navButtons[key]) {
         if (key === tabKey) {
@@ -111,28 +224,19 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    // Действия при входе на конкретный экран
-    if (tabKey === "levels") {
-      renderLevelsScreen();
-    } else if (tabKey === "daily") {
-      renderDailyScreen();
-    } else if (tabKey === "settings") {
-      renderSettingsScreen();
-    }
+    if (tabKey === "levels") renderLevelsScreen();
+    if (tabKey === "daily") renderDailyScreen();
+    if (tabKey === "settings") renderSettingsScreen();
   }
 
-  // Привязка кликов меню
   Object.keys(navButtons).forEach((key) => {
     if (navButtons[key]) {
       navButtons[key].addEventListener("click", () => switchTab(key));
     }
   });
 
-  // ----------------------------------------------------
   // Экран: Уровни
-  // ----------------------------------------------------
   const levelsGrid = document.getElementById("levels-grid");
-
   function renderLevelsScreen() {
     if (!levelsGrid) return;
     levelsGrid.innerHTML = "";
@@ -171,18 +275,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // ----------------------------------------------------
-  // Экран: Сегодня (Ежедневное испытание)
-  // ----------------------------------------------------
+  // Экран: Сегодня
   const dailyBtnStart = document.getElementById("btn-start-daily");
   const dailyStreakEl = document.getElementById("daily-streak-count");
   const dailyStatusBadge = document.getElementById("daily-status-badge");
 
   function renderDailyScreen() {
     const status = storage.getDailyStatus();
-    if (dailyStreakEl) {
-      dailyStreakEl.textContent = status.streak;
-    }
+    if (dailyStreakEl) dailyStreakEl.textContent = status.streak;
 
     if (dailyStatusBadge) {
       if (status.isTodayCompleted) {
@@ -206,25 +306,22 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // ----------------------------------------------------
   // Экран: Настройки
-  // ----------------------------------------------------
   const toggleSound = document.getElementById("setting-sound");
   const toggleVibration = document.getElementById("setting-vibration");
   const toggleTheme = document.getElementById("setting-theme");
   const btnResetData = document.getElementById("btn-reset-data");
   const statWords = document.getElementById("stat-total-words");
-  const statBonus = document.getElementById("stat-bonus-words");
   const statLevels = document.getElementById("stat-levels-completed");
 
   function renderSettingsScreen() {
+    updateCefrUI();
     if (toggleSound) toggleSound.checked = !!storage.getSetting("soundEnabled");
     if (toggleVibration) toggleVibration.checked = !!storage.getSetting("vibrationEnabled");
     if (toggleTheme) toggleTheme.checked = !!storage.getSetting("darkTheme");
 
     const stats = storage.getSetting("stats");
     if (statWords && stats) statWords.textContent = stats.totalWordsFound || 0;
-    if (statBonus && stats) statBonus.textContent = stats.bonusWordsFound || 0;
     if (statLevels && stats) statLevels.textContent = stats.levelsCompleted || 0;
   }
 
@@ -270,7 +367,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Кнопка перезапуска уровня в шапке
   const btnRestart = document.getElementById("btn-restart-level");
   if (btnRestart) {
     btnRestart.addEventListener("click", () => {
@@ -280,11 +376,11 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ----------------------------------------------------
-  // Запуск игры при загрузке страницы
+  // Запуск при старте
   // ----------------------------------------------------
   applyTheme(!!storage.getSetting("darkTheme"));
+  updateCefrUI();
 
-  // Проверяем сохраненную активную игру (только если она не завершена)
   const saved = storage.getActiveSavedGame();
   if (saved && saved.levelData && saved.foundWords && saved.foundWords.length < saved.levelData.words.length) {
     game.restoreGameState(saved);
@@ -294,7 +390,13 @@ document.addEventListener("DOMContentLoaded", () => {
     game.startLevel(cur, false);
   }
 
-  // Регистрация Service Worker для PWA и оффлайн-режима
+  // Если игрок еще ни разу не проходил тест уровня, предлагаем тест
+  if (!storage.getSetting("hasCompletedPlacementTest")) {
+    setTimeout(() => {
+      openPlacementTest();
+    }, 600);
+  }
+
   if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
       navigator.serviceWorker

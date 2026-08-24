@@ -4,16 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>WordRam — Найдите спрятанные слова</title>
-  <meta name="description" content="Увлекательная игра-головоломка в слова на сетке 5x5. Соединяйте соседние буквы, ищите змейки слов и тренируйте внимание.">
+  <meta name="description" content="Увлекательная игра-головоломка в слова на сетке 5x5. 100% заполнение сетки, адаптация под уровень английского (A1-C1).">
   <meta name="theme-color" content="#4f46e5">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="WordRam">
   
-  <link rel="manifest" href="manifest.webmanifest?v=7">
+  <link rel="manifest" href="manifest.webmanifest?v=9">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%234f46e5'/><text x='50%' y='65%' font-size='55' font-family='sans-serif' font-weight='bold' fill='white' text-anchor='middle'>W</text></svg>">
   <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%234f46e5'/><text x='50%' y='65%' font-size='55' font-family='sans-serif' font-weight='bold' fill='white' text-anchor='middle'>W</text></svg>">
-  <link rel="stylesheet" href="styles.css?v=7">
+  <link rel="stylesheet" href="styles.css?v=9">
 </head>
 <body>
   <div id="app">
@@ -22,6 +22,7 @@
       <div class="header-left">
         <h1 class="app-title">WordRam</h1>
         <span id="current-level-title" class="level-badge">Уровень 1</span>
+        <span id="header-cefr-badge" class="cefr-badge" title="Ваш уровень английского">🇬🇧 A2</span>
       </div>
       <div class="header-right">
         <div class="coins-badge" title="Баланс монет">
@@ -39,7 +40,7 @@
       <!-- ЭКРАН 1: ИГРА -->
       <section id="screen-game" class="screen-view">
         <div class="game-top-bar">
-          <div id="level-progress-text" class="progress-label">Слов найдено: 0 из 2</div>
+          <div id="level-progress-text" class="progress-label">Слов найдено: 0 из 5 (0/25 букв)</div>
           <!-- Слоты слов (скрытый список: отображаются только длины/точки) -->
           <div id="word-slots-container" class="word-slots"></div>
         </div>
@@ -49,7 +50,7 @@
           <div id="word-preview" class="word-preview-box"></div>
         </div>
 
-        <!-- Игровое поле 5x5 -->
+        <!-- Игровое поле 5x5 (100% заполнено словами) -->
         <div class="grid-container">
           <div id="game-grid" class="letter-grid"></div>
         </div>
@@ -90,10 +91,22 @@
         </div>
       </section>
 
-      <!-- ЭКРАН 4: НАСТРОЙКИ И ПРАВИЛА -->
+      <!-- ЭКРАН 4: НАСТРОЙКИ И ТЕСТ УРОВНЯ -->
       <section id="screen-settings" class="screen-view" style="display: none;">
         <div class="screen-header">
-          <h2>Настройки и правила</h2>
+          <h2>Настройки и профиль</h2>
+        </div>
+
+        <!-- Блок уровня английского -->
+        <div class="settings-group cefr-profile-box">
+          <h3>Уровень английского (CEFR)</h3>
+          <div class="cefr-status-row">
+            <span class="cefr-label">Текущий уровень:</span>
+            <strong id="settings-cefr-name" class="cefr-pill">A2 — Pre-Intermediate</strong>
+          </div>
+          <button id="btn-open-placement-test" class="primary-btn full-width mt-2">
+            📝 Пройти тест на определение уровня (A1–C1)
+          </button>
         </div>
 
         <div class="settings-group">
@@ -115,12 +128,8 @@
         <div class="settings-group">
           <h3>Статистика</h3>
           <div class="stat-row">
-            <span>Найдено основных слов:</span>
+            <span>Найдено слов:</span>
             <strong id="stat-total-words">0</strong>
-          </div>
-          <div class="stat-row">
-            <span>Найдено бонусных слов:</span>
-            <strong id="stat-bonus-words">0</strong>
           </div>
           <div class="stat-row">
             <span>Пройдено уровней:</span>
@@ -129,13 +138,12 @@
         </div>
 
         <div class="settings-group rules-box">
-          <h3>Как играть в WordRam</h3>
+          <h3>Правила игры WordRam</h3>
           <ul>
-            <li><strong>Соседние клетки:</strong> проводите пальцем или мышью по буквам вверх, вниз, влево или вправо.</li>
-            <li><strong>Запрет диагоналей:</strong> диагональные шаги и перескоки запрещены.</li>
-            <li><strong>Слова-змейки:</strong> слова изгибаются по полю минимум на 1–3 поворота.</li>
-            <li><strong>Поиск вслепую:</strong> список слов скрыт, ориентируйтесь по длине слотов.</li>
-            <li><strong>Пошаговая подсказка:</strong> кнопка «Подсказка» подсвечивает следующую букву слова.</li>
+            <li><strong>100% заполнение сетки:</strong> все 25 букв на поле входят в состав загаданных слов. Лишних букв нет.</li>
+            <li><strong>Соседние клетки:</strong> соединяйте буквы строго по горизонтали и вертикали (без диагоналей).</li>
+            <li><strong>Слова-змейки:</strong> слова изгибаются по полю, образуя ломаные линии.</li>
+            <li><strong>Поиск вслепую:</strong> ориентируйтесь по слотам и количеству букв.</li>
           </ul>
         </div>
 
@@ -165,26 +173,75 @@
       </button>
     </nav>
 
-    <!-- Модальное окно победы на уровне (ПО УМОЛЧАНИЮ ВСЕГДА СКРЫТО ЧЕРЕЗ ИНЛАЙН СТИЛЬ) -->
+    <!-- МОДАЛЬНОЕ ОКНО ТЕСТА УРОВНЯ АНГЛИЙСКОГО (CEFR TEST) -->
+    <div id="modal-placement" class="modal-overlay" style="display: none !important;">
+      <div class="modal-card placement-card">
+        <button id="btn-close-placement" class="modal-close-icon" aria-label="Закрыть">✕</button>
+        
+        <!-- Шаг 1: Вопросы теста -->
+        <div id="placement-quiz-step">
+          <div class="quiz-header">
+            <span class="quiz-step-title">Тест словарного запаса</span>
+            <span id="quiz-progress-counter" class="quiz-counter">1 / 15</span>
+          </div>
+          <div class="quiz-progress-bar-wrap">
+            <div id="quiz-progress-fill" class="quiz-progress-bar-fill" style="width: 6.6%;"></div>
+          </div>
+
+          <div class="quiz-word-card">
+            <h3 id="quiz-word-display" class="quiz-target-word">FAMILY</h3>
+            <p id="quiz-hint-display" class="quiz-word-hint">Группа людей: родители и дети</p>
+          </div>
+
+          <p class="quiz-prompt">Знаете ли вы это слово и его значение?</p>
+
+          <div class="quiz-actions">
+            <button class="quiz-btn btn-know" data-answer="KNOW">
+              🟢 Знаю
+            </button>
+            <button class="quiz-btn btn-unsure" data-answer="NOT_SURE">
+              🟡 Не уверен
+            </button>
+            <button class="quiz-btn btn-dontknow" data-answer="DONT_KNOW">
+              🔴 Не знаю
+            </button>
+          </div>
+        </div>
+
+        <!-- Шаг 2: Результат теста -->
+        <div id="placement-result-step" style="display: none;">
+          <div class="modal-confetti">🎓</div>
+          <h2 class="modal-title">Ваш уровень определен!</h2>
+          <div id="placement-result-badge" class="result-cefr-badge">B1 — Intermediate</div>
+          <h3 id="placement-result-title" class="result-cefr-title">Средний уровень</h3>
+          <p id="placement-result-desc" class="result-cefr-desc">Вам отлично подойдут уровни средней сложности с богатым словарным запасом.</p>
+          <button id="btn-apply-placement" class="primary-btn modal-action-btn mt-4">
+            Применить и начать игру ➔
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Модальное окно победы на уровне -->
     <div id="modal-victory" class="modal-overlay" style="display: none !important;">
       <div class="modal-card">
         <button id="btn-close-modal" class="modal-close-icon" aria-label="Закрыть">✕</button>
         <div class="modal-confetti">🎉</div>
         <h2 class="modal-title">Уровень пройден!</h2>
         <div class="modal-stars">★★★</div>
-        <p class="modal-subtitle">Вы нашли все спрятанные слова:</p>
+        <p class="modal-subtitle">Все 25 букв сетки раскрыты:</p>
         <ul id="win-words-list" class="win-words-list"></ul>
-        <div id="win-reward-text" class="win-reward-badge">+15 🪙 монет получено!</div>
+        <div id="win-reward-text" class="win-reward-badge">+20 🪙 монет получено!</div>
         <button id="btn-next-level" class="primary-btn modal-action-btn">Следующий уровень ➔</button>
       </div>
     </div>
   </div>
 
-  <!-- Подключение скриптов с версионированием для сброса кэша браузера -->
-  <script src="data.js?v=7"></script>
-  <script src="storage.js?v=7"></script>
-  <script src="generator.js?v=7"></script>
-  <script src="game.js?v=7"></script>
-  <script src="main.js?v=7"></script>
+  <!-- Подключение скриптов с версионированием -->
+  <script src="data.js?v=9"></script>
+  <script src="storage.js?v=9"></script>
+  <script src="generator.js?v=9"></script>
+  <script src="game.js?v=9"></script>
+  <script src="main.js?v=9"></script>
 </body>
 </html>

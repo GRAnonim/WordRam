@@ -1,11 +1,11 @@
 /**
- * WordRam - LocalStorage & State Manager
- * Сохранение прогресса, монет, настроек, ежедневных испытаний и статистики.
+ * WordRam - LocalStorage & State Manager (v8)
+ * Сохранение прогресса, монет, настроек, уровня английского (CEFR A1-C1).
  */
 
 class WordRamStorage {
   constructor() {
-    this.STORAGE_KEY = "wordram_v5_save";
+    this.STORAGE_KEY = "wordram_v8_save";
     this.state = this.load();
   }
 
@@ -13,11 +13,13 @@ class WordRamStorage {
     return {
       currentLevel: 1,
       unlockedLevel: 1,
-      levelStars: {},       // { "1": 3, "2": 2, ... }
-      levelHighScores: {},  // { "1": 450, ... }
-      coins: 50,            // Стартовые монеты на подсказки
-      hintsRemaining: 3,    // Бесплатные подсказки
-      hintCost: 15,         // Стоимость дополнительной подсказки в монетах
+      englishLevel: "A2",           // Уровень владения (A1, A2, B1, B2, C1)
+      hasCompletedPlacementTest: false,
+      levelStars: {},               // { "1": 3, "2": 2, ... }
+      levelHighScores: {},          // { "1": 450, ... }
+      coins: 50,                    // Стартовые монеты
+      hintsRemaining: 3,            // Бесплатные подсказки
+      hintCost: 15,                 // Стоимость подсказки
       soundEnabled: true,
       vibrationEnabled: true,
       darkTheme: false,
@@ -28,7 +30,6 @@ class WordRamStorage {
       },
       stats: {
         totalWordsFound: 0,
-        bonusWordsFound: 0,
         levelsCompleted: 0,
         hintsUsed: 0
       },
@@ -44,7 +45,7 @@ class WordRamStorage {
         return { ...this.getDefaultState(), ...parsed };
       }
     } catch (e) {
-      console.warn("Ошибка чтения LocalStorage, используется состояние по умолчанию", e);
+      console.warn("Ошибка чтения LocalStorage", e);
     }
     return this.getDefaultState();
   }
@@ -57,7 +58,16 @@ class WordRamStorage {
     }
   }
 
-  // Настройки
+  getEnglishLevel() {
+    return this.state.englishLevel || "A2";
+  }
+
+  setEnglishLevel(levelCode) {
+    this.state.englishLevel = levelCode;
+    this.state.hasCompletedPlacementTest = true;
+    this.save();
+  }
+
   getSetting(key) {
     return this.state[key];
   }
@@ -67,7 +77,6 @@ class WordRamStorage {
     this.save();
   }
 
-  // Монеты и подсказки
   getCoins() {
     return this.state.coins;
   }
@@ -96,7 +105,6 @@ class WordRamStorage {
     return { success: false, reason: "NOT_ENOUGH_COINS", needed: this.state.hintCost, current: this.state.coins };
   }
 
-  // Прогресс по уровням
   getLevelStars(lvl) {
     return this.state.levelStars[lvl] || 0;
   }
@@ -115,7 +123,6 @@ class WordRamStorage {
     this.save();
   }
 
-  // Сохранение активной игры (чтобы не терять при перезагрузке)
   saveActiveGame(gameSnapshot) {
     this.state.activeSavedGame = gameSnapshot;
     this.save();
@@ -130,7 +137,6 @@ class WordRamStorage {
     this.save();
   }
 
-  // Ежедневный режим (Сегодня)
   getDailyStatus() {
     const todayStr = new Date().toISOString().slice(0, 10);
     if (this.state.daily.lastPlayedDate !== todayStr) {
@@ -159,28 +165,21 @@ class WordRamStorage {
 
     this.state.daily.lastPlayedDate = todayStr;
     this.state.daily.completed = true;
-    this.addCoins(50); // Бонус за ежедневный уровень
+    this.addCoins(50);
     this.save();
   }
 
-  recordWordFound(isBonus = false) {
-    if (isBonus) {
-      this.state.stats.bonusWordsFound++;
-      this.addCoins(2); // 2 монеты за бонусное слово
-    } else {
-      this.state.stats.totalWordsFound++;
-    }
+  recordWordFound() {
+    this.state.stats.totalWordsFound++;
     this.save();
   }
 
-  // Сброс всех данных
   resetAll() {
     this.state = this.getDefaultState();
     this.save();
   }
 }
 
-// Экспорт для Node.js и браузера
 if (typeof module !== "undefined" && module.exports) {
   module.exports = WordRamStorage;
 }

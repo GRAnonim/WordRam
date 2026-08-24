@@ -1,19 +1,19 @@
 /**
- * WordRam - Service Worker (v7)
- * Обеспечивает кэширование ресурсов для оффлайн-доступа и принудительную очистку старых версий кэша.
+ * WordRam - Service Worker (v9)
+ * Динамические сетки (4x4 - 9x9), 100% заполнение словами, тест CEFR A1-C1.
  */
 
-const CACHE_NAME = "wordram-v7";
+const CACHE_NAME = "wordram-v9";
 const ASSETS_TO_CACHE = [
   "./",
   "./index.html",
-  "./styles.css?v=7",
-  "./data.js?v=7",
-  "./storage.js?v=7",
-  "./generator.js?v=7",
-  "./game.js?v=7",
-  "./main.js?v=7",
-  "./manifest.webmanifest?v=7"
+  "./styles.css?v=9",
+  "./data.js?v=9",
+  "./storage.js?v=9",
+  "./generator.js?v=9",
+  "./game.js?v=9",
+  "./main.js?v=9",
+  "./manifest.webmanifest?v=9"
 ];
 
 self.addEventListener("install", (event) => {
@@ -31,7 +31,7 @@ self.addEventListener("activate", (event) => {
       return Promise.all(
         keys.map((key) => {
           if (key !== CACHE_NAME) {
-            console.log("[ServiceWorker] Удаление устаревшего кэша:", key);
+            console.log("[ServiceWorker] Очистка старого кэша:", key);
             return caches.delete(key);
           }
         })

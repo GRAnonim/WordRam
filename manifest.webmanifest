@@ -2,7 +2,7 @@
   "name": "WordRam",
   "short_name": "WordRam",
   "lang": "ru",
-  "description": "Увлекательная игра-головоломка в слова на сетке 5x5. Ищите спрятанные слова-змейки.",
+  "description": "Головоломка в слова с динамическими сетками от 4x4 до 9x9 и адаптацией под уровень английского A1-C1.",
   "start_url": "./index.html",
   "display": "standalone",
   "orientation": "portrait",

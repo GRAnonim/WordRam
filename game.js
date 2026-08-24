@@ -1,7 +1,7 @@
 /**
- * WordRam - Core Game Engine (v7)
- * Обработка ввода (тач/мышь), проверка слов, пошаговые подсказки,
- * визуальные эффекты и синтез звуков через Web Audio API.
+ * WordRam - Core Game Engine (v9)
+ * Динамические сетки (4x4 до 9x9), адаптивные размеры ячеек,
+ * 100% покрытие словами, пошаговые подсказки и звук.
  */
 
 class WordRamGame {
@@ -17,6 +17,7 @@ class WordRamGame {
     this.hintButton = options.hintButton || document.getElementById("btn-hint");
     this.coinsDisplay = options.coinsDisplay || document.getElementById("coins-counter");
     this.levelTitleDisplay = options.levelTitleDisplay || document.getElementById("current-level-title");
+    this.cefrBadgeDisplay = options.cefrBadgeDisplay || document.getElementById("header-cefr-badge");
     this.slotsContainer = options.slotsContainer || document.getElementById("word-slots-container");
 
     // Игровое состояние
@@ -24,18 +25,27 @@ class WordRamGame {
     this.levelData = null;
     this.isDailyMode = false;
     this.foundWords = [];
-    this.foundBonusWords = [];
-    this.selectedPath = []; // [[r, c], ...]
+    this.selectedPath = [];
     this.isDragging = false;
-    this.revealedHints = {}; // { word: revealedLetterCount }
+    this.revealedHints = {};
     this.isGameOver = false;
 
-    // Web Audio синтезатор
-    this.audioCtx = null;
+    // Палитра для слов (до 10 гармоничных цветов для больших сеток)
+    this.wordColors = [
+      { bg: "#dcfce7", border: "#22c55e", text: "#15803d" }, // зеленый
+      { bg: "#e0e7ff", border: "#6366f1", text: "#4338ca" }, // индиго
+      { bg: "#fef3c7", border: "#f59e0b", text: "#b45309" }, // янтарный
+      { bg: "#fce7f3", border: "#ec4899", text: "#be185d" }, // розовый
+      { bg: "#e0f2fe", border: "#0ea5e9", text: "#0369a1" }, // голубой
+      { bg: "#ede9fe", border: "#8b5cf6", text: "#6d28d9" }, // фиолетовый
+      { bg: "#ffedd5", border: "#f97316", text: "#c2410c" }, // оранжевый
+      { bg: "#ccfbf1", border: "#14b8a6", text: "#0f766e" }, // бирюзовый
+      { bg: "#f1f5f9", border: "#64748b", text: "#334155" }, // сланцевый
+      { bg: "#fae8ff", border: "#d946ef", text: "#a21caf" }  // фуксия
+    ];
 
-    // Callbacks
+    this.audioCtx = null;
     this.onLevelCompleted = options.onLevelCompleted || (() => {});
-    this.onProgressUpdated = options.onProgressUpdated || (() => {});
 
     this.initAudio();
     this.bindEvents();
@@ -63,7 +73,7 @@ class WordRamGame {
     if (type === "select") {
       const osc = this.audioCtx.createOscillator();
       const gain = this.audioCtx.createGain();
-      const pitch = 320 + Math.min(this.selectedPath.length * 60, 480);
+      const pitch = 320 + Math.min(this.selectedPath.length * 50, 520);
       osc.type = "sine";
       osc.frequency.setValueAtTime(pitch, now);
       gain.gain.setValueAtTime(0.08, now);
@@ -85,20 +95,6 @@ class WordRamGame {
         gain.connect(this.audioCtx.destination);
         osc.start(now + idx * 0.07);
         osc.stop(now + idx * 0.07 + 0.25);
-      });
-    } else if (type === "bonus") {
-      const notes = [880, 1108.73, 1318.51, 1760];
-      notes.forEach((freq, idx) => {
-        const osc = this.audioCtx.createOscillator();
-        const gain = this.audioCtx.createGain();
-        osc.type = "sine";
-        osc.frequency.setValueAtTime(freq, now + idx * 0.05);
-        gain.gain.setValueAtTime(0.1, now + idx * 0.05);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.05 + 0.2);
-        osc.connect(gain);
-        gain.connect(this.audioCtx.destination);
-        osc.start(now + idx * 0.05);
-        osc.stop(now + idx * 0.05 + 0.2);
       });
     } else if (type === "error") {
       const osc = this.audioCtx.createOscillator();
@@ -151,39 +147,31 @@ class WordRamGame {
   bindEvents() {
     if (!this.gridElement) return;
 
-    // Мышь
     this.gridElement.addEventListener("mousedown", (e) => this.handlePointerStart(e));
     window.addEventListener("mousemove", (e) => this.handlePointerMove(e));
     window.addEventListener("mouseup", (e) => this.handlePointerEnd(e));
 
-    // Тач / мобильные устройства
     this.gridElement.addEventListener("touchstart", (e) => this.handlePointerStart(e), { passive: false });
     window.addEventListener("touchmove", (e) => this.handlePointerMove(e), { passive: false });
     window.addEventListener("touchend", (e) => this.handlePointerEnd(e), { passive: false });
     window.addEventListener("touchcancel", (e) => this.handlePointerEnd(e), { passive: false });
 
-    // Кнопка подсказки
     if (this.hintButton) {
       this.hintButton.addEventListener("click", () => this.applyStepHint());
     }
   }
 
-  /**
-   * Запуск уровня по номеру
-   */
   startLevel(levelNumber = 1, isDaily = false) {
     this.isDailyMode = isDaily;
     this.currentLevel = levelNumber;
     this.foundWords = [];
-    this.foundBonusWords = [];
     this.selectedPath = [];
     this.revealedHints = {};
     this.isGameOver = false;
 
-    // Генерируем уровень
-    this.levelData = this.generator.generateLevel(levelNumber);
+    const userCefr = this.storage.getEnglishLevel();
+    this.levelData = this.generator.generateLevel(levelNumber, userCefr);
 
-    // Инициализируем словарь подсказок
     for (const w of this.levelData.words) {
       this.revealedHints[w] = 0;
     }
@@ -194,32 +182,36 @@ class WordRamGame {
     this.updatePreview("");
     this.updateCoinsDisplay();
 
-    // Сохраняем состояние
     this.saveCurrentGameState();
   }
 
   renderHeader() {
+    const size = this.levelData ? this.levelData.gridSize : 5;
     if (this.levelTitleDisplay) {
       if (this.isDailyMode) {
-        this.levelTitleDisplay.textContent = `Сегодня (${new Date().toLocaleDateString("ru-RU")})`;
+        this.levelTitleDisplay.textContent = `Сегодня (${size}×${size})`;
       } else {
-        this.levelTitleDisplay.textContent = `Уровень ${this.currentLevel}`;
+        this.levelTitleDisplay.textContent = `Уровень ${this.currentLevel} (${size}×${size})`;
       }
     }
 
+    if (this.cefrBadgeDisplay) {
+      this.cefrBadgeDisplay.textContent = `🇬🇧 ${this.storage.getEnglishLevel()}`;
+    }
+
     if (this.progressElement) {
-      this.progressElement.textContent = `Слов найдено: ${this.foundWords.length} из ${this.levelData.words.length}`;
+      let foundLetters = 0;
+      this.foundWords.forEach(w => foundLetters += w.length);
+      const totalLetters = this.levelData ? this.levelData.totalCells : 25;
+      this.progressElement.textContent = `Слов найдено: ${this.foundWords.length} из ${this.levelData.words.length} (${foundLetters}/${totalLetters} букв)`;
     }
   }
 
-  /**
-   * Отрисовка слотов слов (скрытый список)
-   */
   renderWordSlots() {
     if (!this.slotsContainer) return;
     this.slotsContainer.innerHTML = "";
 
-    this.levelData.words.forEach((word) => {
+    this.levelData.words.forEach((word, idx) => {
       const isFound = this.foundWords.includes(word);
       const slot = document.createElement("div");
       slot.className = `word-slot ${isFound ? "found" : ""}`;
@@ -227,6 +219,10 @@ class WordRamGame {
 
       if (isFound) {
         slot.textContent = word;
+        const color = this.wordColors[idx % this.wordColors.length];
+        slot.style.backgroundColor = color.bg;
+        slot.style.borderColor = color.border;
+        slot.style.color = color.text;
       } else {
         const dots = "● ".repeat(word.length).trim();
         slot.innerHTML = `<span class="slot-dots">${dots}</span> <span class="slot-length">(${word.length})</span>`;
@@ -241,6 +237,7 @@ class WordRamGame {
     this.gridElement.innerHTML = "";
 
     const size = this.levelData.gridSize || 5;
+    this.gridElement.dataset.size = size;
     this.gridElement.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
     this.gridElement.style.gridTemplateRows = `repeat(${size}, 1fr)`;
 
@@ -397,7 +394,7 @@ class WordRamGame {
     if (matchedTarget) {
       if (!this.foundWords.includes(matchedTarget)) {
         this.foundWords.push(matchedTarget);
-        this.storage.recordWordFound(false);
+        this.storage.recordWordFound();
         this.playSound("found");
         this.vibrate(40);
 
@@ -407,7 +404,7 @@ class WordRamGame {
         this.renderWordSlots();
         this.saveCurrentGameState();
 
-        if (this.foundWords.length > 0 && this.levelData && this.levelData.words && this.foundWords.length === this.levelData.words.length) {
+        if (this.foundWords.length > 0 && this.foundWords.length === this.levelData.words.length) {
           this.handleLevelWin();
           return;
         }
@@ -415,30 +412,9 @@ class WordRamGame {
         this.showFloatingMessage("Уже найдено!", "info");
       }
     } else {
-      let matchedBonus = null;
-      if (this.levelData.bonusWords.includes(word)) {
-        matchedBonus = word;
-      } else if (this.levelData.bonusWords.includes(reversedWord)) {
-        matchedBonus = reversedWord;
-      }
-
-      if (matchedBonus) {
-        if (!this.foundBonusWords.includes(matchedBonus)) {
-          this.foundBonusWords.push(matchedBonus);
-          this.storage.recordWordFound(true);
-          this.playSound("bonus");
-          this.vibrate(30);
-          this.showFloatingMessage(`+2 🪙 Бонус: ${matchedBonus}!`, "bonus");
-          this.updateCoinsDisplay();
-          this.saveCurrentGameState();
-        } else {
-          this.showFloatingMessage("Бонусное слово уже собрано!", "info");
-        }
-      } else {
-        this.playSound("error");
-        this.vibrate([30, 40, 30]);
-        this.animateErrorCells(this.selectedPath);
-      }
+      this.playSound("error");
+      this.vibrate([30, 40, 30]);
+      this.animateErrorCells(this.selectedPath);
     }
 
     this.selectedPath = [];
@@ -507,7 +483,10 @@ class WordRamGame {
 
     const allCells = this.gridElement.querySelectorAll(".grid-cell");
     allCells.forEach(cell => {
-      cell.classList.remove("selected", "path-head", "hinted");
+      cell.classList.remove("selected", "path-head", "hinted", "found-cell");
+      cell.style.backgroundColor = "";
+      cell.style.borderColor = "";
+      cell.style.color = "";
       const badge = cell.querySelector(".hint-badge");
       if (badge) badge.textContent = "";
     });
@@ -537,17 +516,23 @@ class WordRamGame {
       }
     }
 
-    for (const word of this.foundWords) {
-      const route = this.levelData.routes[word];
-      if (route) {
-        route.forEach(([r, c]) => {
-          const cell = this.getCellElement(r, c);
-          if (cell) {
-            cell.classList.add("found-cell");
-          }
-        });
+    this.levelData.words.forEach((word, wordIdx) => {
+      if (this.foundWords.includes(word)) {
+        const color = this.wordColors[wordIdx % this.wordColors.length];
+        const route = this.levelData.routes[word];
+        if (route) {
+          route.forEach(([r, c]) => {
+            const cell = this.getCellElement(r, c);
+            if (cell) {
+              cell.classList.add("found-cell");
+              cell.style.backgroundColor = color.bg;
+              cell.style.borderColor = color.border;
+              cell.style.color = color.text;
+            }
+          });
+        }
       }
-    }
+    });
   }
 
   showFloatingMessage(text, type = "info") {
@@ -571,7 +556,7 @@ class WordRamGame {
     this.playSound("win");
     this.vibrate([100, 50, 100, 50, 150]);
 
-    const reward = this.levelData.coinsReward || 15;
+    const reward = this.levelData.coinsReward || 20;
 
     if (this.isDailyMode) {
       this.storage.completeDailyChallenge();
@@ -586,7 +571,8 @@ class WordRamGame {
         level: this.currentLevel,
         isDaily: this.isDailyMode,
         words: this.levelData.words,
-        bonusWordsFound: this.foundBonusWords,
+        gridSize: this.levelData.gridSize,
+        totalCells: this.levelData.totalCells,
         rewardCoins: reward
       });
     }
@@ -599,7 +585,6 @@ class WordRamGame {
       isDaily: this.isDailyMode,
       levelData: this.levelData,
       foundWords: this.foundWords,
-      foundBonusWords: this.foundBonusWords,
       revealedHints: this.revealedHints
     });
   }
@@ -610,7 +595,6 @@ class WordRamGame {
     this.isDailyMode = saved.isDaily;
     this.levelData = saved.levelData;
     this.foundWords = saved.foundWords || [];
-    this.foundBonusWords = saved.foundBonusWords || [];
     this.revealedHints = saved.revealedHints || {};
     this.isGameOver = false;
 
@@ -623,7 +607,6 @@ class WordRamGame {
   }
 }
 
-// Экспорт для Node.js и браузера
 if (typeof module !== "undefined" && module.exports) {
   module.exports = WordRamGame;
 }
