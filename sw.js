@@ -1,20 +1,20 @@
 /**
- * WordRam - Service Worker (v19)
- * Тематические уровни, Web Speech API озвучка, коллокации,
- * слова-бонусы, Magnifier Bubble, PWA и оффлайн.
+ * WordRam - Service Worker (v20)
+ * Монстрики-этапы в колбе, бейдж семантической темы на поле,
+ * чистая благородная терминология (без многобожия), PWA и оффлайн.
  */
 
-const CACHE_NAME = "wordram-v19";
+const CACHE_NAME = "wordram-v20";
 const ASSETS_TO_CACHE = [
   "./",
   "./index.html",
-  "./styles.css?v=19",
-  "./data.js?v=19",
-  "./storage.js?v=19",
-  "./generator.js?v=19",
-  "./game.js?v=19",
-  "./main.js?v=19",
-  "./manifest.webmanifest?v=19"
+  "./styles.css?v=20",
+  "./data.js?v=20",
+  "./storage.js?v=20",
+  "./generator.js?v=20",
+  "./game.js?v=20",
+  "./main.js?v=20",
+  "./manifest.webmanifest?v=20"
 ];
 
 self.addEventListener("install", (event) => {

@@ -1,7 +1,7 @@
 /**
- * WordRam - Data & Pedagogical Architecture (v19)
- * 534 слова, тематические семантические уровни, коллокации,
- * Web Speech API озвучка, слова-бонусы, лиги и квесты.
+ * WordRam - Data & Pedagogical Architecture (v20)
+ * 534 слова, семантические темы, монстрики-этапы в колбе (по образцу Филвордов),
+ * чистая терминология (без многобожия), Web Speech API озвучка.
  */
 
 const WordRamData = {
@@ -1844,12 +1844,12 @@ const WordRamData = {
   },
   "CLAY": {
     "tr": "Глина",
-    "def": "Мягкая пластичная порода для гончарного дела.",
+    "def": "Мягкая пластичная природная порода для гончарного мастерства и лепки посуды.",
     "ph": "[kleɪ]",
     "ex": "Pottery clay — Гончарная глина.",
     "collocations": [
-      "clay in context",
-      "use clay"
+      "shape clay",
+      "soft clay"
     ]
   },
   "CLEAN": {
@@ -2097,13 +2097,13 @@ const WordRamData = {
     ]
   },
   "CREED": {
-    "tr": "Кредо / Убеждение",
-    "def": "Жизненный принцип или символ веры.",
+    "tr": "Кредо / Жизненный принцип",
+    "def": "Система личных убеждений, моральных правил и принципов человека.",
     "ph": "[kriːd]",
-    "ex": "Personal creed — Личное кредо.",
+    "ex": "Personal creed — Личное жизненное кредо.",
     "collocations": [
-      "creed in context",
-      "use creed"
+      "live by creed",
+      "family creed"
     ]
   },
   "CROWN": {
@@ -3556,13 +3556,13 @@ const WordRamData = {
     ]
   },
   "ICON": {
-    "tr": "Икона / Иконка / Кумир",
-    "def": "Священное изображение или значок интерфейса.",
+    "tr": "Значок / Иконка / Символ",
+    "def": "Графический элемент интерфейса или общепризнанный символ.",
     "ph": "[ˈaɪkɒn]",
     "ex": "App icon — Иконка приложения.",
     "collocations": [
-      "icon in context",
-      "use icon"
+      "desktop icon",
+      "click the icon"
     ]
   },
   "IMMUTABLE": {
@@ -3960,13 +3960,13 @@ const WordRamData = {
     ]
   },
   "MAGIC": {
-    "tr": "Магия / Волшебство",
-    "def": "Таинственное сверхъестественное искусство чар.",
+    "tr": "Иллюзия / Фокус / Ловкость",
+    "def": "Искусство зрелищных фокусов, трюков и ловкости рук.",
     "ph": "[ˈmædʒɪk]",
-    "ex": "Magic power — Волшебная сила.",
+    "ex": "Stage magic — Сценические фокусы.",
     "collocations": [
-      "magic in context",
-      "use magic"
+      "magic trick",
+      "magic show"
     ]
   },
   "MAGNET": {
@@ -4942,13 +4942,13 @@ const WordRamData = {
     ]
   },
   "RUNE": {
-    "tr": "Руна / Символ",
-    "def": "Древний магический скандинавский знак-буква.",
+    "tr": "Руна / Древний знак",
+    "def": "Древний угловатый письменный знак или буква алфавита.",
     "ph": "[ruːn]",
-    "ex": "Magic rune — Магическая руна.",
+    "ex": "Ancient rune — Древняя руническая буква.",
     "collocations": [
-      "rune in context",
-      "use rune"
+      "carve a rune",
+      "read runes"
     ]
   },
   "RUSH": {
@@ -6464,6 +6464,71 @@ const WordRamData = {
   }
 },
 
+  // Монстрики-этапы (по образцу классических Филвордов)
+  monstersStages: [
+    {
+      id: 1,
+      name: "Морская губка",
+      icon: "🧽",
+      startLevel: 1,
+      endLevel: 20,
+      milestones: [
+        { level: 5, label: "5 ур.", icon: "🎁", title: "Сундук монет" },
+        { level: 10, label: "10 ур.", icon: "📖", title: "Книга слов" },
+        { level: 20, label: "20 ур.", icon: "🪼", title: "Медуза" }
+      ]
+    },
+    {
+      id: 2,
+      name: "Медуза",
+      icon: "🪼",
+      startLevel: 21,
+      endLevel: 45,
+      milestones: [
+        { level: 25, label: "25 ур.", icon: "🎁", title: "Сундук монет" },
+        { level: 35, label: "35 ур.", icon: "📖", title: "Книга слов" },
+        { level: 45, label: "45 ур.", icon: "🐌", title: "Улитка" }
+      ]
+    },
+    {
+      id: 3,
+      name: "Улитка",
+      icon: "🐌",
+      startLevel: 46,
+      endLevel: 70,
+      milestones: [
+        { level: 50, label: "50 ур.", icon: "🎁", title: "Сундук монет" },
+        { level: 60, label: "60 ур.", icon: "📖", title: "Книга слов" },
+        { level: 70, label: "70 ур.", icon: "🦉", title: "Сова" }
+      ]
+    },
+    {
+      id: 4,
+      name: "Мудрая Сова",
+      icon: "🦉",
+      startLevel: 71,
+      endLevel: 95,
+      milestones: [
+        { level: 75, label: "75 ур.", icon: "🎁", title: "Сундук монет" },
+        { level: 85, label: "85 ур.", icon: "📖", title: "Книга слов" },
+        { level: 95, label: "95 ур.", icon: "🦊", title: "Лисенок" }
+      ]
+    },
+    {
+      id: 5,
+      name: "Лисенок-полиглот",
+      icon: "🦊",
+      startLevel: 96,
+      endLevel: 125,
+      milestones: [
+        { level: 100, label: "100 ур.", icon: "🎁", title: "Сундук мастера" },
+        { level: 115, label: "115 ур.", icon: "📖", title: "Книга слов" },
+        { level: 125, label: "125 ур.", icon: "👑", title: "Корона мастера" }
+      ]
+    }
+  ],
+
+  // Ранги опыта (XP) и CEFR
   xpRanks: [
     { code: "A1", title: "Начальный (A1)", badge: "A1 — Elementary", minXp: 0, nextXp: 300 },
     { code: "A2", title: "Базовый (A2)", badge: "A2 — Pre-Intermediate", minXp: 300, nextXp: 800 },
@@ -6472,22 +6537,16 @@ const WordRamData = {
     { code: "C1", title: "Продвинутый (C1)", badge: "C1 — Advanced", minXp: 3000, nextXp: 5000 }
   ],
 
-  worldChapters: [
-    { id: 1, title: "Лондон", country: "Великобритания", flag: "🇬🇧", startLevel: 1, endLevel: 25, desc: "Уютные улочки и основы языка" },
-    { id: 2, title: "Оксфорд", country: "Великобритания", flag: "🏴󠁧󠁢󠁳󠁣󠁴󠁿", startLevel: 26, endLevel: 50, desc: "Университетские тайны и богатая лексика" },
-    { id: 3, title: "Нью-Йорк", country: "США", flag: "🇺🇸", startLevel: 51, endLevel: 75, desc: "Небоскребы, динамика и абстрактные термины" },
-    { id: 4, title: "Токио", country: "Япония", flag: "🇯🇵", startLevel: 76, endLevel: 100, desc: "Высокие технологии и большие сетки" },
-    { id: 5, title: "Сидней", country: "Австралия", flag: "🇦🇺", startLevel: 101, endLevel: 125, desc: "Океан, приключения и мастерство" }
-  ],
-
+  // Еженедельные лиги (благородные соревновательные названия)
   leagues: [
     { id: 1, name: "Бронзовая лига", icon: "🥉", color: "#cd7f32", minXpWeek: 0, rewardCoins: 50 },
     { id: 2, name: "Серебряная лига", icon: "🥈", color: "#94a3b8", minXpWeek: 200, rewardCoins: 100 },
     { id: 3, name: "Золотая лига", icon: "🥇", color: "#f59e0b", minXpWeek: 500, rewardCoins: 180 },
     { id: 4, name: "Алмазная лига", icon: "💎", color: "#06b6d4", minXpWeek: 1000, rewardCoins: 300 },
-    { id: 5, name: "Легендарная лига", icon: "👑", color: "#a855f7", minXpWeek: 2000, rewardCoins: 500 }
+    { id: 5, name: "Лига Мастеров", icon: "👑", color: "#a855f7", minXpWeek: 2000, rewardCoins: 500 }
   ],
 
+  // Сектора Колеса Фортуны (8 призов)
   luckyWheelSectors: [
     { id: 0, label: "+20 🪙", type: "coins", value: 20, icon: "🪙", color: "#f59e0b" },
     { id: 1, label: "+1 💡", type: "hints", value: 1, icon: "💡", color: "#6366f1" },
@@ -6499,12 +6558,14 @@ const WordRamData = {
     { id: 7, label: "👑 100 🪙", type: "coins", value: 100, icon: "👑", color: "#ec4899" }
   ],
 
+  // Ежедневные задания (3 квеста)
   dailyQuestsTemplates: [
     { id: "find_words", title: "Сыщик слов", desc: "Найдите 8 любых слов на игровом поле", target: 8, rewardCoins: 20, rewardXp: 40 },
     { id: "no_hints", title: "Чистый разум", desc: "Пройдите 2 уровня без использования подсказок", target: 2, rewardCoins: 25, rewardXp: 50 },
     { id: "vocab_review", title: "Любознательность", desc: "Откройте и изучите 3 карточки в словаре", target: 3, rewardCoins: 15, rewardXp: 30 }
   ],
 
+  // Список достижений (чистые благородные названия)
   achievements: [
     { id: "first_words", icon: "🐣", title: "Первые шаги", desc: "Собрать первые 10 слов в словаре", target: 10, type: "words", rewardCoins: 25 },
     { id: "bookworm", icon: "📚", title: "Книжный червь", desc: "Собрать 50 слов в личный словарь", target: 50, type: "words", rewardCoins: 50 },
@@ -6519,6 +6580,7 @@ const WordRamData = {
     { id: "grandmaster", icon: "🏆", title: "Гроссмейстер", desc: "Пройти уровень на сетке 8x8 или 9x9", target: 1, type: "huge_grid", rewardCoins: 80 }
   ],
 
+  // Ежедневный стрик наград (7 дней)
   dailyStreakRewards: [
     { day: 1, coins: 15, hints: 0, label: "День 1" },
     { day: 2, coins: 25, hints: 0, label: "День 2" },

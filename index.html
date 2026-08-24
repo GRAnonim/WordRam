@@ -10,9 +10,9 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="WordRam">
   
-  <link rel="manifest" href="manifest.webmanifest?v=19">
+  <link rel="manifest" href="manifest.webmanifest?v=20">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23a855f7'/><text x='50%' y='65%' font-size='55' font-family='sans-serif' font-weight='bold' fill='white' text-anchor='middle'>W</text></svg>">
-  <link rel="stylesheet" href="styles.css?v=19">
+  <link rel="stylesheet" href="styles.css?v=20">
 </head>
 <body>
   <div id="app">
@@ -37,6 +37,9 @@
       <section id="screen-game" class="screen-view">
         <div class="game-top-bar">
           <div id="level-progress-text" class="progress-label">Слов: 0 из 4 (0/16 букв)</div>
+          <div id="level-theme-badge" class="theme-pill-badge">
+            <span id="theme-icon">☕</span> <span id="theme-title">Тема: Еда и напитки</span>
+          </div>
           <div id="word-slots-container" class="word-slots"></div>
         </div>
 
@@ -91,18 +94,51 @@
         <div id="vocab-cards-grid" class="vocab-grid"></div>
       </section>
 
-      <!-- ЭКРАН 3: КАРТА ПУТЕШЕСТВИЙ (ГОРОДА И УРОВНИ) -->
-      <section id="screen-levels" class="screen-view" style="display: none;">
-        <div class="screen-header">
-          <h2>Карта путешествия</h2>
-          <p class="subtitle">Открывайте города мира и собирайте звезды</p>
+      <!-- ЭКРАН 3: УРОВНИ И МОНСТРИКИ (В ТОЧНОСТИ КАК В ФИЛВОРДАХ) -->
+      <section id="screen-levels" class="screen-view stage-screen-view" style="display: none;">
+        <div class="stage-top-row full-width">
+          <div class="stage-app-title">WordRam</div>
+          <div class="bonus-piggy-badge" id="btn-show-bonus-words" title="Копилка эрудита">
+            <span class="piggy-icon">🐷</span>
+            <span id="bonus-words-counter" class="piggy-count">0 🪙</span>
+          </div>
         </div>
 
-        <!-- Селектор глав/городов -->
-        <div id="chapters-tabs" class="chapters-selector"></div>
+        <!-- Центральная колба с монстриком этапа -->
+        <div class="stage-monster-container">
+          <div class="monster-flask-ring">
+            <div id="stage-monster-avatar" class="monster-avatar">🧽</div>
+          </div>
+          <h2 id="stage-monster-name" class="stage-monster-name">Морская губка</h2>
+          <div id="stage-percent-display" class="stage-percent-text">0,00%</div>
+        </div>
 
-        <!-- Сетка уровней выбранной главы -->
-        <div id="levels-grid" class="levels-scroll-grid mt-3"></div>
+        <!-- Линия прогресса этапа с вехами/сундуками -->
+        <div class="stage-milestone-track-wrap full-width">
+          <div class="milestone-track-bg">
+            <div id="stage-milestone-fill" class="milestone-track-fill" style="width: 0%;"></div>
+          </div>
+          <div id="stage-milestones-points" class="stage-milestones-points-row"></div>
+        </div>
+
+        <!-- Большая зеленая 3D кнопка запуска УРОВЕНЬ N -->
+        <div class="stage-play-btn-wrap full-width mt-3">
+          <button id="btn-stage-play-current" class="stage-green-play-btn pulse-glow full-width">
+            УРОВЕНЬ 1
+          </button>
+        </div>
+
+        <!-- Переключатель сетки всех уровней -->
+        <div class="stage-toggle-grid-row full-width mt-2">
+          <button id="btn-toggle-levels-grid" class="secondary-btn small-btn">
+            📋 Все уровни со звездами
+          </button>
+        </div>
+
+        <!-- Раскрывающаяся сетка всех уровней -->
+        <div id="levels-grid-wrapper" class="levels-grid-collapsible mt-2" style="display: none;">
+          <div id="levels-grid" class="levels-scroll-grid"></div>
+        </div>
       </section>
 
       <!-- ЭКРАН 4: СОБЫТИЯ (КВЕСТЫ, КОЛЕСО ФОРТУНЫ, СТРИК) -->
@@ -375,10 +411,10 @@
   </div>
 
   <!-- Подключение скриптов с версионированием -->
-  <script src="data.js?v=19"></script>
-  <script src="storage.js?v=19"></script>
-  <script src="generator.js?v=19"></script>
-  <script src="game.js?v=19"></script>
-  <script src="main.js?v=19"></script>
+  <script src="data.js?v=20"></script>
+  <script src="storage.js?v=20"></script>
+  <script src="generator.js?v=20"></script>
+  <script src="game.js?v=20"></script>
+  <script src="main.js?v=20"></script>
 </body>
 </html>

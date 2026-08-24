@@ -662,63 +662,121 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // ----------------------------------------------------
-  // Экран: Карта глав и уровни
+  // Экран: Уровни и Монстрики этапа (в точности как на скриншоте)
   // ----------------------------------------------------
+  const stageMonsterAvatar = document.getElementById("stage-monster-avatar");
+  const stageMonsterName = document.getElementById("stage-monster-name");
+  const stagePercentDisplay = document.getElementById("stage-percent-display");
+  const stageMilestoneFill = document.getElementById("stage-milestone-fill");
+  const stageMilestonesPoints = document.getElementById("stage-milestones-points");
+  const btnStagePlayCurrent = document.getElementById("btn-stage-play-current");
+  const bonusWordsCounter = document.getElementById("bonus-words-counter");
+  const btnToggleLevelsGrid = document.getElementById("btn-toggle-levels-grid");
+  const levelsGridWrapper = document.getElementById("levels-grid-wrapper");
   const levelsGrid = document.getElementById("levels-grid");
-  const chaptersTabs = document.getElementById("chapters-tabs");
-  let activeChapterId = 1;
+
+  let isLevelsGridVisible = false;
+
+  if (btnToggleLevelsGrid && levelsGridWrapper) {
+    btnToggleLevelsGrid.addEventListener("click", () => {
+      isLevelsGridVisible = !isLevelsGridVisible;
+      levelsGridWrapper.style.display = isLevelsGridVisible ? "block" : "none";
+      btnToggleLevelsGrid.textContent = isLevelsGridVisible ? "▲ Скрыть сетку уровней" : "📋 Все уровни со звездами";
+    });
+  }
+
+  if (btnStagePlayCurrent) {
+    btnStagePlayCurrent.addEventListener("click", () => {
+      hideAllModals();
+      const curLvl = storage.getSetting("unlockedLevel") || 1;
+      game.startLevel(curLvl, false);
+      switchTab("game");
+    });
+  }
 
   function renderLevelsScreen() {
-    if (!chaptersTabs || !levelsGrid) return;
-    chaptersTabs.innerHTML = "";
-    levelsGrid.innerHTML = "";
+    const curLvl = storage.getSetting("unlockedLevel") || 1;
+    const stages = WordRamData.monstersStages;
+    const activeStage = stages.find(s => curLvl >= s.startLevel && curLvl <= s.endLevel) || stages[0];
 
-    const unlocked = storage.getSetting("unlockedLevel") || 1;
+    // 1. Аватар монстрика и имя
+    if (stageMonsterAvatar) stageMonsterAvatar.textContent = activeStage.icon;
+    if (stageMonsterName) stageMonsterName.textContent = activeStage.name;
 
-    // Вкладки глав (городов)
-    WordRamData.worldChapters.forEach(ch => {
-      const btn = document.createElement("button");
-      btn.className = `chapter-chip ${ch.id === activeChapterId ? "active" : ""}`;
-      btn.innerHTML = `${ch.flag} ${ch.title}`;
+    // 2. Процент прохождения текущего монстрика
+    const stageLen = activeStage.endLevel - activeStage.startLevel + 1;
+    const passedInStage = Math.max(0, curLvl - activeStage.startLevel);
+    const pct = Math.min(100, Math.max(0, (passedInStage / stageLen) * 100));
+    if (stagePercentDisplay) {
+      stagePercentDisplay.textContent = `${pct.toFixed(2).replace(".", ",") }%`;
+    }
 
-      btn.addEventListener("click", () => {
-        activeChapterId = ch.id;
-        renderLevelsScreen();
+    // 3. Заполнение полосы вех
+    if (stageMilestoneFill) {
+      stageMilestoneFill.style.width = `${pct}%`;
+    }
+
+    // 4. Отрисовка вех/сундуков
+    if (stageMilestonesPoints) {
+      stageMilestonesPoints.innerHTML = "";
+      activeStage.milestones.forEach(m => {
+        const isReached = curLvl >= m.level;
+        const pt = document.createElement("div");
+        pt.className = `milestone-point-item ${isReached ? "reached" : ""}`;
+        pt.innerHTML = `
+          <div class="milestone-icon-bubble" title="${m.title}">${m.icon}</div>
+          <span class="milestone-lbl">${m.label}</span>
+        `;
+        stageMilestonesPoints.appendChild(pt);
       });
+    }
 
-      chaptersTabs.appendChild(btn);
-    });
+    // 5. Кнопка запуска текущего уровня
+    if (btnStagePlayCurrent) {
+      btnStagePlayCurrent.textContent = `УРОВЕНЬ ${curLvl}`;
+    }
 
-    const activeChapter = WordRamData.worldChapters.find(c => c.id === activeChapterId) || WordRamData.worldChapters[0];
+    // 6. Счетчик копилки бонусных слов
+    if (bonusWordsCounter) {
+      const bonusWords = storage.state.stats.bonusWordsFound || 0;
+      bonusWordsCounter.textContent = `${bonusWords} 🪙`;
+    }
 
-    for (let lvl = activeChapter.startLevel; lvl <= activeChapter.endLevel; lvl++) {
-      const isUnlocked = lvl <= unlocked;
-      const stars = storage.getLevelStars(lvl);
-      const isCurrent = lvl === storage.getSetting("currentLevel");
+    // 7. Сетка всех уровней (со звездами)
+    if (levelsGrid) {
+      levelsGrid.innerHTML = "";
+      const totalLevels = 60;
+      const unlocked = storage.getSetting("unlockedLevel") || 1;
 
-      const card = document.createElement("button");
-      card.className = `level-card ${isUnlocked ? "unlocked" : "locked"} ${isCurrent ? "current" : ""}`;
-      card.disabled = !isUnlocked;
+      for (let lvl = 1; lvl <= totalLevels; lvl++) {
+        const isUnlocked = lvl <= unlocked;
+        const stars = storage.getLevelStars(lvl);
+        const isCurrent = lvl === curLvl;
 
-      let starsHtml = "";
-      if (isUnlocked && stars > 0) {
-        starsHtml = `<div class="level-stars">${"★".repeat(stars)}${"☆".repeat(3 - stars)}</div>`;
+        const card = document.createElement("button");
+        card.className = `level-card ${isUnlocked ? "unlocked" : "locked"} ${isCurrent ? "current" : ""}`;
+        card.disabled = !isUnlocked;
+
+        let starsHtml = "";
+        if (isUnlocked && stars > 0) {
+          starsHtml = `<div class="level-stars">${"★".repeat(stars)}${"☆".repeat(3 - stars)}</div>`;
+        }
+
+        card.innerHTML = `
+          <div class="level-num">${isUnlocked ? lvl : "🔒"}</div>
+          ${starsHtml}
+        `;
+
+        if (isUnlocked) {
+          card.addEventListener("click", () => {
+            hideAllModals();
+            game.startLevel(lvl, false);
+            switchTab("game");
+          });
+        }
+
+        levelsGrid.appendChild(card);
       }
-
-      card.innerHTML = `
-        <div class="level-num">${isUnlocked ? lvl : "🔒"}</div>
-        ${starsHtml}
-      `;
-
-      if (isUnlocked) {
-        card.addEventListener("click", () => {
-          hideAllModals();
-          game.startLevel(lvl, false);
-          switchTab("game");
-        });
-      }
-
-      levelsGrid.appendChild(card);
     }
   }
 

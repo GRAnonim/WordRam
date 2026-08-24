@@ -267,14 +267,24 @@ class WordRamGame {
 
   renderHeader() {
     const size = this.levelData ? this.levelData.gridSize : 5;
-    const themeStr = this.levelData && this.levelData.themeTitle ? `${this.levelData.themeIcon} ${this.levelData.themeTitle}` : "";
 
     if (this.levelTitleDisplay) {
       if (this.isDailyMode) {
         this.levelTitleDisplay.textContent = `Сегодня (${size}×${size})`;
       } else {
-        this.levelTitleDisplay.textContent = `Ур. ${this.currentLevel} (${size}×${size}) ${themeStr}`;
+        this.levelTitleDisplay.textContent = `Уровень ${this.currentLevel} (${size}×${size})`;
       }
+    }
+
+    // Обновляем плашку семантической темы прямо над слотами
+    const themeIconEl = document.getElementById("theme-icon");
+    const themeTitleEl = document.getElementById("theme-title");
+    const themeBadgeEl = document.getElementById("level-theme-badge");
+
+    if (themeIconEl && themeTitleEl && this.levelData) {
+      themeIconEl.textContent = this.levelData.themeIcon || "🌿";
+      themeTitleEl.textContent = `Тема: ${this.levelData.themeTitle || "Слова"}`;
+      if (themeBadgeEl) themeBadgeEl.style.display = "inline-flex";
     }
 
     if (this.cefrBadgeDisplay) {
