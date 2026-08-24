@@ -1,25 +1,31 @@
 {
-  "name": "WordRam",
+  "name": "WordRam — Английские филворды",
   "short_name": "WordRam",
   "lang": "ru",
-  "description": "Головоломка в слова с динамическими сетками от 4x4 до 9x9 и адаптацией под уровень английского A1-C1.",
+  "description": "Увлекательные филворды для изучения 1500 английских слов (A1-C1) с живой озвучкой, темами и словарем.",
   "start_url": "./index.html",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#0f172a",
-  "theme_color": "#4f46e5",
+  "background_color": "#342330",
+  "theme_color": "#43333f",
   "icons": [
     {
-      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' rx='40' fill='%234f46e5'/><text x='50%' y='67%' font-size='110' font-family='sans-serif' font-weight='bold' fill='white' text-anchor='middle'>W</text></svg>",
+      "src": "icon-192.png",
       "sizes": "192x192",
-      "type": "image/svg+xml",
+      "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='100' fill='%234f46e5'/><text x='50%' y='67%' font-size='290' font-family='sans-serif' font-weight='bold' fill='white' text-anchor='middle'>W</text></svg>",
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "logo.svg",
       "sizes": "512x512",
       "type": "image/svg+xml",
-      "purpose": "any maskable"
+      "purpose": "any"
     }
   ]
 }

@@ -815,19 +815,32 @@ document.addEventListener("DOMContentLoaded", () => {
         if (qState.completed) completedCount++;
 
         const qCard = document.createElement("div");
-        qCard.className = `quest-item-card ${qState.completed ? "completed" : ""}`;
+        qCard.className = `quest-item-card ${qState.completed ? "completed" : ""} ${qState.claimed ? "claimed-card" : ""}`;
+
+        let buttonHtml = "";
+        if (qState.claimed) {
+          buttonHtml = `<div class="quest-done-badge"><span class="check-icon">✓</span> <span>Выполнено</span></div>`;
+        } else if (qState.completed) {
+          buttonHtml = `<button class="claim-ready-btn pulse-glow">Забрать</button>`;
+        } else {
+          buttonHtml = `<div class="quest-progress-pill">${qState.current} / ${t.target}</div>`;
+        }
+
         qCard.innerHTML = `
           <div class="quest-item-info">
-            <strong>${t.title}</strong>
+            <div class="quest-title-row">
+              <strong>${t.title}</strong>
+              ${qState.claimed ? '<span class="quest-check-pill">✔</span>' : ''}
+            </div>
             <div class="quest-sub">${t.desc} (${qState.current}/${t.target})</div>
             <div class="quest-reward">+${t.rewardCoins} 🪙, +${t.rewardXp} XP</div>
           </div>
-          <button class="small-btn ${qState.claimed ? "claimed-btn" : (qState.completed ? "claim-ready-btn" : "locked-btn")}" ${(!qState.completed || qState.claimed) ? "disabled" : ""}>
-            ${qState.claimed ? "✔" : (qState.completed ? "Забрать" : `${qState.current}/${t.target}`)}
-          </button>
+          <div class="quest-action-box">
+            ${buttonHtml}
+          </div>
         `;
 
-        const claimBtn = qCard.querySelector("button");
+        const claimBtn = qCard.querySelector("button.claim-ready-btn");
         if (claimBtn && qState.completed && !qState.claimed) {
           claimBtn.addEventListener("click", () => {
             storage.claimQuest(t.id);
