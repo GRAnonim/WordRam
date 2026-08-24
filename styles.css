@@ -1693,3 +1693,15 @@ html, body {
   font-style: italic;
   margin-top: 4px;
 }
+
+/* ======================================================
+   Community Highlight Card (v30)
+   ====================================================== */
+.community-highlight-card {
+  background: linear-gradient(135deg, #3d2b3c 0%, #291a27 100%);
+  border: 1.5px solid #a855f7;
+  border-radius: 20px;
+  padding: 14px;
+  box-shadow: 0 4px 16px rgba(168, 85, 247, 0.25);
+  margin-bottom: 12px;
+}

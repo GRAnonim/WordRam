@@ -1,20 +1,20 @@
 /**
- * WordRam - Service Worker (v29)
- * Встроен счетчик Яндекс Метрики (111905696) с Вебвизором,
- * кнопка «Поделиться с другом» (+30 монет), PWA и оффлайн.
+ * WordRam - Service Worker (v30)
+ * Кнопки «Поделиться с другом» и «Обратная связь» на видном месте,
+ * Яндекс Метрика 111905696, 1500 слов CEFR, PWA и оффлайн.
  */
 
-const CACHE_NAME = "wordram-v29";
+const CACHE_NAME = "wordram-v30";
 const ASSETS_TO_CACHE = [
   "./",
   "./index.html",
-  "./styles.css?v=29",
-  "./data.js?v=29",
-  "./storage.js?v=29",
-  "./generator.js?v=29",
-  "./game.js?v=29",
-  "./main.js?v=29",
-  "./manifest.webmanifest?v=29"
+  "./styles.css?v=30",
+  "./data.js?v=30",
+  "./storage.js?v=30",
+  "./generator.js?v=30",
+  "./game.js?v=30",
+  "./main.js?v=30",
+  "./manifest.webmanifest?v=30"
 ];
 
 self.addEventListener("install", (event) => {
@@ -44,7 +44,6 @@ self.addEventListener("activate", (event) => {
 self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET") return;
 
-  // Не кэшировать запросы к Метрике Яндекса
   if (event.request.url.includes("mc.yandex.ru") || event.request.url.includes("yandex.ru")) {
     return;
   }

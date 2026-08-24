@@ -984,6 +984,31 @@ document.addEventListener("DOMContentLoaded", () => {
   // ----------------------------------------------------
   // Поделиться и Обратная связь (v29)
   // ----------------------------------------------------
+    const btnWinShare = document.getElementById("btn-win-share");
+  if (btnWinShare) {
+    btnWinShare.addEventListener("click", () => {
+      const shareData = {
+        title: "WordRam — Английские филворды",
+        text: "Я только что прошёл уровень в WordRam! Мой ранг: " + storage.getEnglishLevel() + " (выучено " + storage.getCollectedWordsCount() + " слов). Попробуй обогнать: https://granonim.github.io/WordRam/",
+        url: "https://granonim.github.io/WordRam/"
+      };
+      if (navigator.share) {
+        navigator.share(shareData).then(() => {
+          storage.addCoins(30);
+          game.updateCoinsDisplay();
+          showCustomInfoDialog("🎁", "Награда получена!", "<p>Спасибо, что делитесь игрой!</p><p class='mt-2'>Вам начислено <strong>+30 🪙 монет</strong>!</p>");
+        }).catch(() => {});
+      } else {
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText("https://granonim.github.io/WordRam/").then(() => {
+            storage.addCoins(30);
+            game.updateCoinsDisplay();
+            showCustomInfoDialog("📋", "Ссылка скопирована!", "<p>Ссылка на игру <strong>https://granonim.github.io/WordRam/</strong> скопирована! Отправьте её друзьям. Вам начислено <strong>+30 🪙 монет</strong>!</p>");
+          });
+        }
+      }
+    });
+  }
   const btnShareGame = document.getElementById("btn-share-game");
   const btnFeedbackAuthor = document.getElementById("btn-feedback-author");
 
