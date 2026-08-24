@@ -1625,3 +1625,71 @@ html, body {
   color: #f8fafc;
   text-align: left;
 }
+
+/* ======================================================
+   Word of the Day Card (v25)
+   ====================================================== */
+.word-of-day-card {
+  background: linear-gradient(135deg, #3d2b3c 0%, #261924 100%);
+  border: 1.5px solid #a855f7;
+  border-radius: 20px;
+  padding: 16px;
+  box-shadow: 0 6px 20px rgba(168, 85, 247, 0.25);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.wod-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.wod-badge {
+  font-size: 0.8rem;
+  font-weight: 900;
+  color: #fde047;
+  background: rgba(245, 158, 11, 0.2);
+  border: 1px solid rgba(245, 158, 11, 0.5);
+  padding: 3px 10px;
+  border-radius: 12px;
+}
+
+.wod-reward-tag {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: #86efac;
+}
+
+.wod-word-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.wod-word {
+  font-size: 1.35rem;
+  font-weight: 900;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+}
+
+.wod-phonetic {
+  font-size: 0.85rem;
+  color: #c084fc;
+}
+
+.wod-translation {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #f8fafc;
+  margin-top: 4px;
+}
+
+.wod-example {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-style: italic;
+  margin-top: 4px;
+}

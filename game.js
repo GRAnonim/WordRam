@@ -64,6 +64,12 @@ class WordRamGame {
     this.onXpUpdated = options.onXpUpdated || (() => {});
 
     this.initAudio();
+    if (typeof window !== "undefined" && window.speechSynthesis) {
+      window.speechSynthesis.getVoices();
+      if (window.speechSynthesis.onvoiceschanged !== undefined) {
+        window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+      }
+    }
     this.bindEvents();
   }
 
@@ -85,14 +91,38 @@ class WordRamGame {
   }
 
   speakWord(word) {
-    if (!window.speechSynthesis) return;
+    if (!window.speechSynthesis || !word) return;
     try {
       window.speechSynthesis.cancel();
+      window.speechSynthesis.resume();
+
       const utterance = new SpeechSynthesisUtterance(word);
       utterance.lang = "en-US";
       utterance.rate = 0.88; // Четкий, понятный темп для обучения
+      utterance.volume = 1.0;
+
+      const voices = window.speechSynthesis.getVoices();
+      if (voices && voices.length > 0) {
+        const enVoice = voices.find(v => (v.lang === "en-US" || v.lang === "en_US" || v.lang.startsWith("en")) && !v.localService) ||
+                        voices.find(v => v.lang.startsWith("en"));
+        if (enVoice) utterance.voice = enVoice;
+      }
+
       window.speechSynthesis.speak(utterance);
-    } catch (e) {}
+    } catch (e) {
+      console.warn("Speech error:", e);
+    }
+  }
+
+  ensureSpeechUnlocked() {
+    if (window.speechSynthesis) {
+      try {
+        window.speechSynthesis.resume();
+        const dummy = new SpeechSynthesisUtterance(" ");
+        dummy.volume = 0.01;
+        window.speechSynthesis.speak(dummy);
+      } catch (e) {}
+    }
   }
 
   playSound(type) {
@@ -200,11 +230,14 @@ class WordRamGame {
   bindEvents() {
     const unlockHandler = () => {
       this.ensureAudioUnlocked();
+      this.ensureSpeechUnlocked();
       window.removeEventListener("touchstart", unlockHandler);
       window.removeEventListener("mousedown", unlockHandler);
+      window.removeEventListener("click", unlockHandler);
     };
     window.addEventListener("touchstart", unlockHandler, { passive: true });
     window.addEventListener("mousedown", unlockHandler, { passive: true });
+    window.addEventListener("click", unlockHandler, { passive: true });
 
     if (!this.gridElement) return;
 

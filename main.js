@@ -41,11 +41,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnOkDefinition = document.getElementById("btn-ok-definition");
 
   // Модалка Колеса Фортуны
-  const wheelModal = document.getElementById("modal-lucky-wheel");
-  const btnCloseWheel = document.getElementById("btn-close-wheel");
+  
+  
   const btnOpenWheel = document.getElementById("btn-open-lucky-wheel");
   const bannerOpenWheel = document.getElementById("banner-open-wheel");
-  const btnSpinWheel = document.getElementById("btn-spin-wheel");
+  
   const wheelCanvas = document.getElementById("lucky-wheel-canvas");
   const wheelResultBox = document.getElementById("wheel-result-box");
   const wheelAvailText = document.getElementById("wheel-availability-text");
@@ -62,7 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function hideAllModals() {
     const infoModalEl = document.getElementById("modal-info-dialog");
-    [winModal, defModal, placementModal, wheelModal, blitzModal, infoModalEl].forEach(m => {
+    [winModal, defModal, placementModal,  blitzModal, infoModalEl].forEach(m => {
       if (m) {
         m.style.setProperty("display", "none", "important");
         m.classList.remove("open");

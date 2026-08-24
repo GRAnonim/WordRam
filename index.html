@@ -65,7 +65,7 @@
       <section id="screen-vocab" class="screen-view" style="display: none;">
         <div class="screen-header">
           <h2>Мой словарь</h2>
-          <p id="vocab-stats-subtitle" class="subtitle">Выучено слов: 0 из 534</p>
+          <p id="vocab-stats-subtitle" class="subtitle">Выучено слов: 0 из 1500</p>
         </div>
 
         <!-- Кнопка запуска Блиц-повторения -->
@@ -147,16 +147,24 @@
           <p class="subtitle">Выполняйте задания дня и крутите Колесо фортуны</p>
         </div>
 
-        <!-- Кнопка Колеса Фортуны -->
-        <div class="event-banner-card lucky-wheel-banner" id="banner-open-wheel">
-          <div class="banner-left">
-            <span class="banner-icon">🎡</span>
-            <div>
-              <strong>Колесо Фортуны</strong>
-              <div id="wheel-availability-text" class="banner-sub">Доступно бесплатное вращение!</div>
-            </div>
+        <!-- Слово дня (Ежедневное интеллектуальное открытие) -->
+        <div class="event-banner-card word-of-day-card" id="card-word-of-day">
+          <div class="wod-top-row">
+            <span class="wod-badge">💡 Слово дня</span>
+            <span id="wod-reward-tag" class="wod-reward-tag">+20 🪙 +40 XP</span>
           </div>
-          <button id="btn-open-lucky-wheel" class="action-btn small-btn">Крутить ➔</button>
+          <div class="wod-content mt-2">
+            <div class="wod-word-row">
+              <h3 id="wod-word" class="wod-word">COURAGE</h3>
+              <span id="wod-phonetic" class="wod-phonetic">[ˈkʌrɪdʒ]</span>
+              <button id="btn-wod-speak" class="speak-btn small-speak" title="Прослушать">🔊</button>
+            </div>
+            <div id="wod-translation" class="wod-translation">Мужество / Смелость / Отвага</div>
+            <div id="wod-example" class="wod-example">Have the courage to speak — Иметь смелость заговорить.</div>
+          </div>
+          <button id="btn-claim-wod" class="primary-btn small-btn full-width mt-2">
+            Изучить и забрать награду (+20 🪙)
+          </button>
         </div>
 
         <!-- Ежедневные квесты (3 задания) -->
