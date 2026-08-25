@@ -6,7 +6,7 @@
 
 class WordRamStorage {
   constructor() {
-    this.STORAGE_KEY = "wordram_v32_save";
+    this.STORAGE_KEY = "wordram_v39_save";
     this.state = this.load();
   }
 
@@ -18,6 +18,7 @@ class WordRamStorage {
       xp: 300,
       weeklyXp: 45,
       hasCompletedPlacementTest: false,
+      hasSeenWordClickHint: false,
       collectedWords: {},           // { "BEAUTIFUL": { count: 1, firstSeen: "...", mastery: 1 } }
       unlockedAchievements: [],    // ["first_words", ...]
       claimedDailyRewards: {},      // { "1": "2026-08-24" }
@@ -482,6 +483,35 @@ class WordRamStorage {
     this.addXp(150);
     this.checkAchievements();
     this.save();
+  }
+
+  // ----------------------------------------------------
+  // Резервное копирование и перенос прогресса (v34)
+  // ----------------------------------------------------
+  exportSaveCode() {
+    try {
+      const dataStr = JSON.stringify(this.state);
+      return btoa(unescape(encodeURIComponent(dataStr)));
+    } catch (e) {
+      console.error("Export error:", e);
+      return "";
+    }
+  }
+
+  importSaveCode(codeStr) {
+    try {
+      if (!codeStr || typeof codeStr !== "string") return false;
+      const jsonStr = decodeURIComponent(escape(atob(codeStr.trim())));
+      const parsed = JSON.parse(jsonStr);
+      if (parsed && typeof parsed === "object" && (parsed.stats || parsed.collectedWords || parsed.xp !== undefined)) {
+        this.state = { ...this.getDefaultState(), ...parsed };
+        this.save();
+        return true;
+      }
+    } catch (e) {
+      console.error("Import error:", e);
+    }
+    return false;
   }
 
   resetAll() {
